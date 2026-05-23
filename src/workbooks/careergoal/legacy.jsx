@@ -1959,7 +1959,7 @@ const IntroPage = ({
                           </div>
                         )}
                         {/* 인라인 참고 워크북 (가이드 PART 7-15) */}
-                        {q.relatedWorkbooks && <RelatedWorkbookInline ids={q.relatedWorkbooks} />}
+                        {q.relatedWorkbooks && <RelatedWorkbookInline ids={q.relatedWorkbooks} questionId={q.id || q.label} workbookKey="careergoal" />}
                       </div>
                     </div>
                   )}

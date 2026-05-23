@@ -3,15 +3,39 @@ import { useDataStore } from '../../store/DataContext.jsx';
 import { WORKBOOKS } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { ImportPreviewModal } from './ImportPreviewModal.jsx';
+import { QUESTION_MAPPING, resolveMappedData } from '../../store/questionMapping.js';
 
 // 각 워크북의 질문 옆에 표시 — 이 질문과 관련된 다른 워크북의 작성 내용을 칩으로 노출.
 // 칩 클릭 → 미리보기 모달 (텍스트 복사 가능)
 // props.ids: ['experience', 'job_analysis', 'career_roadmap', ...] 같은 workbookKey 배열
-export function ReferenceInline({ ids = [] }) {
+export function ReferenceInline({ ids = [], questionId, workbookKey }) {
   const { master } = useDataStore();
   const [preview, setPreview] = useState(null);
 
-  if (!ids || ids.length === 0) return null;
+  // 질문 id 매핑이 있으면 정확한 필드 데이터를 칩으로 노출
+  let mappedItems = [];
+  if (workbookKey && questionId) {
+    const sources = QUESTION_MAPPING[workbookKey]?.[questionId];
+    if (Array.isArray(sources)) {
+      mappedItems = sources
+        .map((src) => {
+          const data = resolveMappedData(master, src);
+          if (!data) return null;
+          return {
+            kind: 'mapped',
+            id: `${workbookKey}_${questionId}_${src.type}_${src.field}`,
+            label: data.label,
+            data: { __mapped: true, label: data.label, text: data.text },
+          };
+        })
+        .filter(Boolean);
+    }
+  }
+
+  if (!ids || ids.length === 0) {
+    // ids 없어도 mapped만 있으면 표시
+    if (mappedItems.length === 0) return null;
+  }
 
   // 각 id에 해당하는 master 데이터를 item으로 변환
   const items = [];
@@ -89,7 +113,10 @@ export function ReferenceInline({ ids = [] }) {
     }
   }
 
-  if (items.length === 0) {
+  // mapped items를 items 앞에 추가 (더 가까운 매핑이 우선)
+  const allItems = [...mappedItems, ...items];
+
+  if (allItems.length === 0) {
     return (
       <div style={{
         display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap',
@@ -117,23 +144,23 @@ export function ReferenceInline({ ids = [] }) {
         <span style={{ color: COLORS.sub, fontWeight: FONT.weight.semibold, flexShrink: 0 }}>
           참고할 이전 작성:
         </span>
-        {items.map((it, idx) => (
+        {allItems.map((it, idx) => (
           <button
             key={it.id || it.kind + idx}
             onClick={() => setPreview(it)}
             style={{
-              background: COLORS.white,
-              border: `1px solid ${COLORS.line}`,
+              background: it.kind === 'mapped' ? COLORS.bgAlt : COLORS.white,
+              border: `1px solid ${it.kind === 'mapped' ? COLORS.accent2 : COLORS.line}`,
               borderRadius: RADIUS.pill,
               padding: '3px 10px',
               fontSize: FONT.size.sm,
               color: COLORS.accent,
               fontFamily: FONT.family,
-              fontWeight: FONT.weight.medium,
+              fontWeight: it.kind === 'mapped' ? FONT.weight.semibold : FONT.weight.medium,
               cursor: 'pointer',
             }}
             onMouseEnter={(e) => { e.currentTarget.style.borderColor = COLORS.accent2; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = COLORS.line; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = it.kind === 'mapped' ? COLORS.accent2 : COLORS.line; }}
           >
             {it.label}
           </button>

@@ -7,6 +7,11 @@ function extractText(item) {
   if (!item) return '';
   const { kind, data } = item;
 
+  // 매핑된 데이터 (questionMapping.js → resolveMappedData 결과)
+  if (kind === 'mapped' && data?.__mapped) {
+    return data.text;
+  }
+
   if (kind === 'profile') {
     return [
       `산업: ${data.industry || '-'}`,
