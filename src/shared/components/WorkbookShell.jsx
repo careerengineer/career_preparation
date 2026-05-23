@@ -1,9 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MentoringBox } from './MentoringBox.jsx';
 import { ReferenceInline } from './ReferenceInline.jsx';
 import { useDataStore } from '../../store/DataContext.jsx';
-import { exportToFile, exportWorkbookToFile } from '../../store/exportImport.js';
+import {
+  exportWorkbookDocx, exportFullDocx,
+  exportExperiencesXlsx, importExperiencesXlsx,
+} from '../../store/docExport.js';
 import { WORKBOOKS } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 
@@ -15,28 +18,61 @@ export function WorkbookShell({
   mentoringType,
   topReferenceIds,
 }) {
-  const { master } = useDataStore();
+  const { master, replaceMaster } = useDataStore();
   const meta = WORKBOOKS.find((w) => w.key === workbookKey) || {};
   const resolvedTitle = title || meta.title || '';
   const resolvedStepLabel = stepLabel || meta.stepLabel || '';
+  const isExperience = workbookKey === 'experience';
+
+  const [busy, setBusy] = useState(false);
+  const [toast, setToast] = useState(null);
+  const xlsxRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [workbookKey]);
 
-  const handleExportAll = () => {
-    const name = exportToFile(master);
-    alert(`전체 백업이 다운로드되었습니다.\n파일: ${name}`);
+  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 2400); };
+
+  const handleExportThis = async () => {
+    setBusy(true);
+    try {
+      const name = isExperience
+        ? exportExperiencesXlsx(master)
+        : await exportWorkbookDocx(master, workbookKey, resolvedTitle);
+      showToast(`다운로드 완료: ${name}`);
+    } catch (e) {
+      showToast('오류: ' + e.message);
+    } finally { setBusy(false); }
   };
-  const handleExportThis = () => {
-    const name = exportWorkbookToFile(master, workbookKey, resolvedTitle);
-    alert(`${resolvedTitle} 결과가 다운로드되었습니다.\n파일: ${name}`);
+
+  const handleExportAll = async () => {
+    setBusy(true);
+    try {
+      const name = await exportFullDocx(master);
+      showToast(`다운로드 완료: ${name}`);
+    } catch (e) {
+      showToast('오류: ' + e.message);
+    } finally { setBusy(false); }
+  };
+
+  const handleXlsxImport = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    if (!window.confirm('경험 카드를 xlsx 파일로 교체합니다. 기존 경험 데이터가 덮어쓰기됩니다. 계속할까요?')) return;
+    try {
+      const { experiences } = await importExperiencesXlsx(file);
+      replaceMaster({ ...master, experiences });
+      showToast(`경험 카드 ${experiences.length}개를 불러왔습니다.`);
+    } catch (err) {
+      showToast('오류: ' + err.message);
+    }
   };
 
   return (
     <div style={{ background: COLORS.bg, minHeight: '100vh', fontFamily: FONT.family }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: `${SPACING.lg}px ${SPACING.md}px ${SPACING.xxl}px` }}>
-        {/* 상단 액션 바 */}
         <div style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           flexWrap: 'wrap', gap: SPACING.sm, marginBottom: SPACING.md,
@@ -56,17 +92,27 @@ export function WorkbookShell({
             대시보드로 돌아가기
           </Link>
 
-          <div style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap' }}>
-            <button onClick={handleExportThis} style={btnSecondary}>
-              📤 이 워크북 결과만 (.json)
+          <div style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap', alignItems: 'center' }}>
+            {isExperience && (
+              <>
+                <button onClick={() => xlsxRef.current?.click()} style={btnSecondary} disabled={busy}>
+                  📥 xlsx 불러오기
+                </button>
+                <input
+                  ref={xlsxRef} type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                  onChange={handleXlsxImport} style={{ display: 'none' }}
+                />
+              </>
+            )}
+            <button onClick={handleExportThis} style={btnSecondary} disabled={busy}>
+              {isExperience ? '📊 이 워크북 결과 (.xlsx)' : '📄 이 워크북 결과 (.docx)'}
             </button>
-            <button onClick={handleExportAll} style={btnPrimary}>
-              📦 전체 백업 (.json)
+            <button onClick={handleExportAll} style={btnPrimary} disabled={busy}>
+              📦 전체 백업 (.docx)
             </button>
           </div>
         </div>
 
-        {/* 헤더 */}
         <div style={{ marginBottom: SPACING.lg }}>
           <p style={{
             fontSize: FONT.size.caption, color: COLORS.sub,
@@ -93,6 +139,16 @@ export function WorkbookShell({
 
         {mentoringType && <MentoringBox type={mentoringType} />}
       </div>
+
+      {toast && (
+        <div style={{
+          position: 'fixed', bottom: SPACING.lg, left: '50%', transform: 'translateX(-50%)',
+          background: COLORS.accent, color: COLORS.white,
+          padding: `${SPACING.sm}px ${SPACING.md}px`,
+          fontFamily: FONT.family, fontSize: FONT.size.body,
+          boxShadow: '0 6px 18px rgba(0,0,0,0.18)', zIndex: 1100,
+        }}>{toast}</div>
+      )}
     </div>
   );
 }

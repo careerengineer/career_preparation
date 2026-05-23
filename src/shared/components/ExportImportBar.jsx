@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { exportToFile, parseImportFile, detectConflicts } from '../../store/exportImport.js';
+import { exportFullDocx, importExperiencesXlsx } from '../../store/docExport.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { OverwriteModal } from './OverwriteModal.jsx';
 
@@ -8,16 +9,19 @@ export function ExportImportBar() {
   const { master, replaceMaster } = useDataStore();
   const fileRef = useRef(null);
   const [toast, setToast] = useState(null);
-  const [conflictState, setConflictState] = useState(null); // { conflicts, incoming }
+  const [conflictState, setConflictState] = useState(null);
 
-  const showToast = (msg) => {
-    setToast(msg);
-    setTimeout(() => setToast(null), 2400);
-  };
+  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 2600); };
 
-  const handleExport = () => {
+  const handleExportJson = () => {
     const filename = exportToFile(master);
-    showToast(`백업 파일이 다운로드되었습니다: ${filename}`);
+    showToast(`백업: ${filename}`);
+  };
+  const handleExportDocx = async () => {
+    try {
+      const name = await exportFullDocx(master);
+      showToast(`문서: ${name}`);
+    } catch (e) { showToast('오류: ' + e.message); }
   };
 
   const handleImportClick = () => fileRef.current?.click();
@@ -26,10 +30,22 @@ export function ExportImportBar() {
     const file = e.target.files?.[0];
     e.target.value = '';
     if (!file) return;
+    const lower = file.name.toLowerCase();
+
+    // xlsx → experience 카드 import
+    if (lower.endsWith('.xlsx')) {
+      if (!window.confirm('경험 카드를 xlsx 파일로 교체합니다. 기존 경험 데이터가 덮어쓰기됩니다. 계속할까요?')) return;
+      try {
+        const { experiences } = await importExperiencesXlsx(file);
+        replaceMaster({ ...master, experiences });
+        showToast(`경험 카드 ${experiences.length}개를 불러왔습니다.`);
+      } catch (err) { showToast('오류: ' + err.message); }
+      return;
+    }
+
+    // json
     try {
       const result = await parseImportFile(file);
-
-      // 워크북 단일 백업
       if (result.workbookOnly) {
         const p = result.parsed;
         const wbKey = p.workbookKey;
@@ -48,8 +64,6 @@ export function ExportImportBar() {
         showToast(`'${title}' 결과를 불러왔습니다.`);
         return;
       }
-
-      // 전체 백업
       const incoming = result.data;
       const conflicts = detectConflicts(master, incoming);
       if (conflicts.length === 0) {
@@ -78,13 +92,14 @@ export function ExportImportBar() {
   };
 
   return (
-    <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center' }}>
-      <button onClick={handleImportClick} style={btnStyle}>📥 가져오기</button>
-      <button onClick={handleExport} style={btnStyle}>📤 내보내기</button>
+    <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap' }}>
+      <button onClick={handleImportClick} style={btnStyle}>📥 가져오기 (.json/.xlsx)</button>
+      <button onClick={handleExportJson} style={btnStyle}>💾 백업 (.json)</button>
+      <button onClick={handleExportDocx} style={btnPrimaryStyle}>📄 전체 문서 (.docx)</button>
       <input
         ref={fileRef}
         type="file"
-        accept=".json,application/json"
+        accept=".json,.xlsx,application/json,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         onChange={handleFileChange}
         style={{ display: 'none' }}
       />
@@ -92,12 +107,10 @@ export function ExportImportBar() {
         <div style={{
           position: 'fixed', bottom: SPACING.lg, left: '50%', transform: 'translateX(-50%)',
           background: COLORS.accent, color: COLORS.white,
-          padding: `${SPACING.sm}px ${SPACING.md}px`, borderRadius: RADIUS.md,
-          fontFamily: FONT.family, fontSize: FONT.size.sm,
+          padding: `${SPACING.sm}px ${SPACING.md}px`,
+          fontFamily: FONT.family, fontSize: FONT.size.body,
           boxShadow: '0 6px 18px rgba(0,0,0,0.18)', zIndex: 1100,
-        }}>
-          {toast}
-        </div>
+        }}>{toast}</div>
       )}
       {conflictState && (
         <OverwriteModal
@@ -116,9 +129,13 @@ const btnStyle = {
   color: COLORS.accent2,
   border: `1px solid ${COLORS.accent2}`,
   padding: '8px 14px',
-  borderRadius: RADIUS.md,
   fontFamily: FONT.family,
-  fontSize: FONT.size.sm,
+  fontSize: FONT.size.body,
   fontWeight: FONT.weight.semibold,
   cursor: 'pointer',
+};
+const btnPrimaryStyle = {
+  ...btnStyle,
+  background: COLORS.accent2,
+  color: COLORS.white,
 };
