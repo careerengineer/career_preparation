@@ -191,20 +191,34 @@ export default function Dashboard() {
           marginTop: SPACING.xxl, paddingTop: SPACING.lg,
           borderTop: RULE,
           color: COLORS.sub, fontSize: FONT.size.caption,
-          letterSpacing: 1.5,
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          flexWrap: 'wrap', gap: SPACING.md,
+          lineHeight: FONT.lineHeight.base,
         }}>
-          <CELockupA markSize={22} />
-          <p style={{ margin: 0, textTransform: 'uppercase' }}>
-            © 2026 CAREERENGINEER · 멘토링 문의:{' '}
-            <a href={MENTORING_URLS.consulting} target="_blank" rel="noopener noreferrer"
-              style={{
-                color: COLORS.accent2, textDecoration: 'none',
-                fontWeight: FONT.weight.semibold,
-              }}>
-              1:1 컨설팅 →
-            </a>
+          <div style={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            flexWrap: 'wrap', gap: SPACING.md, marginBottom: SPACING.md,
+            letterSpacing: 1.5,
+          }}>
+            <CELockupA markSize={22} />
+            <p style={{ margin: 0, textTransform: 'uppercase' }}>
+              멘토링 문의:{' '}
+              <a href={MENTORING_URLS.consulting} target="_blank" rel="noopener noreferrer"
+                style={{
+                  color: COLORS.accent2, textDecoration: 'none',
+                  fontWeight: FONT.weight.semibold,
+                }}>
+                1:1 컨설팅 →
+              </a>
+            </p>
+          </div>
+          <p style={{
+            margin: 0, fontSize: FONT.size.xs,
+            color: COLORS.sub, lineHeight: FONT.lineHeight.base,
+            textAlign: 'center',
+          }}>
+            © 2026 CareerEngineer. All Rights Reserved. 저작권법에 의하여 보호받는 저작물이므로 무단 전재와 무단 복제를 금합니다.
+            이 자료는 구매하신 분의 취업을 위한 개인 학습 용도로 자유롭게 활용하실 수 있으나,
+            자료의 전부 또는 일부를 다른 사람에게 공유하거나, 복제·재판매·재배포하는 것은 금지되어 있습니다.
+            {' '}<strong style={{ color: COLORS.ink }}>이를 위반할 경우 관련 법률에 따라 민·형사상 책임을 질 수 있습니다.</strong>
           </p>
         </footer>
       </div>
