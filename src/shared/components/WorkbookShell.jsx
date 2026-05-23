@@ -171,7 +171,9 @@ export function WorkbookShell({
           <ReferenceInline ids={topReferenceIds} />
         )}
 
-        {children}
+        <div className="ce-workbook-body">
+          {children}
+        </div>
 
         {mentoringType && <MentoringBox type={mentoringType} />}
       </div>

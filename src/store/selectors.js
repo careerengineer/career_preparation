@@ -12,7 +12,8 @@ function rawHasContent(raw) {
 function rawIsCompleted(raw) {
   if (!raw) return false;
   if (raw.completedAt) return true;
-  if (raw.finalText && String(raw.finalText).trim().length > 50) return true;
+  // finalText는 100 표시 기준에서 제외 (워크북 본문 textarea와 구분 어려움)
+  // 워크북 본문에서 'completedAt' 명시적으로 설정해야 100% 표시
   return false;
 }
 

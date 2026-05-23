@@ -35,4 +35,9 @@ export const RESPONSIVE_CSS = `
 
 /* 스크롤바 */
 * { -webkit-overflow-scrolling: touch; }
+
+/* 워크북 본문 안의 중복 sticky 헤더 (S.headerSticky div) hide → WorkbookShell sticky만 사용 */
+.ce-workbook-body > div > div[style*="sticky"] {
+  display: none !important;
+}
 `;
