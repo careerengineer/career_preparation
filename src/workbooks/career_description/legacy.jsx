@@ -490,11 +490,19 @@ const CareerDescWorkbook = () => {
   const [downloaded, setDownloaded] = useState(false);
   const [showHelp, setShowHelp] = useState(true);
   const [showStepNav, setShowStepNav] = useState(false);
+  // [CE-HOME] WorkbookShell '처음으로' 버튼에서 호출
+  const __ceHomeRef = useRef(null);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.__CE_HOME = { fn: () => __ceHomeRef.current?.(), key: 'career_description' };
+    return () => { if (window.__CE_HOME?.key === 'career_description') window.__CE_HOME = null; };
+  }, []);
   const goHome = () => {
     setPage('intro');
     setStep(0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  __ceHomeRef.current = goHome; // [CE-HOME] ref 갱신
   const [autoSaveStatus, setAutoSaveStatus] = useState('');
   const [confirmingClear, setConfirmingClear] = useState(false);
   const [clearedFlash, setClearedFlash] = useState(false);  // 자동 저장 상태 표시
@@ -2111,21 +2119,11 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
             <CELockupA height={32} />
             {/* 중: 현재 단계 (클릭 시 7단계 드롭다운) */}
             <div style={{ position: 'relative', flex: 1, display: 'flex', justifyContent: 'center' }}>
-              <button onClick={() => setShowStepNav(v => !v)} style={{ 
-                background: COLORS.bgAlt, border: 'none', cursor: 'pointer',
-                fontSize: FONT.size.sm, color: COLORS.accent, textAlign: 'center',
-                padding: '4px 12px', borderRadius: 4, fontFamily: FONT.family,
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 4,
-              }} title="전체 7단계 보기" className="ce-step-nav-trigger">
-                STEP 3 · 경력기술서 작성
-                <span style={{ fontSize: FONT.size.xs, color: COLORS.accent, opacity: 1, transform: showStepNav ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }}>▾</span>
-              </button>
-              <StepNavigatorDropdown open={showStepNav} onClose={() => setShowStepNav(false)} currentKey="career_description" />
+              
+              
             </div>
             <button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 14, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 36, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
-            <button onClick={clearSavedData} disabled={clearedFlash} style={{ background: confirmingClear ? '#C9A86A' : clearedFlash ? '#E8F5F0' : autoSaveStatus ? '#F0F9F5' : 'transparent', color: confirmingClear ? '#fff' : clearedFlash ? '#1FA47A' : autoSaveStatus ? '#1FA47A' : '#6E7A8F', border: confirmingClear ? '1px solid #C9A86A' : clearedFlash ? '1px solid #1FA47A' : autoSaveStatus ? '1px solid #1FA47A66' : '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 11, fontWeight: 600, cursor: clearedFlash ? 'default' : 'pointer', whiteSpace: 'pre-line', fontFamily: 'inherit', lineHeight: 1.15, width: 140, height: 36, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }} title={clearedFlash ? '기록 삭제됨' : confirmingClear ? '한번 더 클릭하면 기록이 삭제됩니다' : '저장된 작성 내용 기록을 삭제 (페이지 유지)'}>
-              {confirmingClear ? '기록을 삭제\n하시겠습니까?' : clearedFlash ? '✓ 기록 삭제됨' : autoSaveStatus ? autoSaveStatus : '기록 삭제하고\n다시 작성'}
-            </button>
+            
             <button onClick={savePartial} style={{ background: '#C9A86A', color: '#fff', border: 'none', borderRadius: 10, padding: '0 14px', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, whiteSpace: 'nowrap', height: 36 }} title="지금까지 작성한 내용을 Word로 저장">
               저장 (.docx)
             </button>

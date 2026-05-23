@@ -78,65 +78,94 @@ export function WorkbookShell({
     }
   };
 
+  const handleGoHome = () => {
+    const home = (typeof window !== 'undefined') ? window.__CE_HOME : null;
+    if (home?.key === workbookKey && typeof home.fn === 'function') {
+      home.fn();
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    } else {
+      showToast('이 워크북은 처음으로 이동을 지원하지 않습니다.');
+    }
+  };
+
   return (
     <div style={{ background: COLORS.bg, minHeight: '100vh', fontFamily: FONT.family }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: `${SPACING.lg}px ${SPACING.md}px ${SPACING.xxl}px` }}>
+      {/* 통합 sticky 헤더 */}
+      <div style={{
+        position: 'sticky', top: 0, zIndex: 100,
+        background: COLORS.bg,
+        borderBottom: `1px solid ${COLORS.line}`,
+        boxShadow: '0 2px 4px rgba(0,0,0,0.04)',
+      }}>
         <div style={{
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          flexWrap: 'wrap', gap: SPACING.sm, marginBottom: SPACING.md,
+          maxWidth: 1200, margin: '0 auto',
+          padding: `${SPACING.sm}px ${SPACING.md}px`,
         }}>
-          <Link
-            to="/"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              background: COLORS.accent, color: COLORS.white,
-              textDecoration: 'none',
-              fontSize: FONT.size.base, fontWeight: FONT.weight.semibold,
-              padding: '10px 20px', borderRadius: RADIUS.pill,
-              boxShadow: '0 2px 8px rgba(14,39,80,0.18)',
-            }}
-          >
-            대시보드로 돌아가기
-          </Link>
+          <div style={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            flexWrap: 'wrap', gap: SPACING.sm, marginBottom: SPACING.sm,
+          }}>
+            <div style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap', alignItems: 'center' }}>
+              <Link
+                to="/"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  background: COLORS.accent, color: COLORS.white,
+                  textDecoration: 'none',
+                  fontSize: FONT.size.body, fontWeight: FONT.weight.semibold,
+                  padding: '8px 16px', borderRadius: RADIUS.pill,
+                  boxShadow: '0 2px 8px rgba(14,39,80,0.18)',
+                }}
+              >
+                대시보드로 돌아가기
+              </Link>
+              <button onClick={handleGoHome} style={btnSecondary}>
+                처음으로
+              </button>
+            </div>
 
-          <div style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap', alignItems: 'center' }}>
-            {isExperience && (
-              <>
-                <button onClick={() => xlsxRef.current?.click()} style={btnSecondary} disabled={busy}>
-                  xlsx 불러오기
-                </button>
-                <input
-                  ref={xlsxRef} type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                  onChange={handleXlsxImport} style={{ display: 'none' }}
-                />
-              </>
-            )}
-            <button onClick={handleExportThis} style={btnSecondary} disabled={busy}>
-              {resolvedTitle} 저장 ({isExperience ? '.xlsx' : '.docx'})
-            </button>
-            <button onClick={handleExportAll} style={btnPrimary} disabled={busy}>
-              전체 결과 저장 (.docx)
-            </button>
+            <div style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap', alignItems: 'center' }}>
+              {isExperience && (
+                <>
+                  <button onClick={() => xlsxRef.current?.click()} style={btnSecondary} disabled={busy}>
+                    xlsx 불러오기
+                  </button>
+                  <input
+                    ref={xlsxRef} type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    onChange={handleXlsxImport} style={{ display: 'none' }}
+                  />
+                </>
+              )}
+              <button onClick={handleExportThis} style={btnSecondary} disabled={busy}>
+                {resolvedTitle} 저장 ({isExperience ? '.xlsx' : '.docx'})
+              </button>
+              <button onClick={handleExportAll} style={btnPrimary} disabled={busy}>
+                전체 결과 저장 (.docx)
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <p style={{
+              fontSize: FONT.size.xs, color: COLORS.sub,
+              margin: 0,
+              letterSpacing: 1.6, textTransform: 'uppercase',
+              fontWeight: FONT.weight.medium,
+            }}>
+              {resolvedStepLabel}
+            </p>
+            <h1 style={{
+              fontSize: FONT.size.h3, fontWeight: FONT.weight.bold,
+              color: COLORS.ink, margin: '2px 0 0',
+              lineHeight: FONT.lineHeight.tight,
+            }}>
+              {resolvedTitle}
+            </h1>
           </div>
         </div>
+      </div>
 
-        <div style={{ marginBottom: SPACING.lg }}>
-          <p style={{
-            fontSize: FONT.size.caption, color: COLORS.sub,
-            margin: 0,
-            letterSpacing: 1.8, textTransform: 'uppercase',
-            fontWeight: FONT.weight.medium,
-          }}>
-            {resolvedStepLabel}
-          </p>
-          <h1 style={{
-            fontSize: FONT.size.h2, fontWeight: FONT.weight.bold,
-            color: COLORS.ink, margin: '4px 0 0',
-            lineHeight: FONT.lineHeight.tight,
-          }}>
-            {resolvedTitle}
-          </h1>
-        </div>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: `${SPACING.lg}px ${SPACING.md}px ${SPACING.xxl}px` }}>
 
         {topReferenceIds && topReferenceIds.length > 0 && (
           <ReferenceInline ids={topReferenceIds} />
