@@ -481,7 +481,7 @@ const StickyFooter = () => (
 
 const CareerDescWorkbook = () => {
   const [page, setPage] = useState('intro');
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_career_description_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
   const [ans, setAns] = useState({});
   const [chk, setChk] = useState({});
   const [guides, setGuides] = useState({});

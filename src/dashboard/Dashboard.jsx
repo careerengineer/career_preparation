@@ -64,6 +64,9 @@ export default function Dashboard() {
         {/* 프로필 패널 */}
         <ProfilePanel />
 
+        {/* 다음 액션 (profile 있을 때만 표시) */}
+        <NextActionCard />
+
         {/* 6-STEP 진행률 */}
         <section style={{
           background: COLORS.white, border: RULE,
@@ -116,9 +119,6 @@ export default function Dashboard() {
             })}
           </div>
         </section>
-
-        {/* 다음 액션 */}
-        <NextActionCard />
 
         {/* STEP별 워크북 카드 */}
         {STEPS.map((s) => {

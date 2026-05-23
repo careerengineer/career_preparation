@@ -7,6 +7,9 @@ export default function NextActionCard() {
   const { master } = useDataStore();
   const rec = getNextRecommendation(master);
 
+  // profile 비어있으면 ProfilePanel의 빈 상태 안내가 같은 역할을 하므로 숨김
+  if (rec.kind === 'profile') return null;
+
   const inner = (
     <>
       <span style={{

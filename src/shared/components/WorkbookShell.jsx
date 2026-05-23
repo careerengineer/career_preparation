@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ImportPanel } from './ImportPanel.jsx';
 import { MentoringBox } from './MentoringBox.jsx';
@@ -16,6 +17,11 @@ export function WorkbookShell({
   const meta = WORKBOOKS.find((w) => w.key === workbookKey) || {};
   const resolvedTitle = title || meta.title || '';
   const resolvedStepLabel = stepLabel || meta.stepLabel || '';
+
+  // 워크북 진입 시 스크롤 맨 위로
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [workbookKey]);
   return (
     <div style={{ background: COLORS.bg, minHeight: '100vh', fontFamily: FONT.family }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: `${SPACING.lg}px ${SPACING.md}px ${SPACING.xxl}px` }}>
