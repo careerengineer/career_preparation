@@ -535,7 +535,7 @@ const CareerDescWorkbook = () => {
   // ans/chk/companyCount/perfCounts 변경 시 자동 저장 (디바운스 1초)
   useEffect(() => {
     // 빈 상태에서는 저장 안 함
-    if (Object.keys(ans).length === 0 && Object.keys(chk).length === 0 && !(basicInfo?.industry || basicInfo?.position || basicInfo?.company)) return;
+    if (Object.keys(ans).length === 0 && Object.keys(chk).length === 0) return;
     
     const timer = setTimeout(() => {
       try {
