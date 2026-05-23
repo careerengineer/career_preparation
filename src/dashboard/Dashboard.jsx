@@ -206,7 +206,7 @@ export default function Dashboard() {
                   color: COLORS.accent2, textDecoration: 'none',
                   fontWeight: FONT.weight.semibold,
                 }}>
-                1:1 컨설팅 →
+                1:1 컨설팅
               </a>
             </p>
           </div>

@@ -53,7 +53,7 @@ export function OverwriteModal({ conflicts, onReplace, onBackupAndReplace, onCan
           <ul style={{ margin: 0, paddingLeft: SPACING.md, color: COLORS.ink, fontSize: FONT.size.sm, lineHeight: FONT.lineHeight.base }}>
             {conflicts.map((c, i) => (
               <li key={i}>
-                <strong>{c.field}</strong>: {c.current} → {c.incoming}
+                <strong>{c.field}</strong>: {c.current} (현재) / {c.incoming} (가져올 값)
               </li>
             ))}
           </ul>

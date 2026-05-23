@@ -33,7 +33,7 @@ export default function NextActionCard() {
           color: COLORS.accent2, letterSpacing: 1.5,
           textTransform: 'uppercase', fontWeight: FONT.weight.semibold,
         }}>
-          시작하기 →
+          시작하기
         </p>
       )}
     </>
