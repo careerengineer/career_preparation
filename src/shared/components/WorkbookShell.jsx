@@ -214,6 +214,13 @@ export function WorkbookShell({
               <button onClick={handleExportAll} style={btnPrimary} disabled={busy}>
                 전체 결과 저장 (.docx)
               </button>
+              <span style={{
+                display: 'inline-block', width: 1, height: 20,
+                background: COLORS.line, margin: '0 4px',
+              }} />
+              <button onClick={() => setResetMode('ask')} style={btnDanger} disabled={busy}>
+                {resolvedTitle} 삭제하고 다시 작성
+              </button>
             </div>
           </div>
         </div>
@@ -227,18 +234,6 @@ export function WorkbookShell({
 
         <div className="ce-workbook-body">
           {children}
-        </div>
-
-        {/* 워크북 본문 끝 — 단독 삭제 영역 */}
-        <div style={{
-          marginTop: SPACING.xl,
-          paddingTop: SPACING.lg,
-          borderTop: `1px solid ${COLORS.line}`,
-          display: 'flex', justifyContent: 'flex-end',
-        }}>
-          <button onClick={() => setResetMode('ask')} style={btnDanger} disabled={busy}>
-            {resolvedTitle} 삭제하고 다시 작성
-          </button>
         </div>
       </div>
 
