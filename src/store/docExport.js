@@ -1,29 +1,65 @@
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } from 'docx';
+import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, PageBreak } from 'docx';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import JSZip from 'jszip';
 import { WORKBOOKS, APP_VERSION } from './schema.js';
 
-// docx (zip) 안에 백업 JSON을 별도 파일로 임베드 → import 시 추출
-const EMBED_PATH = 'careerengineer/backup.json';
+// 본문 끝 부록 영역에 base64로 백업 JSON을 임베드.
+// docx 표준 구조 그대로 유지 → Word/한글 정상 표시 + import 시 추출 가능.
+const MARK_START = 'CE_BACKUP_BEGIN';
+const MARK_END   = 'CE_BACKUP_END';
 
-async function embedJsonInDocx(blob, payload) {
-  const buf = await blob.arrayBuffer();
-  const zip = await JSZip.loadAsync(buf);
-  zip.file(EMBED_PATH, JSON.stringify(payload, null, 2));
-  return zip.generateAsync({
-    type: 'blob',
-    mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+function utf8ToBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+  }
+  return btoa(binary);
+}
+function base64ToUtf8(b64) {
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+function chunkString(str, n) {
+  const result = [];
+  for (let i = 0; i < str.length; i += n) result.push(str.slice(i, i + n));
+  return result;
+}
+
+function backupBlocks(payload) {
+  const b64 = utf8ToBase64(JSON.stringify(payload));
+  const chunks = chunkString(b64, 3000);
+  const muted = (text, opts = {}) => new Paragraph({
+    children: [new TextRun({ text, size: 12, color: 'BDBDBD', ...opts })],
+    spacing: { after: 20 },
   });
+  return [
+    new Paragraph({ children: [new PageBreak()] }),
+    muted('— CareerEngineer 백업 데이터 (자동 생성, 수정·삭제 시 import 불가) —', { bold: true }),
+    muted(MARK_START),
+    ...chunks.map((c) => muted(c)),
+    muted(MARK_END),
+  ];
 }
 
 export async function extractBackupFromDocx(file) {
   const buf = await file.arrayBuffer();
   const zip = await JSZip.loadAsync(buf);
-  const f = zip.file(EMBED_PATH);
-  if (!f) throw new Error('이 docx 파일에는 백업 JSON이 포함돼 있지 않습니다.');
-  const text = await f.async('text');
-  return JSON.parse(text);
+  const docXmlFile = zip.file('word/document.xml');
+  if (!docXmlFile) throw new Error('docx 형식이 올바르지 않습니다.');
+  const xml = await docXmlFile.async('text');
+  // XML 태그 제거하고 텍스트만 추출
+  const text = xml.replace(/<[^>]+>/g, ' ');
+  const re = new RegExp(`${MARK_START}\\s*([\\s\\S]+?)\\s*${MARK_END}`);
+  const m = text.match(re);
+  if (!m) throw new Error('이 docx에는 백업 데이터가 포함돼 있지 않습니다. CareerEngineer에서 직접 내보낸 docx만 import 가능합니다.');
+  const b64 = m[1].replace(/\s+/g, '');
+  const json = base64ToUtf8(b64);
+  return JSON.parse(json);
 }
 
 function safeName(s) {
@@ -183,6 +219,25 @@ export async function exportWorkbookDocx(master, workbookKey, workbookTitle) {
   const meta = WORKBOOKS.find((w) => w.key === workbookKey);
   const title = workbookTitle || meta?.title || workbookKey;
 
+  const payload = {
+    format: 'careerengineer-workbook-export',
+    version: 1,
+    appVersion: APP_VERSION,
+    exportedAt: new Date().toISOString(),
+    workbookKey,
+    workbookTitle: title,
+    data: {
+      workbookKey,
+      profile: master.profile,
+      raw: master.workbookRaw?.[workbookKey] || null,
+      output: master.outputs?.[workbookKey] || null,
+      roadmap: workbookKey === 'career_roadmap' ? master.roadmap : undefined,
+      careergoal: workbookKey === 'careergoal' ? master.careergoal : undefined,
+      jobAnalysis: workbookKey === 'job_analysis' ? master.jobAnalysis : undefined,
+      experiences: workbookKey === 'experience' ? master.experiences : undefined,
+    },
+  };
+
   const doc = new Document({
     creator: 'CareerEngineer',
     title: `${title} - CareerEngineer`,
@@ -202,30 +257,12 @@ export async function exportWorkbookDocx(master, workbookKey, workbookTitle) {
         Sub(`내보낸 시각: ${new Date().toLocaleString('ko-KR')}`),
         ...profileBlock(master),
         ...workbookBlocks(master, workbookKey, false),
+        ...backupBlocks(payload),
       ],
     }],
   });
 
-  const rawBlob = await Packer.toBlob(doc);
-  const payload = {
-    format: 'careerengineer-workbook-export',
-    version: 1,
-    appVersion: APP_VERSION,
-    exportedAt: new Date().toISOString(),
-    workbookKey,
-    workbookTitle: title,
-    data: {
-      workbookKey,
-      profile: master.profile,
-      raw: master.workbookRaw?.[workbookKey] || null,
-      output: master.outputs?.[workbookKey] || null,
-      roadmap: workbookKey === 'career_roadmap' ? master.roadmap : undefined,
-      careergoal: workbookKey === 'careergoal' ? master.careergoal : undefined,
-      jobAnalysis: workbookKey === 'job_analysis' ? master.jobAnalysis : undefined,
-      experiences: workbookKey === 'experience' ? master.experiences : undefined,
-    },
-  };
-  const blob = await embedJsonInDocx(rawBlob, payload);
+  const blob = await Packer.toBlob(doc);
   const co = safeName(master.profile.company);
   const wb = safeName(title);
   const ts = timestampPart();
@@ -236,6 +273,14 @@ export async function exportWorkbookDocx(master, workbookKey, workbookTitle) {
 
 // ─── 전체 .docx ──────────────────────────────────────────
 export async function exportFullDocx(master) {
+  const payload = {
+    format: 'careerengineer-export',
+    version: 1,
+    appVersion: APP_VERSION,
+    exportedAt: new Date().toISOString(),
+    data: master,
+  };
+
   const children = [
     new Paragraph({
       children: [new TextRun({ text: 'CAREER ENGINEER', size: 22, color: GOLD, bold: true })],
@@ -253,6 +298,7 @@ export async function exportFullDocx(master) {
   for (const w of WORKBOOKS) {
     children.push(...workbookBlocks(master, w.key, true));
   }
+  children.push(...backupBlocks(payload));
 
   const doc = new Document({
     creator: 'CareerEngineer',
@@ -260,15 +306,7 @@ export async function exportFullDocx(master) {
     sections: [{ properties: {}, children }],
   });
 
-  const rawBlob = await Packer.toBlob(doc);
-  const payload = {
-    format: 'careerengineer-export',
-    version: 1,
-    appVersion: APP_VERSION,
-    exportedAt: new Date().toISOString(),
-    data: master,
-  };
-  const blob = await embedJsonInDocx(rawBlob, payload);
+  const blob = await Packer.toBlob(doc);
   const co  = safeName(master.profile.company);
   const ind = safeName(master.profile.industry) || 'backup';
   const ts  = timestampPart();
