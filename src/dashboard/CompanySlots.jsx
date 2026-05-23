@@ -103,9 +103,9 @@ export default function CompanySlots() {
           margin: '6px 0 0', fontSize: 20, color: COLORS.ink,
           lineHeight: FONT.lineHeight.base,
         }}>
-          저장본은 <strong>이 브라우저에만</strong> 저장돼요.
-          다른 기기에서 열거나 캐시를 지우면 사라지니, <strong>[전체 저장본 백업]</strong>으로 파일을 받아두세요.
-          그 파일을 [저장본 백업 불러오기]에 올리면 그대로 돌아옵니다.
+          저장본은 <strong>이 브라우저에만</strong> 저장됩니다.
+          다른 기기에서 열거나 캐시를 지우면 사라지니, <strong>[전체 저장본 백업]</strong>으로 파일을 받아두십시오.
+          그 파일을 [저장본 백업 불러오기]에 올리면 그대로 복원됩니다.
         </p>
       </div>
 
