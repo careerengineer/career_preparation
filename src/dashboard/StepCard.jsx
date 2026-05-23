@@ -32,16 +32,9 @@ export default function StepCard({ workbook, progress }) {
         e.currentTarget.style.boxShadow = 'none';
       }}
     >
-      <span style={{
-        fontSize: 20, color: COLORS.sub,
-        letterSpacing: 1.6, textTransform: 'uppercase',
-        fontWeight: FONT.weight.medium,
-      }}>
-        {workbook.stepLabel}
-      </span>
       <p style={{
         margin: 0,
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: FONT.weight.bold,
         color: COLORS.ink,
         lineHeight: 1.3,

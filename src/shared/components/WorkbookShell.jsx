@@ -102,27 +102,63 @@ export function WorkbookShell({
           maxWidth: 1200, margin: '0 auto',
           padding: `${SPACING.sm}px ${SPACING.md}px`,
         }}>
+          {/* Row 1: 좌측 락업 (마크 + 워드마크) | 우측 [대시보드로 돌아가기] */}
           <div style={{
             display: 'flex', justifyContent: 'space-between', alignItems: 'center',
             flexWrap: 'wrap', gap: SPACING.sm, marginBottom: SPACING.sm,
           }}>
-            <div style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap', alignItems: 'center' }}>
-              <Link
-                to="/"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  background: COLORS.accent, color: COLORS.white,
-                  textDecoration: 'none',
-                  fontSize: 20, fontWeight: FONT.weight.semibold,
-                  padding: '8px 16px', borderRadius: RADIUS.pill,
-                  boxShadow: '0 2px 8px rgba(14,39,80,0.18)',
-                }}
-              >
-                대시보드로 돌아가기
-              </Link>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center',
+              gap: Math.round(28 * (683/620) * 0.24),
+            }}>
+              <CEMark size={28} />
+              <span style={{
+                fontFamily: '"Pretendard Variable","Pretendard",system-ui,sans-serif',
+                fontSize: 22, fontWeight: 700,
+                letterSpacing: '-0.028em',
+                color: COLORS.ink, lineHeight: 1,
+              }}>
+                Career<span style={{ color: COLORS.goldDeep }}>Engineer</span>
+              </span>
+            </div>
+            <Link
+              to="/"
+              style={{
+                background: COLORS.accent, color: COLORS.white,
+                textDecoration: 'none',
+                fontSize: 16, fontWeight: FONT.weight.semibold,
+                padding: '7px 14px', borderRadius: RADIUS.pill,
+              }}
+            >
+              대시보드로 돌아가기
+            </Link>
+          </div>
+
+          {/* Row 2: STEP + 워크북 제목 (좌) | 액션 버튼 (우) */}
+          <div style={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
+            flexWrap: 'wrap', gap: SPACING.sm,
+          }}>
+            <div style={{ minWidth: 0 }}>
+              <p style={{
+                fontSize: 14, color: COLORS.sub,
+                margin: 0,
+                letterSpacing: 1.4, textTransform: 'uppercase',
+                fontWeight: FONT.weight.medium,
+              }}>
+                {resolvedStepLabel}
+              </p>
+              <h1 style={{
+                fontSize: 26, fontWeight: FONT.weight.bold,
+                color: COLORS.ink, margin: '2px 0 0',
+                lineHeight: 1.2,
+                letterSpacing: '-0.4px',
+              }}>
+                {resolvedTitle}
+              </h1>
             </div>
 
-            <div className="ce-workbook-header-actions" style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap', alignItems: 'center' }}>
+            <div className="ce-workbook-header-actions" style={{ display: 'flex', gap: SPACING.xs, flexWrap: 'wrap', alignItems: 'center' }}>
               {isExperience && (
                 <>
                   <button onClick={() => xlsxRef.current?.click()} style={btnSecondary} disabled={busy}>
@@ -144,42 +180,6 @@ export function WorkbookShell({
                 {resolvedTitle} 삭제하고 다시 작성
               </button>
             </div>
-          </div>
-
-          <div>
-            {/* A 락업: 마크 + CareerEngineer 워드마크 (같은 라인) */}
-            <div style={{
-              display: 'inline-flex', alignItems: 'center',
-              gap: Math.round(28 * (683/620) * 0.24),
-              marginBottom: SPACING.xs,
-            }}>
-              <CEMark size={28} />
-              <span style={{
-                fontFamily: '"Pretendard Variable","Pretendard",system-ui,sans-serif',
-                fontSize: 22, fontWeight: 700,
-                letterSpacing: '-0.028em',
-                color: COLORS.ink, lineHeight: 1,
-              }}>
-                Career<span style={{ color: COLORS.goldDeep }}>Engineer</span>
-              </span>
-            </div>
-            {/* STEP 라벨 + 워크북 이름 */}
-            <p style={{
-              fontSize: 20, color: COLORS.sub,
-              margin: 0,
-              letterSpacing: 1.6, textTransform: 'uppercase',
-              fontWeight: FONT.weight.medium,
-            }}>
-              {resolvedStepLabel}
-            </p>
-            <h1 style={{
-              fontSize: FONT.size.h3, fontWeight: FONT.weight.bold,
-              color: COLORS.ink, margin: '2px 0 0',
-              lineHeight: FONT.lineHeight.tight,
-              letterSpacing: '-0.3px',
-            }}>
-              {resolvedTitle}
-            </h1>
           </div>
         </div>
       </div>
@@ -264,11 +264,12 @@ export function WorkbookShell({
 
 const btnBase = {
   fontFamily: FONT.family,
-  fontSize: 20,
+  fontSize: 14,
   fontWeight: FONT.weight.semibold,
-  padding: '8px 14px',
+  padding: '7px 12px',
   cursor: 'pointer',
   borderRadius: 4,
+  whiteSpace: 'nowrap',
 };
 const btnPrimary = {
   ...btnBase,

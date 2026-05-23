@@ -79,22 +79,12 @@ export default function CompanySlots() {
       padding: SPACING.lg,
       marginBottom: SPACING.lg,
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: SPACING.md, marginBottom: SPACING.md }}>
-        <div>
-          <p style={{
-            margin: 0, fontSize: 20, color: COLORS.accent2,
-            letterSpacing: 3, fontWeight: FONT.weight.semibold, textTransform: 'uppercase',
-          }}>
-            SAVED · 회사별 작업 저장본
-          </p>
-          <h2 style={{
-            margin: '6px 0 0', fontSize: FONT.size.h3, color: COLORS.ink,
-            fontWeight: FONT.weight.semibold, letterSpacing: '-0.3px',
-          }}>
-            여러 회사 지원을 동시에 관리하세요
-          </h2>
-        </div>
-      </div>
+      <h2 style={{
+        margin: `0 0 ${SPACING.md}px`, fontSize: 24, color: COLORS.ink,
+        fontWeight: FONT.weight.bold, letterSpacing: '-0.3px',
+      }}>
+        여러 회사 지원을 동시에 관리하세요
+      </h2>
 
       {/* 경고 안내 박스 */}
       <div style={{
