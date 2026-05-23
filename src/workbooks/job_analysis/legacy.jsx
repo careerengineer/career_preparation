@@ -2263,29 +2263,6 @@ const JobAnalysisWorkbook = () => {
               </p>
             </div>
 
-            <div style={S.boxInfo}>
-              <p style={{ ...labelStyle(COLORS.blue), marginBottom: SPACING.sm }}>INFO · 다음 STEP 안내</p>
-              <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>
-                여기서 추출한 <strong>직무상세내용 핵심 키워드·요구 역량·회사 정보</strong>는 STEP 2 경험정리 · STEP 3 자소서 · STEP 5 면접 워크북 작성 시 반드시 참고하세요. 다운로드한 파일을 옆에 두고 작업하면 됩니다.
-              </p>
-            </div>
-
-            <RelatedWorkbookList
-              items={[
-              { id: 'experience', hint: '키워드와 매칭되는 경험 정리' },
-              { id: 'resume', hint: '이력서 — 직무상세내용 키워드를 핵심 성과에 반영' },
-              { id: 'motivation', hint: '지원동기 자소서 — 회사 분석을 동기로' },
-              { id: 'jobcompetency', hint: '직무역량 자소서 — 직무상세내용 키워드 활용' },
-              { id: 'interview_answer_guide', hint: '면접 유형별 답변 전략 — 직무 이해도 답변 톤' }
-            ]}
-          />
-            <div style={S.boxTip}>
-              <p style={{ ...labelStyle(COLORS.yellow), marginBottom: SPACING.sm }}>MENTORING · 멘토링 안내</p>
-              <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>직무 분석 결과를 어떻게 자소서·면접으로 연결할지 막힌다면 CareerEngineer <a href={MENTORING_URLS.consulting} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, fontWeight: FONT.weight.semibold, textDecoration: 'underline', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>1:1 멘토링</a>을 이용하세요.</p>
-            </div>
-
             <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
 
             <button onClick={downloadFinal} style={{ ...S.btnPrimary, width: '100%', padding: '18px 32px', fontSize: FONT.size.lg, marginTop: SPACING.md }} className="ce-btn">

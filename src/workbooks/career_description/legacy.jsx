@@ -2028,28 +2028,6 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
         미리보기에서 누락된 항목이 보이면 이전 PART로 돌아가서 작성하세요.
       </p>
     </div>
-        {/* ═══ 관련 자료 + 멘토링 안내 (PART 6-4, 7-8) ═══ */}
-        <div style={{ background: '#F2F1EC', border: '1px solid rgba(110, 122, 143, 0.2)', borderRadius: 10, padding: 16, marginBottom: 16 }}>
-          <p style={{ fontSize: 16, fontWeight: 600, color: '#1B3A6B', letterSpacing: 0.5, textTransform: 'uppercase', margin: 0, marginBottom: 8 }}>INFO · 다음 STEP 안내</p>
-          <p style={{ fontSize: 16, color: '#0E2750', margin: 0, lineHeight: 1.6 }}>경력기술서 완성 후 경력 면접 가이드 & 워크북으로 이동하세요</p>
-        </div>
-
-        <RelatedWorkbookList
-          items={[
-            { id: 'experience', hint: '성과의 출처 (경험 인벤토리)' },
-            { id: 'resume', hint: '이력서와 경력기술서는 세트' },
-            { id: 'self_introduction', hint: '1분 자기소개 — 경력 핵심을 첫 1분에' },
-            { id: 'interview_answer_guide', hint: '면접 유형별 답변 전략 — 경력기술서를 면접 답변으로' },
-            { id: 'interview_career', hint: '경력기술서 내용이 면접 질문으로' },
-          ]}
-        />
-
-        <div style={{ background: '#FBFAF6', border: '1px solid rgba(201, 168, 106, 0.2)', borderRadius: 10, padding: 16, marginBottom: 16 }}>
-          <p style={{ fontSize: 16, fontWeight: 600, color: '#C9A86A', letterSpacing: 0.5, textTransform: 'uppercase', margin: 0, marginBottom: 8 }}>MENTORING · 멘토링 안내</p>
-          <p style={{ fontSize: 16, color: '#0E2750', margin: 0, lineHeight: 1.6 }}>경력 전환이나 공백이 있다면 <a href={MENTORING_URLS.career_consulting} target="_blank" rel="noopener noreferrer" style={{ color: '#C9A86A', fontWeight: 600, textDecoration: 'underline', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>1:1 경력 컨설팅</a>을 받으세요</p>
-        </div>
 
 
     <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>

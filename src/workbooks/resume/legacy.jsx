@@ -1980,30 +1980,6 @@ const ResumeWorkbook = () => {
               )}
             </div>
 
-        {/* ═══ 관련 자료 + 멘토링 안내 (PART 6-4, 7-8) ═══ */}
-        <div style={{ background: '#F2F1EC', border: '1px solid rgba(110, 122, 143, 0.2)', borderRadius: 10, padding: 16, marginBottom: 16 }}>
-          <p style={{ fontSize: 16, fontWeight: 600, color: '#1B3A6B', letterSpacing: 0.5, textTransform: 'uppercase', margin: 0, marginBottom: 8 }}>INFO · 다음 STEP 안내</p>
-          <p style={{ fontSize: 16, color: '#0E2750', margin: 0, lineHeight: 1.6 }}>이력서 완성 후 자소서 5대항목 워크북으로 이동하세요</p>
-        </div>
-
-        <RelatedWorkbookList
-          items={[
-            { id: 'experience', hint: '핵심 성과의 출처 (경험 인벤토리)' },
-            { id: 'career_description', hint: '경력직이라면 경력기술서와 세트로' },
-            { id: 'jobcompetency', hint: '직무역량 자소서 — 이력서와 톤 일치' },
-            { id: 'self_introduction', hint: '1분 자기소개 — 이력서 핵심을 첫 1분에' },
-            { id: 'interview_answer_guide', hint: '면접 유형별 답변 전략 — 이력서 경험을 면접 답변으로' },
-            { id: 'interview_new', hint: '면접 (신입) — 이력서 기반 답변 작성' },
-            { id: 'interview_career', hint: '면접 (경력) — 이력서 기반 답변 작성' }
-            ]}
-        />
-
-        <div style={{ background: '#FBFAF6', border: '1px solid rgba(201, 168, 106, 0.2)', borderRadius: 10, padding: 16, marginBottom: 16 }}>
-          <p style={{ fontSize: 16, fontWeight: 600, color: '#C9A86A', letterSpacing: 0.5, textTransform: 'uppercase', margin: 0, marginBottom: 8 }}>MENTORING · 멘토링 안내</p>
-          <p style={{ fontSize: 16, color: '#0E2750', margin: 0, lineHeight: 1.6 }}>서류 합격률이 낮다면 <a href={MENTORING_URLS.consulting} target="_blank" rel="noopener noreferrer" style={{ color: '#C9A86A', fontWeight: 600, textDecoration: 'underline', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>1:1 멘토링</a>으로 이력서를 점검받으세요</p>
-        </div>
 
             <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
               <button onClick={goPrev} style={{ background: 'transparent', color: '#0E2750', border: '1px solid #6E7A8F33', padding: '12px 24px', borderRadius: 12, fontSize: 16, fontWeight: 500, cursor: 'pointer' }}>

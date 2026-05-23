@@ -1773,31 +1773,6 @@ const IntroPage = ({
               <pre style={{ fontSize: FONT.size.sm, color: COLORS.accent, whiteSpace: 'pre-wrap', fontFamily: FONT.family, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>{getRawAnswersText()}</pre>
             </div>
           )}
-          {/* ═══ 관련 자료 + 멘토링 안내 (PART 6-4, 7-8) ═══ */}
-          <div style={{ ...S.boxInfo, marginBottom: SPACING.md }}>
-            <p style={{ ...labelStyle(COLORS.blue), marginBottom: SPACING.sm }}>INFO · 다음 STEP 안내</p>
-            <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>
-              작성한 목표달성 경험을 면접 답변으로 활용하세요
-            </p>
-          </div>
-
-          <RelatedWorkbookList
-            items={[
-              { id: 'experience', hint: '목표 달성 경험의 STAR 정리' },
-              { id: 'jobcompetency', hint: '직무역량 증거 사례와 연결' },
-              { id: 'interview_answer_guide', hint: '면접 유형별 답변 전략 — STAR/STAR-I의 원형 가이드' },
-              { id: 'interview_new', hint: '면접 (신입) — STAR 답변과 직결' },
-              { id: 'interview_career', hint: '면접 (경력) — STAR-I 답변과 직결' }
-            ]}
-          />
-          <div style={{ ...S.boxTip, marginBottom: SPACING.md }}>
-            <p style={{ ...labelStyle(COLORS.yellow), marginBottom: SPACING.sm }}>MENTORING · 멘토링 안내</p>
-            <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>
-              결과가 임팩트로 연결되지 않는다면 <a href={MENTORING_URLS.cover_letter} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, fontWeight: FONT.weight.semibold, textDecoration: 'underline', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>자소서 멘토링</a>으로 스토리 재구성을 받으세요
-            </p>
-          </div>
 
 
           <button onClick={downloadFinalText} style={{ ...S.btnPrimary, padding: '18px 32px', fontSize: FONT.size.md, marginTop: SPACING.md }}>

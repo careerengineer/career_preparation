@@ -1742,31 +1742,6 @@ const IntroPage = ({
               <pre style={{ fontSize: FONT.size.sm, color: COLORS.accent, whiteSpace: 'pre-wrap', fontFamily: FONT.family, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>{getRawAnswersText()}</pre>
             </div>
           )}
-          {/* ═══ 관련 자료 + 멘토링 안내 (PART 6-4, 7-8) ═══ */}
-          <div style={{ ...S.boxInfo, marginBottom: SPACING.md }}>
-            <p style={{ ...labelStyle(COLORS.blue), marginBottom: SPACING.sm }}>INFO · 다음 STEP 안내</p>
-            <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>
-              면접장에서 "당신의 장단점은?" 질문에 30초 답변으로 정리하세요
-            </p>
-          </div>
-
-          <RelatedWorkbookList
-            items={[
-              { id: 'experience', hint: '장단점의 증거가 되는 경험' },
-              { id: 'goalachievement', hint: '단점 극복 사례를 목표달성과 연결' },
-              { id: 'interview_answer_guide', hint: '면접 유형별 답변 전략 — 장단점은 면접 단골 질문' },
-              { id: 'interview_new', hint: '면접 (신입) — 같은 질문 톤 통일' },
-              { id: 'interview_career', hint: '면접 (경력) — 같은 질문 톤 통일' }
-            ]}
-          />
-          <div style={{ ...S.boxTip, marginBottom: SPACING.md }}>
-            <p style={{ ...labelStyle(COLORS.yellow), marginBottom: SPACING.sm }}>MENTORING · 멘토링 안내</p>
-            <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>
-              단점이 치명적으로 읽힌다면 <a href={MENTORING_URLS.cover_letter} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, fontWeight: FONT.weight.semibold, textDecoration: 'underline', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>자소서 멘토링</a>으로 표현 방식을 재설계받으세요
-            </p>
-          </div>
 
 
           <button onClick={downloadFinalText} style={{ ...S.btnPrimary, padding: '18px 32px', fontSize: FONT.size.md, marginTop: SPACING.md }}>

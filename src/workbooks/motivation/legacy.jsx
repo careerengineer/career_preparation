@@ -1340,32 +1340,6 @@ const IntroPage = ({
               <pre style={{ fontSize: FONT.size.sm, color: COLORS.accent, whiteSpace: 'pre-wrap', fontFamily: FONT.family, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>{getRawText()}</pre>
             </div>
           )}
-          {/* ═══ 관련 자료 + 멘토링 안내 (PART 6-4, 7-8) ═══ */}
-          <div style={{ ...S.boxInfo, marginBottom: SPACING.md }}>
-            <p style={{ ...labelStyle(COLORS.blue), marginBottom: SPACING.sm }}>INFO · 다음 STEP 안내</p>
-            <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>
-              같은 회사의 다른 자소서 항목을 작성하며 전체 흐름을 맞추세요
-            </p>
-          </div>
-
-          <RelatedWorkbookList
-            items={[
-              { id: 'jobcompetency', hint: '직무역량과 함께 자소서 5대항목 완성' },
-              { id: 'careergoal', hint: '입사 후 포부와 톤·방향 일치' },
-              { id: 'self_introduction', hint: '1분 자기소개 — 지원동기 핵심을 첫 1분에' },
-              { id: 'interview_answer_guide', hint: '면접 유형별 답변 전략 — 지원동기 면접 답변 톤' },
-              { id: 'interview_new', hint: '면접 (신입) — 지원동기 면접 질문 직결' },
-              { id: 'interview_career', hint: '면접 (경력) — 지원동기 면접 질문 직결' }
-            ]}
-          />
-          <div style={{ ...S.boxTip, marginBottom: SPACING.md }}>
-            <p style={{ ...labelStyle(COLORS.yellow), marginBottom: SPACING.sm }}>MENTORING · 멘토링 안내</p>
-            <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>
-              자력으로 Q1~Q4 연결이 막힌다면 1:1 <a href={MENTORING_URLS.cover_letter} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, fontWeight: FONT.weight.semibold, textDecoration: 'underline', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>자소서 멘토링</a>으로 답변의 논리 흐름을 점검받으세요
-            </p>
-          </div>
 
 
           <button onClick={downloadFinalText} style={{ ...S.btnPrimary, padding: '18px 32px', fontSize: FONT.size.md, marginTop: SPACING.md }}>

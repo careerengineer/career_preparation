@@ -2557,39 +2557,6 @@ const ExperienceWorkbook = () => {
           원본 <strong>경험정리 가이드워크북 xlsx</strong>와 동일한 시트 구조로 저장됩니다. 기본정보·페르소나·직무상세내용 / 경험정리(14컬럼 · 경험당 4행) / 직무상세내용매칭 3개 시트로 구성되어, 원본 파일과 호환되거나 대체해서 사용할 수 있습니다.
         </p>
       </div>
-      <div style={{ ...BOX.info, padding: SPACING.lg, borderRadius: RADIUS.base, textAlign: 'left', marginBottom: SPACING.lg }}>
-        <p style={{ fontSize: FONT.size.md, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: SPACING.sm }}>다음 STEP 안내</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.sm }}>
-          {[
-            { step: 'STEP 3', label: '자소서 5종 + 1분 자기소개', desc: '이 인벤토리에서 경험을 골라 5대 항목 자소서의 소재로 활용합니다.' },
-            { step: 'STEP 4', label: '이력서 + 경력기술서', desc: '역량 점수가 높은 경험은 이력서의 핵심 성과로 배치합니다.' },
-            { step: 'STEP 5', label: '면접 답변 준비', desc: 'STAR 구조로 정리된 경험은 면접 답변의 뼈대가 됩니다.' },
-          ].map((s, i) => (
-            <div key={i} style={{ display: 'flex', gap: SPACING.sm, alignItems: 'flex-start' }}>
-              <span style={{ fontSize: FONT.size.xs, color: COLORS.accent2, background: COLORS.blueBg, padding: `2px 8px`, borderRadius: RADIUS.pill, fontWeight: FONT.weight.semibold, flexShrink: 0 }}>{s.step}</span>
-              <div style={{ flex: 1 }}>
-                <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: 2 }}>{s.label}</p>
-                <p style={{ fontSize: FONT.size.sm, color: COLORS.sub, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>{s.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <RelatedWorkbookList
-        items={[
-          { id: 'resume', hint: '이력서 — 경험을 핵심 성과로 (STEP 3)' },
-          { id: 'career_description', hint: '경력기술서 — 성과 STAR 정리 (STEP 3, 경력직)' },
-          { id: 'jobcompetency', hint: '직무역량 자소서 — 경험을 역량 증거로 (STEP 4 대표)' },
-          { id: 'self_introduction', hint: '1분 자기소개 — 경험 압축본 (STEP 5)' },
-          { id: 'interview_answer_guide', hint: '면접 유형별 답변 전략 — STAR/STAR-I 원형 (STEP 5)' },
-          { id: 'interview_new', hint: '면접 — STAR 답변의 소재 (신입/경력 통합)' }
-            ]}
-      />
-      <p style={{ fontSize: FONT.size.sm, color: COLORS.sub, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>
-        작성이 어려우시면 <a href={MENTORING_URLS.cover_letter} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, fontWeight: FONT.weight.semibold, textDecoration: 'underline', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>CareerEngineer 자소서 멘토링</a>을 통해 1:1 코칭을 받을 수 있습니다.
-      </p>
       <div style={{ marginTop: SPACING.xl }}>
         <button className="ce-btn" onClick={() => setPhase('review')}
           style={{ background: COLORS.white, color: COLORS.accent, border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.md, padding: `${SPACING.sm}px ${SPACING.lg}px`, fontSize: FONT.size.sm, fontWeight: FONT.weight.medium, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}>

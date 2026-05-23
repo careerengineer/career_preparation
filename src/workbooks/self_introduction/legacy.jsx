@@ -1285,30 +1285,6 @@ const SelfIntroWorkbook = () => {
               )}
             </div>
 
-            {/* ═══ 관련 자료 + 멘토링 (PART 6-4, 7-8) ═══ */}
-            <div style={S.boxInfo}>
-              <p style={{ ...labelStyle(COLORS.blue), marginBottom: SPACING.sm }}>INFO · 다음 단계</p>
-              <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>
-                완성된 자기소개를 <strong>키워드 카드(Q12, Q13)와 함께</strong> 면접 당일에 가져가세요. 외우지 말고 소리 내어 <strong>최소 10회 이상</strong> 연습하세요.
-              </p>
-            </div>
-
-            <RelatedWorkbookList
-              items={[
-              { id: 'experience', hint: '경험 인벤토리 — 자기소개 소재의 출처' },
-              { id: 'motivation', hint: '지원동기 자소서 — 자기소개 후반과 연결' },
-              { id: 'jobcompetency', hint: '직무역량 자소서 — 자기소개 강점 부분' },
-              { id: 'interview_answer_guide', hint: '면접 유형별 답변 전략 — 자기소개 다음 본 답변 톤' },
-              { id: 'interview_new', hint: '면접 첫 질문 — 자기소개 그대로 활용' },
-              { id: 'interview_career', hint: '면접 첫 질문 — 자기소개 그대로 활용' }
-            ]}
-          />
-            <div style={S.boxTip}>
-              <p style={{ ...labelStyle(COLORS.yellow), marginBottom: SPACING.sm }}>MENTORING · 멘토링 안내</p>
-              <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>자기소개를 실제 면접관 앞에서 점검받고 싶다면 CareerEngineer <a href={MENTORING_URLS.interview} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, fontWeight: FONT.weight.semibold, textDecoration: 'underline', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>면접 멘토링</a> 프로그램으로 1:1 모의 면접을 경험하세요.</p>
-            </div>
 
             <div style={{ display: 'flex', gap: SPACING.sm, marginTop: SPACING.md }}>
               <button onClick={() => { setCurrentStep(STEPS.length - 1); window.scrollTo(0,0); }} style={S.btnSecondary}>

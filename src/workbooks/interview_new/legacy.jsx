@@ -2261,24 +2261,6 @@ const NewInterviewWorkbook = () => {
               </p>
             </div>
 
-            <RelatedWorkbookList
-              items={[
-              { id: 'experience', hint: 'STAR 답변의 소재 인벤토리' },
-              { id: 'motivation', hint: '지원동기 자소서 — 면접 답변 톤' },
-              { id: 'jobcompetency', hint: '직무역량 자소서 — 면접 답변 톤' },
-              { id: 'personality', hint: '성격 장단점 — 면접 자주 출제' },
-              { id: 'self_introduction', hint: '1분 자기소개 — 면접 첫 질문' },
-              { id: 'interview_answer_guide', hint: '면접 유형별 답변 전략 — 답변 톤·형식 가이드' }
-            ]}
-          />
-
-            <div style={S.boxTip}>
-              <p style={{ ...labelStyle(COLORS.yellow), marginBottom: SPACING.sm }}>MENTORING · 멘토링 안내</p>
-              <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>모의 면접으로 실전 감각을 키우고 싶다면 CareerEngineer <a href={MENTORING_URLS.interview} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, fontWeight: FONT.weight.semibold, textDecoration: 'underline', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>면접 멘토링</a> 프로그램으로 1:1 실전 연습을 경험하세요.</p>
-            </div>
-
             <div style={{ display: 'flex', gap: SPACING.sm, marginTop: SPACING.md }}>
               <button onClick={() => { setIsCompleted(false); setShowList(true); window.scrollTo(0,0); }} style={S.btnSecondary}>
                 이전
