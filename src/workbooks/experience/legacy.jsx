@@ -169,28 +169,7 @@ const IntroFooterCopyright = () => (
     © 2026 CareerEngineer. All Rights Reserved. 저작권법에 의하여 보호받는 저작물이므로 무단 전재와 무단 복제를 금합니다. 이 자료는 구매하신 분의 취업을 위한 개인 학습 용도로 자유롭게 활용하실 수 있으나, 자료의 전부 또는 일부를 다른 사람에게 공유하거나, 복제·재판매·재배포하는 것은 금지되어 있습니다. <strong>이를 위반할 경우 관련 법률에 따라 민·형사상 책임을 질 수 있습니다.</strong>
   </p>
 );
-const IntroStickyHeader = ({ workbookKey, stepLabel, StepNavComponent }) => {
-  const [showStepNav, setShowStepNav] = useState(false);
-  return (
-    <div style={{ position: 'sticky', top: 16, zIndex: 10, background: _INTRO_PAPER, borderRadius: 14, padding: 16, border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16, boxShadow: '0 2px 8px rgba(14, 39, 80, 0.12)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
-        <CELockupA height={32} />
-        <div style={{ position: 'relative', flex: 1, display: 'flex', justifyContent: 'center' }}>
-          <button
-            onClick={() => setShowStepNav(v => !v)}
-            style={{ background: _INTRO_PAPER, border: 'none', cursor: 'pointer', fontSize: 15, color: _INTRO_INK, textAlign: 'center', padding: '4px 12px', borderRadius: 4, fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}
-            title="전체 7단계 보기"
-            className="ce-step-nav-trigger"
-          >
-            {stepLabel}
-            <span style={{ fontSize: 14, color: _INTRO_INK, opacity: 1, transform: showStepNav ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }}>▾</span>
-          </button>
-          {StepNavComponent && <StepNavComponent open={showStepNav} onClose={() => setShowStepNav(false)} currentKey={workbookKey} />}
-        </div>
-      </div>
-    </div>
-  );
-};
+const IntroStickyHeader = () => null; // [CE] sticky 헤더 중복 → WorkbookShell로 통합
 const IntroPage = ({
   workbookKey, stepLabel, title, subtitle,
   flow, flowTitle, prerequisites,
@@ -203,7 +182,6 @@ const IntroPage = ({
       <div style={{ background: '#fff', borderRadius: 14, padding: 32, border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
         <BrandHero />
         <div style={{ borderTop: `1px solid ${_INTRO_MUTE}33`, margin: '24px 0 32px' }} />
-        <p style={{ fontSize: 14, letterSpacing: 4, color: _INTRO_MUTE, textAlign: 'center', margin: 0, marginBottom: 12, fontWeight: 500 }}>{stepLabel}</p>
         <h1 style={{ fontSize: 28, fontWeight: 700, color: _INTRO_INK, textAlign: 'center', margin: 0, marginBottom: 4, lineHeight: 1.35 }}>{title}</h1>
         {subtitle && (
           <p style={{ fontSize: 15, color: _INTRO_MUTE, textAlign: 'center', marginTop: 0, marginBottom: 32, lineHeight: 1.6 }}>{subtitle}</p>

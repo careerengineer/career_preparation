@@ -1477,34 +1477,7 @@ const IntroFooterCopyright = () => (
   </p>
 );
 
-const IntroStickyHeader = ({ workbookKey, stepLabel, StepNavComponent }) => {
-  const [showStepNav, setShowStepNav] = useState(false);
-  const goHome = () => {
-    setShowIntro(true);
-    setCurrentStep(0);
-    setCurrentPhase('round1');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  return (
-    <div style={{ position: 'sticky', top: 16, zIndex: 10, background: _INTRO_PAPER, borderRadius: 14, padding: 16, border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16, boxShadow: '0 2px 8px rgba(14, 39, 80, 0.12)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
-        <CELockupA height={32} />
-        <div style={{ position: 'relative', flex: 1, display: 'flex', justifyContent: 'center' }}>
-          <button
-            onClick={() => setShowStepNav(v => !v)}
-            style={{ background: _INTRO_PAPER, border: 'none', cursor: 'pointer', fontSize: 15, color: _INTRO_INK, textAlign: 'center', padding: '4px 12px', borderRadius: 4, fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}
-            title="전체 7단계 보기"
-            className="ce-step-nav-trigger"
-          >
-            {stepLabel}
-            <span style={{ fontSize: 14, color: _INTRO_INK, opacity: 1, transform: showStepNav ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }}>▾</span>
-          </button>
-          {StepNavComponent && <StepNavComponent open={showStepNav} onClose={() => setShowStepNav(false)} currentKey={workbookKey} />}
-        </div>
-      </div>
-    </div>
-  );
-};
+const IntroStickyHeader = () => null; // [CE] sticky 헤더 중복 → WorkbookShell로 통합
 
 const IntroPage = ({
   workbookKey, stepLabel, title, subtitle,
@@ -1519,8 +1492,6 @@ const IntroPage = ({
       <div style={{ background: '#fff', borderRadius: 14, padding: 32, border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
         <BrandHero />
         <div style={{ borderTop: `1px solid ${_INTRO_MUTE}33`, margin: '24px 0 32px' }} />
-
-        <p style={{ fontSize: 14, letterSpacing: 4, color: _INTRO_MUTE, textAlign: 'center', margin: 0, marginBottom: 12, fontWeight: 500 }}>{stepLabel}</p>
         <h1 style={{ fontSize: 28, fontWeight: 700, color: _INTRO_INK, textAlign: 'center', margin: 0, marginBottom: 4, lineHeight: 1.35 }}>{title}</h1>
         {subtitle && (
           <p style={{ fontSize: 15, color: _INTRO_MUTE, textAlign: 'center', marginTop: 0, marginBottom: 32, lineHeight: 1.6 }}>{subtitle}</p>
