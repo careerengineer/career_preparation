@@ -61,6 +61,8 @@ export default function Dashboard() {
               lineHeight: FONT.lineHeight.base,
             }}>
               데이터로 다음 단계를 보여주고, 함께 그 단계를 걷습니다.
+              <br />
+              여러 회사에 지원하실 때도 활용 가능합니다.
             </p>
             </div>
           </div>
