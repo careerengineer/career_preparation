@@ -113,10 +113,9 @@ export default function CompanySlots() {
           margin: '6px 0 0', fontSize: 20, color: COLORS.ink,
           lineHeight: FONT.lineHeight.base,
         }}>
-          여기 저장한 저장본은 <strong>지금 쓰는 이 브라우저(인터넷 창)에만 보관</strong>됩니다.
-          다른 컴퓨터·휴대폰에서 열거나 브라우저를 청소하면 사라져요.
-          중요한 작업은 잊지 말고 아래 <strong>[전체 저장본 백업 (.json)]</strong> 버튼을 눌러 파일로 저장해두세요.
-          나중에 [저장본 백업 불러오기]로 그 파일을 다시 올리면 그대로 복원됩니다.
+          저장본은 <strong>이 브라우저에만</strong> 저장돼요.
+          다른 기기에서 열거나 캐시를 지우면 사라지니, <strong>[전체 저장본 백업]</strong>으로 파일을 받아두세요.
+          그 파일을 [저장본 백업 불러오기]에 올리면 그대로 돌아옵니다.
         </p>
       </div>
 
