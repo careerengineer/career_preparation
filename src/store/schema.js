@@ -65,7 +65,7 @@ export const DEFAULT_MASTER = {
 
 export const WORKBOOKS = [
   { key: 'career_roadmap',     step: 0, title: '커리어 진단',     stepLabel: 'STEP 0 · 진단' },
-  { key: 'careergoal',         step: 1, title: '커리어 목표',     stepLabel: 'STEP 1 · 목표 수립' },
+  { key: 'careergoal',         step: 4, title: '입사후 포부',     stepLabel: 'STEP 4 · 입사후 포부' },
   { key: 'experience',         step: 2, title: '경험 정리',       stepLabel: 'STEP 2 · 경험 정리' },
   { key: 'job_analysis',       step: 2, title: '직무 분석',       stepLabel: 'STEP 2 · 직무 분석' },
   { key: 'resume',             step: 3, title: '이력서',          stepLabel: 'STEP 3 · 이력서' },
