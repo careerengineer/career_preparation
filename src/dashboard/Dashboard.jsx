@@ -3,6 +3,7 @@ import { WORKBOOKS } from '../store/schema.js';
 import { getWorkbookProgress, getStepProgress } from '../store/selectors.js';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS, RULE } from '../shared/design/tokens.js';
 import { ExportImportBar } from '../shared/components/ExportImportBar.jsx';
+import { CELockupA, CEMark } from '../shared/components/CELogo.jsx';
 import ProfilePanel from './ProfilePanel.jsx';
 import StepCard from './StepCard.jsx';
 import NextActionCard from './NextActionCard.jsx';
@@ -172,7 +173,10 @@ export default function Dashboard() {
           borderTop: RULE,
           color: COLORS.sub, fontSize: FONT.size.caption,
           letterSpacing: 1.5,
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          flexWrap: 'wrap', gap: SPACING.md,
         }}>
+          <CELockupA size={20} color={COLORS.sub} />
           <p style={{ margin: 0, textTransform: 'uppercase' }}>
             © 2026 CAREERENGINEER · 멘토링 문의:{' '}
             <a href={MENTORING_URLS.consulting} target="_blank" rel="noopener noreferrer"
