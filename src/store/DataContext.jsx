@@ -143,6 +143,80 @@ export function DataProvider({ children }) {
     })).sort((a, b) => (b.savedAt || '').localeCompare(a.savedAt || ''));
   }, [readSlots]);
 
+  // 모든 슬롯을 한 .json 파일로 export
+  const exportAllSlotsFile = useCallback(() => {
+    const slots = readSlots();
+    const payload = {
+      format: 'careerengineer-all-slots',
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      slotCount: Object.keys(slots).length,
+      slots,
+    };
+    const json = JSON.stringify(payload, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const ts = (() => {
+      const d = new Date(); const pad = (n) => String(n).padStart(2, '0');
+      return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}`;
+    })();
+    const filename = `careerengineer_전체슬롯_${ts}.json`;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    return filename;
+  }, [readSlots]);
+
+  // 단일 슬롯을 .json으로 export
+  const exportSingleSlotFile = useCallback((slotName) => {
+    const slots = readSlots();
+    const slot = slots[slotName];
+    if (!slot) throw new Error('해당 슬롯이 없습니다.');
+    const payload = {
+      format: 'careerengineer-export',
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      data: slot.master,
+      slotName,
+    };
+    const json = JSON.stringify(payload, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const safe = (s) => (s || '').replace(/[^가-힣a-zA-Z0-9]/g, '_').slice(0, 30);
+    const ts = (() => {
+      const d = new Date(); const pad = (n) => String(n).padStart(2, '0');
+      return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}`;
+    })();
+    const filename = `careerengineer_슬롯_${safe(slotName)}_${ts}.json`;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    return filename;
+  }, [readSlots]);
+
+  // 전체 슬롯 import (병합/덮어쓰기)
+  const importAllSlotsFile = useCallback((file, mode = 'merge') => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          if (parsed.format !== 'careerengineer-all-slots') {
+            return reject(new Error('전체 슬롯 백업 파일이 아닙니다.'));
+          }
+          const current = mode === 'replace' ? {} : readSlots();
+          const merged = { ...current, ...parsed.slots };
+          writeSlots(merged);
+          resolve({ count: Object.keys(parsed.slots).length, total: Object.keys(merged).length });
+        } catch (e) { reject(new Error('파일 파싱 실패: ' + e.message)); }
+      };
+      reader.onerror = () => reject(new Error('파일을 읽을 수 없습니다.'));
+      reader.readAsText(file);
+    });
+  }, [readSlots, writeSlots]);
+
   return (
     <DataContext.Provider
       value={{
@@ -159,6 +233,9 @@ export function DataProvider({ children }) {
         loadCompanySlot,
         deleteCompanySlot,
         listCompanySlots,
+        exportAllSlotsFile,
+        exportSingleSlotFile,
+        importAllSlotsFile,
       }}
     >
       {children}

@@ -1,17 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
 import { COLORS, FONT, SPACING, RULE } from '../shared/design/tokens.js';
 
 export default function CompanySlots() {
-  const { master, saveCompanySlot, loadCompanySlot, deleteCompanySlot, listCompanySlots } = useDataStore();
+  const {
+    master, saveCompanySlot, loadCompanySlot, deleteCompanySlot, listCompanySlots,
+    exportAllSlotsFile, exportSingleSlotFile, importAllSlotsFile,
+  } = useDataStore();
   const [slots, setSlots] = useState([]);
   const [toast, setToast] = useState(null);
   const [newName, setNewName] = useState('');
+  const importRef = useRef(null);
 
   const refresh = () => setSlots(listCompanySlots());
   useEffect(() => { refresh(); /* eslint-disable-next-line */ }, []);
 
-  const showToast = (m) => { setToast(m); setTimeout(() => setToast(null), 3500); };
+  const showToast = (m) => { setToast(m); setTimeout(() => setToast(null), 4000); };
 
   const handleSave = () => {
     const defaultName = master.profile.company || master.profile.position || '회사';
@@ -22,7 +26,7 @@ export default function CompanySlots() {
     saveCompanySlot(name);
     setNewName('');
     refresh();
-    showToast(`'${name}' 슬롯에 저장했습니다.`);
+    showToast(`'${name}' 슬롯에 저장했습니다. 안전을 위해 [전체 슬롯 백업]도 받아두세요.`);
   };
 
   const handleLoad = (name) => {
@@ -38,6 +42,33 @@ export default function CompanySlots() {
     deleteCompanySlot(name);
     refresh();
     showToast(`'${name}' 슬롯을 삭제했습니다.`);
+  };
+
+  const handleSlotExport = (name) => {
+    try {
+      const fn = exportSingleSlotFile(name);
+      showToast(`'${name}' 슬롯을 파일로 저장했습니다: ${fn}`);
+    } catch (e) { showToast('오류: ' + e.message); }
+  };
+
+  const handleExportAll = () => {
+    if (slots.length === 0) { showToast('백업할 슬롯이 없습니다.'); return; }
+    const fn = exportAllSlotsFile();
+    showToast(`전체 ${slots.length}개 슬롯을 백업했습니다: ${fn}`);
+  };
+
+  const handleImportClick = () => importRef.current?.click();
+  const handleImportFile = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    const mode = window.confirm('전체 슬롯 백업을 불러옵니다.\n[확인]: 기존 슬롯과 병합 (같은 이름은 새 것으로 덮어쓰기)\n[취소]: 기존 슬롯 완전 교체') ? 'merge' : 'replace';
+    if (mode === 'replace' && !window.confirm('기존 슬롯이 모두 삭제됩니다. 정말 진행할까요?')) return;
+    try {
+      const { count, total } = await importAllSlotsFile(file, mode);
+      refresh();
+      showToast(`슬롯 ${count}개를 ${mode === 'merge' ? '병합' : '교체'}했습니다 (총 ${total}개).`);
+    } catch (err) { showToast('오류: ' + err.message); }
   };
 
   return (
@@ -62,15 +93,32 @@ export default function CompanySlots() {
           }}>
             여러 회사 지원을 동시에 관리하세요
           </h2>
-          <p style={{
-            margin: '6px 0 0', fontSize: FONT.size.caption, color: COLORS.sub,
-            lineHeight: FONT.lineHeight.base,
-          }}>
-            현재 작업 전체를 슬롯에 저장 → 회사를 바꿔서 새 작업 진행 → 필요 시 슬롯 불러오기로 복귀.
-          </p>
         </div>
       </div>
 
+      {/* 경고 안내 박스 */}
+      <div style={{
+        background: COLORS.yellowBg,
+        borderLeft: `3px solid ${COLORS.yellow}`,
+        padding: SPACING.md,
+        marginBottom: SPACING.md,
+      }}>
+        <p style={{
+          margin: 0, fontSize: FONT.size.caption, color: COLORS.yellow,
+          fontWeight: FONT.weight.semibold, letterSpacing: 1.5, textTransform: 'uppercase',
+        }}>
+          중요 · 슬롯은 브라우저에만 저장됩니다
+        </p>
+        <p style={{
+          margin: '6px 0 0', fontSize: FONT.size.body, color: COLORS.ink,
+          lineHeight: FONT.lineHeight.base,
+        }}>
+          슬롯은 이 브라우저의 localStorage에 저장됩니다. <strong>브라우저 캐시·사이트 데이터를 지우거나, 시크릿/다른 기기에서 열면 사라집니다.</strong>
+          중요한 슬롯은 반드시 아래 <strong>[전체 슬롯 백업 (.json)]</strong> 으로 파일을 받아두세요.
+        </p>
+      </div>
+
+      {/* 새 슬롯 입력 + 저장 */}
       <div style={{ display: 'flex', gap: SPACING.sm, marginBottom: SPACING.md, flexWrap: 'wrap' }}>
         <input
           type="text"
@@ -87,6 +135,21 @@ export default function CompanySlots() {
         <button onClick={handleSave} style={btnPrimary}>현재 작업을 슬롯에 저장</button>
       </div>
 
+      {/* 백업/복원 영역 */}
+      <div style={{ display: 'flex', gap: SPACING.sm, marginBottom: SPACING.md, flexWrap: 'wrap' }}>
+        <button onClick={handleExportAll} style={btnSecondary} disabled={slots.length === 0}>
+          전체 슬롯 백업 (.json)
+        </button>
+        <button onClick={handleImportClick} style={btnSecondary}>
+          슬롯 백업 불러오기
+        </button>
+        <input
+          ref={importRef} type="file" accept=".json,application/json"
+          onChange={handleImportFile} style={{ display: 'none' }}
+        />
+      </div>
+
+      {/* 슬롯 목록 */}
       {slots.length === 0 ? (
         <p style={{ margin: 0, color: COLORS.sub, fontSize: FONT.size.caption }}>
           저장된 슬롯이 없습니다. 위 입력란에 이름을 적고 저장하세요.
@@ -109,8 +172,9 @@ export default function CompanySlots() {
                   {s.savedAt && ` · ${new Date(s.savedAt).toLocaleString('ko-KR')}`}
                 </p>
               </div>
-              <div style={{ display: 'flex', gap: SPACING.xs }}>
+              <div style={{ display: 'flex', gap: SPACING.xs, flexWrap: 'wrap' }}>
                 <button onClick={() => handleLoad(s.name)} style={btnSecondary}>불러오기</button>
+                <button onClick={() => handleSlotExport(s.name)} style={btnSecondary}>이 슬롯 .json</button>
                 <button onClick={() => handleDelete(s.name)} style={btnDanger}>삭제</button>
               </div>
             </div>
@@ -125,10 +189,10 @@ export default function CompanySlots() {
           padding: `${SPACING.sm}px ${SPACING.md}px`,
           fontFamily: FONT.family, fontSize: FONT.size.body,
           boxShadow: '0 6px 18px rgba(0,0,0,0.18)', zIndex: 1100,
-          display: 'flex', gap: SPACING.md, alignItems: 'center',
+          display: 'flex', gap: SPACING.md, alignItems: 'center', maxWidth: '90vw',
         }}>
-          <span>{toast}</span>
-          <button onClick={() => setToast(null)} style={{ background: 'transparent', border: 'none', color: COLORS.accent2, cursor: 'pointer', fontWeight: FONT.weight.semibold }}>닫기</button>
+          <span style={{ flex: 1 }}>{toast}</span>
+          <button onClick={() => setToast(null)} style={{ background: 'transparent', border: 'none', color: COLORS.accent2, cursor: 'pointer', fontWeight: FONT.weight.semibold, fontFamily: FONT.family }}>닫기</button>
         </div>
       )}
     </section>
