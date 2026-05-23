@@ -14,7 +14,7 @@ const STEPS = [
   { n: 1, name: '채용공고 분석' },
   { n: 2, name: '경험 소재 발굴' },
   { n: 3, name: '서류 작성' },
-  { n: 4, name: '자소서 5대 항목' },
+  { n: 4, name: '자소서 작성' },
   { n: 5, name: '면접 준비' },
 ];
 
@@ -175,7 +175,10 @@ export default function Dashboard() {
               </div>
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                // STEP 4(자소서 작성)는 3열 고정 → 첫 줄 3개 / 둘째 줄 2개
+                gridTemplateColumns: s.n === 4
+                  ? 'repeat(3, minmax(0, 1fr))'
+                  : 'repeat(auto-fit, minmax(240px, 1fr))',
                 gap: SPACING.md,
               }}>
                 {items.map((w) => (
