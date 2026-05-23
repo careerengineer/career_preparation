@@ -1,7 +1,9 @@
 import { WORKBOOKS } from './schema';
 
 // 워크북 진행률 (0 | 50 | 100)
-// workbookRaw도 체크 — Bridge가 1.5초마다 sync한 워크북 실제 작성 상태 반영
+// 100%는 사용자가 워크북 '완료 페이지(complete/completed)'에 도달했을 때만 표시.
+// 작성 중간이면 50, 시작 안 했으면 0.
+
 function rawHasContent(raw) {
   if (!raw) return false;
   if (raw.finalText && String(raw.finalText).trim()) return true;
@@ -9,11 +11,17 @@ function rawHasContent(raw) {
   if (raw.experiences && Array.isArray(raw.experiences) && raw.experiences.length > 0) return true;
   return false;
 }
+
+// 워크북이 자체 '완료 페이지'에 도달했는지 (워크북마다 phase 이름이 달라 여러 패턴 체크)
 function rawIsCompleted(raw) {
   if (!raw) return false;
   if (raw.completedAt) return true;
-  // finalText는 100 표시 기준에서 제외 (워크북 본문 textarea와 구분 어려움)
-  // 워크북 본문에서 'completedAt' 명시적으로 설정해야 100% 표시
+  // motivation/jobcompetency 등 자소서: currentPhase === 'completed'
+  if (raw.currentPhase === 'completed' || raw.currentPhase === 'complete') return true;
+  // experience: phase === 'complete'
+  if (raw.phase === 'complete' || raw.phase === 'completed') return true;
+  // interview/self_introduction: isCompleted boolean
+  if (raw.isCompleted === true) return true;
   return false;
 }
 
@@ -21,8 +29,10 @@ export function getWorkbookProgress(master, workbookKey) {
   const raw = master.workbookRaw?.[workbookKey];
 
   if (workbookKey === 'experience') {
-    if (master.experiences.length > 0) return 100;
-    if (rawHasContent(raw)) return 50;
+    // 완료 페이지 도달했을 때만 100
+    if (rawIsCompleted(raw)) return 100;
+    // 카드 1개라도 있거나 작성 흔적 있으면 50
+    if (master.experiences.length > 0 || rawHasContent(raw)) return 50;
     return 0;
   }
   if (workbookKey === 'career_roadmap') {
@@ -45,7 +55,7 @@ export function getWorkbookProgress(master, workbookKey) {
     if (filled || rawHasContent(raw)) return 50;
     return 0;
   }
-  // 나머지 워크북: outputs + workbookRaw 둘 다 체크
+  // 나머지 워크북: outputs.completedAt 또는 raw phase 기반
   const out = master.outputs[workbookKey];
   if (out?.completedAt || rawIsCompleted(raw)) return 100;
   if ((out?.finalText && out.finalText.trim()) ||
