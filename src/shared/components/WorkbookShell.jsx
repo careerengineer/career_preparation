@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ImportPanel } from './ImportPanel.jsx';
 import { MentoringBox } from './MentoringBox.jsx';
 import { RelatedWorkbookList } from './RelatedWorkbookList.jsx';
-import { COLORS, FONT, SPACING } from '../design/tokens.js';
+import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 
 export function WorkbookShell({
   workbookKey,
@@ -17,8 +17,25 @@ export function WorkbookShell({
     <div style={{ background: COLORS.bg, minHeight: '100vh', fontFamily: FONT.family }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: `${SPACING.lg}px ${SPACING.md}px ${SPACING.xxl}px` }}>
         <div style={{ marginBottom: SPACING.lg }}>
-          <Link to="/" style={{ color: COLORS.sub, textDecoration: 'none', fontSize: FONT.size.sm }}>
-            ← 대시보드
+          <Link
+            to="/"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              background: COLORS.accent,
+              color: COLORS.white,
+              textDecoration: 'none',
+              fontSize: FONT.size.base,
+              fontWeight: FONT.weight.semibold,
+              padding: '10px 20px',
+              borderRadius: RADIUS.pill,
+              boxShadow: '0 2px 8px rgba(14,39,80,0.18)',
+              marginBottom: SPACING.md,
+            }}
+          >
+            <span style={{ fontSize: FONT.size.lg, lineHeight: 1 }}>←</span>
+            대시보드로 돌아가기
           </Link>
           <p style={{
             fontSize: FONT.size.sm, color: COLORS.sub,
