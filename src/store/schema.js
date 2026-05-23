@@ -1,0 +1,80 @@
+export const MASTER_KEY = 'careerengineer_master_v1';
+export const APP_VERSION = '1.0.0';
+
+export const DEFAULT_MASTER = {
+  version: 1,
+  appVersion: APP_VERSION,
+  updatedAt: null,
+  createdAt: null,
+
+  // ─── 공통 프로필 (모든 워크북이 읽음) ───
+  profile: {
+    industry: '',
+    position: '',
+    company: '',
+    persona: '',
+    userName: '',
+  },
+
+  // ─── STEP 0: 진단 ───
+  roadmap: {
+    weakestStep: null,
+    scores: {},
+    completedAt: null,
+    quizAnswers: {},
+  },
+
+  // ─── STEP 1: 목표 ───
+  careergoal: {
+    year5: '',
+    year3: '',
+    year1: '',
+    rationale: '',
+    completedAt: null,
+  },
+
+  // ─── STEP 2: 직무 분석 (허브 #2) ───
+  jobAnalysis: {
+    company: { vision: '', recent_news: '', culture: '' },
+    jd: { main_tasks: [], qualifications: [], preferred: [] },
+    keywords: { hard_skills: [], soft_skills: [], domain: [] },
+    success_signals: '',
+    my_experience_pool: '',
+    experience_translation: '',
+    connection_sentences: '',
+    rawAnswers: {},
+    completedAt: null,
+  },
+
+  // ─── STEP 2: 경험 풀 (허브 #1) ───
+  experiences: [],
+
+  // ─── STEP 3 / STEP 4 / STEP 5: 각 워크북 출력본 ───
+  outputs: {
+    resume: { finalText: '', answers: {}, completedAt: null },
+    career_description: { finalText: '', answers: {}, completedAt: null },
+    motivation: { finalText: '', answers: {}, completedAt: null },
+    jobcompetency: { finalText: '', answers: {}, completedAt: null },
+    personality: { finalText: '', answers: {}, completedAt: null },
+    goalachievement: { finalText: '', answers: {}, completedAt: null },
+    self_introduction: { finalText: '', keywords: [], answers: {}, completedAt: null },
+    interview_new: { answers: {}, completedAt: null },
+    interview_career: { answers: {}, completedAt: null },
+  },
+};
+
+export const WORKBOOKS = [
+  { key: 'career_roadmap',     step: 0, title: '커리어 진단',     stepLabel: 'STEP 0 · 진단' },
+  { key: 'careergoal',         step: 1, title: '커리어 목표',     stepLabel: 'STEP 1 · 목표 수립' },
+  { key: 'experience',         step: 2, title: '경험 정리',       stepLabel: 'STEP 2 · 경험 정리' },
+  { key: 'job_analysis',       step: 2, title: '직무 분석',       stepLabel: 'STEP 2 · 직무 분석' },
+  { key: 'resume',             step: 3, title: '이력서',          stepLabel: 'STEP 3 · 이력서' },
+  { key: 'career_description', step: 3, title: '경력기술서',      stepLabel: 'STEP 3 · 경력기술서' },
+  { key: 'motivation',         step: 4, title: '지원동기',        stepLabel: 'STEP 4 · 지원동기' },
+  { key: 'jobcompetency',      step: 4, title: '직무역량',        stepLabel: 'STEP 4 · 직무역량' },
+  { key: 'personality',        step: 4, title: '성격 장단점',     stepLabel: 'STEP 4 · 성격 장단점' },
+  { key: 'goalachievement',    step: 4, title: '목표수립·달성',   stepLabel: 'STEP 4 · 목표수립·달성' },
+  { key: 'self_introduction',  step: 5, title: '1분 자기소개',    stepLabel: 'STEP 5 · 1분 자기소개' },
+  { key: 'interview_new',      step: 5, title: '신입 면접',       stepLabel: 'STEP 5 · 신입 면접' },
+  { key: 'interview_career',   step: 5, title: '경력직 면접',     stepLabel: 'STEP 5 · 경력직 면접' },
+];
