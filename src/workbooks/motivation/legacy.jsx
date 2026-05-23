@@ -160,7 +160,7 @@ const MotivationWorkbook = () => {
 
   // 데이터 변경 시 자동 저장 (디바운스 1초)
   useEffect(() => {
-    if (Object.keys(answers).length === 0 && !finalText) return;
+    if (Object.keys(answers).length === 0 && !finalText && !(basicInfo?.industry || basicInfo?.position || basicInfo?.company)) return;
     
     const timer = setTimeout(() => {
       try {

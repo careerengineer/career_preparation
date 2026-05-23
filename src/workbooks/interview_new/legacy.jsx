@@ -1398,7 +1398,7 @@ const NewInterviewWorkbook = () => {
   }, []);
   
   useEffect(() => {
-    if (Object.keys(answers).length === 0 && !finalText) return;
+    if (Object.keys(answers).length === 0 && !finalText && !(basicInfo?.industry || basicInfo?.position || basicInfo?.company)) return;
     const timer = setTimeout(() => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({

@@ -463,7 +463,7 @@ const SelfIntroWorkbook = () => {
   }, []);
   
   useEffect(() => {
-    if (Object.keys(answers).length === 0) return;
+    if (Object.keys(answers).length === 0 && !(basicInfo?.industry || basicInfo?.position || basicInfo?.company)) return;
     // 실제 답변이 하나라도 있는지 확인 (빈 문자열 제외)
     const hasRealAnswer = Object.values(answers).some(v => v && String(v).trim().length > 0);
     if (!hasRealAnswer) return;

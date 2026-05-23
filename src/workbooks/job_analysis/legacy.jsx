@@ -957,7 +957,7 @@ const JobAnalysisWorkbook = () => {
   }, []);
   
   useEffect(() => {
-    if (Object.keys(formAnswers).length === 0 && !persona) return;
+    if (Object.keys(formAnswers).length === 0 && !persona && !(basicInfo?.industry || basicInfo?.position || basicInfo?.company)) return;
     const timer = setTimeout(() => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({

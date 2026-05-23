@@ -1006,7 +1006,7 @@ const ExperienceWorkbook = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    if (experiences.length === 0 && Object.values(jdKeywords).every(v => !v)) return;
+    if (experiences.length === 0 && Object.values(jdKeywords).every(v => !v) && !(basicInfo?.industry || basicInfo?.position || basicInfo?.target)) return;
     const timer = setTimeout(() => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
