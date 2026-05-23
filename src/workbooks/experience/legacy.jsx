@@ -2637,15 +2637,7 @@ const ExperienceWorkbook = () => {
                 <button onClick={clearSavedData} disabled={clearedFlash} style={{ background: confirmingClear ? '#C9A86A' : clearedFlash ? '#E8F5F0' : autoSaveStatus ? '#F0F9F5' : 'transparent', color: confirmingClear ? '#fff' : clearedFlash ? '#1FA47A' : autoSaveStatus ? '#1FA47A' : '#6E7A8F', border: confirmingClear ? '1px solid #C9A86A' : clearedFlash ? '1px solid #1FA47A' : autoSaveStatus ? '1px solid #1FA47A66' : '1px solid #6E7A8F66', borderRadius: RADIUS.base, padding: '0 14px', fontSize: 11, fontWeight: 600, cursor: clearedFlash ? 'default' : 'pointer', whiteSpace: 'pre-line', fontFamily: 'inherit', lineHeight: 1.15, width: 140, height: 36, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }} title={clearedFlash ? '기록 삭제됨' : confirmingClear ? '한번 더 클릭하면 기록이 삭제됩니다' : '저장된 작성 내용 기록을 삭제 (페이지 유지)'}>
                   {confirmingClear ? '기록을 삭제\n하시겠습니까?' : clearedFlash ? '✓ 기록 삭제됨' : autoSaveStatus ? autoSaveStatus : '기록 삭제하고\n다시 작성'}
                 </button>
-                <button className="ce-btn" onClick={handleSaveXlsx} disabled={isSavingXlsx}
-                  style={{ background: isSavingXlsx ? COLORS.sub : COLORS.green, color: COLORS.white, border: 'none', borderRadius: RADIUS.base, padding: '0 14px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: isSavingXlsx ? 'wait' : 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 4, opacity: isSavingXlsx ? 0.7 : 1, fontFamily: 'inherit', whiteSpace: 'nowrap', height: 36 }}>
-                  {isSavingXlsx ? (
-                    <>
-                      <span style={{ display: 'inline-block', width: 12, height: 12, border: '2px solid #ffffff', borderTopColor: 'transparent', borderRadius: '50%', animation: 'ce-spin 0.7s linear infinite' }} />
-                      생성 중…
-                    </>
-                  ) : savedXlsx ? '✓ 완료' : '저장 (.xlsx)'}
-                </button>
+                {/* [중복 제거] sticky 헤더 저장 버튼 → 상단 WorkbookShell '경험 정리 저장' 버튼으로 통합 */}
               </div>
             )}
           </div>
