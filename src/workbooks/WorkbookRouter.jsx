@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { COLORS, FONT, SPACING } from '../shared/design/tokens.js'
 
 const PAGES = {
+  career_roadmap:     lazy(() => import('./career_roadmap/index.jsx')),
   experience:         lazy(() => import('./experience/index.jsx')),
   job_analysis:       lazy(() => import('./job_analysis/index.jsx')),
   resume:             lazy(() => import('./resume/index.jsx')),

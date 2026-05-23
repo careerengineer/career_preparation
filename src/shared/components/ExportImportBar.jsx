@@ -27,7 +27,30 @@ export function ExportImportBar() {
     e.target.value = '';
     if (!file) return;
     try {
-      const { data: incoming } = await parseImportFile(file);
+      const result = await parseImportFile(file);
+
+      // 워크북 단일 백업
+      if (result.workbookOnly) {
+        const p = result.parsed;
+        const wbKey = p.workbookKey;
+        const title = p.workbookTitle || wbKey;
+        if (!window.confirm(`'${title}' 워크북 결과를 가져옵니다.\n현재 데이터의 해당 워크북 부분만 교체됩니다. 계속할까요?`)) return;
+        const d = p.data || {};
+        const next = { ...master };
+        if (d.profile) next.profile = { ...master.profile, ...d.profile };
+        if (d.raw) next.workbookRaw = { ...master.workbookRaw, [wbKey]: d.raw };
+        if (d.output) next.outputs = { ...master.outputs, [wbKey]: d.output };
+        if (d.roadmap) next.roadmap = d.roadmap;
+        if (d.careergoal) next.careergoal = d.careergoal;
+        if (d.jobAnalysis) next.jobAnalysis = d.jobAnalysis;
+        if (Array.isArray(d.experiences)) next.experiences = d.experiences;
+        replaceMaster(next);
+        showToast(`'${title}' 결과를 불러왔습니다.`);
+        return;
+      }
+
+      // 전체 백업
+      const incoming = result.data;
       const conflicts = detectConflicts(master, incoming);
       if (conflicts.length === 0) {
         replaceMaster(incoming);

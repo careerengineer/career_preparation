@@ -12,6 +12,27 @@ function checksum(obj) {
   return hash.toString(16);
 }
 
+function safeName(s) {
+  return (s || '').replace(/[^가-힣a-zA-Z0-9]/g, '_').slice(0, 20);
+}
+
+function timestampPart() {
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}`;
+}
+
+function triggerDownload(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 export function exportToFile(master) {
   const payload = {
     format: FORMAT_TAG,
@@ -25,23 +46,53 @@ export function exportToFile(master) {
   const json = JSON.stringify(payload, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
 
-  const safe = (s) => (s || '').replace(/[^가-힣a-zA-Z0-9]/g, '_').slice(0, 20);
-  const ind = safe(master.profile.industry) || 'backup';
-  const pos = safe(master.profile.position);
-  const date = new Date().toISOString().slice(0, 10);
-  const filename = pos
-    ? `careerengineer_${ind}_${pos}_${date}.json`
-    : `careerengineer_${ind}_${date}.json`;
+  const co  = safeName(master.profile.company);
+  const ind = safeName(master.profile.industry) || 'backup';
+  const pos = safeName(master.profile.position);
+  const ts = timestampPart();
+  const parts = ['careerengineer', co, ind, pos].filter(Boolean);
+  const filename = `${parts.join('_')}_${ts}.json`;
 
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  triggerDownload(blob, filename);
+  return filename;
+}
 
+// 단일 워크북 결과만 내보내기 (workbookRaw + outputs + profile + 관련 슬라이스)
+export function exportWorkbookToFile(master, workbookKey, workbookTitle) {
+  // 워크북별로 함께 들어가야 할 슬라이스
+  const subset = {
+    workbookKey,
+    profile: master.profile,
+    raw: master.workbookRaw?.[workbookKey] || null,
+    output: master.outputs?.[workbookKey] || null,
+  };
+  // 특수 슬라이스 (워크북별 schema 위치)
+  if (workbookKey === 'career_roadmap') subset.roadmap = master.roadmap;
+  if (workbookKey === 'careergoal')     subset.careergoal = master.careergoal;
+  if (workbookKey === 'job_analysis')   subset.jobAnalysis = master.jobAnalysis;
+  if (workbookKey === 'experience')     subset.experiences = master.experiences;
+
+  const payload = {
+    format: 'careerengineer-workbook-export',
+    version: 1,
+    appVersion: APP_VERSION,
+    exportedAt: new Date().toISOString(),
+    workbookKey,
+    workbookTitle: workbookTitle || workbookKey,
+    data: subset,
+  };
+  payload.checksum = checksum(payload.data);
+
+  const json = JSON.stringify(payload, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+
+  const co  = safeName(master.profile.company);
+  const wb  = safeName(workbookTitle || workbookKey);
+  const ts  = timestampPart();
+  const parts = ['careerengineer', wb, co].filter(Boolean);
+  const filename = `${parts.join('_')}_${ts}.json`;
+
+  triggerDownload(blob, filename);
   return filename;
 }
 
@@ -51,6 +102,11 @@ export function parseImportFile(file) {
     reader.onload = () => {
       try {
         const parsed = JSON.parse(reader.result);
+
+        // 워크북 단일 백업도 받기 (호환)
+        if (parsed.format === 'careerengineer-workbook-export') {
+          return resolve({ workbookOnly: true, parsed });
+        }
 
         if (parsed.format !== FORMAT_TAG) {
           return reject(new Error('CareerEngineer 백업 파일이 아닙니다.'));

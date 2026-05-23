@@ -3,8 +3,8 @@ import { useDataStore } from '../../store/DataContext.jsx';
 import { WorkbookShell } from '../../shared/components/WorkbookShell.jsx';
 import LegacyWorkbook from './legacy.jsx';
 
-const LEGACY_KEY = "careerengineer_career_description_v1";
-const WORKBOOK_KEY = "career_description";
+const LEGACY_KEY = "careerengineer_career_roadmap_v1";
+const WORKBOOK_KEY = "career_roadmap";
 
 // master ↔ legacy storage 양방향 sync.
 // - 동기 priming (useState 초기화): 자식 워크북 mount 전에 storage 채움 → basicInfo 입력 화면 자동 skip.
@@ -68,12 +68,11 @@ function Bridge() {
   return <LegacyWorkbook />;
 }
 
-export default function CareerDescriptionPage() {
+export default function CareerRoadmapPage() {
   return (
     <WorkbookShell
-      workbookKey="career_description"
-      mentoringType="career_consulting"
-      topReferenceIds={["experience","resume","job_analysis"]}
+      workbookKey="career_roadmap"
+      mentoringType="consulting"
     >
       <Bridge />
     </WorkbookShell>
