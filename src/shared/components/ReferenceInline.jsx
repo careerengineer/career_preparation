@@ -11,6 +11,7 @@ import { QUESTION_MAPPING, resolveMappedData } from '../../store/questionMapping
 export function ReferenceInline({ ids = [], questionId, workbookKey }) {
   const { master } = useDataStore();
   const [preview, setPreview] = useState(null);
+  const [expanded, setExpanded] = useState(false);
 
   // 질문 id 매핑이 있으면 정확한 필드 데이터를 칩으로 노출
   let mappedItems = [];
@@ -116,21 +117,13 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
   // mapped items를 items 앞에 추가 (더 가까운 매핑이 우선)
   const allItems = [...mappedItems, ...items];
 
-  if (allItems.length === 0) {
-    return (
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap',
-        padding: '6px 10px', background: COLORS.cream,
-        borderLeft: `2px solid ${COLORS.line}`,
-        marginTop: 4, marginBottom: 8,
-        fontSize: 20, color: COLORS.sub,
-        lineHeight: FONT.lineHeight.base,
-      }}>
-        <span style={{ fontWeight: FONT.weight.semibold, flexShrink: 0 }}>참고:</span>
-        <span>이 질문과 관련된 이전 워크북 ({ids.map((id) => WORKBOOKS.find((w) => w.key === id)?.title || id).join(', ')}) — 아직 작성된 내용 없음</span>
-      </div>
-    );
-  }
+  // 빈 상태는 노출하지 않음 (첫 사용자에게 의미 없는 안내 박스 제거)
+  if (allItems.length === 0) return null;
+
+  const COLLAPSE_THRESHOLD = 5;
+  const overflow = allItems.length > COLLAPSE_THRESHOLD;
+  const visibleItems = overflow && !expanded ? allItems.slice(0, COLLAPSE_THRESHOLD) : allItems;
+  const hiddenCount = allItems.length - visibleItems.length;
 
   return (
     <>
@@ -144,7 +137,7 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
         <span style={{ color: COLORS.sub, fontWeight: FONT.weight.semibold, flexShrink: 0 }}>
           참고할 이전 작성:
         </span>
-        {allItems.map((it, idx) => (
+        {visibleItems.map((it, idx) => (
           <button
             key={it.id || it.kind + idx}
             onClick={() => setPreview(it)}
@@ -165,6 +158,19 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
             {it.label}
           </button>
         ))}
+        {overflow && (
+          <button
+            onClick={() => setExpanded((v) => !v)}
+            style={{
+              background: 'transparent', border: 'none',
+              color: COLORS.accent2, fontSize: 20, fontWeight: FONT.weight.semibold,
+              fontFamily: FONT.family, cursor: 'pointer', textDecoration: 'underline',
+              padding: '3px 6px',
+            }}
+          >
+            {expanded ? '접기' : `더 보기 (${hiddenCount})`}
+          </button>
+        )}
       </div>
       {preview && <ImportPreviewModal item={preview} onClose={() => setPreview(null)} />}
     </>

@@ -73,7 +73,7 @@ export default function CareergoalPage() {
     <WorkbookShell
       workbookKey="careergoal"
       mentoringType="cover_letter"
-      topReferenceIds={["motivation","jobcompetency","personality","goalachievement","self_introduction"]}
+      topReferenceIds={["job_analysis","experience","career_roadmap"]}
     >
       <Bridge />
     </WorkbookShell>
