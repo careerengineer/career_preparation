@@ -79,7 +79,11 @@ export default function Dashboard() {
           }}>
             6-STEP 진행률
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: SPACING.sm }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+            gap: SPACING.sm,
+          }}>
             {STEPS.map((s) => {
               const pct = getStepProgress(master, s.n);
               return (

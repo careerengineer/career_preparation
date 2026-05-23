@@ -32,7 +32,7 @@ export function WorkbookShell({
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [workbookKey]);
 
-  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 2400); };
+  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 4000); };
 
   const handleExportThis = async () => {
     setBusy(true);
@@ -183,7 +183,15 @@ export function WorkbookShell({
           padding: `${SPACING.sm}px ${SPACING.md}px`,
           fontFamily: FONT.family, fontSize: FONT.size.body,
           boxShadow: '0 6px 18px rgba(0,0,0,0.18)', zIndex: 1100,
-        }}>{toast}</div>
+          display: 'flex', alignItems: 'center', gap: SPACING.md,
+        }}>
+          <span>{toast}</span>
+          <button onClick={() => setToast(null)} style={{
+            background: 'transparent', border: 'none', color: COLORS.accent2,
+            cursor: 'pointer', fontSize: FONT.size.body,
+            fontWeight: FONT.weight.semibold, fontFamily: FONT.family,
+          }}>닫기</button>
+        </div>
       )}
     </div>
   );

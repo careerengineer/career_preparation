@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 
 // item 종류별로 적절한 텍스트 추출
@@ -76,6 +76,12 @@ function extractText(item) {
 export function ImportPreviewModal({ item, onClose }) {
   const [copied, setCopied] = useState(false);
   const text = useMemo(() => extractText(item), [item]);
+
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose?.(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
 
   if (!item) return null;
 

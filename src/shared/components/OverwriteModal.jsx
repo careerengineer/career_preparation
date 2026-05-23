@@ -1,6 +1,13 @@
+import { useEffect } from 'react';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 
 export function OverwriteModal({ conflicts, onReplace, onBackupAndReplace, onCancel }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onCancel?.(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onCancel]);
+
   return (
     <div
       onClick={onCancel}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
 import { exportToFile } from '../store/exportImport.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../shared/design/tokens.js';
@@ -25,7 +25,16 @@ export default function ResetCompanyButton() {
   const hasCompanyData =
     master.profile.industry || master.profile.position || master.profile.company;
 
-  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 2400); };
+  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 4000); };
+
+  // ESC로 모달 닫기
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape') closeAll(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   const closeAll = () => { setOpen(false); setPendingMode(null); };
 
@@ -36,11 +45,8 @@ export default function ResetCompanyButton() {
     if (pendingMode === 'backup') exportToFile(master);
     resetCompanyRelated();
     closeAll();
-    showToast(
-      pendingMode === 'backup'
-        ? '백업 후 회사 관련 데이터를 초기화했습니다.'
-        : '회사 관련 데이터를 초기화했습니다. 경험·로드맵은 유지됐습니다.'
-    );
+    const prefix = pendingMode === 'backup' ? '백업 후 초기화했습니다. ' : '초기화했습니다. ';
+    showToast(prefix + '상단 PROFILE 영역에 새 회사·직무·산업을 입력해주세요.');
   };
 
   return (
@@ -175,7 +181,15 @@ export default function ResetCompanyButton() {
           padding: `${SPACING.sm}px ${SPACING.md}px`,
           fontFamily: FONT.family, fontSize: FONT.size.body,
           boxShadow: '0 6px 18px rgba(0,0,0,0.18)', zIndex: 1100,
-        }}>{toast}</div>
+          display: 'flex', alignItems: 'center', gap: SPACING.md,
+        }}>
+          <span>{toast}</span>
+          <button onClick={() => setToast(null)} style={{
+            background: 'transparent', border: 'none', color: COLORS.accent2,
+            cursor: 'pointer', fontSize: FONT.size.body,
+            fontWeight: FONT.weight.semibold, fontFamily: FONT.family,
+          }}>닫기</button>
+        </div>
       )}
     </>
   );

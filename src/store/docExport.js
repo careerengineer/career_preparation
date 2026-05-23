@@ -301,6 +301,7 @@ export async function exportFullDocx(master, options = {}) {
     ? '취업 준비 통합 백업 (경험 제외)'
     : '취업 준비 통합 백업';
 
+  const liveUrl = (typeof window !== 'undefined' && window.location?.origin) || '';
   const children = [
     new Paragraph({
       children: [new TextRun({ text: 'CAREER ENGINEER', size: 22, color: GOLD, bold: true })],
@@ -312,7 +313,9 @@ export async function exportFullDocx(master, options = {}) {
       spacing: { after: 300 },
     }),
     Sub(`내보낸 시각: ${new Date().toLocaleString('ko-KR')}`),
+    ...(liveUrl ? [Sub(`작성 URL: ${liveUrl}`)] : []),
     ...(excludeExperiences ? [Sub('경험 정리(STAR 카드)는 별도 .xlsx 파일에 포함됩니다.')] : []),
+    Sub('이 문서를 위 URL에 [가져오기]하면 작성 내용이 그대로 복원됩니다.'),
     ...profileBlock(master),
   ];
 

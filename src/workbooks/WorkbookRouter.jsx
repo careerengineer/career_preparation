@@ -22,10 +22,35 @@ function Loading() {
   return (
     <div style={{
       background: COLORS.bg, minHeight: '100vh', fontFamily: FONT.family,
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      color: COLORS.sub,
+      padding: SPACING.lg,
     }}>
-      워크북 로딩 중…
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        {/* skeleton header */}
+        <div style={{
+          height: 44, background: '#E5E1D6', borderRadius: 22,
+          width: 200, marginBottom: 12, opacity: 0.4,
+          animation: 'ce-pulse 1.2s ease-in-out infinite',
+        }} />
+        <div style={{
+          height: 14, background: '#E5E1D6', width: 120,
+          marginBottom: 8, opacity: 0.4,
+          animation: 'ce-pulse 1.2s ease-in-out infinite',
+        }} />
+        <div style={{
+          height: 32, background: '#E5E1D6', width: 280,
+          marginBottom: 32, opacity: 0.4,
+          animation: 'ce-pulse 1.2s ease-in-out infinite',
+        }} />
+        {[1,2,3].map((i) => (
+          <div key={i} style={{
+            height: 80, background: '#FFF', border: '1px solid #E5E1D6',
+            marginBottom: 12, opacity: 0.5,
+            animation: 'ce-pulse 1.2s ease-in-out infinite',
+            animationDelay: `${i * 0.1}s`,
+          }} />
+        ))}
+        <style>{`@keyframes ce-pulse { 0%, 100% { opacity: 0.3 } 50% { opacity: 0.6 } }`}</style>
+      </div>
     </div>
   )
 }

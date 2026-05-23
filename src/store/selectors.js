@@ -1,30 +1,55 @@
 import { WORKBOOKS } from './schema';
 
 // 워크북 진행률 (0 | 50 | 100)
+// workbookRaw도 체크 — Bridge가 1.5초마다 sync한 워크북 실제 작성 상태 반영
+function rawHasContent(raw) {
+  if (!raw) return false;
+  if (raw.finalText && String(raw.finalText).trim()) return true;
+  if (raw.answers && Object.values(raw.answers).some((v) => v && String(v).trim())) return true;
+  if (raw.experiences && Array.isArray(raw.experiences) && raw.experiences.length > 0) return true;
+  return false;
+}
+function rawIsCompleted(raw) {
+  if (!raw) return false;
+  if (raw.completedAt) return true;
+  if (raw.finalText && String(raw.finalText).trim().length > 50) return true;
+  return false;
+}
+
 export function getWorkbookProgress(master, workbookKey) {
+  const raw = master.workbookRaw?.[workbookKey];
+
   if (workbookKey === 'experience') {
-    return master.experiences.length > 0 ? 100 : 0;
+    if (master.experiences.length > 0) return 100;
+    if (rawHasContent(raw)) return 50;
+    return 0;
   }
   if (workbookKey === 'career_roadmap') {
-    return master.roadmap.completedAt ? 100 : Object.keys(master.roadmap.quizAnswers || {}).length > 0 ? 50 : 0;
+    if (master.roadmap.completedAt || rawIsCompleted(raw)) return 100;
+    if (Object.keys(master.roadmap.quizAnswers || {}).length > 0 || rawHasContent(raw)) return 50;
+    return 0;
   }
   if (workbookKey === 'careergoal') {
-    if (master.careergoal.completedAt) return 100;
+    if (master.careergoal.completedAt || rawIsCompleted(raw)) return 100;
     const filled = ['year5', 'year3', 'year1', 'rationale'].some((k) => master.careergoal[k]);
-    return filled ? 50 : 0;
+    if (filled || rawHasContent(raw)) return 50;
+    return 0;
   }
   if (workbookKey === 'job_analysis') {
-    if (master.jobAnalysis.completedAt) return 100;
+    if (master.jobAnalysis.completedAt || rawIsCompleted(raw)) return 100;
     const filled =
       master.jobAnalysis.my_experience_pool ||
       master.jobAnalysis.success_signals ||
       master.jobAnalysis.connection_sentences;
-    return filled ? 50 : 0;
+    if (filled || rawHasContent(raw)) return 50;
+    return 0;
   }
+  // 나머지 워크북: outputs + workbookRaw 둘 다 체크
   const out = master.outputs[workbookKey];
-  if (!out) return 0;
-  if (out.completedAt) return 100;
-  if (out.finalText || Object.keys(out.answers || {}).length > 0) return 50;
+  if (out?.completedAt || rawIsCompleted(raw)) return 100;
+  if ((out?.finalText && out.finalText.trim()) ||
+      (out?.answers && Object.keys(out.answers).length > 0) ||
+      rawHasContent(raw)) return 50;
   return 0;
 }
 

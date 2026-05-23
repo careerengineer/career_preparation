@@ -12,7 +12,7 @@ export function ExportImportBar() {
   const [toast, setToast] = useState(null);
   const [conflictState, setConflictState] = useState(null);
 
-  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 2600); };
+  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 4000); };
 
   const handleExportJson = () => {
     const filename = exportToFile(master);
@@ -151,7 +151,7 @@ export function ExportImportBar() {
       <button onClick={handleImportClick} style={btnStyle}>가져오기 (.json/.xlsx/.docx)</button>
       <button onClick={handleExportXlsx} style={btnStyle}>경험 정리 저장 (.xlsx)</button>
       <button onClick={handleExportRestDocx} style={btnPrimaryStyle}>나머지 전체 저장 (.docx)</button>
-      <button onClick={handleExportJson} style={btnStyle} title="개발자용 / 완전 백업">.json</button>
+      <button onClick={handleExportJson} style={btnStyle} title="모든 데이터 한 파일로 (다른 기기 복원용)">완전 백업 (.json)</button>
       <input
         ref={fileRef}
         type="file"
@@ -166,7 +166,15 @@ export function ExportImportBar() {
           padding: `${SPACING.sm}px ${SPACING.md}px`,
           fontFamily: FONT.family, fontSize: FONT.size.body,
           boxShadow: '0 6px 18px rgba(0,0,0,0.18)', zIndex: 1100,
-        }}>{toast}</div>
+          display: 'flex', alignItems: 'center', gap: SPACING.md,
+        }}>
+          <span>{toast}</span>
+          <button onClick={() => setToast(null)} style={{
+            background: 'transparent', border: 'none', color: COLORS.accent2,
+            cursor: 'pointer', fontSize: FONT.size.body,
+            fontWeight: FONT.weight.semibold, fontFamily: FONT.family,
+          }}>닫기</button>
+        </div>
       )}
       {conflictState && (
         <OverwriteModal
