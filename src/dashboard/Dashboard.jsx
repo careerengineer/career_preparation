@@ -55,12 +55,22 @@ export default function Dashboard() {
               Career<span style={{ color: COLORS.goldDeep }}>Engineer</span>
             </h1>
             <p style={{
-              margin: '6px 0 0',
+              margin: '12px 0 0',
+              fontSize: FONT.size.bodyL,
+              color: COLORS.ink,
+              fontWeight: FONT.weight.semibold,
+              lineHeight: FONT.lineHeight.tight,
+              letterSpacing: '-0.2px',
+            }}>
+              커리어를 설계하는 사람들의 동료.
+            </p>
+            <p style={{
+              margin: '8px 0 0',
               fontSize: FONT.size.body,
               color: COLORS.sub,
               lineHeight: FONT.lineHeight.base,
             }}>
-              데이터로 다음 단계를 보여주고, 함께 그 단계를 걷습니다.
+              데이터로 다음 단계를 보여주고, 코칭으로 그 단계를 함께 걷습니다.
               <br />
               여러 회사에 지원하실 때도 활용 가능합니다.
             </p>
