@@ -192,21 +192,8 @@ export default function Dashboard() {
           color: COLORS.sub,
           lineHeight: FONT.lineHeight.base,
         }}>
-          <div style={{
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            flexWrap: 'wrap', gap: SPACING.md, marginBottom: SPACING.md,
-          }}>
+          <div style={{ marginBottom: SPACING.md }}>
             <CELockupA markSize={26} />
-            <p style={{ margin: 0, fontSize: 20, letterSpacing: 1, textTransform: 'uppercase' }}>
-              멘토링 문의:{' '}
-              <a href={MENTORING_URLS.consulting} target="_blank" rel="noopener noreferrer"
-                style={{
-                  color: COLORS.accent2, textDecoration: 'none',
-                  fontWeight: FONT.weight.semibold,
-                }}>
-                1:1 컨설팅
-              </a>
-            </p>
           </div>
           <p style={{
             margin: 0, fontSize: 20,

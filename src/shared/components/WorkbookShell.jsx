@@ -193,8 +193,6 @@ export function WorkbookShell({
         <div className="ce-workbook-body">
           {children}
         </div>
-
-        {mentoringType && <MentoringBox type={mentoringType} />}
       </div>
 
       <ReferenceFAB currentWorkbookKey={workbookKey} />
