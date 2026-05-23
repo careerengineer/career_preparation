@@ -171,9 +171,9 @@ export default function Dashboard() {
               </div>
               <div style={{
                 display: 'grid',
-                // STEP 4(자소서 작성)는 3열 고정 → 첫 줄 3개 / 둘째 줄 2개
+                // STEP 4(자소서 작성)는 3열, 모바일에서는 1열
                 gridTemplateColumns: s.n === 4
-                  ? 'repeat(3, minmax(0, 1fr))'
+                  ? 'repeat(auto-fit, minmax(220px, 1fr))'
                   : 'repeat(auto-fit, minmax(240px, 1fr))',
                 gap: SPACING.md,
               }}>

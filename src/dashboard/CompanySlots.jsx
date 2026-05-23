@@ -71,6 +71,36 @@ export default function CompanySlots() {
     } catch (err) { showToast('오류: ' + err.message); }
   };
 
+  // 첫 진입 (저장본 0개 + 빈 profile)에서는 collapsed 안내만 보여줌
+  const isEmpty = slots.length === 0;
+  const noProfile = !master.profile.industry && !master.profile.position && !master.profile.company;
+  const [collapsed, setCollapsed] = useState(isEmpty && noProfile);
+
+  if (collapsed) {
+    return (
+      <section style={{
+        background: COLORS.white, border: RULE,
+        padding: `${SPACING.sm}px ${SPACING.lg}px`,
+        marginBottom: SPACING.lg,
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        flexWrap: 'wrap', gap: SPACING.sm,
+        fontFamily: FONT.family,
+      }}>
+        <p style={{ margin: 0, fontSize: 20, color: COLORS.sub }}>
+          여러 회사에 지원할 때 — 회사별로 따로 저장해 보관할 수 있습니다
+        </p>
+        <button onClick={() => setCollapsed(false)} style={{
+          background: COLORS.white, color: COLORS.accent,
+          border: `1px solid ${COLORS.accent}`,
+          padding: '6px 12px', fontFamily: FONT.family,
+          fontSize: 16, fontWeight: FONT.weight.semibold, cursor: 'pointer',
+        }}>
+          회사별 저장 기능 보기
+        </button>
+      </section>
+    );
+  }
+
   return (
     <section style={{
       background: COLORS.white,

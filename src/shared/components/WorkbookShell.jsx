@@ -21,6 +21,7 @@ export function WorkbookShell({
   topReferenceIds,
 }) {
   const { master, replaceMaster, resetSingleWorkbook } = useDataStore();
+  const [syncStatus, setSyncStatus] = useState('saved'); // 'saved' | 'saving'
   const meta = WORKBOOKS.find((w) => w.key === workbookKey) || {};
   const resolvedTitle = title || meta.title || '';
   const resolvedStepLabel = stepLabel || meta.stepLabel || '';
@@ -33,6 +34,37 @@ export function WorkbookShell({
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [workbookKey]);
+
+  // localStorage 변경 감지 → "저장 중 → 저장됨" 상태 표시 (3초마다 체크)
+  useEffect(() => {
+    const LEGACY_KEYS = {
+      career_roadmap: 'careerengineer_career_roadmap_v1',
+      job_analysis: 'careerengineer_job_analysis_v1',
+      experience: 'careerengineer_experience_v1',
+      resume: 'careerengineer_resume_v1',
+      career_description: 'careerengineer_career_description_v1',
+      motivation: 'careerengineer_motivation_v1',
+      jobcompetency: 'careerengineer_jobcompetency_v1',
+      personality: 'careerengineer_personality_v1',
+      goalachievement: 'careerengineer_goalachievement_v1',
+      careergoal: 'careerengineer_careergoal_v1',
+      self_introduction: 'careerengineer_self_introduction_v1',
+      interview_new: 'careerengineer_interview_new_v1',
+      interview_career: 'careerengineer_interview_career_v1',
+    };
+    const key = LEGACY_KEYS[workbookKey];
+    if (!key) return;
+    let last = localStorage.getItem(key);
+    const id = setInterval(() => {
+      const cur = localStorage.getItem(key);
+      if (cur !== last) {
+        last = cur;
+        setSyncStatus('saving');
+        setTimeout(() => setSyncStatus('saved'), 600);
+      }
+    }, 1500);
+    return () => clearInterval(id);
   }, [workbookKey]);
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 4000); };
@@ -159,6 +191,12 @@ export function WorkbookShell({
             </div>
 
             <div className="ce-workbook-header-actions" style={{ display: 'flex', gap: SPACING.xs, flexWrap: 'wrap', alignItems: 'center' }}>
+              <span style={{
+                fontSize: 14, color: syncStatus === 'saving' ? COLORS.goldDeep : COLORS.green,
+                fontWeight: FONT.weight.semibold, padding: '0 6px', whiteSpace: 'nowrap',
+              }}>
+                {syncStatus === 'saving' ? '저장 중…' : '✓ 자동 저장됨'}
+              </span>
               {isExperience && (
                 <>
                   <button onClick={() => xlsxRef.current?.click()} style={btnSecondary} disabled={busy}>

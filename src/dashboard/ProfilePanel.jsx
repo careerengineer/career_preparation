@@ -27,13 +27,28 @@ export default function ProfilePanel() {
         <ResetCompanyButton />
       </div>
       {empty && (
-        <p style={{
-          color: COLORS.sub, fontSize: 20,
+        <div style={{
+          background: COLORS.bgAlt,
+          borderLeft: `3px solid ${COLORS.accent2}`,
+          padding: SPACING.md,
           margin: `0 0 ${SPACING.md}px`,
-          lineHeight: FONT.lineHeight.base,
         }}>
-          여기에 적으면 모든 워크북에 자동으로 들어갑니다.
-        </p>
+          <p style={{
+            margin: 0, fontSize: 20, color: COLORS.ink,
+            lineHeight: FONT.lineHeight.base,
+            fontWeight: FONT.weight.semibold,
+          }}>
+            처음 사용하시나요?
+          </p>
+          <ol style={{
+            margin: '8px 0 0', paddingLeft: 24,
+            fontSize: 20, color: COLORS.sub, lineHeight: 1.7,
+          }}>
+            <li>여기에 산업·직무·회사를 입력합니다 (모든 워크북에 자동 적용)</li>
+            <li>STEP 0부터 순서대로 진행하세요 (아래 카드 클릭)</li>
+            <li>각 단계 결과는 자동 저장됩니다</li>
+          </ol>
+        </div>
       )}
       <div style={{
         marginTop: SPACING.md,

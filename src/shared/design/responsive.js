@@ -16,18 +16,31 @@ export const RESPONSIVE_CSS = `
 
 /* 모바일 */
 @media (max-width: 480px) {
-  /* 워크북 sticky 헤더의 액션 묶음 작게 */
+  /* 워크북 sticky 헤더의 액션 묶음 - 더 작게, 한 줄 강제 */
+  .ce-workbook-header-actions {
+    width: 100% !important;
+    justify-content: stretch !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    flex-wrap: nowrap !important;
+  }
   .ce-workbook-header-actions button,
   .ce-workbook-header-actions a {
+    padding: 6px 10px !important;
+    font-size: 13px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+  /* 워크북 sticky 헤더 패딩 축소 */
+  .ce-shell-sticky {
     padding: 6px 12px !important;
-    font-size: 14px !important;
   }
   /* 모달 가득 */
   .ce-modal-card {
     max-width: 100% !important;
     margin: 8px !important;
   }
-  /* textarea/input 18px이상 (iOS 줌 방지) */
+  /* textarea/input 16px이상 (iOS 줌 방지) */
   textarea, input[type="text"] {
     font-size: 16px !important;
   }
@@ -35,4 +48,15 @@ export const RESPONSIVE_CSS = `
 
 /* 스크롤바 */
 * { -webkit-overflow-scrolling: touch; }
+
+/* 워크북 내부 멘토링·컨설팅 외부 링크 hide (latpeed.com 도메인) */
+.ce-workbook-body a[href*="latpeed.com"],
+.ce-workbook-body a[href*="open.kakao.com"] {
+  display: none !important;
+}
+/* 멘토링 카드/배너 hide - 부모 컨테이너에 같은 링크 있으면 묶음으로 */
+.ce-workbook-body [class*="mentoring" i],
+.ce-workbook-body [data-mentoring] {
+  display: none !important;
+}
 `;

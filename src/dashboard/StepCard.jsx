@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom';
 import { COLORS, FONT, SPACING, RULE } from '../shared/design/tokens.js';
 
-const BADGE = {
-  0:   { label: '시작 전', bg: COLORS.cream, color: COLORS.sub },
-  50:  { label: '작성 중', bg: COLORS.bgAlt, color: COLORS.goldDeep },
-  100: { label: '완료',    bg: COLORS.accent, color: COLORS.white },
-};
+function progressBadge(progress) {
+  if (progress >= 100) return { label: '완료', bg: COLORS.accent, color: COLORS.white };
+  if (progress >= 80)  return { label: '거의 완성', bg: COLORS.bgAlt, color: COLORS.accent };
+  if (progress >= 50)  return { label: '작성 중', bg: COLORS.bgAlt, color: COLORS.goldDeep };
+  if (progress >= 20)  return { label: '시작함', bg: COLORS.cream, color: COLORS.goldDeep };
+  if (progress > 0)    return { label: '진행 시작', bg: COLORS.cream, color: COLORS.sub };
+  return { label: '시작 전', bg: COLORS.cream, color: COLORS.sub };
+}
 
 export default function StepCard({ workbook, progress }) {
-  const badge = BADGE[progress] || BADGE[0];
+  const badge = progressBadge(progress);
   return (
     <Link
       to={`/workbook/${workbook.key}`}
@@ -43,18 +46,32 @@ export default function StepCard({ workbook, progress }) {
       }}>
         {workbook.title}
       </p>
-      <span style={{
-        alignSelf: 'flex-start',
-        background: badge.bg,
-        color: badge.color,
-        fontSize: 20,
-        fontWeight: FONT.weight.semibold,
-        padding: '4px 10px',
-        letterSpacing: 1,
-        textTransform: 'uppercase',
+      <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm, flexWrap: 'wrap' }}>
+        <span style={{
+          background: badge.bg, color: badge.color,
+          fontSize: 16, fontWeight: FONT.weight.semibold,
+          padding: '4px 10px',
+          letterSpacing: 1, textTransform: 'uppercase',
+        }}>
+          {badge.label}
+        </span>
+        {progress > 0 && (
+          <span style={{ fontSize: 16, color: COLORS.sub, fontWeight: FONT.weight.semibold }}>
+            {progress}%
+          </span>
+        )}
+      </div>
+      {/* 진행률 바 */}
+      <div style={{
+        height: 4, background: COLORS.cream,
+        overflow: 'hidden', marginTop: 4,
       }}>
-        {badge.label}
-      </span>
+        <div style={{
+          height: '100%', width: `${progress}%`,
+          background: progress >= 100 ? COLORS.accent : COLORS.accent2,
+          transition: 'width 0.4s ease',
+        }} />
+      </div>
     </Link>
   );
 }

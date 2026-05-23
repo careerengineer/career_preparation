@@ -25,42 +25,81 @@ function rawIsCompleted(raw) {
   return false;
 }
 
+// 작성 진도 비율 계산 (0~95) — 작성된 답변 수 기반
+function calcProgressFromRaw(raw) {
+  if (!raw) return 0;
+  if (raw.answers && typeof raw.answers === 'object') {
+    const filled = Object.values(raw.answers).filter((v) => v && String(v).trim().length > 3).length;
+    if (filled === 0) return 5;       // 시작만 함
+    if (filled <= 2) return 20;
+    if (filled <= 5) return 40;
+    if (filled <= 10) return 60;
+    if (filled <= 15) return 75;
+    return 90;
+  }
+  if (raw.experiences && Array.isArray(raw.experiences)) {
+    const n = raw.experiences.length;
+    if (n === 0) return 5;
+    if (n === 1) return 30;
+    if (n === 2) return 55;
+    return 80;
+  }
+  return 10;
+}
+
 export function getWorkbookProgress(master, workbookKey) {
   const raw = master.workbookRaw?.[workbookKey];
 
   if (workbookKey === 'experience') {
-    // 완료 페이지 도달했을 때만 100
     if (rawIsCompleted(raw)) return 100;
-    // 카드 1개라도 있거나 작성 흔적 있으면 50
-    if (master.experiences.length > 0 || rawHasContent(raw)) return 50;
+    if (master.experiences.length > 0) {
+      const n = master.experiences.length;
+      if (n === 1) return 35;
+      if (n === 2) return 55;
+      if (n === 3) return 75;
+      return 90;
+    }
+    if (rawHasContent(raw)) return 10;
     return 0;
   }
   if (workbookKey === 'career_roadmap') {
     if (master.roadmap.completedAt || rawIsCompleted(raw)) return 100;
-    if (Object.keys(master.roadmap.quizAnswers || {}).length > 0 || rawHasContent(raw)) return 50;
+    if (Object.keys(master.roadmap.quizAnswers || {}).length > 0) {
+      const n = Object.keys(master.roadmap.quizAnswers).length;
+      if (n <= 2) return 25;
+      if (n <= 5) return 55;
+      return 80;
+    }
+    if (rawHasContent(raw)) return calcProgressFromRaw(raw);
     return 0;
   }
   if (workbookKey === 'careergoal') {
     if (master.careergoal.completedAt || rawIsCompleted(raw)) return 100;
-    const filled = ['year5', 'year3', 'year1', 'rationale'].some((k) => master.careergoal[k]);
-    if (filled || rawHasContent(raw)) return 50;
+    const filled = ['year5', 'year3', 'year1', 'rationale'].filter((k) => master.careergoal[k]).length;
+    if (filled === 4) return 90;
+    if (filled >= 2) return 60;
+    if (filled >= 1) return 30;
+    if (rawHasContent(raw)) return calcProgressFromRaw(raw);
     return 0;
   }
   if (workbookKey === 'job_analysis') {
     if (master.jobAnalysis.completedAt || rawIsCompleted(raw)) return 100;
-    const filled =
-      master.jobAnalysis.my_experience_pool ||
-      master.jobAnalysis.success_signals ||
-      master.jobAnalysis.connection_sentences;
-    if (filled || rawHasContent(raw)) return 50;
+    const fields = ['my_experience_pool', 'success_signals', 'connection_sentences', 'experience_translation'];
+    const filled = fields.filter((k) => master.jobAnalysis[k]).length;
+    if (filled === 4) return 90;
+    if (filled >= 2) return 60;
+    if (filled >= 1) return 30;
+    if (rawHasContent(raw)) return calcProgressFromRaw(raw);
     return 0;
   }
-  // 나머지 워크북: outputs.completedAt 또는 raw phase 기반
+  // 나머지 워크북
   const out = master.outputs[workbookKey];
   if (out?.completedAt || rawIsCompleted(raw)) return 100;
-  if ((out?.finalText && out.finalText.trim()) ||
-      (out?.answers && Object.keys(out.answers).length > 0) ||
-      rawHasContent(raw)) return 50;
+  if (out?.finalText && out.finalText.trim()) return 85;
+  if (out?.answers && Object.keys(out.answers).length > 0) {
+    return Math.max(30, Math.min(85, Object.keys(out.answers).length * 10));
+  }
+  if (rawHasContent(raw)) return calcProgressFromRaw(raw);
   return 0;
 }
 

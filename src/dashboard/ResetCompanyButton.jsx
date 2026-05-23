@@ -45,8 +45,17 @@ export default function ResetCompanyButton() {
     if (pendingMode === 'backup') exportToFile(master);
     resetCompanyRelated();
     closeAll();
-    const prefix = pendingMode === 'backup' ? '백업 후 초기화했습니다. ' : '초기화했습니다. ';
-    showToast(prefix + '상단 PROFILE 영역에 새 회사·직무·산업을 입력해주세요.');
+    // 페이지 상단으로 + alert로 명확히 안내 (토스트보다 강력)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      window.alert(
+        (pendingMode === 'backup' ? '백업이 완료되었고 데이터를 초기화했습니다.\n\n' : '데이터를 초기화했습니다.\n\n') +
+        '다음 단계:\n' +
+        '1. 상단 "어떤 직무에 지원하나요?"에 새 회사·직무·산업을 입력\n' +
+        '2. STEP 1 채용공고·직무 분석부터 새로 작성\n\n' +
+        '경험·로드맵 진단 결과는 그대로 남아있습니다.'
+      );
+    }, 300);
   };
 
   return (

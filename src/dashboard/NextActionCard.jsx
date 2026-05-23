@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useDataStore } from '../store/DataContext.jsx';
 import { getNextRecommendation } from '../store/selectors.js';
@@ -5,7 +6,13 @@ import { COLORS, FONT, SPACING } from '../shared/design/tokens.js';
 
 export default function NextActionCard() {
   const { master } = useDataStore();
-  const rec = getNextRecommendation(master);
+  // master 변경마다 재계산되지만 결과가 같으면 동일 reference 유지 → 깜빡임 방지
+  const rec = useMemo(() => getNextRecommendation(master), [
+    master.profile.industry, master.profile.position, master.profile.company,
+    master.roadmap.completedAt, master.roadmap.weakestStep,
+    master.experiences.length,
+    JSON.stringify(master.workbookRaw || {}),
+  ]);
 
   // profile 비어있으면 ProfilePanel의 빈 상태 안내가 같은 역할을 하므로 숨김
   if (rec.kind === 'profile') return null;
