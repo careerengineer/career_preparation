@@ -19,6 +19,7 @@ const KEPT = [
 export default function ResetCompanyButton() {
   const { master, resetCompanyRelated } = useDataStore();
   const [open, setOpen] = useState(false);
+  const [pendingMode, setPendingMode] = useState(null); // null | 'plain' | 'backup'
   const [toast, setToast] = useState(null);
 
   const hasCompanyData =
@@ -26,17 +27,20 @@ export default function ResetCompanyButton() {
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 2400); };
 
-  const handleConfirm = () => {
-    resetCompanyRelated();
-    setOpen(false);
-    showToast('회사 관련 데이터를 초기화했습니다. 경험·로드맵은 유지됐습니다.');
-  };
+  const closeAll = () => { setOpen(false); setPendingMode(null); };
 
-  const handleBackupThenConfirm = () => {
-    exportToFile(master);
+  const handleAskDelete       = () => setPendingMode('plain');
+  const handleAskBackupDelete = () => setPendingMode('backup');
+
+  const handleFinalConfirm = () => {
+    if (pendingMode === 'backup') exportToFile(master);
     resetCompanyRelated();
-    setOpen(false);
-    showToast('현재 데이터를 백업하고 초기화했습니다.');
+    closeAll();
+    showToast(
+      pendingMode === 'backup'
+        ? '백업 후 회사 관련 데이터를 초기화했습니다.'
+        : '회사 관련 데이터를 초기화했습니다. 경험·로드맵은 유지됐습니다.'
+    );
   };
 
   return (
@@ -60,7 +64,7 @@ export default function ResetCompanyButton() {
 
       {open && (
         <div
-          onClick={() => setOpen(false)}
+          onClick={closeAll}
           style={{
             position: 'fixed', inset: 0, background: 'rgba(14,39,80,0.45)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -125,10 +129,40 @@ export default function ResetCompanyButton() {
               </div>
             </div>
 
+            {pendingMode && (
+              <div style={{
+                background: COLORS.redBg, borderLeft: `3px solid ${COLORS.red}`,
+                padding: SPACING.md, marginBottom: SPACING.md,
+              }}>
+                <p style={{
+                  margin: 0, fontSize: FONT.size.body, color: COLORS.red,
+                  fontWeight: FONT.weight.semibold, lineHeight: FONT.lineHeight.base,
+                }}>
+                  마지막 확인 — 정말 삭제하시겠습니까?
+                </p>
+                <p style={{
+                  margin: '6px 0 0', fontSize: FONT.size.caption, color: COLORS.ink,
+                  lineHeight: FONT.lineHeight.base,
+                }}>
+                  {pendingMode === 'backup'
+                    ? '백업 파일이 먼저 다운로드된 뒤, 위 항목들이 삭제됩니다.'
+                    : '백업 없이 위 항목들이 즉시 삭제됩니다. 되돌릴 수 없습니다.'}
+                </p>
+              </div>
+            )}
+
             <div style={{ display: 'flex', gap: SPACING.sm, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
-              <button onClick={() => setOpen(false)} style={btnGhost}>취소</button>
-              <button onClick={handleBackupThenConfirm} style={btnSecondary}>전체 백업 후 삭제</button>
-              <button onClick={handleConfirm} style={btnPrimary}>삭제</button>
+              <button onClick={closeAll} style={btnGhost}>취소</button>
+              {pendingMode ? (
+                <button onClick={handleFinalConfirm} style={btnDanger}>
+                  {pendingMode === 'backup' ? '네, 백업 후 삭제합니다' : '네, 삭제합니다'}
+                </button>
+              ) : (
+                <>
+                  <button onClick={handleAskBackupDelete} style={btnSecondary}>전체 백업 후 삭제</button>
+                  <button onClick={handleAskDelete} style={btnPrimary}>삭제</button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -152,6 +186,7 @@ const btnBase = {
   padding: '10px 18px', cursor: 'pointer',
   fontWeight: FONT.weight.semibold,
 };
-const btnPrimary = { ...btnBase, background: COLORS.red, color: COLORS.white, border: 'none' };
+const btnPrimary = { ...btnBase, background: COLORS.white, color: COLORS.red, border: `1px solid ${COLORS.red}` };
 const btnSecondary = { ...btnBase, background: COLORS.white, color: COLORS.accent, border: `1px solid ${COLORS.accent}` };
 const btnGhost = { ...btnBase, background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.line}` };
+const btnDanger = { ...btnBase, background: COLORS.red, color: COLORS.white, border: 'none' };
