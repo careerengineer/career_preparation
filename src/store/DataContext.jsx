@@ -66,6 +66,39 @@ export function DataProvider({ children }) {
     setMaster({ ...DEFAULT_MASTER, createdAt: new Date().toISOString() });
   }, []);
 
+  // 회사·직무 관련 데이터만 리셋 (experience, career_roadmap은 유지)
+  const resetCompanyRelated = useCallback(() => {
+    setMaster((m) => ({
+      ...m,
+      profile: { ...DEFAULT_MASTER.profile, userName: m.profile.userName },
+      jobAnalysis: { ...DEFAULT_MASTER.jobAnalysis },
+      careergoal: { ...DEFAULT_MASTER.careergoal },
+      outputs: { ...DEFAULT_MASTER.outputs },
+      workbookRaw: {
+        ...DEFAULT_MASTER.workbookRaw,
+        experience: m.workbookRaw?.experience || null,
+        career_roadmap: m.workbookRaw?.career_roadmap || null,
+      },
+      updatedAt: new Date().toISOString(),
+    }));
+
+    // 워크북별 localStorage도 함께 비움 (경험·로드맵 제외)
+    const KEYS_TO_CLEAR = [
+      'careerengineer_job_analysis_v1',
+      'careerengineer_resume_v1',
+      'careerengineer_career_description_v1',
+      'careerengineer_motivation_v1',
+      'careerengineer_jobcompetency_v1',
+      'careerengineer_personality_v1',
+      'careerengineer_goalachievement_v1',
+      'careerengineer_careergoal_v1',
+      'careerengineer_self_introduction_v1',
+      'careerengineer_interview_new_v1',
+      'careerengineer_interview_career_v1',
+    ];
+    try { KEYS_TO_CLEAR.forEach((k) => localStorage.removeItem(k)); } catch {}
+  }, []);
+
   return (
     <DataContext.Provider
       value={{
@@ -77,6 +110,7 @@ export function DataProvider({ children }) {
         removeExperience,
         replaceMaster,
         resetAll,
+        resetCompanyRelated,
       }}
     >
       {children}
