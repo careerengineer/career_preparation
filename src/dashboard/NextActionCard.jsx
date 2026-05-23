@@ -20,10 +20,10 @@ export default function NextActionCard() {
         NEXT · 다음 단계
       </span>
       <p style={{
-        margin: '8px 0 0', fontSize: FONT.size.bodyL,
-        fontWeight: FONT.weight.semibold, color: COLORS.white,
-        letterSpacing: '-0.3px',
-        lineHeight: FONT.lineHeight.base,
+        margin: '10px 0 0', fontSize: 24,
+        fontWeight: FONT.weight.bold, color: COLORS.white,
+        letterSpacing: '-0.4px',
+        lineHeight: 1.35,
       }}>
         {rec.label}
       </p>

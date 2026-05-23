@@ -41,10 +41,10 @@ export default function StepCard({ workbook, progress }) {
       </span>
       <p style={{
         margin: 0,
-        fontSize: FONT.size.bodyL,
-        fontWeight: FONT.weight.semibold,
+        fontSize: 20,
+        fontWeight: FONT.weight.bold,
         color: COLORS.ink,
-        lineHeight: FONT.lineHeight.tight,
+        lineHeight: 1.3,
         letterSpacing: '-0.3px',
         flex: 1,
       }}>

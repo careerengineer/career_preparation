@@ -146,26 +146,40 @@ export function WorkbookShell({
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm }}>
-            <CEMark size={32} />
-            <div>
-              <p style={{
-                fontSize: FONT.size.xs, color: COLORS.sub,
-                margin: 0,
-                letterSpacing: 1.6, textTransform: 'uppercase',
-                fontWeight: FONT.weight.medium,
+          <div>
+            {/* A 락업: 마크 + CareerEngineer 워드마크 (같은 라인) */}
+            <div style={{
+              display: 'inline-flex', alignItems: 'center',
+              gap: Math.round(28 * (683/620) * 0.24),
+              marginBottom: SPACING.xs,
+            }}>
+              <CEMark size={28} />
+              <span style={{
+                fontFamily: '"Pretendard Variable","Pretendard",system-ui,sans-serif',
+                fontSize: 22, fontWeight: 700,
+                letterSpacing: '-0.028em',
+                color: COLORS.ink, lineHeight: 1,
               }}>
-                {resolvedStepLabel}
-              </p>
-              <h1 style={{
-                fontSize: FONT.size.h3, fontWeight: FONT.weight.bold,
-                color: COLORS.ink, margin: '2px 0 0',
-                lineHeight: FONT.lineHeight.tight,
-                letterSpacing: '-0.3px',
-              }}>
-                {resolvedTitle}
-              </h1>
+                Career<span style={{ color: COLORS.goldDeep }}>Engineer</span>
+              </span>
             </div>
+            {/* STEP 라벨 + 워크북 이름 */}
+            <p style={{
+              fontSize: FONT.size.caption, color: COLORS.sub,
+              margin: 0,
+              letterSpacing: 1.6, textTransform: 'uppercase',
+              fontWeight: FONT.weight.medium,
+            }}>
+              {resolvedStepLabel}
+            </p>
+            <h1 style={{
+              fontSize: FONT.size.h3, fontWeight: FONT.weight.bold,
+              color: COLORS.ink, margin: '2px 0 0',
+              lineHeight: FONT.lineHeight.tight,
+              letterSpacing: '-0.3px',
+            }}>
+              {resolvedTitle}
+            </h1>
           </div>
         </div>
       </div>

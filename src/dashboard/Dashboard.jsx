@@ -61,20 +61,21 @@ export default function Dashboard() {
               </h1>
             </div>
             <p style={{
-              margin: '14px 0 0',
-              fontSize: FONT.size.bodyL,
+              margin: '18px 0 0',
+              fontSize: 28,
               color: COLORS.ink,
-              fontWeight: FONT.weight.semibold,
-              lineHeight: FONT.lineHeight.tight,
-              letterSpacing: '-0.2px',
+              fontWeight: FONT.weight.bold,
+              lineHeight: 1.25,
+              letterSpacing: '-0.5px',
             }}>
               생각하는 힘으로 커리어를 설계하다
             </p>
             <p style={{
-              margin: '8px 0 0',
-              fontSize: FONT.size.body,
+              margin: '12px 0 0',
+              fontSize: 20,
               color: COLORS.sub,
-              lineHeight: FONT.lineHeight.base,
+              fontWeight: FONT.weight.regular,
+              lineHeight: 1.65,
             }}>
               취업이 막막하던 사람도 CareerEngineer의 질문에 답하다 보면, 생각하는 힘이 길러집니다. 일하는 방식이 달라집니다. 채용담당자가 먼저 알아봅니다.
             </p>
@@ -97,9 +98,9 @@ export default function Dashboard() {
           padding: SPACING.lg, marginBottom: SPACING.lg,
         }}>
           <h2 style={{
-            margin: 0, fontSize: FONT.size.h3, color: COLORS.ink,
-            fontWeight: FONT.weight.semibold, marginBottom: SPACING.md,
-            letterSpacing: '-0.4px',
+            margin: 0, fontSize: 26, color: COLORS.ink,
+            fontWeight: FONT.weight.bold, marginBottom: SPACING.md,
+            letterSpacing: '-0.5px',
           }}>
             6-STEP 진행률
           </h2>
@@ -166,9 +167,9 @@ export default function Dashboard() {
                   STEP {s.n}
                 </span>
                 <h3 style={{
-                  margin: 0, fontSize: FONT.size.bodyL,
-                  color: COLORS.ink, fontWeight: FONT.weight.semibold,
-                  letterSpacing: '-0.3px',
+                  margin: 0, fontSize: 22,
+                  color: COLORS.ink, fontWeight: FONT.weight.bold,
+                  letterSpacing: '-0.4px',
                 }}>
                   {s.name}
                 </h3>
