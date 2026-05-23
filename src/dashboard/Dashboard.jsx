@@ -36,7 +36,7 @@ export default function Dashboard() {
           paddingBottom: SPACING.md, borderBottom: RULE,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.md }}>
-            <CEMark size={64} />
+            <CEMark size={72} />
             <div>
             <p style={{
               margin: 0, fontSize: FONT.size.caption, color: COLORS.sub,
@@ -46,12 +46,13 @@ export default function Dashboard() {
             </p>
             <h1 className="ce-h1-display" style={{
               margin: '6px 0 0',
-              fontSize: FONT.size.h1, color: COLORS.ink,
-              fontWeight: FONT.weight.bold,
-              letterSpacing: '-1.4px',
+              fontSize: FONT.size.h1,
+              fontWeight: 700,
+              letterSpacing: '-0.028em',
               lineHeight: FONT.lineHeight.tight,
+              color: COLORS.ink,
             }}>
-              CareerEngineer<span style={{ color: COLORS.accent2 }}>.</span>
+              Career<span style={{ color: COLORS.goldDeep }}>Engineer</span>
             </h1>
             <p style={{
               margin: '6px 0 0',
@@ -179,7 +180,7 @@ export default function Dashboard() {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           flexWrap: 'wrap', gap: SPACING.md,
         }}>
-          <CELockupA size={20} color={COLORS.sub} />
+          <CELockupA markSize={22} />
           <p style={{ margin: 0, textTransform: 'uppercase' }}>
             © 2026 CAREERENGINEER · 멘토링 문의:{' '}
             <a href={MENTORING_URLS.consulting} target="_blank" rel="noopener noreferrer"
