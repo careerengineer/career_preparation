@@ -1,6 +1,7 @@
 // [BUILD v36 20260520 10:30] docx 저장에 CareerEngineer 자료 + 멘토링 안내 섹션 추가 (ExternalHyperlink + linkP)
 import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
+import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 // ══════════════════════════════════════════════════════════════
@@ -399,9 +400,22 @@ const FirstVisitModal = ({ open, onClose, title, steps }) => {
 };
 
 // ══════════ 하단 고정 저작권 + 문의 (PART 7-8, 11) ══════════
+// id 기반 자동 참고 워크북 추천 (career_description은 경력기술서)
+function cdInferRelated(id) {
+  if (!id) return [];
+  if (/company|position|industry/i.test(id)) return ['job_analysis'];
+  if (/story|experience|career|project|achievement|role|task/i.test(id)) return ['experience', 'resume'];
+  if (/skill|cert|hard|soft/i.test(id)) return ['job_analysis', 'experience'];
+  if (/strength|str\d/i.test(id)) return ['experience', 'jobcompetency'];
+  if (/jd|kw|core|problem|highlight/i.test(id)) return ['job_analysis'];
+  if (/growth|vision|future/i.test(id)) return ['careergoal', 'career_roadmap'];
+  return ['experience', 'job_analysis'];
+}
+
 const In = ({id, label, placeholder, rows, ans, set}) => (
   <div style={{ marginBottom: 16 }}>
     <label style={{ display: 'block', fontSize: 16, fontWeight: 600, color: '#1B3A6B', marginBottom: 6 }}>{label}</label>
+    <ReferenceInline ids={cdInferRelated(id)} />
     {rows ? <textarea value={ans[id]||''} onChange={e=>set(id,e.target.value)} rows={rows} placeholder={placeholder} className="resize-none" style={{ width: '100%', paddingLeft: 14, paddingRight: 14, paddingTop: 10, paddingBottom: 10, border: '1px solid #6E7A8F33', borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none', background: '#FFFFFF' }} />
       : <input type="text" value={ans[id]||''} onChange={e=>set(id,e.target.value)} placeholder={placeholder} style={{ width: '100%', paddingLeft: 14, paddingRight: 14, paddingTop: 10, paddingBottom: 10, border: '1px solid #6E7A8F33', borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none', background: '#FFFFFF' }} />}
   </div>
