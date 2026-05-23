@@ -36,22 +36,15 @@ export default function Dashboard() {
           paddingBottom: SPACING.md, borderBottom: RULE,
         }}>
           <div>
-            <p style={{
-              margin: 0, fontSize: FONT.size.caption, color: COLORS.sub,
-              letterSpacing: 4, fontWeight: FONT.weight.medium, textTransform: 'uppercase',
-            }}>
-              CAREER ENGINEERING · EST. 2026
-            </p>
-            {/* A · HORIZONTAL Lockup — 마크 + 워드마크 같은 라인 */}
+            {/* H1: A 락업 (마크 + 워드마크 한 줄) */}
             <div style={{
               display: 'inline-flex', alignItems: 'center',
-              gap: Math.round(48 * (683/620) * 0.24),
-              margin: '8px 0 0',
+              gap: Math.round(56 * (683/620) * 0.24),
             }}>
-              <CEMark size={48} />
+              <CEMark size={56} />
               <h1 className="ce-h1-display" style={{
                 margin: 0,
-                fontSize: 44,
+                fontSize: 52,
                 fontWeight: 700,
                 letterSpacing: '-0.028em',
                 lineHeight: 1,
@@ -60,18 +53,20 @@ export default function Dashboard() {
                 Career<span style={{ color: COLORS.goldDeep }}>Engineer</span>
               </h1>
             </div>
+            {/* H2: 슬로건 */}
             <p style={{
-              margin: '18px 0 0',
-              fontSize: 28,
+              margin: '24px 0 0',
+              fontSize: 32,
               color: COLORS.ink,
               fontWeight: FONT.weight.bold,
               lineHeight: 1.25,
-              letterSpacing: '-0.5px',
+              letterSpacing: '-0.6px',
             }}>
               생각하는 힘으로 커리어를 설계하다
             </p>
+            {/* Body: 본문 */}
             <p style={{
-              margin: '12px 0 0',
+              margin: '14px 0 0',
               fontSize: 20,
               color: COLORS.sub,
               fontWeight: FONT.weight.regular,
@@ -194,16 +189,15 @@ export default function Dashboard() {
         <footer style={{
           marginTop: SPACING.xxl, paddingTop: SPACING.lg,
           borderTop: RULE,
-          color: COLORS.sub, fontSize: FONT.size.caption,
+          color: COLORS.sub,
           lineHeight: FONT.lineHeight.base,
         }}>
           <div style={{
             display: 'flex', justifyContent: 'space-between', alignItems: 'center',
             flexWrap: 'wrap', gap: SPACING.md, marginBottom: SPACING.md,
-            letterSpacing: 1.5,
           }}>
-            <CELockupA markSize={22} />
-            <p style={{ margin: 0, textTransform: 'uppercase' }}>
+            <CELockupA markSize={26} />
+            <p style={{ margin: 0, fontSize: 16, letterSpacing: 1, textTransform: 'uppercase' }}>
               멘토링 문의:{' '}
               <a href={MENTORING_URLS.consulting} target="_blank" rel="noopener noreferrer"
                 style={{
@@ -215,9 +209,9 @@ export default function Dashboard() {
             </p>
           </div>
           <p style={{
-            margin: 0, fontSize: FONT.size.xs,
-            color: COLORS.sub, lineHeight: FONT.lineHeight.base,
-            textAlign: 'center',
+            margin: 0, fontSize: 16,
+            color: COLORS.sub, lineHeight: 1.7,
+            textAlign: 'left',
           }}>
             © 2026 CareerEngineer. All Rights Reserved. 저작권법에 의하여 보호받는 저작물이므로 무단 전재와 무단 복제를 금합니다.
             이 자료는 구매하신 분의 취업을 위한 개인 학습 용도로 자유롭게 활용하실 수 있으나,
