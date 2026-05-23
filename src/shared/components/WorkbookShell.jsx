@@ -20,7 +20,7 @@ export function WorkbookShell({
   mentoringType,
   topReferenceIds,
 }) {
-  const { master, replaceMaster } = useDataStore();
+  const { master, replaceMaster, resetSingleWorkbook } = useDataStore();
   const meta = WORKBOOKS.find((w) => w.key === workbookKey) || {};
   const resolvedTitle = title || meta.title || '';
   const resolvedStepLabel = stepLabel || meta.stepLabel || '';
@@ -28,6 +28,7 @@ export function WorkbookShell({
 
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState(null);
+  const [resetMode, setResetMode] = useState(null); // null | 'ask' | 'confirm'
   const xlsxRef = useRef(null);
 
   useEffect(() => {
@@ -64,6 +65,14 @@ export function WorkbookShell({
     } catch (e) {
       showToast('오류: ' + e.message);
     } finally { setBusy(false); }
+  };
+
+  const closeReset = () => setResetMode(null);
+  const handleResetFinal = () => {
+    resetSingleWorkbook(workbookKey);
+    closeReset();
+    // 워크북 자체 useState도 리셋되도록 페이지 reload
+    setTimeout(() => window.location.reload(), 200);
   };
 
   const handleXlsxImport = async (e) => {
@@ -131,6 +140,9 @@ export function WorkbookShell({
               <button onClick={handleExportAll} style={btnPrimary} disabled={busy}>
                 전체 결과 저장 (.docx)
               </button>
+              <button onClick={() => setResetMode('ask')} style={btnDanger} disabled={busy}>
+                {resolvedTitle} 삭제하고 다시 작성
+              </button>
             </div>
           </div>
 
@@ -173,6 +185,48 @@ export function WorkbookShell({
 
       <ReferenceFAB currentWorkbookKey={workbookKey} />
 
+      {/* 워크북 단독 리셋 - 2단계 confirm */}
+      {resetMode && (
+        <div onClick={closeReset} style={{
+          position: 'fixed', inset: 0, background: 'rgba(14,39,80,0.45)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 1000, padding: SPACING.md,
+        }}>
+          <div onClick={(e) => e.stopPropagation()} style={{
+            background: COLORS.white, maxWidth: 480, width: '100%',
+            padding: SPACING.lg, fontFamily: FONT.family,
+            boxShadow: '0 12px 36px rgba(0,0,0,0.18)',
+            borderTop: `4px solid ${COLORS.red}`,
+          }}>
+            <h2 style={{ margin: 0, fontSize: FONT.size.h3, color: COLORS.ink, fontWeight: FONT.weight.bold }}>
+              "{resolvedTitle}" 워크북을 삭제하시겠습니까?
+            </h2>
+            <p style={{ color: COLORS.sub, fontSize: FONT.size.body, marginTop: SPACING.sm, marginBottom: SPACING.md, lineHeight: FONT.lineHeight.base }}>
+              이 워크북에서 작성한 모든 내용이 삭제되고 처음부터 다시 작성할 수 있게 됩니다.<br />
+              다른 워크북(경험·진단 등)의 내용은 영향받지 않습니다.
+            </p>
+            {resetMode === 'confirm' && (
+              <div style={{ background: COLORS.redBg, borderLeft: `3px solid ${COLORS.red}`, padding: SPACING.md, marginBottom: SPACING.md }}>
+                <p style={{ margin: 0, fontSize: FONT.size.body, color: COLORS.red, fontWeight: FONT.weight.semibold }}>
+                  마지막 확인 — 정말 삭제하시겠습니까?
+                </p>
+                <p style={{ margin: '6px 0 0', fontSize: FONT.size.caption, color: COLORS.ink }}>
+                  삭제 후엔 되돌릴 수 없습니다. 페이지가 자동으로 새로고침됩니다.
+                </p>
+              </div>
+            )}
+            <div style={{ display: 'flex', gap: SPACING.sm, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+              <button onClick={closeReset} style={resetBtnGhost}>취소</button>
+              {resetMode === 'ask' ? (
+                <button onClick={() => setResetMode('confirm')} style={resetBtnPrimary}>삭제</button>
+              ) : (
+                <button onClick={handleResetFinal} style={resetBtnDanger}>네, 삭제합니다</button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {toast && (
         <div style={{
           position: 'fixed', bottom: SPACING.lg, left: '50%', transform: 'translateX(-50%)',
@@ -213,4 +267,25 @@ const btnSecondary = {
   background: COLORS.white,
   color: COLORS.accent,
   border: `1px solid ${COLORS.line}`,
+};
+const btnDanger = {
+  ...btnBase,
+  background: COLORS.white,
+  color: COLORS.red,
+  border: `1px solid ${COLORS.red}`,
+};
+const resetBtnGhost = {
+  fontFamily: FONT.family, fontSize: FONT.size.body, fontWeight: FONT.weight.semibold,
+  padding: '10px 18px', cursor: 'pointer',
+  background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.line}`,
+};
+const resetBtnPrimary = {
+  fontFamily: FONT.family, fontSize: FONT.size.body, fontWeight: FONT.weight.semibold,
+  padding: '10px 18px', cursor: 'pointer',
+  background: COLORS.white, color: COLORS.red, border: `1px solid ${COLORS.red}`,
+};
+const resetBtnDanger = {
+  fontFamily: FONT.family, fontSize: FONT.size.body, fontWeight: FONT.weight.semibold,
+  padding: '10px 18px', cursor: 'pointer',
+  background: COLORS.red, color: COLORS.white, border: 'none',
 };

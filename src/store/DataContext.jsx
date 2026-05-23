@@ -37,6 +37,42 @@ export function DataProvider({ children }) {
     setMaster({ ...newMaster, updatedAt: new Date().toISOString() });
   }, []);
 
+  // 단일 워크북만 리셋 (해당 워크북의 모든 데이터 + localStorage 삭제)
+  const resetSingleWorkbook = useCallback((workbookKey) => {
+    setMaster((m) => {
+      const next = { ...m, updatedAt: new Date().toISOString() };
+      // workbookRaw 해당 키만 null
+      next.workbookRaw = { ...m.workbookRaw, [workbookKey]: null };
+      // outputs 해당 키 초기화 (있을 경우)
+      if (m.outputs?.[workbookKey] !== undefined) {
+        next.outputs = { ...m.outputs, [workbookKey]: { ...DEFAULT_MASTER.outputs[workbookKey] } };
+      }
+      // 특수 슬라이스 (워크북별)
+      if (workbookKey === 'career_roadmap') next.roadmap = { ...DEFAULT_MASTER.roadmap };
+      if (workbookKey === 'careergoal')     next.careergoal = { ...DEFAULT_MASTER.careergoal };
+      if (workbookKey === 'job_analysis')   next.jobAnalysis = { ...DEFAULT_MASTER.jobAnalysis };
+      if (workbookKey === 'experience')     next.experiences = [];
+      return next;
+    });
+    // 워크북 자체 localStorage 키 삭제
+    const LEGACY_KEYS = {
+      career_roadmap: 'careerengineer_career_roadmap_v1',
+      job_analysis: 'careerengineer_job_analysis_v1',
+      experience: 'careerengineer_experience_v1',
+      resume: 'careerengineer_resume_v1',
+      career_description: 'careerengineer_career_description_v1',
+      motivation: 'careerengineer_motivation_v1',
+      jobcompetency: 'careerengineer_jobcompetency_v1',
+      personality: 'careerengineer_personality_v1',
+      goalachievement: 'careerengineer_goalachievement_v1',
+      careergoal: 'careerengineer_careergoal_v1',
+      self_introduction: 'careerengineer_self_introduction_v1',
+      interview_new: 'careerengineer_interview_new_v1',
+      interview_career: 'careerengineer_interview_career_v1',
+    };
+    try { if (LEGACY_KEYS[workbookKey]) localStorage.removeItem(LEGACY_KEYS[workbookKey]); } catch {}
+  }, []);
+
   // 회사·직무 관련 데이터만 리셋 (experience, career_roadmap은 유지)
   const resetCompanyRelated = useCallback(() => {
     setMaster((m) => ({
@@ -194,6 +230,7 @@ export function DataProvider({ children }) {
         master,
         updateSlice,
         replaceMaster,
+        resetSingleWorkbook,
         resetCompanyRelated,
         saveCompanySlot,
         loadCompanySlot,
