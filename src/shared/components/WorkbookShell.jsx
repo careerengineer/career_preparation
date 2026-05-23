@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MentoringBox } from './MentoringBox.jsx';
 import { ReferenceInline } from './ReferenceInline.jsx';
 import { ReferenceFAB } from './ReferenceFAB.jsx';
+import { CEMark } from './CELogo.jsx';
 import { useDataStore } from '../../store/DataContext.jsx';
 import {
   exportWorkbookDocx, exportFullDocx,
@@ -133,22 +134,26 @@ export function WorkbookShell({
             </div>
           </div>
 
-          <div>
-            <p style={{
-              fontSize: FONT.size.xs, color: COLORS.sub,
-              margin: 0,
-              letterSpacing: 1.6, textTransform: 'uppercase',
-              fontWeight: FONT.weight.medium,
-            }}>
-              {resolvedStepLabel}
-            </p>
-            <h1 style={{
-              fontSize: FONT.size.h3, fontWeight: FONT.weight.bold,
-              color: COLORS.ink, margin: '2px 0 0',
-              lineHeight: FONT.lineHeight.tight,
-            }}>
-              {resolvedTitle}
-            </h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm }}>
+            <CEMark size={32} />
+            <div>
+              <p style={{
+                fontSize: FONT.size.xs, color: COLORS.sub,
+                margin: 0,
+                letterSpacing: 1.6, textTransform: 'uppercase',
+                fontWeight: FONT.weight.medium,
+              }}>
+                {resolvedStepLabel}
+              </p>
+              <h1 style={{
+                fontSize: FONT.size.h3, fontWeight: FONT.weight.bold,
+                color: COLORS.ink, margin: '2px 0 0',
+                lineHeight: FONT.lineHeight.tight,
+                letterSpacing: '-0.3px',
+              }}>
+                {resolvedTitle}
+              </h1>
+            </div>
           </div>
         </div>
       </div>
