@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ImportPanel } from './ImportPanel.jsx';
 import { MentoringBox } from './MentoringBox.jsx';
 import { RelatedWorkbookList } from './RelatedWorkbookList.jsx';
+import { WORKBOOKS } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 
 export function WorkbookShell({
@@ -13,6 +14,10 @@ export function WorkbookShell({
   relatedKeys,
   onImport,
 }) {
+  // schema 우선, props로 override 가능
+  const meta = WORKBOOKS.find((w) => w.key === workbookKey) || {};
+  const resolvedTitle = title || meta.title || '';
+  const resolvedStepLabel = stepLabel || meta.stepLabel || '';
   return (
     <div style={{ background: COLORS.bg, minHeight: '100vh', fontFamily: FONT.family }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: `${SPACING.lg}px ${SPACING.md}px ${SPACING.xxl}px` }}>
@@ -38,17 +43,19 @@ export function WorkbookShell({
             대시보드로 돌아가기
           </Link>
           <p style={{
-            fontSize: FONT.size.sm, color: COLORS.sub,
+            fontSize: FONT.size.caption, color: COLORS.sub,
             margin: `${SPACING.sm}px 0 0`,
-            letterSpacing: 4, textTransform: 'uppercase',
+            letterSpacing: 1.8, textTransform: 'uppercase',
+            fontWeight: FONT.weight.medium,
           }}>
-            {stepLabel}
+            {resolvedStepLabel}
           </p>
           <h1 style={{
-            fontSize: FONT.size.h1, fontWeight: FONT.weight.bold,
+            fontSize: FONT.size.h2, fontWeight: FONT.weight.bold,
             color: COLORS.ink, margin: 0,
+            lineHeight: FONT.lineHeight.tight,
           }}>
-            {title}
+            {resolvedTitle}
           </h1>
         </div>
 

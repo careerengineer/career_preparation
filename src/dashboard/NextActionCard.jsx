@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useDataStore } from '../store/DataContext.jsx';
 import { getNextRecommendation } from '../store/selectors.js';
-import { COLORS, FONT, SPACING, RADIUS } from '../shared/design/tokens.js';
+import { COLORS, FONT, SPACING } from '../shared/design/tokens.js';
 
 export default function NextActionCard() {
   const { master } = useDataStore();
@@ -10,30 +10,39 @@ export default function NextActionCard() {
   const inner = (
     <>
       <span style={{
-        fontSize: FONT.size.xs, color: COLORS.accent2,
+        fontSize: FONT.size.caption, color: COLORS.accent2,
         fontWeight: FONT.weight.semibold,
-        letterSpacing: 2, textTransform: 'uppercase',
+        letterSpacing: 3, textTransform: 'uppercase',
       }}>
-        NEXT · 다음에 할 일
+        NEXT · 다음 단계
       </span>
       <p style={{
-        margin: '6px 0 0', fontSize: FONT.size.lg,
-        fontWeight: FONT.weight.semibold, color: COLORS.ink,
+        margin: '8px 0 0', fontSize: FONT.size.bodyL,
+        fontWeight: FONT.weight.semibold, color: COLORS.white,
+        letterSpacing: '-0.3px',
+        lineHeight: FONT.lineHeight.base,
       }}>
         {rec.label}
       </p>
+      {rec.kind === 'workbook' && (
+        <p style={{
+          margin: '12px 0 0', fontSize: FONT.size.caption,
+          color: COLORS.accent2, letterSpacing: 1.5,
+          textTransform: 'uppercase', fontWeight: FONT.weight.semibold,
+        }}>
+          시작하기 →
+        </p>
+      )}
     </>
   );
 
   const style = {
     display: 'block',
-    background: COLORS.white,
-    borderLeft: `3px solid ${COLORS.accent}`,
-    borderRadius: RADIUS.lg,
+    background: COLORS.accent,
+    color: COLORS.white,
     padding: SPACING.lg,
     marginBottom: SPACING.lg,
     textDecoration: 'none',
-    color: 'inherit',
   };
 
   if (rec.kind === 'workbook') {

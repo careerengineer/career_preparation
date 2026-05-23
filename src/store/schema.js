@@ -64,17 +64,17 @@ export const DEFAULT_MASTER = {
 };
 
 export const WORKBOOKS = [
-  { key: 'career_roadmap',     step: 0, title: '커리어 진단',     stepLabel: 'STEP 0 · 진단' },
-  { key: 'careergoal',         step: 4, title: '입사후 포부',     stepLabel: 'STEP 4 · 입사후 포부' },
-  { key: 'experience',         step: 2, title: '경험 정리',       stepLabel: 'STEP 2 · 경험 정리' },
-  { key: 'job_analysis',       step: 2, title: '직무 분석',       stepLabel: 'STEP 2 · 직무 분석' },
+  { key: 'career_roadmap',     step: 0, title: '취업 로드맵',     stepLabel: 'STEP 0 · 방향 설정' },
+  { key: 'job_analysis',       step: 1, title: '채용공고·직무 분석', stepLabel: 'STEP 1 · 채용공고 분석' },
+  { key: 'experience',         step: 2, title: '경험 정리',       stepLabel: 'STEP 2 · 경험 소재 발굴' },
   { key: 'resume',             step: 3, title: '이력서',          stepLabel: 'STEP 3 · 이력서' },
   { key: 'career_description', step: 3, title: '경력기술서',      stepLabel: 'STEP 3 · 경력기술서' },
-  { key: 'motivation',         step: 4, title: '지원동기',        stepLabel: 'STEP 4 · 지원동기' },
-  { key: 'jobcompetency',      step: 4, title: '직무역량',        stepLabel: 'STEP 4 · 직무역량' },
-  { key: 'personality',        step: 4, title: '성격 장단점',     stepLabel: 'STEP 4 · 성격 장단점' },
-  { key: 'goalachievement',    step: 4, title: '목표수립·달성',   stepLabel: 'STEP 4 · 목표수립·달성' },
-  { key: 'self_introduction',  step: 5, title: '1분 자기소개',    stepLabel: 'STEP 5 · 1분 자기소개' },
-  { key: 'interview_new',      step: 5, title: '신입 면접',       stepLabel: 'STEP 5 · 신입 면접' },
-  { key: 'interview_career',   step: 5, title: '경력직 면접',     stepLabel: 'STEP 5 · 경력직 면접' },
+  { key: 'motivation',         step: 4, title: '지원동기',        stepLabel: 'STEP 4 · 자소서: 지원동기' },
+  { key: 'jobcompetency',      step: 4, title: '직무확보역량',    stepLabel: 'STEP 4 · 자소서: 직무확보역량' },
+  { key: 'personality',        step: 4, title: '성격의 장단점',   stepLabel: 'STEP 4 · 자소서: 성격의 장단점' },
+  { key: 'goalachievement',    step: 4, title: '목표수립·달성',   stepLabel: 'STEP 4 · 자소서: 목표수립·달성' },
+  { key: 'careergoal',         step: 4, title: '입사후 포부',     stepLabel: 'STEP 4 · 자소서: 입사후 포부' },
+  { key: 'self_introduction',  step: 5, title: '1분 자기소개',    stepLabel: 'STEP 5 · 면접: 자기소개' },
+  { key: 'interview_new',      step: 5, title: '신입 면접',       stepLabel: 'STEP 5 · 면접: 신입' },
+  { key: 'interview_career',   step: 5, title: '경력직 면접',     stepLabel: 'STEP 5 · 면접: 경력직' },
 ];

@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { COLORS, FONT, SPACING, RADIUS } from '../shared/design/tokens.js';
+import { COLORS, FONT, SPACING, RULE } from '../shared/design/tokens.js';
 
 const BADGE = {
-  0: { label: '시작 전', bg: COLORS.bgAlt, color: COLORS.sub },
-  50: { label: '작성 중', bg: COLORS.yellowBg, color: COLORS.yellow },
-  100: { label: '완료', bg: COLORS.greenBg, color: COLORS.green },
+  0:   { label: '시작 전', bg: COLORS.cream, color: COLORS.sub },
+  50:  { label: '작성 중', bg: COLORS.bgAlt, color: COLORS.goldDeep },
+  100: { label: '완료',    bg: COLORS.accent, color: COLORS.white },
 };
 
 export default function StepCard({ workbook, progress }) {
@@ -13,38 +13,52 @@ export default function StepCard({ workbook, progress }) {
     <Link
       to={`/workbook/${workbook.key}`}
       style={{
-        display: 'block',
+        display: 'flex', flexDirection: 'column', gap: SPACING.sm,
         background: COLORS.white,
-        borderLeft: `3px solid ${COLORS.accent2}`,
-        borderRadius: RADIUS.md,
+        border: RULE,
+        borderTop: `2px solid ${COLORS.accent2}`,
         padding: SPACING.md,
         textDecoration: 'none',
         color: 'inherit',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+        transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+        minHeight: 130,
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.boxShadow = '0 4px 14px rgba(14,39,80,0.10)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = 'none';
       }}
     >
       <span style={{
         fontSize: FONT.size.xs, color: COLORS.sub,
-        letterSpacing: 2, textTransform: 'uppercase',
+        letterSpacing: 1.6, textTransform: 'uppercase',
+        fontWeight: FONT.weight.medium,
       }}>
         {workbook.stepLabel}
       </span>
       <p style={{
-        margin: '6px 0 8px',
-        fontSize: FONT.size.base,
+        margin: 0,
+        fontSize: FONT.size.bodyL,
         fontWeight: FONT.weight.semibold,
         color: COLORS.ink,
+        lineHeight: FONT.lineHeight.tight,
+        letterSpacing: '-0.3px',
+        flex: 1,
       }}>
         {workbook.title}
       </p>
       <span style={{
-        display: 'inline-block',
+        alignSelf: 'flex-start',
         background: badge.bg,
         color: badge.color,
         fontSize: FONT.size.xs,
         fontWeight: FONT.weight.semibold,
-        padding: '3px 10px',
-        borderRadius: RADIUS.pill,
+        padding: '4px 10px',
+        letterSpacing: 1,
+        textTransform: 'uppercase',
       }}>
         {badge.label}
       </span>
