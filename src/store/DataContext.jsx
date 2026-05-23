@@ -33,37 +33,8 @@ export function DataProvider({ children }) {
     setMaster((m) => ({ ...m, [slice]: { ...m[slice], ...patch } }));
   }, []);
 
-  const updateOutput = useCallback((workbookKey, patch) => {
-    setMaster((m) => ({
-      ...m,
-      outputs: {
-        ...m.outputs,
-        [workbookKey]: { ...m.outputs[workbookKey], ...patch },
-      },
-    }));
-  }, []);
-
-  const addExperience = useCallback((exp) => {
-    setMaster((m) => ({ ...m, experiences: [...m.experiences, exp] }));
-  }, []);
-
-  const updateExperience = useCallback((id, patch) => {
-    setMaster((m) => ({
-      ...m,
-      experiences: m.experiences.map((e) => (e.id === id ? { ...e, ...patch } : e)),
-    }));
-  }, []);
-
-  const removeExperience = useCallback((id) => {
-    setMaster((m) => ({ ...m, experiences: m.experiences.filter((e) => e.id !== id) }));
-  }, []);
-
   const replaceMaster = useCallback((newMaster) => {
     setMaster({ ...newMaster, updatedAt: new Date().toISOString() });
-  }, []);
-
-  const resetAll = useCallback(() => {
-    setMaster({ ...DEFAULT_MASTER, createdAt: new Date().toISOString() });
   }, []);
 
   // 회사·직무 관련 데이터만 리셋 (experience, career_roadmap은 유지)
@@ -222,12 +193,7 @@ export function DataProvider({ children }) {
       value={{
         master,
         updateSlice,
-        updateOutput,
-        addExperience,
-        updateExperience,
-        removeExperience,
         replaceMaster,
-        resetAll,
         resetCompanyRelated,
         saveCompanySlot,
         loadCompanySlot,

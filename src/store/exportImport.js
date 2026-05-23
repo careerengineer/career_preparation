@@ -57,44 +57,7 @@ export function exportToFile(master) {
   return filename;
 }
 
-// 단일 워크북 결과만 내보내기 (workbookRaw + outputs + profile + 관련 슬라이스)
-export function exportWorkbookToFile(master, workbookKey, workbookTitle) {
-  // 워크북별로 함께 들어가야 할 슬라이스
-  const subset = {
-    workbookKey,
-    profile: master.profile,
-    raw: master.workbookRaw?.[workbookKey] || null,
-    output: master.outputs?.[workbookKey] || null,
-  };
-  // 특수 슬라이스 (워크북별 schema 위치)
-  if (workbookKey === 'career_roadmap') subset.roadmap = master.roadmap;
-  if (workbookKey === 'careergoal')     subset.careergoal = master.careergoal;
-  if (workbookKey === 'job_analysis')   subset.jobAnalysis = master.jobAnalysis;
-  if (workbookKey === 'experience')     subset.experiences = master.experiences;
-
-  const payload = {
-    format: 'careerengineer-workbook-export',
-    version: 1,
-    appVersion: APP_VERSION,
-    exportedAt: new Date().toISOString(),
-    workbookKey,
-    workbookTitle: workbookTitle || workbookKey,
-    data: subset,
-  };
-  payload.checksum = checksum(payload.data);
-
-  const json = JSON.stringify(payload, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
-
-  const co  = safeName(master.profile.company);
-  const wb  = safeName(workbookTitle || workbookKey);
-  const ts  = timestampPart();
-  const parts = ['careerengineer', wb, co].filter(Boolean);
-  const filename = `${parts.join('_')}_${ts}.json`;
-
-  triggerDownload(blob, filename);
-  return filename;
-}
+// 단일 워크북 .json export는 docExport.exportWorkbookDocx로 대체됨 (사용 안 함)
 
 export function parseImportFile(file) {
   return new Promise((resolve, reject) => {
