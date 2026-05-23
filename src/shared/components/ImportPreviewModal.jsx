@@ -158,7 +158,7 @@ export function ImportPreviewModal({ item, onClose }) {
         }}>
           <button onClick={onClose} style={btnGhost}>닫기</button>
           <button onClick={handleCopy} style={btnPrimary}>
-            {copied ? '✓ 복사됨' : '📋 텍스트 복사'}
+            {copied ? '복사됨' : '텍스트 복사'}
           </button>
         </div>
       </div>

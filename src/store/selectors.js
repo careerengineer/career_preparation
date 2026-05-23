@@ -129,5 +129,5 @@ export function getNextRecommendation(master) {
   if (next) {
     return { kind: 'workbook', workbookKey: next.key, label: `다음: ${next.stepLabel} · ${next.title}` };
   }
-  return { kind: 'done', label: '모든 워크북을 완료했습니다 🎉' };
+  return { kind: 'done', label: '모든 워크북을 완료했습니다' };
 }

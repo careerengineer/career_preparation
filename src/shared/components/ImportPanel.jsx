@@ -41,20 +41,20 @@ export function ImportPanel({ workbookKey, onImport }) {
 
       {profile && (
         <Group label="기본 정보">
-          <Chip onClick={() => onImport(profile)} icon="📋" label={profile.label} />
+          <Chip onClick={() => onImport(profile)} label={profile.label} />
         </Group>
       )}
 
       {jobAna && (
         <Group label="채용공고 · 직무 분석">
-          <Chip onClick={() => onImport(jobAna)} icon="🎯" label={jobAna.label} />
+          <Chip onClick={() => onImport(jobAna)} label={jobAna.label} />
         </Group>
       )}
 
       {experiences.length > 0 && (
         <Group label={`정리한 경험 (${experiences.length}개)`}>
           {experiences.map((e) => (
-            <Chip key={e.id} onClick={() => onImport(e)} icon="💼" label={e.label} />
+            <Chip key={e.id} onClick={() => onImport(e)} label={e.label} />
           ))}
         </Group>
       )}
@@ -62,7 +62,7 @@ export function ImportPanel({ workbookKey, onImport }) {
       {outputs.length > 0 && (
         <Group label="완성한 자소서 · 답변">
           {outputs.map((o) => (
-            <Chip key={o.kind} onClick={() => onImport(o)} icon="✅" label={o.label} />
+            <Chip key={o.kind} onClick={() => onImport(o)} label={o.label} />
           ))}
         </Group>
       )}
@@ -70,7 +70,7 @@ export function ImportPanel({ workbookKey, onImport }) {
       {raws.length > 0 && (
         <Group label="작성 중인 다른 워크북">
           {raws.map((r) => (
-            <Chip key={r.kind} onClick={() => onImport(r)} icon="📝" label={r.label} />
+            <Chip key={r.kind} onClick={() => onImport(r)} label={r.label} />
           ))}
         </Group>
       )}
@@ -94,7 +94,7 @@ function Group({ label, children }) {
   );
 }
 
-function Chip({ onClick, icon, label }) {
+function Chip({ onClick, label }) {
   return (
     <button onClick={onClick} style={{
       background: COLORS.white,
@@ -105,7 +105,6 @@ function Chip({ onClick, icon, label }) {
       color: COLORS.accent,
       cursor: 'pointer',
       fontFamily: FONT.family,
-      display: 'inline-flex', alignItems: 'center', gap: 6,
       transition: 'background 0.15s ease, border-color 0.15s ease',
     }}
       onMouseEnter={(e) => {
@@ -117,8 +116,7 @@ function Chip({ onClick, icon, label }) {
         e.currentTarget.style.borderColor = COLORS.line;
       }}
     >
-      <span>{icon}</span>
-      <span>{label}</span>
+      {label}
     </button>
   );
 }

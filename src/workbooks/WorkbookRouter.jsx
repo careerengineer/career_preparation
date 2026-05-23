@@ -43,7 +43,7 @@ export default function WorkbookRouter() {
           workbookKey: <strong>{workbookKey}</strong>
         </p>
         <p style={{ color: COLORS.ink }}>이 워크북은 아직 준비 중입니다.</p>
-        <Link to="/" style={{ color: COLORS.accent2 }}>← 대시보드로 돌아가기</Link>
+        <Link to="/" style={{ color: COLORS.accent2 }}>대시보드로 돌아가기</Link>
       </div>
     )
   }

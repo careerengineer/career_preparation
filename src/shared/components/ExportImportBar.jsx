@@ -93,9 +93,9 @@ export function ExportImportBar() {
 
   return (
     <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap' }}>
-      <button onClick={handleImportClick} style={btnStyle}>📥 가져오기 (.json/.xlsx)</button>
-      <button onClick={handleExportJson} style={btnStyle}>💾 백업 (.json)</button>
-      <button onClick={handleExportDocx} style={btnPrimaryStyle}>📄 전체 문서 (.docx)</button>
+      <button onClick={handleImportClick} style={btnStyle}>가져오기 (.json/.xlsx)</button>
+      <button onClick={handleExportJson} style={btnStyle}>백업 (.json)</button>
+      <button onClick={handleExportDocx} style={btnPrimaryStyle}>전체 문서 (.docx)</button>
       <input
         ref={fileRef}
         type="file"

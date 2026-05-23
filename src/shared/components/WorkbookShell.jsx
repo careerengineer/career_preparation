@@ -88,7 +88,6 @@ export function WorkbookShell({
               boxShadow: '0 2px 8px rgba(14,39,80,0.18)',
             }}
           >
-            <span style={{ fontSize: FONT.size.lg, lineHeight: 1 }}>←</span>
             대시보드로 돌아가기
           </Link>
 
@@ -96,7 +95,7 @@ export function WorkbookShell({
             {isExperience && (
               <>
                 <button onClick={() => xlsxRef.current?.click()} style={btnSecondary} disabled={busy}>
-                  📥 xlsx 불러오기
+                  xlsx 불러오기
                 </button>
                 <input
                   ref={xlsxRef} type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -105,10 +104,10 @@ export function WorkbookShell({
               </>
             )}
             <button onClick={handleExportThis} style={btnSecondary} disabled={busy}>
-              {isExperience ? '📊 이 워크북 결과 (.xlsx)' : '📄 이 워크북 결과 (.docx)'}
+              {isExperience ? '이 워크북 결과 (.xlsx)' : '이 워크북 결과 (.docx)'}
             </button>
             <button onClick={handleExportAll} style={btnPrimary} disabled={busy}>
-              📦 전체 백업 (.docx)
+              전체 백업 (.docx)
             </button>
           </div>
         </div>
