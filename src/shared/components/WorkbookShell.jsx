@@ -112,7 +112,7 @@ export function WorkbookShell({
               </>
             )}
             <button onClick={handleExportThis} style={btnSecondary} disabled={busy}>
-              {isExperience ? '이 워크북 결과 저장 (.xlsx)' : '이 워크북 결과 저장 (.docx)'}
+              {resolvedTitle} 저장 ({isExperience ? '.xlsx' : '.docx'})
             </button>
             <button onClick={handleExportAll} style={btnPrimary} disabled={busy}>
               전체 결과 저장 (.docx)
