@@ -81,13 +81,7 @@ export default function Dashboard() {
         {/* 프로필 패널 */}
         <ProfilePanel />
 
-        {/* 다음 액션 (profile 있을 때만 표시) */}
-        <NextActionCard />
-
-        {/* 회사별 슬롯 (여러 회사 지원 관리) */}
-        <CompanySlots />
-
-        {/* 6-STEP 진행률 */}
+        {/* 6-STEP 진행률 (PROFILE 바로 아래) */}
         <section style={{
           background: COLORS.white, border: RULE,
           padding: SPACING.lg, marginBottom: SPACING.lg,
@@ -143,6 +137,12 @@ export default function Dashboard() {
             })}
           </div>
         </section>
+
+        {/* 다음 액션 (profile 있을 때만 표시) */}
+        <NextActionCard />
+
+        {/* 회사별 슬롯 (여러 회사 지원 관리) */}
+        <CompanySlots />
 
         {/* STEP별 워크북 카드 */}
         {STEPS.map((s) => {
