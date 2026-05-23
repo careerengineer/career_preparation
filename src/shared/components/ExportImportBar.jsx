@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { exportToFile, parseImportFile, detectConflicts } from '../../store/exportImport.js';
-import { exportFullDocx, importExperiencesXlsx } from '../../store/docExport.js';
+import { exportFullDocx, importExperiencesXlsx, extractBackupFromDocx } from '../../store/docExport.js';
+import { DEFAULT_MASTER } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { OverwriteModal } from './OverwriteModal.jsx';
 
@@ -40,6 +41,54 @@ export function ExportImportBar() {
         replaceMaster({ ...master, experiences });
         showToast(`경험 카드 ${experiences.length}개를 불러왔습니다.`);
       } catch (err) { showToast('오류: ' + err.message); }
+      return;
+    }
+
+    // docx → 임베드된 JSON 백업 추출
+    if (lower.endsWith('.docx')) {
+      try {
+        const payload = await extractBackupFromDocx(file);
+        // 전체 백업
+        if (payload.format === 'careerengineer-export') {
+          const incoming = {
+            ...DEFAULT_MASTER,
+            ...payload.data,
+            profile: { ...DEFAULT_MASTER.profile, ...(payload.data?.profile || {}) },
+            workbookRaw: { ...DEFAULT_MASTER.workbookRaw, ...(payload.data?.workbookRaw || {}) },
+            outputs: { ...DEFAULT_MASTER.outputs, ...(payload.data?.outputs || {}) },
+            experiences: Array.isArray(payload.data?.experiences) ? payload.data.experiences : [],
+          };
+          const conflicts = detectConflicts(master, incoming);
+          if (conflicts.length === 0) {
+            replaceMaster(incoming);
+            showToast('docx에서 전체 데이터를 복원했습니다.');
+          } else {
+            setConflictState({ conflicts, incoming });
+          }
+          return;
+        }
+        // 워크북 단일 백업
+        if (payload.format === 'careerengineer-workbook-export') {
+          const wbKey = payload.workbookKey;
+          const title = payload.workbookTitle || wbKey;
+          if (!window.confirm(`docx에서 '${title}' 결과를 가져옵니다.\n현재 데이터의 해당 워크북 부분만 교체됩니다. 계속할까요?`)) return;
+          const d = payload.data || {};
+          const next = { ...master };
+          if (d.profile) next.profile = { ...master.profile, ...d.profile };
+          if (d.raw) next.workbookRaw = { ...master.workbookRaw, [wbKey]: d.raw };
+          if (d.output) next.outputs = { ...master.outputs, [wbKey]: d.output };
+          if (d.roadmap) next.roadmap = d.roadmap;
+          if (d.careergoal) next.careergoal = d.careergoal;
+          if (d.jobAnalysis) next.jobAnalysis = d.jobAnalysis;
+          if (Array.isArray(d.experiences)) next.experiences = d.experiences;
+          replaceMaster(next);
+          showToast(`docx에서 '${title}' 결과를 복원했습니다.`);
+          return;
+        }
+        showToast('인식할 수 없는 백업 형식입니다.');
+      } catch (err) {
+        showToast('오류: ' + err.message);
+      }
       return;
     }
 
@@ -93,13 +142,13 @@ export function ExportImportBar() {
 
   return (
     <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap' }}>
-      <button onClick={handleImportClick} style={btnStyle}>가져오기 (.json/.xlsx)</button>
+      <button onClick={handleImportClick} style={btnStyle}>가져오기 (.json/.xlsx/.docx)</button>
       <button onClick={handleExportJson} style={btnStyle}>백업 (.json)</button>
       <button onClick={handleExportDocx} style={btnPrimaryStyle}>전체 문서 (.docx)</button>
       <input
         ref={fileRef}
         type="file"
-        accept=".json,.xlsx,application/json,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        accept=".json,.xlsx,.docx,application/json,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         onChange={handleFileChange}
         style={{ display: 'none' }}
       />
