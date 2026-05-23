@@ -28,7 +28,7 @@ export default function Dashboard() {
     }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: `${SPACING.lg}px ${SPACING.md}px ${SPACING.xxl}px` }}>
         {/* 헤더 — Wordmark 스타일 */}
-        <header style={{
+        <header className="ce-dashboard-header" style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
           marginBottom: SPACING.xl, flexWrap: 'wrap', gap: SPACING.md,
           paddingBottom: SPACING.md, borderBottom: RULE,
@@ -40,7 +40,7 @@ export default function Dashboard() {
             }}>
               CAREER ENGINEERING · EST. 2026
             </p>
-            <h1 style={{
+            <h1 className="ce-h1-display" style={{
               margin: '6px 0 0',
               fontSize: FONT.size.h1, color: COLORS.ink,
               fontWeight: FONT.weight.bold,

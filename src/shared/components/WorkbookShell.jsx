@@ -124,7 +124,7 @@ export function WorkbookShell({
               </button>
             </div>
 
-            <div style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap', alignItems: 'center' }}>
+            <div className="ce-workbook-header-actions" style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap', alignItems: 'center' }}>
               {isExperience && (
                 <>
                   <button onClick={() => xlsxRef.current?.click()} style={btnSecondary} disabled={busy}>
