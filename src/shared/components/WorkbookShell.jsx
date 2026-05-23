@@ -8,6 +8,7 @@ import { useDataStore } from '../../store/DataContext.jsx';
 import {
   exportWorkbookDocx, exportFullDocx,
   exportExperiencesXlsx, importExperiencesXlsx,
+  extractBackupFromDocx,
 } from '../../store/docExport.js';
 import { WORKBOOKS } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
@@ -31,6 +32,7 @@ export function WorkbookShell({
   const [toast, setToast] = useState(null);
   const [resetMode, setResetMode] = useState(null); // null | 'ask' | 'confirm'
   const xlsxRef = useRef(null);
+  const docxImportRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -79,20 +81,88 @@ export function WorkbookShell({
   const handleExportThis = async () => {
     setBusy(true);
     try {
-      // 1순위: 워크북 원본의 정성 다운로드 함수 호출 (한글 라벨, 풍부한 스타일, 멘토링 안내 포함)
-      const dl = (typeof window !== 'undefined') ? window.__CE_DOWNLOAD : null;
-      if (dl?.key === workbookKey && typeof dl.fn === 'function') {
-        await dl.fn();
-        showToast(`${resolvedTitle} 결과를 저장했습니다.`);
-        return;
-      }
-      // 2순위: 우리 generic export
+      // 경험정리는 xlsx, 나머지는 docx (backup JSON 임베드 → 같은 파일을 다시 불러올 수 있음)
       const name = isExperience
         ? exportExperiencesXlsx(master)
         : await exportWorkbookDocx(master, workbookKey, resolvedTitle);
       showToast(`다운로드 완료: ${name}`);
     } catch (e) {
       showToast('오류: ' + e.message);
+    } finally { setBusy(false); }
+  };
+
+  const applyImportedData = (data) => {
+    if (!data) throw new Error('빈 백업 파일입니다.');
+    // workbook-export 포맷: { workbookKey, data: {raw, output, roadmap, careergoal, jobAnalysis, experiences} }
+    // 또는 full-export 포맷: { master: {...} } / 본문에 careerengineer-export 데이터
+    const next = { ...master };
+    if (data.format === 'careerengineer-workbook-export' && data.data) {
+      const d = data.data;
+      if (d.workbookKey && d.workbookKey !== workbookKey) {
+        throw new Error(`이 파일은 "${d.workbookKey}" 워크북 백업입니다. 현재 "${workbookKey}" 워크북에서는 불러올 수 없습니다.`);
+      }
+      next.workbookRaw = { ...next.workbookRaw, [workbookKey]: d.raw || null };
+      if (d.output && next.outputs && next.outputs[workbookKey] !== undefined) {
+        next.outputs = { ...next.outputs, [workbookKey]: d.output };
+      }
+      if (workbookKey === 'career_roadmap' && d.roadmap)     next.roadmap = d.roadmap;
+      if (workbookKey === 'careergoal'     && d.careergoal)  next.careergoal = d.careergoal;
+      if (workbookKey === 'job_analysis'   && d.jobAnalysis) next.jobAnalysis = d.jobAnalysis;
+      if (workbookKey === 'experience'     && Array.isArray(d.experiences)) next.experiences = d.experiences;
+    } else if (data.format === 'careerengineer-export' && data.master) {
+      // 전체 백업에서 해당 워크북 부분만 추출
+      const fm = data.master;
+      next.workbookRaw = { ...next.workbookRaw, [workbookKey]: fm.workbookRaw?.[workbookKey] || null };
+      if (fm.outputs?.[workbookKey] !== undefined && next.outputs?.[workbookKey] !== undefined) {
+        next.outputs = { ...next.outputs, [workbookKey]: fm.outputs[workbookKey] };
+      }
+      if (workbookKey === 'career_roadmap' && fm.roadmap)     next.roadmap = fm.roadmap;
+      if (workbookKey === 'careergoal'     && fm.careergoal)  next.careergoal = fm.careergoal;
+      if (workbookKey === 'job_analysis'   && fm.jobAnalysis) next.jobAnalysis = fm.jobAnalysis;
+      if (workbookKey === 'experience'     && Array.isArray(fm.experiences)) next.experiences = fm.experiences;
+    } else {
+      throw new Error('이 파일에는 워크북 백업 데이터가 없습니다.');
+    }
+    replaceMaster(next);
+    // 워크북 내부 legacy localStorage 동기화 (Bridge가 priming 단계에서 master.workbookRaw 우선 사용)
+    const LEGACY = {
+      career_roadmap: 'careerengineer_career_roadmap_v1',
+      job_analysis: 'careerengineer_job_analysis_v1',
+      experience: 'careerengineer_experience_v1',
+      resume: 'careerengineer_resume_v1',
+      career_description: 'careerengineer_career_description_v1',
+      motivation: 'careerengineer_motivation_v1',
+      jobcompetency: 'careerengineer_jobcompetency_v1',
+      personality: 'careerengineer_personality_v1',
+      goalachievement: 'careerengineer_goalachievement_v1',
+      careergoal: 'careerengineer_careergoal_v1',
+      self_introduction: 'careerengineer_self_introduction_v1',
+      interview_new: 'careerengineer_interview_new_v1',
+      interview_career: 'careerengineer_interview_career_v1',
+    };
+    try {
+      const legacyKey = LEGACY[workbookKey];
+      const raw = next.workbookRaw?.[workbookKey];
+      if (legacyKey) {
+        if (raw && Object.keys(raw).length > 0) localStorage.setItem(legacyKey, JSON.stringify(raw));
+        else localStorage.removeItem(legacyKey);
+      }
+    } catch {}
+  };
+
+  const handleDocxImport = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    if (!window.confirm(`이 파일에서 "${resolvedTitle}" 워크북 내용을 불러옵니다. 현재 작성 내용은 덮어쓰기됩니다. 계속할까요?`)) return;
+    setBusy(true);
+    try {
+      const data = await extractBackupFromDocx(file);
+      applyImportedData(data);
+      showToast(`${resolvedTitle} 워크북을 불러왔습니다. 페이지를 새로고침합니다…`);
+      setTimeout(() => window.location.reload(), 1500);
+    } catch (err) {
+      showToast('오류: ' + err.message);
     } finally { setBusy(false); }
   };
 
@@ -204,14 +274,24 @@ export function WorkbookShell({
               }}>
                 {syncStatus === 'saving' ? '저장 중…' : '✓ 자동 저장됨'}
               </span>
-              {isExperience && (
+              {isExperience ? (
                 <>
                   <button onClick={() => xlsxRef.current?.click()} style={btnSecondary} disabled={busy}>
-                    기존 경험정리 불러오기
+                    기존 경험정리 불러오기 (.xlsx)
                   </button>
                   <input
                     ref={xlsxRef} type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     onChange={handleXlsxImport} style={{ display: 'none' }}
+                  />
+                </>
+              ) : (
+                <>
+                  <button onClick={() => docxImportRef.current?.click()} style={btnSecondary} disabled={busy}>
+                    기존 {resolvedTitle} 불러오기 (.docx)
+                  </button>
+                  <input
+                    ref={docxImportRef} type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    onChange={handleDocxImport} style={{ display: 'none' }}
                   />
                 </>
               )}
