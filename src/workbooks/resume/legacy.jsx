@@ -423,6 +423,16 @@ const FirstVisitModal = ({ open, onClose, title, steps }) => {
 };
 
 // ══════════ 하단 고정 저작권 + 문의 (PART 7-8, 11) ══════════
+// id 기반 자동 참고 워크북 추천
+function inferRelated(id) {
+  if (!id) return [];
+  if (/company|position|industry/i.test(id)) return ['job_analysis'];
+  if (/experience|career|project|story|achievement|highlight/i.test(id)) return ['experience'];
+  if (/skill|cert/i.test(id)) return ['job_analysis', 'experience'];
+  if (/goal|year|aspiration|vision/i.test(id)) return ['careergoal', 'career_roadmap'];
+  return ['experience', 'job_analysis'];
+}
+
 const QuestionBlock = ({ id, label, hint, placeholder, rows, guide, answers, handleAnswer, showGuide, toggleGuide }) => (
   <div style={{ marginBottom: 24 }}>
     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
@@ -434,6 +444,7 @@ const QuestionBlock = ({ id, label, hint, placeholder, rows, guide, answers, han
       )}
     </div>
     {hint && <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 8 }}>{hint}</p>}
+    <ReferenceInline ids={inferRelated(id)} />
     {guide && showGuide[id] && (
       <div style={{ borderColor: '#6E7A8F33', background: '#F2F1EC', border: '1px solid #6E7A8F33', borderLeft: '3px solid #C9A86A', borderRadius: 8, padding: 16, marginBottom: 12, gap: 12 }}>
         <p style={{ fontSize: 16, fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', color: '#C9A86A', margin: 0, marginBottom: 8 }}>GUIDE · 작성 가이드</p>
