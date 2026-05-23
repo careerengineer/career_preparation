@@ -107,14 +107,16 @@ export default function CompanySlots() {
           margin: 0, fontSize: FONT.size.caption, color: COLORS.yellow,
           fontWeight: FONT.weight.semibold, letterSpacing: 1.5, textTransform: 'uppercase',
         }}>
-          중요 · 슬롯은 브라우저에만 저장됩니다
+          꼭 파일로 백업해두세요
         </p>
         <p style={{
           margin: '6px 0 0', fontSize: FONT.size.body, color: COLORS.ink,
           lineHeight: FONT.lineHeight.base,
         }}>
-          슬롯은 이 브라우저의 localStorage에 저장됩니다. <strong>브라우저 캐시·사이트 데이터를 지우거나, 시크릿/다른 기기에서 열면 사라집니다.</strong>
-          중요한 슬롯은 반드시 아래 <strong>[전체 슬롯 백업 (.json)]</strong> 으로 파일을 받아두세요.
+          여기 저장한 슬롯은 <strong>지금 쓰는 이 브라우저(인터넷 창)에만 보관</strong>됩니다.
+          다른 컴퓨터·휴대폰에서 열거나 브라우저를 청소하면 사라져요.
+          중요한 작업은 잊지 말고 아래 <strong>[전체 슬롯 백업 (.json)]</strong> 버튼을 눌러 파일로 저장해두세요.
+          나중에 [슬롯 백업 불러오기]로 그 파일을 다시 올리면 그대로 복원됩니다.
         </p>
       </div>
 

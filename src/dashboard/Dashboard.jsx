@@ -35,7 +35,9 @@ export default function Dashboard() {
           marginBottom: SPACING.xl, flexWrap: 'wrap', gap: SPACING.md,
           paddingBottom: SPACING.md, borderBottom: RULE,
         }}>
-          <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.md }}>
+            <CEMark size={64} />
+            <div>
             <p style={{
               margin: 0, fontSize: FONT.size.caption, color: COLORS.sub,
               letterSpacing: 4, fontWeight: FONT.weight.medium, textTransform: 'uppercase',
@@ -59,6 +61,7 @@ export default function Dashboard() {
             }}>
               데이터로 다음 단계를 보여주고, 함께 그 단계를 걷습니다.
             </p>
+            </div>
           </div>
           <ExportImportBar />
         </header>
