@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { exportToFile, parseImportFile, detectConflicts } from '../../store/exportImport.js';
-import { exportFullDocx, exportExperiencesXlsx, importExperiencesXlsx, extractBackupFromDocx } from '../../store/docExport.js';
+import { exportFullDocx, exportExperiencesXlsx, importExperiencesXlsx, extractBackupFromDocx, extractTextFromDocx } from '../../store/docExport.js';
 import { DEFAULT_MASTER } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { OverwriteModal } from './OverwriteModal.jsx';
@@ -50,10 +50,31 @@ export function ExportImportBar() {
       return;
     }
 
-    // docx → 임베드된 JSON 백업 추출
+    // docx → 임베드된 JSON 백업 추출 (실패 시 본문 텍스트만)
     if (lower.endsWith('.docx')) {
       try {
-        const payload = await extractBackupFromDocx(file);
+        let payload;
+        try {
+          payload = await extractBackupFromDocx(file);
+        } catch {
+          // 임베드 없는 일반 docx → 본문 텍스트만 추출하여 workbookRaw._docxImport에 저장
+          const extracted = await extractTextFromDocx(file);
+          if (!window.confirm(`이 docx에는 CareerEngineer 백업 데이터가 없습니다.\n본문 텍스트만 추출하여 참고 자료로 저장할까요?\n(워크북 답변에는 자동 입력되지 않습니다 - 모달에서 복사/붙여넣기)`)) return;
+          const next = {
+            ...master,
+            workbookRaw: {
+              ...master.workbookRaw,
+              _docxImport: {
+                fileName: extracted.fileName,
+                savedAt: extracted.extractedAt,
+                answers: { 본문: extracted.text },
+              },
+            },
+          };
+          replaceMaster(next);
+          showToast(`docx에서 ${extracted.paragraphCount}개 문단을 추출했습니다. 워크북에서 [참고 자료]로 확인하세요.`);
+          return;
+        }
         // 전체 백업
         if (payload.format === 'careerengineer-export') {
           const incoming = {

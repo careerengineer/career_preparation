@@ -78,6 +78,7 @@ export const DEFAULT_MASTER = {
     self_introduction: null,
     interview_new: null,
     interview_career: null,
+    _docxImport: null,
   },
 };
 

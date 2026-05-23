@@ -62,6 +62,50 @@ export async function extractBackupFromDocx(file) {
   return JSON.parse(json);
 }
 
+// 임베드 없는 일반 docx에서도 본문 텍스트만 추출 → 부분 import
+// 워크북 답변 필드로는 자동 매핑 안 함 (사용자가 직접 paste 권장)
+// master.workbookRaw._docxImport에 저장 → ReferenceInline/ImportPanel에서 확인 가능
+export async function extractTextFromDocx(file) {
+  const buf = await file.arrayBuffer();
+  const zip = await JSZip.loadAsync(buf);
+  const docXmlFile = zip.file('word/document.xml');
+  if (!docXmlFile) throw new Error('docx 형식이 올바르지 않습니다.');
+  const xml = await docXmlFile.async('text');
+
+  // <w:p>...<w:t>텍스트</w:t>...</w:p> → paragraph별 텍스트 추출
+  const paragraphs = [];
+  const pRegex = /<w:p[^>]*>([\s\S]*?)<\/w:p>/g;
+  let pm;
+  while ((pm = pRegex.exec(xml)) !== null) {
+    const pBody = pm[1];
+    const tRegex = /<w:t[^>]*>([\s\S]*?)<\/w:t>/g;
+    let tm, parts = [];
+    while ((tm = tRegex.exec(pBody)) !== null) {
+      parts.push(
+        tm[1]
+          .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+          .replace(/&quot;/g, '"').replace(/&apos;/g, "'")
+      );
+    }
+    const line = parts.join('').trim();
+    if (line) paragraphs.push(line);
+  }
+
+  // 백업 데이터 영역 제거
+  const startIdx = paragraphs.findIndex((p) => p.includes(MARK_START));
+  const endIdx = paragraphs.findIndex((p) => p.includes(MARK_END));
+  const cleaned = (startIdx >= 0 && endIdx >= 0)
+    ? paragraphs.slice(0, startIdx).concat(paragraphs.slice(endIdx + 1))
+    : paragraphs;
+
+  return {
+    fileName: file.name,
+    extractedAt: new Date().toISOString(),
+    text: cleaned.join('\n'),
+    paragraphCount: cleaned.length,
+  };
+}
+
 function safeName(s) {
   return (s || '').replace(/[^가-힣a-zA-Z0-9]/g, '_').slice(0, 20);
 }
