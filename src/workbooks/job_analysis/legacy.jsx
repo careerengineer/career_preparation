@@ -162,7 +162,11 @@ const IntroFooterCopyright = () => (
   </p>
 );
 
-const IntroStickyHeader = () => null; // [CE] sticky 헤더 중복 → WorkbookShell로 통합
+const IntroStickyHeader = () => (
+  <div style={{ position: 'sticky', top: 0, zIndex: 10, background: '#F2F1EC', padding: '8px 0', marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
+    <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 14, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 36, display: 'inline-flex', alignItems: 'center' }}>삭제하고 다시 작성</button>
+  </div>
+);
 
 const IntroPage = ({
   workbookKey, stepLabel, title, subtitle,
