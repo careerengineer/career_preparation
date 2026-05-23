@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import * as XLSX from 'xlsx';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
+import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 // ════════════════════════════════════════════════════════════════
 //  CareerEngineer 워크북 라이브러리 (URL은 나중에 일괄 적용)
 // ════════════════════════════════════════════════════════════════
@@ -1944,6 +1945,10 @@ const ExperienceWorkbook = () => {
         >
           <DiscoveryPanel />
         </GuideToggle>
+      </div>
+      {/* 채용공고·직무 분석 워크북에서 작성한 내용 참고 */}
+      <div style={{ marginTop: SPACING.md }}>
+        <ReferenceInline ids={['job_analysis']} />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md, marginTop: SPACING.lg, marginBottom: SPACING.xl }}>
         {[
