@@ -33,10 +33,10 @@ export default function CareergoalPage() {
   return (
     <WorkbookShell
       workbookKey="careergoal"
-      title="커리어 목표"
-      stepLabel="STEP 1 · 목표 수립"
-      mentoringType="consulting"
-      relatedKeys={["motivation","goalachievement"]}
+      title="입사후 포부"
+      stepLabel="STEP 4 · 입사후 포부"
+      mentoringType="cover_letter"
+      relatedKeys={["motivation","jobcompetency","personality","goalachievement"]}
     >
       <Bridge />
     </WorkbookShell>
