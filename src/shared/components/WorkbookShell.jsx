@@ -207,7 +207,7 @@ export function WorkbookShell({
               {isExperience && (
                 <>
                   <button onClick={() => xlsxRef.current?.click()} style={btnSecondary} disabled={busy}>
-                    xlsx 불러오기
+                    기존 경험정리 불러오기
                   </button>
                   <input
                     ref={xlsxRef} type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"

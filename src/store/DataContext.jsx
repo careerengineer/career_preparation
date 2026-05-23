@@ -52,6 +52,8 @@ export function DataProvider({ children }) {
       if (workbookKey === 'careergoal')     next.careergoal = { ...DEFAULT_MASTER.careergoal };
       if (workbookKey === 'job_analysis')   next.jobAnalysis = { ...DEFAULT_MASTER.jobAnalysis };
       if (workbookKey === 'experience')     next.experiences = [];
+      // debounce(1초) 자동 저장 전에 reload 되면 옛 master가 그대로 돌아오므로 즉시 동기 저장
+      try { localStorage.setItem(MASTER_KEY, JSON.stringify(next)); } catch (e) { console.warn('reset save failed:', e); }
       return next;
     });
     // 워크북 자체 localStorage 키 삭제
