@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
+import { QUESTION_LABELS } from '../../store/questionLabels.js';
 
 // item 종류별로 적절한 텍스트 추출
 function extractText(item) {
@@ -50,6 +51,8 @@ function extractText(item) {
 
   if (kind.startsWith('raw_')) {
     const raw = data.raw || data;
+    const wbKey = data.workbookKey;
+    const labels = (wbKey && QUESTION_LABELS[wbKey]) || {};
     const lines = [];
     if (raw.basicInfo) {
       lines.push(`[기본정보]`);
@@ -61,7 +64,10 @@ function extractText(item) {
     if (raw.answers && typeof raw.answers === 'object') {
       lines.push(`[답변]`);
       Object.entries(raw.answers).forEach(([k, v]) => {
-        if (v && String(v).trim()) lines.push(`${k}: ${v}\n`);
+        if (v && String(v).trim()) {
+          const label = labels[k];
+          lines.push(label ? `■ ${label}\n${v}\n` : `${k}: ${v}\n`);
+        }
       });
     }
     if (raw.finalText) {
