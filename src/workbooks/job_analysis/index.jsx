@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { WorkbookShell } from '../../shared/components/WorkbookShell.jsx';
 import LegacyWorkbook from './legacy.jsx';
@@ -7,17 +7,17 @@ const LEGACY_KEY = "careerengineer_job_analysis_v1";
 const WORKBOOK_KEY = "job_analysis";
 
 // master ↔ legacy storage 양방향 sync.
-// - 마운트 시: master.profile + master.workbookRaw[key] → storage로 priming.
-// - 1.5초마다: storage → master로 push back (profile 변경 + workbookRaw 갱신).
+// - 동기 priming (useState 초기화): 자식 워크북 mount 전에 storage 채움 → basicInfo 입력 화면 자동 skip.
+// - 1.5초마다: storage → master로 push back.
 function Bridge() {
   const { master, updateSlice } = useDataStore();
   const lastRef = useRef('');
 
-  useEffect(() => {
+  // 동기 priming - useState 초기화 함수에서 실행 (워크북 useState보다 먼저 완료)
+  useState(() => {
     try {
       const existing = localStorage.getItem(LEGACY_KEY);
       let data = existing ? JSON.parse(existing) : {};
-      // master.workbookRaw[key]가 있으면 우선 사용 (다른 기기/세션에서 import한 경우)
       const fromMaster = master.workbookRaw?.[WORKBOOK_KEY];
       if (fromMaster && (!existing || (fromMaster.savedAt && (!data.savedAt || fromMaster.savedAt > data.savedAt)))) {
         data = { ...fromMaster, ...data };
@@ -35,8 +35,8 @@ function Bridge() {
     } catch (e) {
       console.warn('[' + WORKBOOK_KEY + '] priming failed:', e);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    return true;
+  });
 
   useEffect(() => {
     const id = setInterval(() => {

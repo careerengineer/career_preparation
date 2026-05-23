@@ -89,7 +89,7 @@ const BUTTON = {
 const CareerAspirationWorkbook = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [currentPhase, setCurrentPhase] = useState('round1');
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_careergoal_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
   const [selectedSteps, setSelectedSteps] = useState([]);
   const [showGuide, setShowGuide] = useState({});
   const [downloadSuccess, setDownloadSuccess] = useState(false);

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { WorkbookShell } from '../../shared/components/WorkbookShell.jsx';
 import LegacyWorkbook from './legacy.jsx';
@@ -10,7 +10,7 @@ function Bridge() {
   const { master, updateSlice, replaceMaster } = useDataStore();
   const lastRef = useRef('');
 
-  useEffect(() => {
+  useState(() => {
     try {
       const existing = localStorage.getItem(LEGACY_KEY);
       let data = existing ? JSON.parse(existing) : {};
@@ -33,8 +33,8 @@ function Bridge() {
     } catch (e) {
       console.warn('[experience] priming failed:', e);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    return true;
+  });
 
   useEffect(() => {
     const id = setInterval(() => {

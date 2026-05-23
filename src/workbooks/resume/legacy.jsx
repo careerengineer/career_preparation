@@ -496,7 +496,7 @@ const StickyFooter = () => (
 
 const ResumeWorkbook = () => {
   const [showIntro, setShowIntro] = useState(true);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_resume_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
   const [showGuide, setShowGuide] = useState({});
   const [answers, setAnswers] = useState({});
   const [checks, setChecks] = useState({});

@@ -402,7 +402,7 @@ const SelfIntroWorkbook = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [showHelp, setShowHelp] = useState(true);
   const [showStepNav, setShowStepNav] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_self_introduction_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
   const [basicInfo, setBasicInfo] = useState({ industry: '', position: '', company: '' });
   const [answers, setAnswers] = useState({});
   const [showStuckHint, setShowStuckHint] = useState({});
