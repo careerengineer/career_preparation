@@ -1634,7 +1634,7 @@ export default function App() {
         const data = JSON.parse(saved);
         if (data.ans && Object.keys(data.ans).length > 0) {
           const savedDate = data.savedAt ? new Date(data.savedAt).toLocaleString('ko-KR') : '이전';
-          if (window.confirm(`이전에 진단한 내용이 있습니다 (${savedDate}).\n불러올까요?`)) {
+          if (true /* auto-restore */) {
             if (data.ans) setAns(data.ans);
             if (data.result) setResult(data.result);
             if (typeof data.qi === 'number') setQi(data.qi);

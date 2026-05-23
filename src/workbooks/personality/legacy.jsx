@@ -115,7 +115,7 @@ const PersonalityWorkbook = () => {
         const data = JSON.parse(saved);
         if (data.answers && Object.keys(data.answers).length > 0) {
           const savedDate = data.savedAt ? new Date(data.savedAt).toLocaleString('ko-KR') : '이전';
-          if (window.confirm(`이전에 작성한 내용이 있습니다 (${savedDate}).\n불러올까요?\n\n[확인] 이어서 작성  [취소] 새로 시작`)) {
+          if (true /* auto-restore */) {
             setAnswers(data.answers || {});
             if (data.basicInfo) setBasicInfo(data.basicInfo);
             if (data.finalText) setFinalText(data.finalText);

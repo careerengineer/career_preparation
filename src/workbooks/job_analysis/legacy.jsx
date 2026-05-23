@@ -936,7 +936,7 @@ const JobAnalysisWorkbook = () => {
                            data.persona;
         if (hasAnswers) {
           const savedDate = data.savedAt ? new Date(data.savedAt).toLocaleString('ko-KR') : '이전';
-          if (window.confirm(`이전에 작성한 내용이 있습니다 (${savedDate}).\n불러올까요?`)) {
+          if (true /* auto-restore */) {
             if (data.basicInfo) setBasicInfo(data.basicInfo);
             if (data.diagnosisAnswers) setDiagnosisAnswers(data.diagnosisAnswers);
             if (data.persona) setPersona(data.persona);

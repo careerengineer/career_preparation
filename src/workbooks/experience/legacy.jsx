@@ -989,7 +989,7 @@ const ExperienceWorkbook = () => {
         if ((data.experiences && data.experiences.length > 0) || 
             (data.jdKeywords && Object.values(data.jdKeywords).some(v => v))) {
           const savedDate = data.savedAt ? new Date(data.savedAt).toLocaleString('ko-KR') : '이전';
-          if (window.confirm(`이전에 작성한 내용이 있습니다 (${savedDate}).\n불러올까요?`)) {
+          if (true /* auto-restore */) {
             if (data.basicInfo) setBasicInfo(data.basicInfo);
             if (data.personaAnswers) setPersonaAnswers(data.personaAnswers);
             if (data.jdKeywords) setJdKeywords(data.jdKeywords);

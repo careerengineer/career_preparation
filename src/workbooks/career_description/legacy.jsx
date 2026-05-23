@@ -512,7 +512,7 @@ const CareerDescWorkbook = () => {
         // 데이터가 있고 유의미한 작성 내용이 있을 때만 복구 안내
         if (data.ans && Object.keys(data.ans).length > 0) {
           const savedDate = data.savedAt ? new Date(data.savedAt).toLocaleString('ko-KR') : '이전';
-          if (window.confirm(`이전에 작성한 내용이 있습니다 (${savedDate}).\n불러올까요?\n\n[확인] 이어서 작성  [취소] 새로 시작`)) {
+          if (true /* auto-restore */) {
             setAns(data.ans || {});
             setChk(data.chk || {});
             setGuides(data.guides || {});
