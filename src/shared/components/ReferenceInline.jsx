@@ -123,7 +123,7 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
         padding: '6px 10px', background: COLORS.cream,
         borderLeft: `2px solid ${COLORS.line}`,
         marginTop: 4, marginBottom: 8,
-        fontSize: FONT.size.xs, color: COLORS.sub,
+        fontSize: 20, color: COLORS.sub,
         lineHeight: FONT.lineHeight.base,
       }}>
         <span style={{ fontWeight: FONT.weight.semibold, flexShrink: 0 }}>참고:</span>
@@ -139,7 +139,7 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
         padding: '8px 12px', background: COLORS.cream,
         borderLeft: `2px solid ${COLORS.accent2}`,
         marginTop: 4, marginBottom: 8,
-        fontSize: FONT.size.sm, lineHeight: FONT.lineHeight.base,
+        fontSize: 20, lineHeight: FONT.lineHeight.base,
       }}>
         <span style={{ color: COLORS.sub, fontWeight: FONT.weight.semibold, flexShrink: 0 }}>
           참고할 이전 작성:
@@ -153,7 +153,7 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
               border: `1px solid ${it.kind === 'mapped' ? COLORS.accent2 : COLORS.line}`,
               borderRadius: RADIUS.pill,
               padding: '3px 10px',
-              fontSize: FONT.size.sm,
+              fontSize: 20,
               color: COLORS.accent,
               fontFamily: FONT.family,
               fontWeight: it.kind === 'mapped' ? FONT.weight.semibold : FONT.weight.medium,

@@ -131,7 +131,7 @@ export function ImportPreviewModal({ item, onClose }) {
       >
         <div style={{ marginBottom: SPACING.md }}>
           <p style={{
-            margin: 0, fontSize: FONT.size.caption, color: COLORS.accent2,
+            margin: 0, fontSize: 20, color: COLORS.accent2,
             letterSpacing: 3, textTransform: 'uppercase', fontWeight: FONT.weight.semibold,
           }}>
             IMPORT · 미리보기
@@ -143,7 +143,7 @@ export function ImportPreviewModal({ item, onClose }) {
             {item.label}
           </h2>
           <p style={{
-            margin: '6px 0 0', fontSize: FONT.size.caption, color: COLORS.sub,
+            margin: '6px 0 0', fontSize: 20, color: COLORS.sub,
             lineHeight: FONT.lineHeight.base,
           }}>
             아래 텍스트를 복사해 원하는 답변 칸에 붙여넣으세요.
@@ -160,7 +160,7 @@ export function ImportPreviewModal({ item, onClose }) {
             border: `1px solid ${COLORS.line}`,
             padding: SPACING.md,
             fontFamily: FONT.family,
-            fontSize: FONT.size.body,
+            fontSize: 20,
             color: COLORS.ink,
             lineHeight: FONT.lineHeight.base,
             resize: 'vertical',
@@ -184,7 +184,7 @@ export function ImportPreviewModal({ item, onClose }) {
 }
 
 const btnBase = {
-  fontFamily: FONT.family, fontSize: FONT.size.body,
+  fontFamily: FONT.family, fontSize: 20,
   padding: '10px 18px', cursor: 'pointer',
   fontWeight: FONT.weight.semibold,
 };

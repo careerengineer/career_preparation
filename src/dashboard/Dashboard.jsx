@@ -109,14 +109,14 @@ export default function Dashboard() {
               return (
                 <div key={s.n} style={{ textAlign: 'left' }}>
                   <p style={{
-                    margin: 0, fontSize: FONT.size.caption,
+                    margin: 0, fontSize: 20,
                     color: COLORS.ink, fontWeight: FONT.weight.semibold,
                     letterSpacing: 1.5, textTransform: 'uppercase',
                   }}>
                     STEP {s.n}
                   </p>
                   <p style={{
-                    margin: '2px 0 0', fontSize: FONT.size.xs,
+                    margin: '2px 0 0', fontSize: 20,
                     color: COLORS.sub, lineHeight: FONT.lineHeight.tight,
                   }}>
                     {s.name}
@@ -132,7 +132,7 @@ export default function Dashboard() {
                     }} />
                   </div>
                   <p style={{
-                    margin: '4px 0 0', fontSize: FONT.size.xs,
+                    margin: '4px 0 0', fontSize: 20,
                     color: pct === 100 ? COLORS.accent : COLORS.sub,
                     fontWeight: FONT.weight.semibold,
                   }}>
@@ -155,7 +155,7 @@ export default function Dashboard() {
                 marginBottom: SPACING.md,
               }}>
                 <span style={{
-                  fontSize: FONT.size.caption, color: COLORS.accent2,
+                  fontSize: 20, color: COLORS.accent2,
                   letterSpacing: 3, textTransform: 'uppercase',
                   fontWeight: FONT.weight.semibold,
                 }}>
@@ -197,7 +197,7 @@ export default function Dashboard() {
             flexWrap: 'wrap', gap: SPACING.md, marginBottom: SPACING.md,
           }}>
             <CELockupA markSize={26} />
-            <p style={{ margin: 0, fontSize: 16, letterSpacing: 1, textTransform: 'uppercase' }}>
+            <p style={{ margin: 0, fontSize: 20, letterSpacing: 1, textTransform: 'uppercase' }}>
               멘토링 문의:{' '}
               <a href={MENTORING_URLS.consulting} target="_blank" rel="noopener noreferrer"
                 style={{
@@ -209,7 +209,7 @@ export default function Dashboard() {
             </p>
           </div>
           <p style={{
-            margin: 0, fontSize: 16,
+            margin: 0, fontSize: 20,
             color: COLORS.sub, lineHeight: 1.7,
             textAlign: 'left',
           }}>

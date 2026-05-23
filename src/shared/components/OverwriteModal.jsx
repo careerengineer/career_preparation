@@ -33,7 +33,7 @@ export function OverwriteModal({ conflicts, onReplace, onBackupAndReplace, onCan
           현재 작업 중인 내용이 있습니다
         </h2>
         <p style={{
-          color: COLORS.sub, fontSize: FONT.size.sm,
+          color: COLORS.sub, fontSize: 20,
           marginTop: SPACING.sm, marginBottom: SPACING.md,
         }}>
           가져올 파일이 현재 데이터와 충돌합니다. 어떻게 처리할까요?
@@ -44,13 +44,13 @@ export function OverwriteModal({ conflicts, onReplace, onBackupAndReplace, onCan
           padding: SPACING.md, marginBottom: SPACING.lg,
         }}>
           <p style={{
-            fontSize: FONT.size.xs, color: COLORS.accent2,
+            fontSize: 20, color: COLORS.accent2,
             fontWeight: FONT.weight.semibold, margin: 0, marginBottom: SPACING.sm,
             letterSpacing: 0.5, textTransform: 'uppercase',
           }}>
             충돌 필드 ({conflicts.length}개)
           </p>
-          <ul style={{ margin: 0, paddingLeft: SPACING.md, color: COLORS.ink, fontSize: FONT.size.sm, lineHeight: FONT.lineHeight.base }}>
+          <ul style={{ margin: 0, paddingLeft: SPACING.md, color: COLORS.ink, fontSize: 20, lineHeight: FONT.lineHeight.base }}>
             {conflicts.map((c, i) => (
               <li key={i}>
                 <strong>{c.field}</strong>: 현재 "{c.current}" · 불러올 내용 "{c.incoming}"
@@ -70,7 +70,7 @@ export function OverwriteModal({ conflicts, onReplace, onBackupAndReplace, onCan
 }
 
 const btnBase = {
-  fontFamily: FONT.family, fontSize: FONT.size.sm,
+  fontFamily: FONT.family, fontSize: 20,
   padding: '10px 16px', borderRadius: RADIUS.md, cursor: 'pointer',
   fontWeight: FONT.weight.semibold,
 };

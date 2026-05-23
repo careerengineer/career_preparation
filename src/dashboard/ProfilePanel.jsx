@@ -20,7 +20,7 @@ export default function ProfilePanel() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: SPACING.md, flexWrap: 'wrap' }}>
         <div>
           <p style={{
-            margin: 0, fontSize: FONT.size.caption, color: COLORS.accent2,
+            margin: 0, fontSize: 20, color: COLORS.accent2,
             letterSpacing: 3, fontWeight: FONT.weight.semibold,
             textTransform: 'uppercase',
           }}>
@@ -37,7 +37,7 @@ export default function ProfilePanel() {
       </div>
       {empty && (
         <p style={{
-          color: COLORS.sub, fontSize: FONT.size.body,
+          color: COLORS.sub, fontSize: 20,
           marginTop: SPACING.sm, marginBottom: SPACING.md,
           lineHeight: FONT.lineHeight.base,
         }}>
@@ -62,7 +62,7 @@ function LabeledInput({ label, value, placeholder, onChange }) {
   return (
     <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       <span style={{
-        fontSize: FONT.size.xs, color: COLORS.sub,
+        fontSize: 20, color: COLORS.sub,
         fontWeight: FONT.weight.semibold,
         letterSpacing: 1.5, textTransform: 'uppercase',
       }}>
@@ -74,7 +74,7 @@ function LabeledInput({ label, value, placeholder, onChange }) {
         placeholder={placeholder}
         onChange={onChange}
         style={{
-          fontFamily: FONT.family, fontSize: FONT.size.body, color: COLORS.ink,
+          fontFamily: FONT.family, fontSize: 20, color: COLORS.ink,
           padding: '10px 12px', border: `1px solid ${COLORS.line}`,
           background: COLORS.cream,
           outline: 'none',

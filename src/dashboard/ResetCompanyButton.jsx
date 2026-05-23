@@ -60,7 +60,7 @@ export default function ResetCompanyButton() {
           border: `1px solid ${hasCompanyData ? COLORS.red : COLORS.line}`,
           padding: '8px 14px',
           fontFamily: FONT.family,
-          fontSize: FONT.size.body,
+          fontSize: 20,
           fontWeight: FONT.weight.semibold,
           cursor: hasCompanyData ? 'pointer' : 'not-allowed',
         }}
@@ -95,7 +95,7 @@ export default function ResetCompanyButton() {
               회사 관련 정보를 삭제하시겠습니까?
             </h2>
             <p style={{
-              color: COLORS.sub, fontSize: FONT.size.body,
+              color: COLORS.sub, fontSize: 20,
               marginTop: SPACING.sm, marginBottom: SPACING.md,
               lineHeight: FONT.lineHeight.base,
             }}>
@@ -110,26 +110,26 @@ export default function ResetCompanyButton() {
               <div style={{ background: COLORS.bgAlt, padding: SPACING.md, borderLeft: `3px solid ${COLORS.red}` }}>
                 <p style={{
                   margin: 0, marginBottom: 6,
-                  fontSize: FONT.size.caption, color: COLORS.red,
+                  fontSize: 20, color: COLORS.red,
                   fontWeight: FONT.weight.semibold,
                   letterSpacing: 1.5, textTransform: 'uppercase',
                 }}>
                   삭제
                 </p>
-                <ul style={{ margin: 0, paddingLeft: SPACING.md, color: COLORS.ink, fontSize: FONT.size.caption, lineHeight: FONT.lineHeight.base }}>
+                <ul style={{ margin: 0, paddingLeft: SPACING.md, color: COLORS.ink, fontSize: 20, lineHeight: FONT.lineHeight.base }}>
                   {CLEARED.map((t, i) => <li key={i}>{t}</li>)}
                 </ul>
               </div>
               <div style={{ background: COLORS.bgAlt, padding: SPACING.md, borderLeft: `3px solid ${COLORS.accent2}` }}>
                 <p style={{
                   margin: 0, marginBottom: 6,
-                  fontSize: FONT.size.caption, color: COLORS.accent2,
+                  fontSize: 20, color: COLORS.accent2,
                   fontWeight: FONT.weight.semibold,
                   letterSpacing: 1.5, textTransform: 'uppercase',
                 }}>
                   유지
                 </p>
-                <ul style={{ margin: 0, paddingLeft: SPACING.md, color: COLORS.ink, fontSize: FONT.size.caption, lineHeight: FONT.lineHeight.base }}>
+                <ul style={{ margin: 0, paddingLeft: SPACING.md, color: COLORS.ink, fontSize: 20, lineHeight: FONT.lineHeight.base }}>
                   {KEPT.map((t, i) => <li key={i}>{t}</li>)}
                 </ul>
               </div>
@@ -141,13 +141,13 @@ export default function ResetCompanyButton() {
                 padding: SPACING.md, marginBottom: SPACING.md,
               }}>
                 <p style={{
-                  margin: 0, fontSize: FONT.size.body, color: COLORS.red,
+                  margin: 0, fontSize: 20, color: COLORS.red,
                   fontWeight: FONT.weight.semibold, lineHeight: FONT.lineHeight.base,
                 }}>
                   마지막 확인 — 정말 삭제하시겠습니까?
                 </p>
                 <p style={{
-                  margin: '6px 0 0', fontSize: FONT.size.caption, color: COLORS.ink,
+                  margin: '6px 0 0', fontSize: 20, color: COLORS.ink,
                   lineHeight: FONT.lineHeight.base,
                 }}>
                   {pendingMode === 'backup'
@@ -179,14 +179,14 @@ export default function ResetCompanyButton() {
           position: 'fixed', bottom: SPACING.lg, left: '50%', transform: 'translateX(-50%)',
           background: COLORS.accent, color: COLORS.white,
           padding: `${SPACING.sm}px ${SPACING.md}px`,
-          fontFamily: FONT.family, fontSize: FONT.size.body,
+          fontFamily: FONT.family, fontSize: 20,
           boxShadow: '0 6px 18px rgba(0,0,0,0.18)', zIndex: 1100,
           display: 'flex', alignItems: 'center', gap: SPACING.md,
         }}>
           <span>{toast}</span>
           <button onClick={() => setToast(null)} style={{
             background: 'transparent', border: 'none', color: COLORS.accent2,
-            cursor: 'pointer', fontSize: FONT.size.body,
+            cursor: 'pointer', fontSize: 20,
             fontWeight: FONT.weight.semibold, fontFamily: FONT.family,
           }}>닫기</button>
         </div>
@@ -196,7 +196,7 @@ export default function ResetCompanyButton() {
 }
 
 const btnBase = {
-  fontFamily: FONT.family, fontSize: FONT.size.body,
+  fontFamily: FONT.family, fontSize: 20,
   padding: '10px 18px', cursor: 'pointer',
   fontWeight: FONT.weight.semibold,
 };

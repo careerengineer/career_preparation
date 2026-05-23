@@ -82,7 +82,7 @@ export default function CompanySlots() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: SPACING.md, marginBottom: SPACING.md }}>
         <div>
           <p style={{
-            margin: 0, fontSize: FONT.size.caption, color: COLORS.accent2,
+            margin: 0, fontSize: 20, color: COLORS.accent2,
             letterSpacing: 3, fontWeight: FONT.weight.semibold, textTransform: 'uppercase',
           }}>
             SAVED · 회사별 작업 저장본
@@ -104,13 +104,13 @@ export default function CompanySlots() {
         marginBottom: SPACING.md,
       }}>
         <p style={{
-          margin: 0, fontSize: FONT.size.caption, color: COLORS.yellow,
+          margin: 0, fontSize: 20, color: COLORS.yellow,
           fontWeight: FONT.weight.semibold, letterSpacing: 1.5, textTransform: 'uppercase',
         }}>
           꼭 파일로 백업해두세요
         </p>
         <p style={{
-          margin: '6px 0 0', fontSize: FONT.size.body, color: COLORS.ink,
+          margin: '6px 0 0', fontSize: 20, color: COLORS.ink,
           lineHeight: FONT.lineHeight.base,
         }}>
           여기 저장한 저장본은 <strong>지금 쓰는 이 브라우저(인터넷 창)에만 보관</strong>됩니다.
@@ -129,7 +129,7 @@ export default function CompanySlots() {
           placeholder={master.profile.company || '저장본 이름 (예: 삼성전자_공정엔지니어)'}
           style={{
             flex: '1 1 200px',
-            fontFamily: FONT.family, fontSize: FONT.size.body, color: COLORS.ink,
+            fontFamily: FONT.family, fontSize: 20, color: COLORS.ink,
             padding: '10px 12px', border: `1px solid ${COLORS.line}`,
             background: COLORS.cream, outline: 'none',
           }}
@@ -153,7 +153,7 @@ export default function CompanySlots() {
 
       {/* 저장본 목록 */}
       {slots.length === 0 ? (
-        <p style={{ margin: 0, color: COLORS.sub, fontSize: FONT.size.caption }}>
+        <p style={{ margin: 0, color: COLORS.sub, fontSize: 20 }}>
           저장된 저장본이 없습니다. 위 입력란에 이름을 적고 저장하세요.
         </p>
       ) : (
@@ -166,10 +166,10 @@ export default function CompanySlots() {
               borderLeft: `3px solid ${COLORS.accent2}`,
             }}>
               <div>
-                <p style={{ margin: 0, fontSize: FONT.size.body, fontWeight: FONT.weight.semibold, color: COLORS.ink }}>
+                <p style={{ margin: 0, fontSize: 20, fontWeight: FONT.weight.semibold, color: COLORS.ink }}>
                   {s.name}
                 </p>
-                <p style={{ margin: '2px 0 0', fontSize: FONT.size.caption, color: COLORS.sub }}>
+                <p style={{ margin: '2px 0 0', fontSize: 20, color: COLORS.sub }}>
                   {[s.industry, s.position, s.company].filter(Boolean).join(' / ') || '(빈 프로필)'}
                   {s.savedAt && ` · ${new Date(s.savedAt).toLocaleString('ko-KR')}`}
                 </p>
@@ -189,7 +189,7 @@ export default function CompanySlots() {
           position: 'fixed', bottom: SPACING.lg, left: '50%', transform: 'translateX(-50%)',
           background: COLORS.accent, color: COLORS.white,
           padding: `${SPACING.sm}px ${SPACING.md}px`,
-          fontFamily: FONT.family, fontSize: FONT.size.body,
+          fontFamily: FONT.family, fontSize: 20,
           boxShadow: '0 6px 18px rgba(0,0,0,0.18)', zIndex: 1100,
           display: 'flex', gap: SPACING.md, alignItems: 'center', maxWidth: '90vw',
         }}>
@@ -202,7 +202,7 @@ export default function CompanySlots() {
 }
 
 const btnBase = {
-  fontFamily: FONT.family, fontSize: FONT.size.body, fontWeight: FONT.weight.semibold,
+  fontFamily: FONT.family, fontSize: 20, fontWeight: FONT.weight.semibold,
   padding: '8px 14px', cursor: 'pointer',
 };
 const btnPrimary = { ...btnBase, background: COLORS.accent2, color: COLORS.white, border: 'none' };

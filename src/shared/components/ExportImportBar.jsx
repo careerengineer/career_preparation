@@ -185,14 +185,14 @@ export function ExportImportBar() {
           position: 'fixed', bottom: SPACING.lg, left: '50%', transform: 'translateX(-50%)',
           background: COLORS.accent, color: COLORS.white,
           padding: `${SPACING.sm}px ${SPACING.md}px`,
-          fontFamily: FONT.family, fontSize: FONT.size.body,
+          fontFamily: FONT.family, fontSize: 20,
           boxShadow: '0 6px 18px rgba(0,0,0,0.18)', zIndex: 1100,
           display: 'flex', alignItems: 'center', gap: SPACING.md,
         }}>
           <span>{toast}</span>
           <button onClick={() => setToast(null)} style={{
             background: 'transparent', border: 'none', color: COLORS.accent2,
-            cursor: 'pointer', fontSize: FONT.size.body,
+            cursor: 'pointer', fontSize: 20,
             fontWeight: FONT.weight.semibold, fontFamily: FONT.family,
           }}>닫기</button>
         </div>
@@ -215,7 +215,7 @@ const btnStyle = {
   border: `1px solid ${COLORS.accent2}`,
   padding: '8px 14px',
   fontFamily: FONT.family,
-  fontSize: FONT.size.body,
+  fontSize: 20,
   fontWeight: FONT.weight.semibold,
   cursor: 'pointer',
 };

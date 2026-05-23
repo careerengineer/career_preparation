@@ -13,7 +13,7 @@ export default function NextActionCard() {
   const inner = (
     <>
       <span style={{
-        fontSize: FONT.size.caption, color: COLORS.accent2,
+        fontSize: 20, color: COLORS.accent2,
         fontWeight: FONT.weight.semibold,
         letterSpacing: 3, textTransform: 'uppercase',
       }}>
@@ -29,7 +29,7 @@ export default function NextActionCard() {
       </p>
       {rec.kind === 'workbook' && (
         <p style={{
-          margin: '12px 0 0', fontSize: FONT.size.caption,
+          margin: '12px 0 0', fontSize: 20,
           color: COLORS.accent2, letterSpacing: 1.5,
           textTransform: 'uppercase', fontWeight: FONT.weight.semibold,
         }}>

@@ -136,7 +136,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
           background: COLORS.accent, color: COLORS.white,
           border: `2px solid ${COLORS.accent2}`,
           padding: '12px 16px', borderRadius: RADIUS.pill,
-          fontFamily: FONT.family, fontSize: FONT.size.body,
+          fontFamily: FONT.family, fontSize: 20,
           fontWeight: FONT.weight.semibold,
           cursor: 'pointer',
           boxShadow: '0 6px 18px rgba(14,39,80,0.28)',
@@ -153,7 +153,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
         {hasAny && (
           <span style={{
             background: COLORS.accent2, color: COLORS.white,
-            fontSize: FONT.size.xs, fontWeight: FONT.weight.bold,
+            fontSize: 20, fontWeight: FONT.weight.bold,
             padding: '2px 8px', borderRadius: RADIUS.pill,
             minWidth: 22, textAlign: 'center',
           }}>
@@ -191,7 +191,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
             }}>
               <div>
                 <p style={{
-                  margin: 0, fontSize: FONT.size.caption, color: COLORS.accent2,
+                  margin: 0, fontSize: 20, color: COLORS.accent2,
                   letterSpacing: 2, fontWeight: FONT.weight.semibold, textTransform: 'uppercase',
                 }}>
                   REFERENCE
@@ -208,7 +208,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
 
             <div style={{ flex: 1, overflowY: 'auto', padding: SPACING.md }}>
               {!hasAny ? (
-                <p style={{ color: COLORS.sub, fontSize: FONT.size.body, lineHeight: FONT.lineHeight.base }}>
+                <p style={{ color: COLORS.sub, fontSize: 20, lineHeight: FONT.lineHeight.base }}>
                   아직 다른 워크북에 작성된 내용이 없습니다.
                   다른 STEP을 먼저 작성하면 여기서 참고할 수 있습니다.
                 </p>
@@ -217,7 +217,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
                   <div key={g} style={{ marginBottom: SPACING.md }}>
                     <p style={{
                       margin: 0, marginBottom: 8,
-                      fontSize: FONT.size.xs, color: COLORS.sub,
+                      fontSize: 20, color: COLORS.sub,
                       letterSpacing: 1.5, textTransform: 'uppercase',
                       fontWeight: FONT.weight.semibold,
                     }}>
@@ -235,7 +235,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
                             borderLeft: `3px solid ${COLORS.accent2}`,
                             padding: '10px 12px',
                             fontFamily: FONT.family,
-                            fontSize: FONT.size.body, color: COLORS.ink,
+                            fontSize: 20, color: COLORS.ink,
                             cursor: 'pointer',
                             lineHeight: FONT.lineHeight.base,
                           }}
@@ -255,7 +255,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
               padding: SPACING.md,
               borderTop: `1px solid ${COLORS.line}`,
               background: COLORS.cream,
-              fontSize: FONT.size.caption, color: COLORS.sub,
+              fontSize: 20, color: COLORS.sub,
               lineHeight: FONT.lineHeight.base,
             }}>
               항목을 클릭하면 내용 미리보기 + 텍스트 복사. 원하는 답변 칸에 붙여넣어 활용하세요.

@@ -33,7 +33,7 @@ export default function StepCard({ workbook, progress }) {
       }}
     >
       <span style={{
-        fontSize: FONT.size.xs, color: COLORS.sub,
+        fontSize: 20, color: COLORS.sub,
         letterSpacing: 1.6, textTransform: 'uppercase',
         fontWeight: FONT.weight.medium,
       }}>
@@ -54,7 +54,7 @@ export default function StepCard({ workbook, progress }) {
         alignSelf: 'flex-start',
         background: badge.bg,
         color: badge.color,
-        fontSize: FONT.size.xs,
+        fontSize: 20,
         fontWeight: FONT.weight.semibold,
         padding: '4px 10px',
         letterSpacing: 1,
