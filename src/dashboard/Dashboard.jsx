@@ -70,11 +70,7 @@ export default function Dashboard() {
               color: COLORS.sub,
               lineHeight: FONT.lineHeight.base,
             }}>
-              취업이 막막하던 사람도 CareerEngineer의 질문에 답하다 보면,
-              <br />
-              생각하는 힘이 길러집니다. 일하는 방식이 달라집니다. 채용담당자가 먼저 알아봅니다.
-              <br />
-              여러 회사에 지원하실 때도 활용 가능합니다.
+              취업이 막막하던 사람도 CareerEngineer의 질문에 답하다 보면, 생각하는 힘이 길러집니다. 일하는 방식이 달라집니다. 채용담당자가 먼저 알아봅니다.
             </p>
             </div>
           </div>
