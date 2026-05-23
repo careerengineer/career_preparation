@@ -17,31 +17,22 @@ export default function ProfilePanel() {
       padding: SPACING.lg,
       marginBottom: SPACING.lg,
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: SPACING.md, flexWrap: 'wrap' }}>
-        <div>
-          <p style={{
-            margin: 0, fontSize: 20, color: COLORS.accent2,
-            letterSpacing: 3, fontWeight: FONT.weight.semibold,
-            textTransform: 'uppercase',
-          }}>
-            PROFILE · 기본정보
-          </p>
-          <h2 style={{
-            margin: '6px 0 0', fontSize: FONT.size.h3, color: COLORS.ink,
-            fontWeight: FONT.weight.semibold, letterSpacing: '-0.3px',
-          }}>
-            어떤 직무에 지원하나요?
-          </h2>
-        </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: SPACING.md, flexWrap: 'wrap', marginBottom: SPACING.md }}>
+        <h2 style={{
+          margin: 0, fontSize: 24, color: COLORS.ink,
+          fontWeight: FONT.weight.bold, letterSpacing: '-0.3px',
+        }}>
+          어떤 직무에 지원하나요?
+        </h2>
         <ResetCompanyButton />
       </div>
       {empty && (
         <p style={{
           color: COLORS.sub, fontSize: 20,
-          marginTop: SPACING.sm, marginBottom: SPACING.md,
+          margin: `0 0 ${SPACING.md}px`,
           lineHeight: FONT.lineHeight.base,
         }}>
-          기본정보를 입력하면 모든 워크북에 자동으로 적용됩니다.
+          여기에 적으면 모든 워크북에 자동으로 들어갑니다.
         </p>
       )}
       <div style={{
