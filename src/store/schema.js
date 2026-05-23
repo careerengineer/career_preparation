@@ -61,6 +61,24 @@ export const DEFAULT_MASTER = {
     interview_new: { answers: {}, completedAt: null },
     interview_career: { answers: {}, completedAt: null },
   },
+
+  // ─── 각 워크북의 legacy storage 원본 (Bridge가 sync) ───
+  // 다른 워크북의 ImportPanel에서 raw 값을 참조해 자동 채움 가능
+  workbookRaw: {
+    career_roadmap: null,
+    careergoal: null,
+    experience: null,
+    job_analysis: null,
+    resume: null,
+    career_description: null,
+    motivation: null,
+    jobcompetency: null,
+    personality: null,
+    goalachievement: null,
+    self_introduction: null,
+    interview_new: null,
+    interview_career: null,
+  },
 };
 
 export const WORKBOOKS = [

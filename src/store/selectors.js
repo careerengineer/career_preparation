@@ -77,17 +77,36 @@ export function getImportableItems(master, workbookKey) {
   }
 
   if (workbookKey === 'interview_new' || workbookKey === 'interview_career') {
-    ['motivation', 'jobcompetency', 'personality', 'goalachievement', 'self_introduction'].forEach((k) => {
+    ['motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal', 'self_introduction'].forEach((k) => {
       const out = master.outputs[k];
       if (out?.finalText) {
-        items.push({
-          kind: `output_${k}`,
-          label: `자소서: ${k}`,
-          data: out,
-        });
+        items.push({ kind: `output_${k}`, label: `자소서: ${k}`, data: out });
       }
     });
   }
+
+  // workbookRaw에서 다른 워크북의 작성 내용 (Bridge가 sync한 legacy storage 그대로)
+  // 자소서/면접/이력서 워크북은 careergoal/jobcompetency/motivation 등 raw도 import 가능
+  const TITLES = {
+    careergoal: '입사후 포부', motivation: '지원동기', jobcompetency: '직무확보역량',
+    personality: '성격의 장단점', goalachievement: '목표수립·달성',
+    self_introduction: '1분 자기소개', resume: '이력서', career_description: '경력기술서',
+    job_analysis: '채용공고·직무 분석', interview_new: '신입 면접', interview_career: '경력직 면접',
+  };
+  const raws = master.workbookRaw || {};
+  Object.entries(raws).forEach(([k, data]) => {
+    if (!data || k === workbookKey || k === 'experience' || k === 'profile') return;
+    // 이미 outputs.finalText로 추가된 항목은 중복 방지
+    if (items.find((i) => i.kind === `output_${k}`)) return;
+    // basicInfo 외에 다른 키가 있어야 (실제 작성 내용 있어야) 표시
+    const keys = Object.keys(data).filter((x) => x !== 'basicInfo' && x !== 'savedAt');
+    if (keys.length === 0) return;
+    items.push({
+      kind: `raw_${k}`,
+      label: `${TITLES[k] || k}: 작성 내용`,
+      data: { __raw: true, workbookKey: k, raw: data },
+    });
+  });
 
   return items;
 }

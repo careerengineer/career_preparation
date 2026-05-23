@@ -95,6 +95,7 @@ function mergeWithDefaults(data) {
     jobAnalysis: { ...DEFAULT_MASTER.jobAnalysis, ...(data.jobAnalysis || {}) },
     experiences: Array.isArray(data.experiences) ? data.experiences : [],
     outputs: { ...DEFAULT_MASTER.outputs, ...(data.outputs || {}) },
+    workbookRaw: { ...DEFAULT_MASTER.workbookRaw, ...(data.workbookRaw || {}) },
   };
 }
 

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ImportPanel } from './ImportPanel.jsx';
 import { MentoringBox } from './MentoringBox.jsx';
-import { RelatedWorkbookList } from './RelatedWorkbookList.jsx';
 import { WORKBOOKS } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 
@@ -11,7 +10,6 @@ export function WorkbookShell({
   stepLabel,
   children,
   mentoringType,
-  relatedKeys,
   onImport,
 }) {
   // schema 우선, props로 override 가능
@@ -64,7 +62,6 @@ export function WorkbookShell({
         {children}
 
         {mentoringType && <MentoringBox type={mentoringType} />}
-        {relatedKeys && <RelatedWorkbookList keys={relatedKeys} />}
       </div>
     </div>
   );

@@ -1,76 +1,80 @@
 import { useEffect, useRef } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { WorkbookShell } from '../../shared/components/WorkbookShell.jsx';
-import ExperienceWorkbook from './legacy.jsx';
+import LegacyWorkbook from './legacy.jsx';
 
 const LEGACY_KEY = 'careerengineer_experience_v1';
+const WORKBOOK_KEY = 'experience';
 
-// master ↔ legacy localStorage 양방향 동기화 어댑터
-function ExperienceBridge() {
+function Bridge() {
   const { master, updateSlice, replaceMaster } = useDataStore();
-  const lastSyncedRef = useRef('');
+  const lastRef = useRef('');
 
-  // 마운트 시: master → legacy storage priming
   useEffect(() => {
     try {
       const existing = localStorage.getItem(LEGACY_KEY);
-      const data = existing ? JSON.parse(existing) : {};
-      const primed = {
-        ...data,
-        basicInfo: {
-          industry: master.profile.industry || data.basicInfo?.industry || '',
-          position: master.profile.position || data.basicInfo?.position || '',
-          target: master.profile.company || data.basicInfo?.target || '',
-        },
-        experiences: master.experiences?.length > 0 ? master.experiences : (data.experiences || []),
-        savedAt: new Date().toISOString(),
+      let data = existing ? JSON.parse(existing) : {};
+      const fromMaster = master.workbookRaw?.[WORKBOOK_KEY];
+      if (fromMaster && (!existing || (fromMaster.savedAt && (!data.savedAt || fromMaster.savedAt > data.savedAt)))) {
+        data = { ...fromMaster, ...data };
+      }
+      const basicInfo = {
+        ...(data.basicInfo || {}),
+        industry: master.profile.industry || data.basicInfo?.industry || '',
+        position: master.profile.position || data.basicInfo?.position || '',
+        target:   master.profile.company  || data.basicInfo?.target   || '',
       };
+      const experiences = (Array.isArray(data.experiences) && data.experiences.length > 0)
+        ? data.experiences
+        : (master.experiences || []);
+      const primed = { ...data, basicInfo, experiences, savedAt: data.savedAt || new Date().toISOString() };
       localStorage.setItem(LEGACY_KEY, JSON.stringify(primed));
-      lastSyncedRef.current = JSON.stringify(primed);
+      lastRef.current = JSON.stringify(primed);
     } catch (e) {
-      console.warn('priming failed:', e);
+      console.warn('[experience] priming failed:', e);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 1초마다 legacy storage → master로 push back
   useEffect(() => {
     const id = setInterval(() => {
       try {
         const raw = localStorage.getItem(LEGACY_KEY);
-        if (!raw || raw === lastSyncedRef.current) return;
-        lastSyncedRef.current = raw;
+        if (!raw || raw === lastRef.current) return;
+        lastRef.current = raw;
         const data = JSON.parse(raw);
+
         if (data.basicInfo) {
-          const profilePatch = {};
-          if (data.basicInfo.industry !== master.profile.industry) profilePatch.industry = data.basicInfo.industry;
-          if (data.basicInfo.position !== master.profile.position) profilePatch.position = data.basicInfo.position;
-          if (data.basicInfo.target !== master.profile.company) profilePatch.company = data.basicInfo.target;
-          if (Object.keys(profilePatch).length > 0) updateSlice('profile', profilePatch);
+          const patch = {};
+          const co = data.basicInfo.company || data.basicInfo.target || '';
+          if (data.basicInfo.industry !== undefined && data.basicInfo.industry !== master.profile.industry) patch.industry = data.basicInfo.industry;
+          if (data.basicInfo.position !== undefined && data.basicInfo.position !== master.profile.position) patch.position = data.basicInfo.position;
+          if (co !== master.profile.company) patch.company = co;
+          if (Object.keys(patch).length > 0) updateSlice('profile', patch);
         }
+
         if (Array.isArray(data.experiences) && JSON.stringify(data.experiences) !== JSON.stringify(master.experiences)) {
           replaceMaster({ ...master, experiences: data.experiences });
         }
+
+        updateSlice('workbookRaw', { experience: { ...data, savedAt: new Date().toISOString() } });
       } catch (e) {
-        console.warn('sync back failed:', e);
+        console.warn('[experience] sync back failed:', e);
       }
     }, 1500);
     return () => clearInterval(id);
   }, [master, updateSlice, replaceMaster]);
 
-  return <ExperienceWorkbook />;
+  return <LegacyWorkbook />;
 }
 
 export default function ExperiencePage() {
   return (
     <WorkbookShell
       workbookKey="experience"
-      title="경험 정리"
-      stepLabel="STEP 2 · 경험 정리"
       mentoringType="cover_letter"
-      relatedKeys={['job_analysis', 'resume', 'motivation', 'self_introduction']}
     >
-      <ExperienceBridge />
+      <Bridge />
     </WorkbookShell>
   );
 }
