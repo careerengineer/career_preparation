@@ -27,14 +27,11 @@ const FirstVisitModal = ({ open, onClose, title, steps }) => {
   );
 };
 
-// ══════════ 하단 고정 저작권 + 문의 (PART 7-8, 11) ══════════
+// ══════════ 하단 고정 저작권 ══════════
 const StickyFooter = () => (
   <div style={{ position: 'sticky', bottom: 0, background: '#FBFAF6', borderTop: '1px solid #6E7A8F33', padding: '10px 16px', marginTop: 24, zIndex: 5 }}>
-    <div style={{ maxWidth: 1350, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+    <div style={{ maxWidth: 1350, margin: '0 auto', textAlign: 'center' }}>
       <p style={{ fontSize: 16, color: '#6E7A8F', margin: 0 }}>© 2026 CareerEngineer. All Rights Reserved.</p>
-      <p style={{ fontSize: 16, color: '#6E7A8F', margin: 0 }}>
-        <a href="https://open.kakao.com/me/careerengineer" target="_blank" rel="noopener noreferrer" style={{ color: '#C9A86A', textDecoration: 'none' }}>CareerEngineer 카카오톡 상담</a>
-      </p>
     </div>
   </div>
 );
@@ -1424,40 +1421,7 @@ export default function App() {
       };
       
       const children = [dateP(), titleP('취 업 준 비  진 단  결 과'), subtitleP(persona)];
-      
-      // CareerEngineer 자료 (상단 고정)
-      children.push(sectionH('취업 준비에 도움되는 CareerEngineer 자료'));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '진단 결과와 함께 아래 자료를 참고하면 다음 단계로 나아가는 데 도움이 됩니다.', italic: true, size: 20, font: '맑은 고딕', color: '6E7A8F' })],
-        spacing: { before: 80, after: 160 }
-      }));
-      children.push(linkP('질문에 답하며 완성하는 자소서 작성 전자책 시리즈', 'https://www.latpeed.com/products/dfdMW'));
-      children.push(linkP('1:1 취업 컨설팅 — 진단 결과 기반 맞춤 조언', 'https://www.latpeed.com/products/S92cP'));
-      children.push(linkP('자소서 멘토링 — 실제 글을 함께 다듬는 멘토링', 'https://www.latpeed.com/products/fKnUV'));
-      children.push(linkP('면접 멘토링 — 모의 면접 + 답변 검증', 'https://www.latpeed.com/products/tZ5xw'));
-      children.push(linkP('이직 컨설팅 — 경력자 전용 트랙', 'https://www.latpeed.com/products/LimF9'));
-      children.push(linkP('CareerEngineeringLab 블로그 — 취업성공 알고리즘', 'https://blog.naver.com/careerengineering'));
-      children.push(linkP('브런치북: 이번생에 취업할 수 있을까?', 'https://brunch.co.kr/@careerengineer'));
-      
-      // CareerEngineer 전체 안내 박스
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '', size: 22, font: '맑은 고딕' })],
-        spacing: { before: 240, after: 60 }
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: 'CareerEngineer 전자책 / 멘토링 전체 안내', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })],
-        spacing: { before: 160, after: 80 },
-        shading: { fill: 'F2F1EC' },
-        border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } },
-        indent: { left: 240 }
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: 'CareerEngineer는 취업·이직 준비의 모든 단계를 지원하는 전자책과 멘토링을 운영합니다. 전자책(자소서 작성, 경력기술서, 면접 답변집 등 단계별 가이드)과 멘토링(1:1 취업컨설팅, 자소서·면접 멘토링, 이직 컨설팅 — 1회/패키지 선택 가능)이 있으며, 모든 자료는 공학박사 멘토의 실제 합격 사례 기반으로 설계되어 있습니다.', size: 20, font: '맑은 고딕', color: '0E2750' })],
-        spacing: { before: 0, after: 120, line: 360 },
-        indent: { left: 240 }
-      }));
-      children.push(linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { prefix: '', before: 80, after: 160, indent: 240 }));
-      
+
       // 가장 약한 단계
       children.push(sectionH('가장 약한 단계 — 지금 집중할 곳'));
       children.push(new Paragraph({ children: [new TextRun({ text: 'STEP ' + result.weakest.step + '. ' + result.weakest.name, bold: true, size: 28, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 100, after: 100 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '0E2750', space: 8 } }, indent: { left: 240 } }));
@@ -1518,55 +1482,6 @@ export default function App() {
         result.now.forEach((a, i) => {
           children.push(new Paragraph({ children: [new TextRun({ text: (i+1) + '.  ', bold: true, size: 24, font: '맑은 고딕', color: '0E2750' }), new TextRun({ text: a.text, bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 200, after: 60 }, indent: { left: 240, hanging: 240 } }));
           if (a.detail) children.push(new Paragraph({ children: [new TextRun({ text: a.detail, size: 22, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 0, after: 80, line: 340 }, indent: { left: 480 } }));
-        });
-      }
-      
-      // 이 단계에서 도움되는 자료 (w 필드: 각 자료가 어떻게 도움되는지 설명)
-      if (result.docs && result.docs.length > 0) {
-        children.push(sectionH('이 단계에서 직접 도움되는 자료'));
-        children.push(new Paragraph({
-          children: [new TextRun({ text: '아래 자료는 STEP ' + result.weakest.step + ' (' + result.weakest.name + ')을 진행하는 데 바로 활용할 수 있습니다. 각 자료가 지금 상황에 어떻게 도움이 되는지 설명되어 있습니다.', italic: true, size: 20, font: '맑은 고딕', color: '6E7A8F' })],
-          spacing: { before: 80, after: 200 }
-        }));
-        result.docs.forEach((d, idx) => {
-          // 자료명 (번호 + 굵게)
-          if (d.u) {
-            children.push(new Paragraph({
-              children: [
-                new TextRun({ text: (idx+1) + '. ', bold: true, size: 24, font: '맑은 고딕', color: '0E2750' }),
-                new ExternalHyperlink({
-                  link: d.u,
-                  children: [new TextRun({ text: d.n, bold: true, size: 24, font: '맑은 고딕', color: '0563C1', underline: { type: 'single', color: '0563C1' } })]
-                })
-              ],
-              spacing: { before: 200, after: 80 },
-              indent: { left: 240, hanging: 240 }
-            }));
-          } else {
-            children.push(new Paragraph({
-              children: [
-                new TextRun({ text: (idx+1) + '. ', bold: true, size: 24, font: '맑은 고딕', color: '0E2750' }),
-                new TextRun({ text: d.n, bold: true, size: 24, font: '맑은 고딕', color: '0E2750' })
-              ],
-              spacing: { before: 200, after: 80 },
-              indent: { left: 240, hanging: 240 }
-            }));
-          }
-          // w 필드 (지금 당신에게 어떻게 도움되나요?)
-          if (d.w) {
-            children.push(new Paragraph({
-              children: [new TextRun({ text: '▸ 지금 당신에게 어떻게 도움되나요?', bold: true, size: 20, font: '맑은 고딕', color: 'C9A86A' })],
-              spacing: { before: 40, after: 40 },
-              indent: { left: 480 }
-            }));
-            children.push(new Paragraph({
-              children: [new TextRun({ text: d.w, size: 22, font: '맑은 고딕', color: '0E2750' })],
-              spacing: { before: 0, after: 160, line: 360 },
-              indent: { left: 480 },
-              shading: { fill: 'FBFAF6' },
-              border: { left: { style: BorderStyle.SINGLE, size: 12, color: 'E8E5DD', space: 4 } }
-            }));
-          }
         });
       }
       
@@ -1711,7 +1626,6 @@ export default function App() {
       { step: '3', inline: true, label: '', items: [
         { key: 'resume', label: '이력서 작성' },
         { key: 'career_description', label: '경력기술서 작성' },
-        { directUrl: MENTORING_URLS.career_consulting, label: '이직 컨설팅' },
       ]},
       { step: '4', label: '', expandable: true, items: [
         { key: 'motivation', label: '지원동기 작성' },
@@ -1719,22 +1633,13 @@ export default function App() {
         { key: 'personality', label: '성격 장단점 작성' },
         { key: 'goalachievement', label: '목표수립 및 달성 작성' },
         { key: 'careergoal', label: '입사후 포부 작성' },
-        { mentoring: true, label: '자소서 멘토링', directUrl: MENTORING_URLS.cover_letter },
       ]},
       { step: '5', label: '', expandable: true, items: [
         { key: 'interview_answer_guide', label: '면접 유형별 답변 전략' },
         { key: 'self_introduction', label: '1분 자기소개 준비' },
         { key: 'interview_new', label: '신입 면접 준비' },
         { key: 'interview_career', label: '경력 면접 준비' },
-        { mentoring: true, label: '면접 멘토링', directUrl: MENTORING_URLS.interview },
       ]},
-    ];
-    
-    // 추가 서비스 (별도 섹션)
-    const extraServices = [
-      { label: 'CareerEngineer 전자책 / 멘토링', url: 'https://www.latpeed.com/stores/eqxhZ/collections/68459e30db90f1ebed56226f' },
-      { label: 'CareerEngineer 1-Hour 1:1 취업컨설팅', url: MENTORING_URLS.consulting },
-      { label: 'CareerEngineer 카카오톡 상담', url: 'https://open.kakao.com/me/careerengineer' },
     ];
     
     return (
@@ -1927,29 +1832,6 @@ export default function App() {
             })}
           </div>
           
-          {/* 추가 서비스 섹션 */}
-          <div style={{ marginTop: SPACING.md, paddingTop: SPACING.md, borderTop: `1px solid ${COLORS.border}` }}>
-            <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.medium, color: COLORS.sub, padding: `0 ${SPACING.base}px`, margin: 0, marginBottom: SPACING.md, lineHeight: FONT.lineHeight.relaxed, textAlign: 'center' }}>개인적인 경험, 직무, 공백기 등에 대한 고민이 있다면<br/>1:1로 CareerEngineer와 함께 더 깊은 이야기를 나눌 수도 있습니다.</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              {extraServices.map((svc, si) => (
-                <a key={si} href={svc.url} target="_blank" rel="noopener noreferrer"
-                  style={{
-                    padding: `10px ${SPACING.base}px`,
-                    borderRadius: 6,
-                    border: `1px solid ${COLORS.border}`,
-                    background: COLORS.white,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    textDecoration: 'none',
-                    fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold,
-                    color: COLORS.accent,
-                    transition: 'all 150ms',
-                  }}
-                  className="ce-step-nav-item">
-                  {svc.label}
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
       </>
     );
@@ -2219,37 +2101,6 @@ export default function App() {
         )}
 
 
-        {/* Relevant Docs — 각 자료가 지금 상황에 어떻게 도움되는지 설명 포함 */}
-        {result.docs.length > 0 && (
-          <div style={{margin:"20px 0"}}>
-            <h2 style={{fontSize:18,fontWeight:700,margin:"0 0 6px",color:COLORS.accent}}>이 단계에서 직접 도움되는 자료</h2>
-            <p style={{fontSize: 16, color: COLORS.sub, margin: "0 0 14px", lineHeight: 1.6}}>아래 자료는 STEP {result.weakest.step} ({result.weakest.name})를 진행하는 데 바로 활용할 수 있습니다. 각 자료가 지금 상황에 어떻게 도움이 되는지 설명되어 있습니다.</p>
-            <div style={{display:"flex",flexDirection:"column",gap:14}}>
-              {result.docs.map((d, i) => (
-                <div key={i} style={{borderRadius:14,border:`1px solid ${COLORS.border}`,background:"#fff",overflow:"hidden"}}>
-                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 18px",background:"#FBFAF6",borderBottom: d.w ? `1px solid ${COLORS.border}` : "none"}}>
-                    <div style={{display:"flex",alignItems:"center",gap:10,flex:1}}>
-                      <span style={{minWidth:28,height:28,borderRadius:8,background:COLORS.accent,color:"#fff",display:"inline-flex",alignItems:"center",justifyContent:"center",fontSize: 16,fontWeight:700,flexShrink:0}}>{i+1}</span>
-                      <div style={{fontSize: 16,fontWeight:700,color:COLORS.accent,lineHeight:1.4}}>{d.n}</div>
-                    </div>
-                    {d.u ? (
-                      <a href={d.u} target="_blank" rel="noopener noreferrer" style={{fontSize: 16,color:"#fff",background:COLORS.accent2,textDecoration:"none",fontWeight:600,padding:"8px 16px",borderRadius:8,whiteSpace:"nowrap",marginLeft:12}}>자료 보기</a>
-                    ) : (
-                      <span style={{fontSize: 16,color:"#6E7A8F",padding:"8px 16px",border:`1px solid ${COLORS.border}`,borderRadius:8,whiteSpace:"nowrap",marginLeft:12}}>준비 중</span>
-                    )}
-                  </div>
-                  {d.w && (
-                    <div style={{padding:"14px 18px"}}>
-                      <p style={{fontSize: 13, color: COLORS.accent2, fontWeight: 700, margin: 0, marginBottom: 6, letterSpacing: 0.3}}>지금 당신에게 어떻게 도움되나요?</p>
-                      <p style={{fontSize: 15, color: COLORS.accent, margin: 0, lineHeight: 1.7}}>{d.w}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Big Picture - 각 단계별 사용자 답변 맞춤 안내 포함 */}
         <div style={{margin:"20px 0"}}>
           <h2 style={{fontSize:16,fontWeight:700,margin:"0 0 4px"}}>앞으로의 큰 그림 — 단계별 안내</h2>
@@ -2283,54 +2134,6 @@ export default function App() {
                 </div>
               );
             })}
-          </div>
-        </div>
-
-        {/* ═══ 관련 자료 + 멘토링 안내 (PART 6-4, 7-8) ═══ */}
-        <div style={{ background: '#F2F1EC', border: '1px solid rgba(27, 58, 107, 0.2)', borderRadius: 10, padding: 16, marginTop: 24, marginBottom: 16 }}>
-          <p style={{ fontSize: 16, fontWeight: 600, color: '#1B3A6B', letterSpacing: 0.5, textTransform: 'uppercase', margin: 0, marginBottom: 8 }}>INFO · 다음 STEP 안내</p>
-          <p style={{ fontSize: 16, color: '#0E2750', margin: 0, lineHeight: 1.6 }}>진단 결과에서 추천한 액션을 순서대로 실행하세요</p>
-        </div>
-
-        <RelatedWorkbookList
-          title="다음 단계 — STEP별 자료"
-          items={[
-            { id: 'job_analysis', hint: 'STEP 1 · 채용공고와 직무 분석으로 시작' },
-            { id: 'experience', hint: 'STEP 2 · 경험 발굴 인벤토리' },
-            { id: 'resume', hint: 'STEP 3 · 이력서 작성 (경력직은 경력기술서 추가)' },
-            { id: 'motivation', hint: 'STEP 4 · 자소서 5대 항목 (지원동기·직무역량 등)' },
-            { id: 'self_introduction', hint: 'STEP 5 · 1분 자기소개 + 면접 준비' }
-          ]}
-        />
-
-        <div style={{ background: '#FBFAF6', border: '1px solid rgba(168, 133, 63, 0.2)', borderRadius: 10, padding: 16, marginBottom: 16 }}>
-          <p style={{ fontSize: 16, fontWeight: 600, color: '#A8853F', letterSpacing: 0.5, textTransform: 'uppercase', margin: 0, marginBottom: 12, textAlign: 'center' }}>1:1 멘토링 · 컨설팅 안내</p>
-          <p style={{ fontSize: 16, color: '#0E2750', margin: 0, marginBottom: 16, lineHeight: 1.6, textAlign: 'center' }}>혼자 막히는 부분이 있다면 시니어 현직자와 1:1로 풀어보세요. 멘토링 수강 시 관련 가이드워크북이 제공됩니다.</p>
-          <div style={{ display: 'grid', gap: 8 }}>
-            <a href={MENTORING_URLS.consulting} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: 12, background: '#fff', borderRadius: 8, border: '1px solid #6E7A8F33', textDecoration: 'none', textAlign: 'center', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>
-              <p style={{ fontSize: 16, fontWeight: 600, color: '#0E2750', margin: 0 }}>CareerEngineer 1-Hour 1:1 취업컨설팅</p>
-              <p style={{ fontSize: 16, color: '#6E7A8F', margin: 0, marginTop: 4, lineHeight: 1.5 }}>방향 설정이 막막하다면 — 자소서·이력서·면접 중 핵심 고민 1시간 집중. 기초 전자책 5종 제공.</p>
-            </a>
-            <a href={MENTORING_URLS.cover_letter} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: 12, background: '#fff', borderRadius: 8, border: '1px solid #6E7A8F33', textDecoration: 'none', textAlign: 'center', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>
-              <p style={{ fontSize: 16, fontWeight: 600, color: '#0E2750', margin: 0 }}>자소서 멘토링 프로그램</p>
-              <p style={{ fontSize: 16, color: '#6E7A8F', margin: 0, marginTop: 4, lineHeight: 1.5 }}>서류 합격이 어렵다면 — 채용담당자 관점 첨삭. 자소서 5종 + 경험정리 가이드 제공.</p>
-            </a>
-            <a href={MENTORING_URLS.interview} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: 12, background: '#fff', borderRadius: 8, border: '1px solid #6E7A8F33', textDecoration: 'none', textAlign: 'center', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>
-              <p style={{ fontSize: 16, fontWeight: 600, color: '#0E2750', margin: 0 }}>면접 멘토링 프로그램</p>
-              <p style={{ fontSize: 16, color: '#6E7A8F', margin: 0, marginTop: 4, lineHeight: 1.5 }}>실전 답변이 안 나온다면 — 면접관 관점 모의면접. 1분 자기소개 + 면접 신입/경력 가이드 제공.</p>
-            </a>
-            <a href={MENTORING_URLS.career_consulting} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: 12, background: '#fff', borderRadius: 8, border: '1px solid #6E7A8F33', textDecoration: 'none', textAlign: 'center', transition: 'opacity 150ms ease'}}
-  onMouseEnter={e => e.currentTarget.style.opacity = 0.8}
-  onMouseLeave={e => e.currentTarget.style.opacity = 1}>
-              <p style={{ fontSize: 16, fontWeight: 600, color: '#0E2750', margin: 0 }}>이직 컨설팅 (경력직)</p>
-              <p style={{ fontSize: 16, color: '#6E7A8F', margin: 0, marginTop: 4, lineHeight: 1.5 }}>이직 결정이 어렵다면 — 결정부터 면접까지 1:1 동행. 경력기술서 + 이력서 + 면접 경력직 가이드 제공.</p>
-            </a>
           </div>
         </div>
 
