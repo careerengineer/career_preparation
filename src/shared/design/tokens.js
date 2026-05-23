@@ -30,7 +30,7 @@ export const COLORS = {
 };
 
 export const FONT = {
-  family: '"Pretendard","Noto Sans KR","Malgun Gothic",system-ui,sans-serif',
+  family: '"Pretendard Variable","Pretendard","Noto Sans KR","Malgun Gothic",system-ui,sans-serif',
   serif: '"Noto Serif KR","Noto Serif","Source Han Serif KR",serif',  // editorial용
   mono: '"JetBrains Mono","SFMono-Regular",ui-monospace,monospace',
   size: {
