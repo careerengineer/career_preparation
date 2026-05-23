@@ -138,22 +138,37 @@ export function getImportableItems(master, workbookKey) {
 }
 
 // NextActionCard용: 다음에 할 일 추천
+// 우선순위:
+// 1) 프로필 없음 → 입력 안내
+// 2) STEP 0 진단 안 했으면 → 진단 먼저
+// 3) 약점 STEP 미완료 워크북 있으면 → 그것
+// 4) 진행 중(50%) 워크북 있으면 → 이어서 작성
+// 5) 다음 미시작 워크북 → 시작
+// 6) 모두 완료 → done
 export function getNextRecommendation(master) {
-  if (!master.profile.industry && !master.profile.position) {
+  if (!master.profile.industry && !master.profile.position && !master.profile.company) {
     return { kind: 'profile', label: '먼저 산업/직무/회사를 입력해주세요' };
   }
-  if (!master.roadmap.completedAt) {
-    return { kind: 'workbook', workbookKey: 'career_roadmap', label: 'STEP 0 진단부터 시작' };
+  if (!master.roadmap.completedAt && getWorkbookProgress(master, 'career_roadmap') < 100) {
+    return { kind: 'workbook', workbookKey: 'career_roadmap', label: 'STEP 0 · 취업 로드맵 진단부터 시작' };
   }
+  // 약점 STEP 안의 미완료 워크북 우선
   if (master.roadmap.weakestStep != null) {
-    const wk = WORKBOOKS.find((w) => w.step === master.roadmap.weakestStep);
-    if (wk && getWorkbookProgress(master, wk.key) < 100) {
-      return { kind: 'workbook', workbookKey: wk.key, label: `약점 STEP ${master.roadmap.weakestStep} · ${wk.title}` };
+    const stepBooks = WORKBOOKS.filter((w) => w.step === master.roadmap.weakestStep);
+    const target = stepBooks.find((w) => getWorkbookProgress(master, w.key) < 100);
+    if (target) {
+      return { kind: 'workbook', workbookKey: target.key, label: `약점 STEP ${master.roadmap.weakestStep} · ${target.title}` };
     }
   }
-  const next = WORKBOOKS.find((w) => getWorkbookProgress(master, w.key) < 100);
-  if (next) {
-    return { kind: 'workbook', workbookKey: next.key, label: `다음: ${next.stepLabel} · ${next.title}` };
+  // 진행 중(50%)인 것 이어서 작성이 가장 효율적
+  const inProgress = WORKBOOKS.find((w) => getWorkbookProgress(master, w.key) === 50);
+  if (inProgress) {
+    return { kind: 'workbook', workbookKey: inProgress.key, label: `이어서 작성: ${inProgress.stepLabel} · ${inProgress.title}` };
+  }
+  // 미시작 첫 워크북
+  const notStarted = WORKBOOKS.find((w) => getWorkbookProgress(master, w.key) === 0);
+  if (notStarted) {
+    return { kind: 'workbook', workbookKey: notStarted.key, label: `다음: ${notStarted.stepLabel} · ${notStarted.title}` };
   }
   return { kind: 'done', label: '모든 워크북을 완료했습니다' };
 }

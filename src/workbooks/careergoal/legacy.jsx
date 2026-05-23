@@ -201,7 +201,7 @@ const CareerAspirationWorkbook = () => {
             ifStillDifficult: '현직자 인터뷰 영상이나 블로그에서 "이 직무의 하루 일과"를 찾아보세요. 반복적으로 언급되는 업무가 핵심입니다.'
           },
           placeholder: '예(생산기술 기준): ① 공정 개선 — 불량률·사이클타임 데이터를 분석하여 생산성을 높이는 것이 본질 ② 설비 관리 — 장비 가동률을 유지하여 생산 계획을 지키는 것 ③ 품질 검증 — 신제품 양산 전 공정 안정성을 확인하여 클레임을 예방하는 것',
-          rows: 4, relatedWorkbooks: ['job_analysis', 'experience']
+          rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
         },
         {
           id: 'q1_1_2',
@@ -219,7 +219,7 @@ const CareerAspirationWorkbook = () => {
             ifStillDifficult: '지금 당장 시니어 채용공고 하나만 찾아서 "우대사항"을 읽어보세요. 30분이면 충분합니다.'
           },
           placeholder: '예(생산기술 기준): [기술 역량] 공정 분석 능력(SPC·FMEA 활용), 설비 트러블슈팅 역량, 도면·공차 해독 능력 / [소프트 스킬] 데이터 기반 문제해결 사고, 유관부서(품질·설비·개발팀)와의 협업 커뮤니케이션 / [리서치 출처: ○○사 생산기술 시니어 채용공고 + ○○ 현직자 인터뷰]',
-          rows: 4, relatedWorkbooks: ['job_analysis', 'experience']
+          rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
         },
         {
           id: 'q1_1_3',
@@ -237,7 +237,7 @@ const CareerAspirationWorkbook = () => {
             ifStillDifficult: '현직자 인터뷰에서 "하루 중 가장 많이 소통하는 팀이 어딘가요?"라는 답변을 찾아보세요.'
           },
           placeholder: '예(생산기술 기준): [연계팀] ① 품질팀 — 불량 분석 데이터 공유, 공정 개선 결과 검증 협의 ② 설비팀 — 설비 이상 발생 시 원인 공동 분석 ③ 개발팀 — 신제품 시생산(MP) 단계에서 공정 적합성 검토 / [이 직무의 역할] 각 팀의 요구사항을 공정 데이터로 연결하고, 현장과 사무실 사이의 기술적 다리 역할',
-          rows: 4, relatedWorkbooks: ['job_analysis', 'experience']
+          rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
         }
       ]
     },
@@ -262,7 +262,7 @@ const CareerAspirationWorkbook = () => {
             ifStillDifficult: '"수업에서 ○○을 했고", "프로젝트에서 ○○을 담당해서", "자격증 ○○으로 기초를 갖췄다"처럼 경험과 연결해서 쓰세요.'
           },
           placeholder: '예(생산기술 기준): ① 도면 해독 — 캡스톤 프로젝트에서 3D 도면 작성 경험, GD&T 기초 수준 ② 데이터 분석 — Excel 피벗테이블 활용 가능, 통계 기초 수업 이수 ③ 공정 이해 — 생산관리 수업 A+, 스마트팩토리 견학 2회 / 즉시 활용 가능 여부: ①②는 보조 역할로 기여 가능, ③은 이해 수준',
-          rows: 4, relatedWorkbooks: ['job_analysis', 'experience']
+          rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
         },
         {
           id: 'q1_2_2',
@@ -280,7 +280,7 @@ const CareerAspirationWorkbook = () => {
             ifStillDifficult: '"이 역량이 필요한 상황을 맞닥뜨리면 어떻게 될까?"라고 상상해보세요. 버벅거릴 것 같은 것이 부족한 역량입니다.'
           },
           placeholder: '예(생산기술 기준): ① 설비 트러블슈팅 — 미경험, 실제 장비를 다뤄본 적 없음 ② FMEA 작성 — 개념은 알지만 실제로 작성해본 경험 없음 ③ SPC 데이터 해석 — 이론은 배웠지만 실무 데이터로 활용해본 적 없음 / 수준 평가: ①은 완전 미경험, ②③은 이론 수준',
-          rows: 3, relatedWorkbooks: ['job_analysis', 'experience']
+          rows: 3, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
         },
         {
           id: 'q1_2_3',
@@ -298,7 +298,7 @@ const CareerAspirationWorkbook = () => {
             ifStillDifficult: '아무것도 없다면 솔직하게 인정하고, 그 에너지를 Q3 준비 계획을 세우는 데 쓰세요.'
           },
           placeholder: '예: ① FMEA — 관련 교재 구매 후 1~3장 학습 완료 (현재 진행 중) ② SPC — 코세라 "통계적 공정 관리" 강의 수강 중 (40% 완료) ③ 현장 감각 — 학교 실습실에서 CNC 기초 조작 경험 (올해 3월 완료)',
-          rows: 3, relatedWorkbooks: ['experience']
+          rows: 3, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
         }
       ]
     },
@@ -323,7 +323,7 @@ const CareerAspirationWorkbook = () => {
             ifStillDifficult: '"역량명 / 현재 수준 / 준비 방법 / 완료 시기 / 확인 방법" 다섯 칸을 채운다고 생각하고 써보세요.'
           },
           placeholder: '예(생산기술 기준):\n[FMEA 작성 역량] 현재: 개념만 앎 → 방법: ○○ 교재 완독 + 가상 공정 시뮬레이션 3회 → 시기: 입사 전 2개월 → 확인: 스스로 FMEA 양식 작성 가능 여부\n[SPC 실무 해석] 현재: 이론 수준 → 방법: 공개 데이터셋으로 관리도 직접 작성 → 시기: 입사 후 3개월 → 확인: 이상 원인 분류 가능 수준\n[설비 트러블슈팅] 현재: 미경험 → 방법: 입사 후 OJT + 선배 동행 → 시기: 6개월 → 확인: 일상 점검 독립 수행',
-          rows: 6, relatedWorkbooks: ['job_analysis', 'experience']
+          rows: 6, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
         },
         {
           id: 'q1_3_2',
@@ -341,7 +341,7 @@ const CareerAspirationWorkbook = () => {
             ifStillDifficult: '"내가 이 업무를 잘 하면, 파트의 어떤 문제가 해결되나요?"를 생각해보세요.'
           },
           placeholder: '예(생산기술 기준): [개인] 담당 공정 1개 불량 원인 데이터 분석 후 개선안 제안 / [파트] 분석 방법론을 파트 표준 양식으로 공유 → 팀원들도 동일하게 적용 가능 / [팀] 품질팀이 원하는 형식으로 불량 데이터 정기 공유 / [연결] 직무상세내용 키워드 "공정 개선" → 개인 공정 → 파트 내 유사 공정 3개 → 라인 전체로 확장',
-          rows: 4, relatedWorkbooks: ['job_analysis']
+          rows: 4, relatedWorkbooks: ['job_analysis', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
         },
         {
           id: 'q1_3_3',
@@ -359,7 +359,7 @@ const CareerAspirationWorkbook = () => {
             ifStillDifficult: '"입사 후 1년 경과 후 팀장이 나에게 맡길 수 있는 일은 무엇인가?"를 상상해보세요.'
           },
           placeholder: '예:\n[측정 기준] FMEA: 신규 공정 시나리오를 혼자 작성 후 팀장 리뷰 통과 / 공정 개선: 불량률 데이터 분석 후 개선안 1건 독립 제안 가능\n[1년 후 수행 가능 업무]\n3개월: 공정 표준서 파악 완료 + FMEA 양식 선배 검토 하에 작성\n6개월: 불량 데이터 1차 분석 독립 수행 + 품질팀 협의 참여\n1년: 담당 공정 불량률 감소 과제 독립 제안 + 파트 내 분석 방법론 공유',
-          rows: 5, relatedWorkbooks: ['interview_new', 'interview_career']
+          rows: 5, relatedWorkbooks: ['interview_new', 'interview_career', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
         }
       ]
     },
@@ -384,7 +384,7 @@ const CareerAspirationWorkbook = () => {
             ifStillDifficult: '"신입에게 없고 시니어에게 있는 것"이 바로 다음 단계에서 쌓아야 할 역량입니다.'
           },
           placeholder: '예(생산기술 기준): [다음 역할 — 리서치 결과]\n시니어 직무상세내용 기준: ① 공정 라인 전체 관리 책임 ② 신제품 MP 총괄 참여 ③ 원가 절감 과제 프로젝트 리드 ④ 후임 교육 및 표준서 수립 책임\n[그 단계를 위한 준비 경로]\n2년차: 라인 밸런싱 과제 보조 참여 자원 + PLC 기초 외부 교육\n3년차: 원가 절감 과제 1건 독립 기획·실행 경험 쌓기\n자격증: 생산관리기사 입사 후 2년차 내 취득',
-          rows: 5, relatedWorkbooks: ['job_analysis', 'experience']
+          rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
         },
         {
           id: 'q1_q4_2',
@@ -402,7 +402,7 @@ const CareerAspirationWorkbook = () => {
             ifStillDifficult: '"이 회사가 ○○ 방향으로 나아가는데, 내가 ○○ 역량을 갖추면 그 과정에서 이렇게 기여할 수 있다"는 구조로 씁니다.'
           },
           placeholder: '예: [조직 전체 기여] 공정 데이터 분석·자동화 전문가로서 스마트팩토리 전환 과제 주도, 신공장 공정 표준 수립, 협력사 기술 지원으로 공급망 전체 품질 강화 기여\n[회사 방향성 연결] 귀사 IR 자료 기준 "스마트 제조 전환 가속" 전략과, 내가 중기적으로 쌓아갈 데이터 기반 공정 분석·자동화 역량이 직접 연결됩니다. 이 회사에서 성장하는 것이 귀사의 미래 공장 구현에 실질적인 기여가 될 것이라 생각합니다.',
-          rows: 5, relatedWorkbooks: ['job_analysis', 'experience']
+          rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
         }
       ]
     }
@@ -426,7 +426,7 @@ const CareerAspirationWorkbook = () => {
           ifStillDifficult: '현직자 유튜브에서 "이 직무의 가장 중요한 역량이 뭔가요?"라는 질문에 대한 답변을 찾아보세요.'
         },
         placeholder: '예(생산기술 기준):\n직무상세내용 키워드 → 본질 정의\n"공정 개선" → 불량·원가·사이클타임 데이터를 분석해 생산 경쟁력을 높이는 것\n"설비 관리" → 장비 가동률을 유지해 납기 약속을 지키는 것\n"품질 문제 대응" → 문제를 재발 없이 원인에서 차단하는 것\n"표준화 문서 작성" → 현장 노하우를 조직 자산으로 만드는 것',
-        rows: 5, relatedWorkbooks: ['job_analysis', 'self_introduction']
+        rows: 5, relatedWorkbooks: ['job_analysis', 'self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
       },
       {
         id: 'q2_1_2',
@@ -444,7 +444,7 @@ const CareerAspirationWorkbook = () => {
           ifStillDifficult: '"계속 하다 보면 지칠 것 같은 것"과 "계속해도 안 지칠 것 같은 것"을 나눠보세요.'
         },
         placeholder: '예: [절대 하기 싫은 것] 문제 원인을 찾지 못한 채 임시방편으로만 해결하는 것, 데이터 없이 직관으로만 판단하는 환경\n[가장 하고 싶은 것] 불량 데이터를 파고들어 진짜 원인을 찾아내고 재발을 막는 것, 공정을 구조적으로 바꿔서 팀 전체의 업무 부담을 줄이는 것\n→ 이 직무를 선택한 이유: 문제를 데이터로 구조적으로 해결하는 것에 가장 몰입할 수 있기 때문',
-        rows: 5, relatedWorkbooks: ['job_analysis']
+        rows: 5, relatedWorkbooks: ['job_analysis', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
       },
       {
         id: 'q2_1_3',
@@ -462,7 +462,7 @@ const CareerAspirationWorkbook = () => {
           ifStillDifficult: '연계 팀 현직자 인터뷰를 하나 찾아보세요. "다른 팀과 협업할 때 가장 중요한 것"에 대한 답이 있을 수 있습니다.'
         },
         placeholder: '예: [품질팀이 이 직무에 원하는 것]\n① 정확하고 빠른 불량 원인 분류 데이터\n② 공정 개선 후 효과 수치 (불량률 변화)\n③ 신제품 MP 전 공정 FMEA 결과 공유\n[내가 준비할 것] 내 분석 양식을 품질팀 보고 형식에 맞추고, 월간 공유 루틴을 만들겠습니다',
-        rows: 4, relatedWorkbooks: ['job_analysis', 'experience']
+        rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
       }
     ],
     2: [
@@ -482,7 +482,7 @@ const CareerAspirationWorkbook = () => {
           ifStillDifficult: '아직 증명할 경험이 없다면 솔직하게 "이론 수준"이라고 쓰는 것이 더 낫습니다.'
         },
         placeholder: '예: [SPC 역량] 수준: 이론 중급 / S: 품질경영 수업 팀 프로젝트에서 데이터 분석 담당 / T: 불량 데이터로 관리도 작성 과제 / A: Excel로 X-bar 관리도 작성, 이상 포인트 3개 식별 / R: 교수님 평가 "실무 적용 가능 수준의 분석" / 현재 수준: 교과서 데이터 → 실무 데이터 적용은 추가 연습 필요',
-        rows: 5, relatedWorkbooks: ['experience', 'interview_new']
+        rows: 5, relatedWorkbooks: ['experience', 'interview_new', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
       },
       {
         id: 'q2_2_2',
@@ -500,7 +500,7 @@ const CareerAspirationWorkbook = () => {
           ifStillDifficult: '"이 역량을 유튜브와 교재로 익힐 수 있나요, 아니면 현장에서만 배울 수 있나요?"로 구분하세요.'
         },
         placeholder: '예:\n[입사 전 채울 수 있는 것 — 공부로 가능]\nFMEA 개념·양식 작성 → 교재 + 유튜브 강의 (2개월)\nSPC 기본 해석 → 공개 데이터셋 실습 (1개월)\n\n[입사 후 OJT로 채울 것 — 실무 경험 필요]\n설비 트러블슈팅 → 현장 실측 경험 필수\n공정 개선 실전 → 실제 생산 데이터 분석 경험 필요\n\n[자격증] 생산관리기사 → 입사 1~2년차 목표',
-        rows: 5, relatedWorkbooks: ['job_analysis', 'experience']
+        rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
       },
       {
         id: 'q2_2_3',
@@ -518,7 +518,7 @@ const CareerAspirationWorkbook = () => {
           ifStillDifficult: '"열심히 배우겠습니다"는 보완 계획이 아닙니다. 구체적인 방법과 기간이 있어야 합니다.'
         },
         placeholder: '예: [준비 상태 평가]\n갖춘 것: SPC 기초, FMEA 개념 이해, 도면 해독 기초, 데이터 분석 Excel 활용\n기초 수준: Python 데이터 분석 (기초 문법은 알지만 실무 적용은 부족)\n부족한 것: 실제 설비 조작 경험, FMEA 실제 작성 경험\n\n[보완 계획]\nFMEA: 입사 전 2개월 교재 완독 + 가상 공정 3회 작성 실습\n설비: 입사 후 OJT에서 적극 참여하고 선배 동행 요청',
-        rows: 5, relatedWorkbooks: ['experience']
+        rows: 5, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
       }
     ],
     3: [
@@ -538,7 +538,7 @@ const CareerAspirationWorkbook = () => {
           ifStillDifficult: '준비 방법이 없다면 지금 당장 검색해서 "어떻게 배울 수 있는지"를 찾아보세요.'
         },
         placeholder: '예: [역량명] FMEA 작성\n[현재 수준] 개념 인지 / 실제 작성 경험 없음\n[준비 방법] ①FMEA 교재 1권 완독 ②공정 가상 시나리오 3개에 직접 양식 작성 ③유튜브 FMEA 실무 강의 시청\n[완료 시기] 입사 전 2개월\n[확인 기준] 교재에 없는 새로운 공정 시나리오를 받았을 때 혼자 FMEA 양식 작성 완료 가능',
-        rows: 5, relatedWorkbooks: ['interview_new', 'interview_career']
+        rows: 5, relatedWorkbooks: ['interview_new', 'interview_career', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
       },
       {
         id: 'q2_3_2',
@@ -556,7 +556,7 @@ const CareerAspirationWorkbook = () => {
           ifStillDifficult: '이유 없는 활동은 빼도 됩니다. 이유 있는 활동 2~3개가 훨씬 강합니다.'
         },
         placeholder: '예: ① 생산관리 수업 A+ → 공정의 전체 흐름을 이해하고 싶어서\n② 스마트팩토리 견학 2회 → 실제 현장이 어떻게 돌아가는지 보고 싶어서\n③ SPC 강의 수강 → FMEA와 함께 공정 품질 분석의 핵심이라고 판단해서\n④ 캡스톤 도면 작업 → 도면 해독이 생산기술의 기본이라고 느껴서\n\n이유 없는 활동 (삭제): 토익 — 직무와 직접 연관 없음',
-        rows: 5, relatedWorkbooks: ['job_analysis', 'experience']
+        rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
       },
       {
         id: 'q2_3_3',
@@ -574,7 +574,7 @@ const CareerAspirationWorkbook = () => {
           ifStillDifficult: '"입사 후 1년 경과 후 팀장이 나에게 맡길 수 있는 일은 무엇인가?"를 상상해보세요.'
         },
         placeholder: '예:\n[3개월 후 할 수 있는 것]\n공정 표준서 읽고 이해하기 / FMEA 양식 작성 (선배 검토 하에) / 일상 설비 점검표 독립 수행\n[6개월 후 할 수 있는 것]\n불량 데이터 분석 보고서 1차 작성 / 품질팀 미팅 내용 요약·공유\n[1년 후 할 수 있는 것]\n소규모 공정 개선 과제 독립 제안 / 담당 공정 불량률 추이 보고 독립 수행 / 파트 내 분석 방법론 공유',
-        rows: 5, relatedWorkbooks: ['interview_new', 'interview_career']
+        rows: 5, relatedWorkbooks: ['interview_new', 'interview_career', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
       },
       {
         id: 'q2_3_4',
@@ -592,7 +592,7 @@ const CareerAspirationWorkbook = () => {
           ifStillDifficult: '각 단계에서 "이 수준의 기여를 하려면 어떤 역량이 추가로 필요한가?"를 함께 쓰세요.'
         },
         placeholder: '예: 키워드 — "데이터 기반 공정 개선"\n[개인] 담당 공정 1개 불량률 데이터 분석 → 원인 제거 → 5% 감소\n[파트] 분석 방법론을 파트 내 표준 양식으로 공유 → 다른 팀원도 적용\n[팀] 팀 전체 라인 불량 데이터 통합 분석 → 라인 밸런싱 개선 제안\n[회사] 공장 전체 스마트팩토리 데이터 수집 체계 구축에 기여',
-        rows: 4, relatedWorkbooks: ['job_analysis', 'interview_new']
+        rows: 4, relatedWorkbooks: ['job_analysis', 'interview_new', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
       }
     ],
     4: [
@@ -612,7 +612,7 @@ const CareerAspirationWorkbook = () => {
           ifStillDifficult: '현직자 인터뷰에서 "1년차와 4년차의 가장 큰 차이"를 검색해보세요.'
         },
         placeholder: '예: [리서치 기반 갭 분석]\n시니어 직무상세내용에 있고 신입 직무상세내용에 없는 것:\n① 공정 라인 전체 관리 및 최적화 주도\n② 후임 지도 및 작업 표준서 수립 책임\n③ 원가 절감 과제 독립 기획·실행\n④ 신제품 MP 총괄 참여\n\n갭을 채우기 위해 필요한 경험:\n① 라인 전체 데이터를 보는 기회 자원\n② 원가 과제 보조 참여 → 독립 기획 순서로\n③ MP 참여 기회가 생기면 적극 지원',
-        rows: 5, relatedWorkbooks: ['job_analysis', 'experience']
+        rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
       },
       {
         id: 'q2_4_2',
@@ -630,7 +630,7 @@ const CareerAspirationWorkbook = () => {
           ifStillDifficult: '각 단계 끝에 "이것을 완성하면 → 다음에 이것이 가능해진다"는 한 문장을 추가해보세요.'
         },
         placeholder: '예: [흐름 점검]\nQ1: 생산기술의 본질은 공정 데이터로 불량률·원가를 구조적으로 개선하는 것\n↓\nQ2: 현재 SPC·FMEA 이론 수준 + 설비 경험 부재\n↓\nQ3: 입사 전 FMEA 실습 + 입사 후 3개월 SPC 실무, 파트 분석 방법론 공유로 범위 확장\n↓\nQ4: 라인 전체 관리 경험 + PLC 기초 → 스마트팩토리 전환 과제 기여\n\n[끊기는 지점] Q3→Q4 사이: 라인 전체를 보는 경험이 추가로 필요 → 2년차 TF 참여 자원',
-        rows: 5, relatedWorkbooks: ['experience', 'interview_new']
+        rows: 5, relatedWorkbooks: ['experience', 'interview_new', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
       }
     ]
   };

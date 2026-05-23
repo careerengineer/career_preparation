@@ -127,7 +127,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
 
   return (
     <>
-      {/* FAB 버튼 */}
+      {/* FAB 버튼 - 텍스트 입력 중일 때 자동 흐리게 + hover 시 진하게 */}
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label="참고 자료 열기"
@@ -135,13 +135,19 @@ export function ReferenceFAB({ currentWorkbookKey }) {
           position: 'fixed', right: SPACING.lg, bottom: SPACING.lg, zIndex: 90,
           background: COLORS.accent, color: COLORS.white,
           border: `2px solid ${COLORS.accent2}`,
-          padding: '14px 18px', borderRadius: RADIUS.pill,
+          padding: '12px 16px', borderRadius: RADIUS.pill,
           fontFamily: FONT.family, fontSize: FONT.size.body,
           fontWeight: FONT.weight.semibold,
           cursor: 'pointer',
           boxShadow: '0 6px 18px rgba(14,39,80,0.28)',
           display: 'flex', alignItems: 'center', gap: 8,
+          opacity: 0.55,
+          transition: 'opacity 0.2s ease',
         }}
+        onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.55'; }}
+        onFocus={(e) => { e.currentTarget.style.opacity = '1'; }}
+        onBlur={(e) => { e.currentTarget.style.opacity = '0.55'; }}
       >
         참고 자료
         {hasAny && (

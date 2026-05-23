@@ -201,7 +201,7 @@ const CompetencyWorkbook = () => {
             ifStillDifficult: '현직자 인터뷰 영상을 3편 이상 보고 공통으로 나오는 업무를 정리해보세요.'
           },
           placeholder: '예: 첫 번째는 SNS 콘텐츠 기획·제작입니다. 브랜드 메시지를 타겟에 맞는 형식으로 만들어 주 3회 이상 업로드합니다. 두 번째는 캠페인 성과 분석, 세 번째는 신규 채널 발굴입니다.',
-          rows: 4, relatedWorkbooks: ['job_analysis']
+          rows: 4, relatedWorkbooks: ['job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
           id: 'q1_2',
@@ -219,7 +219,7 @@ const CompetencyWorkbook = () => {
             ifStillDifficult: '"이 역량이 없었다면 그 업무의 어느 단계에서 막혔을까?"라고 스스로 질문해보세요.'
           },
           placeholder: '예: 가장 핵심은 콘텐츠 기획력입니다. 트렌드를 읽고 타겟의 언어로 변환하는 능력이 없으면 아무리 디자인이 좋아도 반응이 없습니다. 포토샵 스킬보다 "무엇을 왜 만드는가"를 아는 것이 더 중요합니다.',
-          rows: 4, relatedWorkbooks: ['career_roadmap', 'job_analysis']
+          rows: 4, relatedWorkbooks: ['career_roadmap', 'job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
           id: 'q1_3',
@@ -237,7 +237,7 @@ const CompetencyWorkbook = () => {
             ifStillDifficult: 'Q1-2에서 파악한 역량 목록을 보면서, 내가 경험을 댈 수 있는 것을 하나 고르세요.'
           },
           placeholder: '예: 콘텐츠 기획·제작 역량입니다. 대학 축제 홍보 TF에서 2주간 30개 콘텐츠를 단독으로 기획하고 제작한 경험이 있고, SNS 팔로워가 300명 증가한 결과가 있습니다.',
-          rows: 3, relatedWorkbooks: ['experience']
+          rows: 3, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
         }
       ]
     },
@@ -262,7 +262,7 @@ const CompetencyWorkbook = () => {
             ifStillDifficult: '처음 이 역량을 배우거나 익히기 시작했을 때로 돌아가세요. 무엇이 시작의 계기였나요?'
           },
           placeholder: '예: 대학교 2학년 때 동아리 홍보를 맡았는데, 열심히 만든 포스터가 아무 반응이 없었습니다. 옆 동아리 포스터는 같은 내용인데 "공유하고 싶다"는 말이 나왔고, 그때 "무엇을 왜 만드는가"를 모르면 아무리 잘 만들어도 의미 없다는 것을 깨달았습니다.',
-          rows: 4, relatedWorkbooks: ['career_roadmap', 'experience']
+          rows: 4, relatedWorkbooks: ['career_roadmap', 'experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
           id: 'q2_2',
@@ -280,7 +280,7 @@ const CompetencyWorkbook = () => {
             ifStillDifficult: '규모가 작은 것에서 큰 것으로, 혼자서 팀으로, 이론에서 실전으로 성장한 흐름이 있나요?'
           },
           placeholder: '예: 그 순간 이후 브랜드 분석 블로그를 시작해 매주 하나씩 광고를 뜯어보며 "왜 이 카피를 썼을까"를 분석했습니다. 이후 동아리에서 실제 캠페인을 맡아 A/B 테스트를 설계했고, 마케팅 수업에서는 실제 스타트업 프로젝트에 참여해 데이터를 보며 전략을 수정하는 경험까지 했습니다.',
-          rows: 5, relatedWorkbooks: ['experience', 'interview_new']
+          rows: 5, relatedWorkbooks: ['experience', 'interview_new', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
           id: 'q2_3',
@@ -298,7 +298,7 @@ const CompetencyWorkbook = () => {
             ifStillDifficult: '"이 역량 덕분에 내가 그 팀에서 맡은 역할"이 반복되는 패턴이 있나요?'
           },
           placeholder: '예: 동아리 홍보, 마케팅 수업 프로젝트, 스타트업 인턴, 개인 블로그까지 맥락은 달랐지만 매번 "타겟의 언어로 메시지를 만드는 역할"을 자연스럽게 맡았습니다. 처음에는 우연이라고 생각했는데, 이 역량이 나의 강점이라는 것을 패턴으로 확인했습니다.',
-          rows: 4, relatedWorkbooks: ['experience']
+          rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
         }
       ]
     },
@@ -324,7 +324,7 @@ const CompetencyWorkbook = () => {
             ifStillDifficult: '수치보다 "타인의 인정"도 충분한 근거입니다. 요청받은 것, 다시 맡겨진 것을 찾아보세요.'
           },
           placeholder: '예: 대학 축제 홍보 TF에서 2주간 30개 콘텐츠를 단독 기획·제작했고, SNS 팔로워 300명 증가(전년 대비 20%)라는 결과를 만들었습니다. 이후 다른 학과 행사에서도 먼저 연락해 작업을 요청받았고, 지도교수님께서 "학부생 중 완성도가 다르다"고 평가하셨습니다.',
-          rows: 5, relatedWorkbooks: ['experience', 'interview_new']
+          rows: 5, relatedWorkbooks: ['experience', 'interview_new', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
           id: 'q3_2',
@@ -342,7 +342,7 @@ const CompetencyWorkbook = () => {
             ifStillDifficult: '아주 단순한 인과관계도 좋습니다. "포토샵이 없었다면 콘텐츠 외주에 의존했을 것이고, 속도와 비용이 달라졌을 것"처럼요.'
           },
           placeholder: '예: 포토샵 역량이 없었다면 콘텐츠 수정을 외주에 맡겨야 했고, 트렌드 반응 속도가 3~4일 늦어졌을 것입니다. 즉각 수정이 가능했기 때문에 반응 데이터를 보며 다음 콘텐츠에 바로 반영할 수 있었고, 이것이 팔로워 성장의 핵심 원인이었습니다.',
-          rows: 4, relatedWorkbooks: ['job_analysis']
+          rows: 4, relatedWorkbooks: ['job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
           id: 'q3_3',
@@ -360,7 +360,7 @@ const CompetencyWorkbook = () => {
             ifStillDifficult: '"이 작업은 혼자 할 수 있다, 이 작업은 아직 도움이 필요하다"로 나눠보세요.'
           },
           placeholder: '예: 콘텐츠 기획과 포토샵 제작은 독립적으로 수행 가능한 중급 수준입니다. 광고 데이터 분석은 기초 수준으로 구글 애널리틱스로 트래픽 분석과 간단한 리포트 작성이 가능하지만, 유료 광고 집행 경험은 아직 없어 개인 프로젝트로 실습 중입니다.',
-          rows: 4, relatedWorkbooks: ['experience', 'interview_new']
+          rows: 4, relatedWorkbooks: ['experience', 'interview_new', 'motivation', 'personality', 'goalachievement', 'careergoal']
         }
       ]
     },
@@ -385,7 +385,7 @@ const CompetencyWorkbook = () => {
             ifStillDifficult: '완벽한 연결보다 "가장 강한 연결 하나"가 "약한 연결 열 개"보다 설득력 있습니다.'
           },
           placeholder: '예: 귀사 채용공고의 "SNS 콘텐츠 기획 및 제작" 업무입니다. Q3에서 서술한 30개 콘텐츠 단독 제작 경험이 이 업무와 직접 연결됩니다. 또한 "채널별 성과 분석" 업무는 구글 애널리틱스 활용 경험으로 연결됩니다.',
-          rows: 4, relatedWorkbooks: ['job_analysis']
+          rows: 4, relatedWorkbooks: ['job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
           id: 'q4_2',
@@ -403,7 +403,7 @@ const CompetencyWorkbook = () => {
             ifStillDifficult: '"열심히 하겠습니다"가 되지 않으려면, 앞에서 서술한 경험과 성취가 이 업무와 연결되는 이유가 있어야 합니다.'
           },
           placeholder: '예: Q2에서 서술한 것처럼 저는 단순히 콘텐츠를 만드는 것이 아니라 반응 데이터를 보며 다음 콘텐츠를 개선하는 사이클을 익혀왔습니다. Q3에서 이 방식으로 팔로워를 20% 성장시킨 경험이 있기 때문에, 귀사의 SNS 운영 업무에서도 같은 방식이 작동할 것이라고 생각합니다.',
-          rows: 5, relatedWorkbooks: ['experience']
+          rows: 5, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
           id: 'q4_3',
@@ -421,7 +421,7 @@ const CompetencyWorkbook = () => {
             ifStillDifficult: 'Q3-3에서 쓴 현재 수준을 출발점으로 "3개월 뒤에 이 수준이 되겠다"로 연결하면 자연스럽습니다.'
           },
           placeholder: '예: 3개월: SNS 콘텐츠 기획·제작 독립 수행, 채널별 성과 리포트 작성. 6개월: 소규모 캠페인 전체 기획부터 성과 분석까지 독립적으로 수행하고, 광고 집행 경험을 쌓아 퍼포먼스 마케팅 업무 참여.',
-          rows: 4, relatedWorkbooks: ['experience']
+          rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
         }
       ]
     }
@@ -445,7 +445,7 @@ const CompetencyWorkbook = () => {
           ifStillDifficult: '최소한 이 회사 시니어 채용공고를 찾아보세요. 시니어에게 요구하는 것이 곧 이 직무의 핵심입니다.'
         },
         placeholder: '예: 현직 마케터 인터뷰 5편을 보니 공통적으로 "데이터 해석보다 타겟 언어 변환 능력이 더 중요하다"고 했습니다. 채용공고의 "자격요건"보다 "우대사항"에서 오히려 진짜 핵심 역량이 보였습니다.',
-        rows: 4, relatedWorkbooks: ['job_analysis', 'experience']
+        rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2d_1_2',
@@ -463,7 +463,7 @@ const CompetencyWorkbook = () => {
           ifStillDifficult: '"이 역량이 이 직무에서 유독 중요한 상황"을 하나 구체적으로 떠올려보세요.'
         },
         placeholder: '예: 기획 직무는 전략 설계, 영업은 관계 형성이 핵심이지만 마케팅은 타겟 언어 변환이 핵심입니다. 같은 아이디어라도 누가 어떤 언어로 전달하느냐에 따라 반응이 달라지는 직무이기 때문입니다.',
-        rows: 4, relatedWorkbooks: ['career_roadmap', 'job_analysis']
+        rows: 4, relatedWorkbooks: ['career_roadmap', 'job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2d_1_3',
@@ -481,7 +481,7 @@ const CompetencyWorkbook = () => {
           ifStillDifficult: '"업계 1위", "빠르게 성장 중" 같은 표현은 차별화가 아닙니다. 이 회사에만 해당하는 것을 찾으세요.'
         },
         placeholder: '예: 이 회사는 최근 MZ세대 신규 고객 확보를 과제로 삼고 있고, 기존 팀에 20~30대가 적습니다. 타겟 언어를 실제로 쓰는 세대로서의 역량이 다른 회사보다 이 회사에서 더 직접적인 기여가 됩니다.',
-        rows: 4, relatedWorkbooks: ['job_analysis']
+        rows: 4, relatedWorkbooks: ['job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
       }
     ],
     2: [
@@ -501,7 +501,7 @@ const CompetencyWorkbook = () => {
           ifStillDifficult: '아주 작은 어려움도 괜찮습니다. 중요한 건 어떻게 다음 단계로 나아갔는가입니다.'
         },
         placeholder: '예: 처음에는 콘텐츠를 많이 만들면 반응이 올 것이라고 생각했습니다. 30개를 올렸는데 반응이 없었고, 이때 "수량이 아닌 타겟 언어의 문제"임을 깨달았습니다. 이후 매번 콘텐츠마다 "이걸 누가 공유하고 싶을까?"를 먼저 물어보는 습관을 만들었습니다.',
-        rows: 5, relatedWorkbooks: ['experience']
+        rows: 5, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2d_2_2',
@@ -519,7 +519,7 @@ const CompetencyWorkbook = () => {
           ifStillDifficult: '"왜 그 활동을 선택했는가"에서 이 역량과의 연결이 보입니다.'
         },
         placeholder: '예: 학점 관리 대신 실제 캠페인 경험을 위해 동아리 활동에 더 많은 시간을 썼습니다. 이론 수업보다 실전에서 반응 데이터를 보며 배우는 게 이 역량에 더 효과적이라고 판단했습니다.',
-        rows: 4, relatedWorkbooks: ['experience']
+        rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2d_2_3',
@@ -537,7 +537,7 @@ const CompetencyWorkbook = () => {
           ifStillDifficult: '오늘부터라도 시작할 수 있는 것을 실행하고, 그것을 답변에 포함하세요.'
         },
         placeholder: '예: 현재 개인 브랜드 분석 블로그를 주 1회 발행하고 있고(현재 62편), 구글 애널리틱스 자격증을 이달 내 취득 예정입니다. 또한 소액 광고비로 개인 쇼핑몰 광고를 직접 집행하며 유료 광고 경험을 쌓고 있습니다.',
-        rows: 4, relatedWorkbooks: ['experience']
+        rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       }
     ],
     3: [
@@ -557,7 +557,7 @@ const CompetencyWorkbook = () => {
           ifStillDifficult: '"행동으로 보여준 신뢰"도 인정입니다. 먼저 연락해온 것, 같이 하자고 한 것도 포함됩니다.'
         },
         placeholder: '예: 지도교수님께서 "학부생 수준을 넘어선 완성도"라고 했고, 다른 학과 행사 담당자가 직접 연락해 작업을 요청했습니다. 또한 팀원들이 "다음에도 같이 하고 싶다"며 다음 행사에 먼저 합류를 제안했습니다.',
-        rows: 4, relatedWorkbooks: ['experience']
+        rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2d_3_2',
@@ -575,7 +575,7 @@ const CompetencyWorkbook = () => {
           ifStillDifficult: '"열심히 배우겠습니다"는 계획이 아닙니다. 구체적 방법과 기간이 있어야 합니다.'
         },
         placeholder: '예: 콘텐츠 기획·제작은 중급, 성과 분석은 초급입니다. 유료 광고 집행 경험이 없는 것이 가장 큰 갭으로, 현재 개인 쇼핑몰에 소액 광고를 직접 집행하며 실전 경험을 쌓고 있고 다음 달부터 데이터를 정리할 예정입니다.',
-        rows: 4, relatedWorkbooks: ['experience']
+        rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2d_3_3',
@@ -593,7 +593,7 @@ const CompetencyWorkbook = () => {
           ifStillDifficult: 'GitHub, 노션, 구글 드라이브 등을 활용해 링크로 제시할 수 있게 준비하세요.'
         },
         placeholder: '예: 포트폴리오 사이트(www.example.com)에 20개 프로젝트가 정리되어 있습니다. 각 프로젝트마다 "목표·과정·결과·배운 것"으로 구성했고, 브랜드 분석 블로그(blog.example.com)는 현재 62편이 발행되어 있습니다.',
-        rows: 4, relatedWorkbooks: ['job_analysis', 'experience']
+        rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       }
     ],
     4: [
@@ -613,7 +613,7 @@ const CompetencyWorkbook = () => {
           ifStillDifficult: '가장 직접적으로 연결되는 하나만 찾아도 충분합니다.'
         },
         placeholder: '예: Q2에서 서술한 "데이터 보며 다음 콘텐츠 개선하는 사이클"이 귀사 채용공고의 "채널별 성과 분석 후 전략 수정" 업무와 정확히 겹칩니다. 같은 방식을 더 큰 규모에서 수행하는 것이 이 업무입니다.',
-        rows: 4, relatedWorkbooks: ['job_analysis', 'experience']
+        rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2d_4_2',
@@ -631,7 +631,7 @@ const CompetencyWorkbook = () => {
           ifStillDifficult: '"Q3 경험에서 배운 것"이 이 업무에서 어떻게 쓰일지 구체적으로 상상해보세요.'
         },
         placeholder: '예: Q3에서 타겟 데이터를 기반으로 콘텐츠를 개선했더니 팔로워가 20% 증가했습니다. 귀사의 SNS 업무도 타겟 분석 → 콘텐츠 제작 → 성과 측정 → 개선의 사이클이기 때문에 같은 방식이 더 큰 규모에서 작동할 수 있다고 생각합니다.',
-        rows: 4, relatedWorkbooks: ['experience']
+        rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2d_4_3',
@@ -649,7 +649,7 @@ const CompetencyWorkbook = () => {
           ifStillDifficult: '최소한 "이 회사에서 이 역량이 특히 필요한 이유" 하나만 찾아도 충분합니다.'
         },
         placeholder: '예: 다른 대형 마케팅 대행사에서는 이 역량이 여러 팀 중 하나의 부분이 됩니다. 하지만 귀사처럼 내부 팀이 직접 전략부터 실행까지 담당하는 구조에서는 이 역량이 더 핵심적으로 작동합니다. 이것이 귀사를 선택한 직접적인 이유입니다.',
-        rows: 4, relatedWorkbooks: ['career_roadmap', 'job_analysis']
+        rows: 4, relatedWorkbooks: ['career_roadmap', 'job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
       }
     ]
   };

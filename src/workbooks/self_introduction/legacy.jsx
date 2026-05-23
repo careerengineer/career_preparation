@@ -251,9 +251,9 @@ const STEPS = [
     intro: '',
     stuckNote: "Q1~Q2에 답이 안 된다면 → 채용공고를 아직 충분히 분석하지 못한 것입니다 → 채용공고 분석 가이드를 먼저 진행하세요 Q3에 답이 안 된다면 → 직무에 대한 리서치가 부족한 것입니다 → 직무분석 가이드를 먼저 진행하거나, 같은 직무 채용공고 3개 이상을 비교해보세요 혹은 Q2에서 해석한 키워드 중 가장 중요하다고 생각하는 것 1개를 골라 Q3 대신 사용해도 됩니다",
     questions: [
-      { label: "Q1", question: "채용공고 직무상세에서 반복되거나 눈에 띄는 키워드 3개를 적으세요", tip: '', checkpoint: "채용담당자: \"직무상세내용을 제대로 읽었는가?\"", placeholder: "1. 2. 3.", referenceQuestions: [], relatedWorkbooks: ['job_analysis'] },
-      { label: "Q2", question: "각 키워드가 실제 업무에서 무엇을 의미하는지 본인의 말로 해석하세요", tip: "직무상세내용 베껸쓰기 금지. '이 역량이 왜 중요한지'까지", checkpoint: "채용담당자: \"직무의 본질을 이해하고 있는가?\"", placeholder: '', referenceQuestions: [], relatedWorkbooks: ['job_analysis'] },
-      { label: "Q3", question: "이 직무에서 잘하는 사람과 못하는 사람의 결정적 차이는 무엇이라고 생각하나요?", tip: "이것이 첫 문장의 핵심 키워드 원천", checkpoint: "채용담당자: \"직무 이해의 깊이가 있는가?\"", placeholder: '', referenceQuestions: ["Q1", "Q2"], relatedWorkbooks: ['job_analysis'] },
+      { label: "Q1", question: "채용공고 직무상세에서 반복되거나 눈에 띄는 키워드 3개를 적으세요", tip: '', checkpoint: "채용담당자: \"직무상세내용을 제대로 읽었는가?\"", placeholder: "1. 2. 3.", referenceQuestions: [], relatedWorkbooks: ['job_analysis', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q2", question: "각 키워드가 실제 업무에서 무엇을 의미하는지 본인의 말로 해석하세요", tip: "직무상세내용 베껸쓰기 금지. '이 역량이 왜 중요한지'까지", checkpoint: "채용담당자: \"직무의 본질을 이해하고 있는가?\"", placeholder: '', referenceQuestions: [], relatedWorkbooks: ['job_analysis', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q3", question: "이 직무에서 잘하는 사람과 못하는 사람의 결정적 차이는 무엇이라고 생각하나요?", tip: "이것이 첫 문장의 핵심 키워드 원천", checkpoint: "채용담당자: \"직무 이해의 깊이가 있는가?\"", placeholder: '', referenceQuestions: ["Q1", "Q2"], relatedWorkbooks: ['job_analysis', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
     ],
   },
   {
@@ -262,11 +262,11 @@ const STEPS = [
     intro: '',
     stuckNote: "Q4에 답이 안 된다면 → 경험 정리가 안 된 것입니다 → 경험정리 가이드워크북으로 경험을 먼저 정리하세요 Q5-a~c에 답이 안 된다면 → 경험의 의미를 아직 정리하지 못한 것입니다 → Q4에 적은 경험을 다시 떠올리며 '이 경험 전과 후에 나는 어떻게 달라졌나?'를 자문해보세요 Q6에 답이 안 된다면 → 성과가 없어도 괜찮습니다. Q5-b와 Q5-c의 깨달음이 성과를 대체합니다",
     questions: [
-      { label: "Q4", question: "직무 키워드와 연결되는 나의 경험은? (1~2개)", tip: "없으면 유사 경험으로 대체. 수업과제, 동아리, 아르바이트에서 무언가를 분석/기획/관리/조율해본 경험이 있나요?", checkpoint: "채용담당자: \"실제로 해봤구나\"", placeholder: '', referenceQuestions: [], relatedWorkbooks: ['experience'] },
-      { label: "Q5-a", question: "이 경험을 하기 전에는 이 직무(또는 이 역량)에 대해 어떻게 생각했나요?", tip: "변화 '전' 상태를 먼저 잡습니다", checkpoint: "깨달음 도출 1/3단계", placeholder: '', referenceQuestions: ["Q4"], relatedWorkbooks: ['experience'] },
-      { label: "Q5-b", question: "경험을 하면서 그 생각이 어떻게 바뀌었나요? 구체적으로 어떤 순간에 바뀌었나요?", tip: "'이때 처음으로 ~를 느꼈습니다' 형식", checkpoint: "깨달음 도출 2/3단계", placeholder: '', referenceQuestions: ["Q4", "Q5-a"], relatedWorkbooks: ['experience'] },
-      { label: "Q5-c", question: "그 변화가 이후에 어떤 영향을 줬나요? 이전과 다르게 행동하거나 생각하게 된 것이 있나요?", tip: "Q5-b + Q5-c를 합치면 자기소개의 '깨달음' 문장이 됩니다", checkpoint: "깨달음 도출 3/3단계", placeholder: '', referenceQuestions: ["Q4", "Q5-b"], relatedWorkbooks: ['self_introduction'] },
-      { label: "Q6", question: "구체적 성과가 있나요? (확실한 것만. 없으면 의미 중심으로)", tip: "과장은 꼬리질문에서 바로 들통납니다", checkpoint: "채용담당자: \"결과를 내는 사람인가\"", placeholder: '', referenceQuestions: ["Q4", "Q5-b", "Q5-c"], relatedWorkbooks: ['interview_new', 'interview_career'] },
+      { label: "Q4", question: "직무 키워드와 연결되는 나의 경험은? (1~2개)", tip: "없으면 유사 경험으로 대체. 수업과제, 동아리, 아르바이트에서 무언가를 분석/기획/관리/조율해본 경험이 있나요?", checkpoint: "채용담당자: \"실제로 해봤구나\"", placeholder: '', referenceQuestions: [], relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q5-a", question: "이 경험을 하기 전에는 이 직무(또는 이 역량)에 대해 어떻게 생각했나요?", tip: "변화 '전' 상태를 먼저 잡습니다", checkpoint: "깨달음 도출 1/3단계", placeholder: '', referenceQuestions: ["Q4"], relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q5-b", question: "경험을 하면서 그 생각이 어떻게 바뀌었나요? 구체적으로 어떤 순간에 바뀌었나요?", tip: "'이때 처음으로 ~를 느꼈습니다' 형식", checkpoint: "깨달음 도출 2/3단계", placeholder: '', referenceQuestions: ["Q4", "Q5-a"], relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q5-c", question: "그 변화가 이후에 어떤 영향을 줬나요? 이전과 다르게 행동하거나 생각하게 된 것이 있나요?", tip: "Q5-b + Q5-c를 합치면 자기소개의 '깨달음' 문장이 됩니다", checkpoint: "깨달음 도출 3/3단계", placeholder: '', referenceQuestions: ["Q4", "Q5-b"], relatedWorkbooks: ['self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q6", question: "구체적 성과가 있나요? (확실한 것만. 없으면 의미 중심으로)", tip: "과장은 꼬리질문에서 바로 들통납니다", checkpoint: "채용담당자: \"결과를 내는 사람인가\"", placeholder: '', referenceQuestions: ["Q4", "Q5-b", "Q5-c"], relatedWorkbooks: ['interview_new', 'interview_career', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
     ],
   },
   {
@@ -275,8 +275,8 @@ const STEPS = [
     intro: '',
     stuckNote: "Q7~Q8에 답이 안 된다면 → 성격의 장단점 정리가 안 된 것입니다 → 성격의 장단점 작성 가이드를 먼저 진행하세요 또는 가족/친구에게 '내 장점이 뭐야?'라고 직접 물어보세요. 의외의 답이 나옵니다",
     questions: [
-      { label: "Q7", question: "나의 장점은? ('성실함' 같은 범용 표현 금지)", tip: "다른 사람들이 나에게 자주 하는 칭찬은? 팀에서 자연스럽게 맡게 되는 역할은?", checkpoint: "채용담당자: \"그 장점이 직무에서 어떻게 쓰이는데?\"", placeholder: '', referenceQuestions: [], relatedWorkbooks: ['job_analysis', 'experience'] },
-      { label: "Q8", question: "그 장점이 경험을 통해 어떻게 '직무에서 활용 가능한 역량'으로 발전했나요? (공식: [초기 장점] → [경험을 통해] → [직무 역량으로])", tip: '', checkpoint: "채용담당자: \"이 사람과 함께 일하면 이런 가치가 있겠다\"", placeholder: '', referenceQuestions: ["Q4", "Q7"], relatedWorkbooks: ['experience'] },
+      { label: "Q7", question: "나의 장점은? ('성실함' 같은 범용 표현 금지)", tip: "다른 사람들이 나에게 자주 하는 칭찬은? 팀에서 자연스럽게 맡게 되는 역할은?", checkpoint: "채용담당자: \"그 장점이 직무에서 어떻게 쓰이는데?\"", placeholder: '', referenceQuestions: [], relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q8", question: "그 장점이 경험을 통해 어떻게 '직무에서 활용 가능한 역량'으로 발전했나요? (공식: [초기 장점] → [경험을 통해] → [직무 역량으로])", tip: '', checkpoint: "채용담당자: \"이 사람과 함께 일하면 이런 가치가 있겠다\"", placeholder: '', referenceQuestions: ["Q4", "Q7"], relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
     ],
   },
   {
@@ -285,8 +285,8 @@ const STEPS = [
     intro: '',
     stuckNote: "Q9에 답이 안 된다면 → 회사 리서치가 부족한 것입니다 → 채용공고 분석 가이드의 기업 분석 파트를 먼저 진행하세요 Q10에 답이 안 된다면 → 직무 이해가 부족한 것입니다 → PART 1으로 돌아가 Q1~Q2를 다시 확인하세요",
     questions: [
-      { label: "Q9", question: "이 회사에 지원한 구체적 이유는? (다른 회사에도 쓸 수 있는 말이면 다시 쓰세요)", tip: "회사의 구체적 특징과 나의 연결점", checkpoint: "채용담당자: \"진짜 우리 회사를 알고 온 건가\"", placeholder: '', referenceQuestions: [], relatedWorkbooks: ['experience', 'self_introduction'] },
-      { label: "Q10", question: "입사 후 구체적으로 어떤 역량으로 어떤 업무에 기여하고 싶나요?", tip: "'열심히 하겠습니다' 금지. [역량]+[업무] 형식으로", checkpoint: "채용담당자: \"이 사람을 봑으면 이 업무를 맡길 수 있겠다\"", placeholder: '', referenceQuestions: ["Q1", "Q2", "Q3", "Q8"], relatedWorkbooks: ['experience'] },
+      { label: "Q9", question: "이 회사에 지원한 구체적 이유는? (다른 회사에도 쓸 수 있는 말이면 다시 쓰세요)", tip: "회사의 구체적 특징과 나의 연결점", checkpoint: "채용담당자: \"진짜 우리 회사를 알고 온 건가\"", placeholder: '', referenceQuestions: [], relatedWorkbooks: ['experience', 'self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q10", question: "입사 후 구체적으로 어떤 역량으로 어떤 업무에 기여하고 싶나요?", tip: "'열심히 하겠습니다' 금지. [역량]+[업무] 형식으로", checkpoint: "채용담당자: \"이 사람을 봑으면 이 업무를 맡길 수 있겠다\"", placeholder: '', referenceQuestions: ["Q1", "Q2", "Q3", "Q8"], relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
     ],
   },
   {
@@ -295,9 +295,9 @@ const STEPS = [
     intro: '',
     stuckNote: "Q11에 답이 안 된다면 → PART 1의 Q3이 부실한 것입니다. Q3 또는 Q2에서 핵심 키워드를 다시 확인하세요 Q12~Q13에 답이 안 된다면 → PART 2~4의 답변이 부실한 것입니다. 해당 PART로 돌아가 보완하세요",
     questions: [
-      { label: "Q11", question: "첫 문장을 만드세요: [직무상세내용에서 내가 가장 잘할 수 있는 업무의 핵심 키워드] + [그 역량으로 만드는 가치] + [이름]", tip: "Q3의 '결정적 차이'와 직무상세내용 업무 목록을 결합", checkpoint: "채용담당자: \"직무를 알고 강점도 있구나\"", placeholder: '', referenceQuestions: ["Q3", "Q7", "Q8"], relatedWorkbooks: ['job_analysis', 'experience'] },
-      { label: "Q12", question: "30초 버전 키워드 카드 (4~5개) 첫문장 + 핵심경험의미 + 강점발전 + 지원동기", tip: "이 키워드만 보고 30초간 말할 수 있어야 합니다", checkpoint: '', placeholder: "① ② ③ ④", referenceQuestions: ["Q11", "Q4", "Q5-c", "Q8", "Q10"], relatedWorkbooks: ['experience', 'self_introduction'] },
-      { label: "Q13", question: "1분 버전 키워드 카드 (8~10개) 30초 + 성과/차별점 + 구체적 기여방향 추가", tip: "면접 당일 출력해서 직전에 확인할 나침반", checkpoint: '', placeholder: "① ② ③ ④ ⑤ ⑥ ⑦ ⑧", referenceQuestions: ["Q12", "Q6"], relatedWorkbooks: ['self_introduction'] },
+      { label: "Q11", question: "첫 문장을 만드세요: [직무상세내용에서 내가 가장 잘할 수 있는 업무의 핵심 키워드] + [그 역량으로 만드는 가치] + [이름]", tip: "Q3의 '결정적 차이'와 직무상세내용 업무 목록을 결합", checkpoint: "채용담당자: \"직무를 알고 강점도 있구나\"", placeholder: '', referenceQuestions: ["Q3", "Q7", "Q8"], relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q12", question: "30초 버전 키워드 카드 (4~5개) 첫문장 + 핵심경험의미 + 강점발전 + 지원동기", tip: "이 키워드만 보고 30초간 말할 수 있어야 합니다", checkpoint: '', placeholder: "① ② ③ ④", referenceQuestions: ["Q11", "Q4", "Q5-c", "Q8", "Q10"], relatedWorkbooks: ['experience', 'self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q13", question: "1분 버전 키워드 카드 (8~10개) 30초 + 성과/차별점 + 구체적 기여방향 추가", tip: "면접 당일 출력해서 직전에 확인할 나침반", checkpoint: '', placeholder: "① ② ③ ④ ⑤ ⑥ ⑦ ⑧", referenceQuestions: ["Q12", "Q6"], relatedWorkbooks: ['self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
     ],
   },
   {
@@ -306,10 +306,10 @@ const STEPS = [
     intro: "키워드만 있으면 '나열'이 됩니다. 키워드 사이를 자연스럽게 잇는 연결 문장이 있어야 '이야기'가 됩니다. 아래 4개의 연결 지점을 채우세요.",
     stuckNote: '',
     questions: [
-      { label: "Q14", question: "첫 문장(Q11) → 경험(Q4)", tip: '', checkpoint: "Bad: '저는 대학 시절 프로젝트를 했습니다' (갑작스러운 전환) Good: '이런 가치를 깨달은 계기는 OO 프로젝트에서였습니다' (첫 문장의 가치와 연결)", placeholder: '', referenceQuestions: ["Q11", "Q4"], relatedWorkbooks: ['career_roadmap'] },
-      { label: "Q15", question: "깨달음(Q5) → 성과(Q6)", tip: '', checkpoint: "Bad: '그리고 A/B 테스트도 해봤습니다' (나열) Good: '이 깨달음을 바탕으로 실제로 적용해본 경험이 있습니다' (인과관계)", placeholder: '', referenceQuestions: ["Q5-a", "Q5-b", "Q5-c", "Q6"], relatedWorkbooks: ['experience'] },
-      { label: "Q16", question: "성과(Q6) → 강점(Q8)", tip: '', checkpoint: "Bad: '저의 장점은 꼼꼼함입니다' (맥락 없는 전환) Good: '이런 경험들을 통해 꼼꼼함이 디테일에서 개선점을 찾는 분석력으로 발전했습니다' (경험에서 강점으로)", placeholder: '', referenceQuestions: ["Q6", "Q8"], relatedWorkbooks: ['experience'] },
-      { label: "Q17", question: "강점(Q8) → 지원동기(Q9~10)", tip: '', checkpoint: "Bad: '귀사에 입사하고 싶습니다' (동기 없음) Good: '이 분석력을 귀사의 고객 데이터 기반 환경에서 발휘하고 싶습니다' (강점이 회사 업무로 직접 연결)", placeholder: '', referenceQuestions: ["Q8", "Q9", "Q10"], relatedWorkbooks: ['experience'] },
+      { label: "Q14", question: "첫 문장(Q11) → 경험(Q4)", tip: '', checkpoint: "Bad: '저는 대학 시절 프로젝트를 했습니다' (갑작스러운 전환) Good: '이런 가치를 깨달은 계기는 OO 프로젝트에서였습니다' (첫 문장의 가치와 연결)", placeholder: '', referenceQuestions: ["Q11", "Q4"], relatedWorkbooks: ['career_roadmap', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q15", question: "깨달음(Q5) → 성과(Q6)", tip: '', checkpoint: "Bad: '그리고 A/B 테스트도 해봤습니다' (나열) Good: '이 깨달음을 바탕으로 실제로 적용해본 경험이 있습니다' (인과관계)", placeholder: '', referenceQuestions: ["Q5-a", "Q5-b", "Q5-c", "Q6"], relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q16", question: "성과(Q6) → 강점(Q8)", tip: '', checkpoint: "Bad: '저의 장점은 꼼꼼함입니다' (맥락 없는 전환) Good: '이런 경험들을 통해 꼼꼼함이 디테일에서 개선점을 찾는 분석력으로 발전했습니다' (경험에서 강점으로)", placeholder: '', referenceQuestions: ["Q6", "Q8"], relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q17", question: "강점(Q8) → 지원동기(Q9~10)", tip: '', checkpoint: "Bad: '귀사에 입사하고 싶습니다' (동기 없음) Good: '이 분석력을 귀사의 고객 데이터 기반 환경에서 발휘하고 싶습니다' (강점이 회사 업무로 직접 연결)", placeholder: '', referenceQuestions: ["Q8", "Q9", "Q10"], relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
     ],
   },
   {
@@ -318,19 +318,19 @@ const STEPS = [
     intro: "문장을 '쓰고 외우는' 것이 아니라, '말하고 받아 적는' 것입니다. 입으로 먼저 말해야 자연스럽고, 적은 것을 다듬어야 완성도가 올라갑니다.",
     stuckNote: '',
     questions: [
-      { label: "Q18", question: "30초 버전 초안", tip: "Q12의 키워드 카드(4~5개)만 보고, 소리 내어 30초간 말합니다. 그리고 말한 내용을 그대로 적으세요. 문장을 다듬지 마세요.", checkpoint: '', placeholder: "[30초 버전] 키워드만 보고 말한 후, 그대로 받아 적으세요", referenceQuestions: ["Q12"], relatedWorkbooks: ['self_introduction'] },
-      { label: "Q19", question: "1분 버전 초안", tip: "Q13의 키워드 카드(8~10개) + Q14~Q17의 연결 문장을 함께 보고, 소리 내어 1분간 말합니다. 그리고 말한 내용을 그대로 적으세요.", checkpoint: '', placeholder: "[1분 버전] 키워드 + 연결문장을 보고 말한 후, 그대로 받아 적으세요", referenceQuestions: ["Q13", "Q14", "Q15", "Q16", "Q17"], relatedWorkbooks: ['self_introduction'] },
-      { label: "Q20", question: "초안 다듬기", tip: "① 흐름 확인 (첫 문장→경험→깨달음→강점→기여방향 순서가 자연스러운가) · ② 불필요한 문장 삭제 · ③ 시간 측정 (30초/1분 안에 들어오는지)", checkpoint: '', placeholder: "[1분 버전 수정본] 초안을 다듬은 후 여기에 적으세요", referenceQuestions: ["Q19"], relatedWorkbooks: ['experience', 'self_introduction'] },
+      { label: "Q18", question: "30초 버전 초안", tip: "Q12의 키워드 카드(4~5개)만 보고, 소리 내어 30초간 말합니다. 그리고 말한 내용을 그대로 적으세요. 문장을 다듬지 마세요.", checkpoint: '', placeholder: "[30초 버전] 키워드만 보고 말한 후, 그대로 받아 적으세요", referenceQuestions: ["Q12"], relatedWorkbooks: ['self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q19", question: "1분 버전 초안", tip: "Q13의 키워드 카드(8~10개) + Q14~Q17의 연결 문장을 함께 보고, 소리 내어 1분간 말합니다. 그리고 말한 내용을 그대로 적으세요.", checkpoint: '', placeholder: "[1분 버전] 키워드 + 연결문장을 보고 말한 후, 그대로 받아 적으세요", referenceQuestions: ["Q13", "Q14", "Q15", "Q16", "Q17"], relatedWorkbooks: ['self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q20", question: "초안 다듬기", tip: "① 흐름 확인 (첫 문장→경험→깨달음→강점→기여방향 순서가 자연스러운가) · ② 불필요한 문장 삭제 · ③ 시간 측정 (30초/1분 안에 들어오는지)", checkpoint: '', placeholder: "[1분 버전 수정본] 초안을 다듬은 후 여기에 적으세요", referenceQuestions: ["Q19"], relatedWorkbooks: ['experience', 'self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
     ],
   },
 ];
 const CHECKLIST = [
-  { label: "Q21", criteria: "직무 이해도", question: "채용담당자가 \"이 사람이 우리 직무의 핵심을 이해하고 있구나\"라고 느끼는가?", fallback: "아니오 → PART 1 다시 보완", relatedWorkbooks: ['job_analysis'] },
-  { label: "Q22", criteria: "즉시 전력화", question: "채용담당자가 \"이 사람이 입사하면 어떤 업무를 할 수 있겠다\"를 구체적으로 떠올릴 수 있는가?", fallback: "아니오 → PART 2 다시 보완", relatedWorkbooks: ['experience', 'self_introduction'] },
-  { label: "Q23", criteria: "성과 창출", question: "경험과 성과가 \"이 사람은 실제로 결과를 만들어낼 수 있겠다\"는 인상을 주는가?", fallback: "아니오 → PART 2~3 다시 보완", relatedWorkbooks: ['experience', 'self_introduction'] },
-  { label: "Q24", criteria: "함께 일하고 싶은 동료", question: "강점이 \"성실함\" 같은 범용 표현이 아니라, 직무에서 구체적으로 어떻게 쓰이는지까지 연결되어 있는가?", fallback: "아니오 → PART 3 다시 보완", relatedWorkbooks: ['experience'] },
-  { label: "Q25", criteria: "오래 함께할 사람", question: "지원동기와 기여방향이 \"어떤 회사에도 쓸 수 있는 말\"이 아니라, 이 회사에만 해당되는 구체적 내용인가?", fallback: "아니오 → PART 4 다시 보완", relatedWorkbooks: ['experience', 'self_introduction'] },
-  { label: "Q26", criteria: "전체 흐름", question: "첫 문장부터 마지막까지 자연스럽게 이어지고, 꼬리질문이 나와도 일관성 있게 답할 수 있는가?", fallback: "아니오 → PART 6 다시 보완", relatedWorkbooks: ['interview_new', 'interview_career'] },
+  { label: "Q21", criteria: "직무 이해도", question: "채용담당자가 \"이 사람이 우리 직무의 핵심을 이해하고 있구나\"라고 느끼는가?", fallback: "아니오 → PART 1 다시 보완", relatedWorkbooks: ['job_analysis', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+  { label: "Q22", criteria: "즉시 전력화", question: "채용담당자가 \"이 사람이 입사하면 어떤 업무를 할 수 있겠다\"를 구체적으로 떠올릴 수 있는가?", fallback: "아니오 → PART 2 다시 보완", relatedWorkbooks: ['experience', 'self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+  { label: "Q23", criteria: "성과 창출", question: "경험과 성과가 \"이 사람은 실제로 결과를 만들어낼 수 있겠다\"는 인상을 주는가?", fallback: "아니오 → PART 2~3 다시 보완", relatedWorkbooks: ['experience', 'self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+  { label: "Q24", criteria: "함께 일하고 싶은 동료", question: "강점이 \"성실함\" 같은 범용 표현이 아니라, 직무에서 구체적으로 어떻게 쓰이는지까지 연결되어 있는가?", fallback: "아니오 → PART 3 다시 보완", relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+  { label: "Q25", criteria: "오래 함께할 사람", question: "지원동기와 기여방향이 \"어떤 회사에도 쓸 수 있는 말\"이 아니라, 이 회사에만 해당되는 구체적 내용인가?", fallback: "아니오 → PART 4 다시 보완", relatedWorkbooks: ['experience', 'self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+  { label: "Q26", criteria: "전체 흐름", question: "첫 문장부터 마지막까지 자연스럽게 이어지고, 꼬리질문이 나와도 일관성 있게 답할 수 있는가?", fallback: "아니오 → PART 6 다시 보완", relatedWorkbooks: ['interview_new', 'interview_career', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
 ];
   const FirstVisitModal = ({ open, onClose, title, steps }) => {
     if (!open) return null;

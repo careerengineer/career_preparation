@@ -203,7 +203,7 @@ const PersonalityWorkbook = () => {
             warning: '"성실합니다", "열정적입니다"는 답이 아닙니다. 행동으로 관찰 가능한 특성으로 표현하세요.'
           },
           placeholder: '예: "계획적이고 체계적이다"\n— 팀 프로젝트에서 항상 일정 관리를 자연스럽게 맡게 됩니다.\n— 교수님: "항상 준비가 잘 되어 있다"\n— 팀원들: "같이 하면 마감 걱정이 없다"\n→ 서로 전혀 다른 사람들이 같은 표현을 씁니다.',
-          rows: 4, relatedWorkbooks: ['experience']
+          rows: 4, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
         },
         {
           id: 'q1_2',
@@ -222,7 +222,7 @@ const PersonalityWorkbook = () => {
             warning: '"원래 이런 성격이었습니다"는 답이 아닙니다. 만들어진 경험이 반드시 있습니다.'
           },
           placeholder: '예: 고등학교 때 수능 준비와 동아리 활동을 동시에 하면서 처음으로 시간표를 직접 짰습니다.\n막연하게 "열심히 해야지"로 임했을 때는 둘 다 흔들렸는데,\n우선순위를 정하고 주간 일정을 관리하기 시작하자 두 가지 모두 좋은 성과가 났습니다.',
-          rows: 4, relatedWorkbooks: ['experience']
+          rows: 4, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
         },
         {
           id: 'q1_3',
@@ -242,7 +242,7 @@ const PersonalityWorkbook = () => {
             warning: '"잘하는 것 같아서 계속 발전시키고 싶었습니다"는 답이 아닙니다. 구체적 경험이 이유여야 합니다.'
           },
           placeholder: '예: 동아리 프로젝트에서 제가 일정 관리를 맡은 팀은 항상 기한 내에 완성됐는데,\n제가 빠진 다른 팀은 마감 전날 밤새 작업하는 일이 반복됐습니다.\n그 차이를 직접 보면서 "이 능력이 팀 전체에 영향을 미친다"는 것을 실감했고,\n단순히 내 습관이 아닌 팀에 기여하는 역량으로 키워야겠다고 생각하게 됐습니다.',
-          rows: 4, relatedWorkbooks: ['career_roadmap', 'experience']
+          rows: 4, relatedWorkbooks: ['career_roadmap', 'experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
         },
         {
           id: 'q1_4',
@@ -260,7 +260,7 @@ const PersonalityWorkbook = () => {
             ifStillDifficult: '하나의 대표 사례만으로는 지속성을 증명할 수 없습니다. 소소한 일상 사례도 포함해서 패턴을 찾아보세요.'
           },
           placeholder: '예:\n[방법 1 — 다른 맥락에서 반복]\n학업: 매 학기 초 전과목 일정표 작성 / 팀 활동: 모든 팀 프로젝트 일정 관리 담당 / 일상: 약속·여행 캘린더 역산 입력\n\n[방법 2 — 다른 사람들이 같은 말]\n교수님: "항상 준비가 잘 돼 있다" / 팀원들: "같이 하면 마감 걱정 없다" / 친구들: "네가 있으면 굴러간다"\n\n[방법 3 — 시간적 일관성]\n고1(2019): 수행평가 일정표 직접 제작 → 대학 2학년(2022): 팀 프로젝트 간트차트 → 현재(2025): 대외활동 기획팀장',
-          rows: 6, relatedWorkbooks: ['experience']
+          rows: 6, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
         },
         {
           id: 'q1_5',
@@ -280,7 +280,7 @@ const PersonalityWorkbook = () => {
             ifStillDifficult: '"그때 어떤 상황이었나요?"부터 시작해 한 줄씩 채워보세요. 직접적인 말이 기억나지 않으면, 그 후 나에게 달라진 것(더 많이 부탁받는 일 등)을 써도 됩니다.'
           },
           placeholder: '예:\n[STAR 성과]\nS: 대학 축제 기획단에서 20개 부스 운영 총괄을 맡았습니다.\nT: 3주 안에 부스 섭외·물품·인력 배치를 모두 완료해야 했습니다.\nA: 부스별 준비 체크리스트를 만들고, 주 2회 책임자와 진행 상황을 점검했습니다.\nR: 당일 모든 부스가 차질 없이 운영되었고, 예산 내 처리율 100%를 달성했습니다.\n\n[타인의 평가]\n지도교수님: "너와 일하면 마음이 놓인다"\n팀원들: "덕분에 각자 역할에만 집중할 수 있었다"',
-          rows: 7, relatedWorkbooks: ['experience', 'self_introduction']
+          rows: 7, relatedWorkbooks: ['experience', 'self_introduction', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
         },
         {
           id: 'q1_6',
@@ -299,7 +299,7 @@ const PersonalityWorkbook = () => {
             ifStillDifficult: '직접 연결이 전혀 안 된다면, "팀 내에서 누군가는 반드시 해야 하는 역할"로 연결하세요. 예: 체계적인 성격은 마케팅 크리에이티브 업무에 직접 쓰이진 않지만, 팀 일정이 흐트러질 때 중심을 잡는 사람으로 기여할 수 있습니다.'
           },
           placeholder: '예:\n[채용공고 업무 → 장점 연결]\n마케팅 캠페인 기획 → 체계적 계획 수립 능력\n일정 관리 및 진행 모니터링 → 간트차트 + 주간 체크인 습관\n복수 채널 동시 운영 → 여러 일정을 충돌 없이 관리하는 경험\n\n또는 [팀 기여로 연결 (직접 연결이 약한 경우)]\n"팀 일정이 흐트러질 때 중심을 잡는 역할로 기여할 수 있습니다."',
-          rows: 5, relatedWorkbooks: ['job_analysis', 'experience']
+          rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
         },
         {
           id: 'q1_7',
@@ -318,7 +318,7 @@ const PersonalityWorkbook = () => {
             warning: '입사후포부처럼 "~을 하겠습니다"로만 끝나지 않도록 주의하세요. 장점이 기여의 이유여야 합니다.'
           },
           placeholder: '예: 체계적 계획성 덕분에 팀 프로젝트에서 항상 기한 내 완성이라는 결과를 만들어왔습니다.\n이 장점이 있기 때문에 귀사의 복수 캠페인 동시 운영 업무에서\n채널별 일정을 충돌 없이 관리하고, 진행 상황을 팀 전체가 공유할 수 있는 구조를 만들겠습니다.\n→ "체계적이기 때문에" → "이런 구체적 업무를" → "이렇게 할 수 있습니다"의 흐름입니다.',
-          rows: 5, relatedWorkbooks: ['job_analysis', 'experience']
+          rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
         }
       ]
     },
@@ -346,7 +346,7 @@ const PersonalityWorkbook = () => {
             warning: '"완벽주의", "긍정적 사고", "너무 열심히 함"은 면접관에게 통하지 않습니다. 직무에 치명적이지 않은 진짜 단점을 쓰세요.'
           },
           placeholder: '예:\n[단점]\n계획적인 성격이 과도하면 유연성이 부족해집니다.\n예상치 못한 변수나 갑작스러운 계획 변경에 스트레스를 받고,\n즉흥적인 아이디어 회의나 빠른 방향 전환이 필요한 상황에서 적응이 느립니다.\n\n[인식 계기]\n스타트업 인턴십에서 매일 우선순위가 바뀌는 환경에 기존 계획을 고수하려다 팀의 속도를 따라가지 못했고,\n멘토님께서 "계획은 방향이지 족쇄가 아니다"라고 조언해주신 것이 결정적인 전환점이 되었습니다.',
-          rows: 6, relatedWorkbooks: ['experience', 'interview_new']
+          rows: 6, relatedWorkbooks: ['experience', 'interview_new', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
         },
         {
           id: 'q2_2',
@@ -367,7 +367,7 @@ const PersonalityWorkbook = () => {
             warning: '"단점이니까 당연히 고쳐야 한다"는 계기가 아닙니다. 실제 경험에서 나온 결심이어야 합니다.'
           },
           placeholder: '예:\n[내가 힘들었던 경험]\n스타트업 인턴십에서 팀 방향이 급변했을 때, 기존 계획을 내려놓지 못해 혼자 뒤처졌습니다.\n팀은 이미 새 방향으로 달려가는데 저만 이전 계획을 수정하는 데 30분을 쓰며 멈춰있었고,\n그날 회의에서 아무 기여도 못한 채 끝났습니다. "내가 없는 게 나았겠다"는 생각이 들었습니다.\n\n[타인에게 불편을 끼친 경험]\n팀원들이 "그냥 넘어가자"며 저를 기다려줬는데,\n나중에 한 팀원이 "그때 좀 답답했어"라고 솔직하게 말해줬습니다.\n내 단점이 나만의 문제가 아니라 팀 전체에 영향을 준다는 것을 그때 처음 실감했습니다.',
-          rows: 6, relatedWorkbooks: ['career_roadmap', 'experience']
+          rows: 6, relatedWorkbooks: ['career_roadmap', 'experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
         },
         {
           id: 'q2_3',
@@ -387,7 +387,7 @@ const PersonalityWorkbook = () => {
             warning: '"열심히 하겠습니다"는 관리가 아닙니다. 지금 무엇을 어떻게 하고 있는지가 핵심입니다.'
           },
           placeholder: "예: '플랜 B 습관'을 기르고 있습니다.\n모든 계획에 대안을 미리 준비해두고,\n주 1회는 계획 없이 움직이는 '즉흥 데이'를 만들어 변화에 적응하는 연습을 합니다.\n브레인스토밍 시간에는 타이머를 설정하고 평가 없이 아이디어를 먼저 내는 훈련도 꾸준히 하고 있습니다.",
-          rows: 4, relatedWorkbooks: ['experience']
+          rows: 4, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
         },
         {
           id: 'q2_4',
@@ -407,7 +407,7 @@ const PersonalityWorkbook = () => {
             warning: '"앞으로 더 노력하겠습니다"가 아닌, 지금 변화하고 있는 과정과 방향이 드러나야 합니다.'
           },
           placeholder: '예:\n[현재까지의 변화]\n이전: 예상치 못한 변경 요청을 받으면 30분 이상 당황해서 대응이 늦었습니다.\n현재: 같은 상황에서 5분 이내에 플랜 B를 제시할 수 있게 되었습니다.\n팀장님이 "예전보다 훨씬 유연해졌다"고 말씀하셨습니다.\n\n[앞으로의 성장]\n계획성이라는 장점을 유지하면서도 빠르게 플랜 B로 전환하는 능력을 갖춰가고 있습니다.\n이 균형이 완성될수록 마케팅 직무에서 더 큰 강점이 될 것이라 생각합니다.',
-          rows: 5, relatedWorkbooks: ['experience']
+          rows: 5, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
         }
       ]
     }
@@ -433,7 +433,7 @@ const PersonalityWorkbook = () => {
           ifStillDifficult: '공통 키워드가 바로 당신의 핵심 장점입니다.'
         },
         placeholder: '예: 교수님: "보고서가 항상 체계적이다"\n팀원들: "일정을 항상 잘 챙겨준다"\n친구들: "약속을 절대 어기지 않는다"\n알바 점장님: "시키지 않아도 미리 준비한다"\n→ 공통 키워드: "체계적, 신뢰할 수 있는, 미리 준비하는"',
-        rows: 5, relatedWorkbooks: ['experience']
+        rows: 5, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
       },
       {
         id: 'q1_d2',
@@ -451,7 +451,7 @@ const PersonalityWorkbook = () => {
           ifStillDifficult: '약해지는 상황을 찾으면 단점과 자연스럽게 연결됩니다.'
         },
         placeholder: '예: 가장 강하게 발현: 여러 사람이 함께 일하는 프로젝트 상황\n→ 혼자보다 팀이 있을 때 책임감이 생기고, 체계를 만들어 팀 전체가 방향을 잃지 않도록 합니다.\n\n상대적으로 약해지는 상황: 창의적 아이디어가 필요한 자유로운 브레인스토밍\n→ 이 상황의 약점이 Q2의 단점(유연성 부족)과 직결됩니다.',
-        rows: 4, relatedWorkbooks: ['experience']
+        rows: 4, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
       },
       {
         id: 'q1_d3',
@@ -469,7 +469,7 @@ const PersonalityWorkbook = () => {
           ifStillDifficult: '작은 경험도 괜찮습니다. 소소한 일상에서 이 장점이 빛났던 순간을 찾아보세요.'
         },
         placeholder: '예: [방법 2 — 타인의 반응]\n동아리 기획 프로젝트에서 팀원들이 "네가 일정 관리해줘서 우리가 각자 할 일에만 집중할 수 있었어"라고 했습니다.\n\n[방법 3 — 없는 상황을 목격]\n일정 관리 없이 진행한 다른 팀이 마감 전날 밤새 작업하는 것을 보면서,\n"이 장점이 없으면 저렇게 된다"는 것을 직접 확인했고, 더 키워야겠다는 동기가 생겼습니다.',
-        rows: 5, relatedWorkbooks: ['experience']
+        rows: 5, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
       },
       {
         id: 'q1_d4',
@@ -487,7 +487,7 @@ const PersonalityWorkbook = () => {
           ifStillDifficult: '팀에서 "이 사람이 없었으면 어떻게 됐을까?"라는 질문에 답해보세요.'
         },
         placeholder: '예: 저의 체계적 접근이 없었다면 프로젝트가 중반에 표류했을 가능성이 높습니다.\n팀원들이 각자 맡은 일만 했다면 전체 일정 충돌을 아무도 인지하지 못했을 것이고,\n마감 당일 미완성 결과물을 제출했을 수도 있었습니다.\n팀원 중 한 명이 나중에 "네가 없었으면 우리 팀 어쩔 뻔 했어"라고 했는데,\n그 말이 이 장점의 실제 가치를 가장 잘 보여준다고 생각합니다.',
-        rows: 5, relatedWorkbooks: ['experience']
+        rows: 5, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
       },
       {
         id: 'q1_d5',
@@ -506,7 +506,7 @@ const PersonalityWorkbook = () => {
           ifStillDifficult: '"팀 내에서 누군가는 반드시 해야 하는 역할"로 연결하세요.'
         },
         placeholder: '예:\n[직접 연결되는 경우]\n마케팅 캠페인 기획 → 체계적 계획 수립 능력으로 직접 연결됨\n복수 채널 동시 운영 → 여러 일정을 충돌 없이 관리하는 경험으로 연결됨\n\n[직접 연결이 약한 경우 — 다른 시각 확인]\n이 장점이 없었다면: 프로젝트마다 마감 전날 밤새는 상황이 반복됐을 것 같습니다.\n이 장점 덕분에 기억되는 모습: "얘랑 하면 뭔가 굴러간다"는 사람으로 기억됩니다.',
-        rows: 5, relatedWorkbooks: ['job_analysis', 'experience']
+        rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
       }
     ],
     2: [ // Q2 단점 심화 (6개)
@@ -526,7 +526,7 @@ const PersonalityWorkbook = () => {
           ifStillDifficult: '가장 최근에 단점이 드러난 순간을 떠올리고, 그 순간 왜 그랬는지 분석해보세요.'
         },
         placeholder: '예: 완벽한 결과를 내야 한다는 책임감이 강하게 작용해, 예측 불가능한 상황을 통제하려는 경향이 생겼습니다.\n→ 이것이 장점(체계성)으로는 좋은 성과를 만들지만,\n과도해지면 변화에 저항하는 단점으로 나타납니다.\n\n이 원인을 알고 있기 때문에, 보완 방향도 명확합니다:\n"통제욕이 아닌 방향 설정"으로 계획의 역할을 재정의하는 것입니다.',
-        rows: 5, relatedWorkbooks: ['experience']
+        rows: 5, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2_d2',
@@ -544,7 +544,7 @@ const PersonalityWorkbook = () => {
           ifStillDifficult: '어렵다고 솔직하게 말하는 것이 오히려 진정성을 높입니다.'
         },
         placeholder: '예: [가장 어려웠던 순간]\n즉흥적 회의에서 아무 말도 못하고 나온 날이 여러 번 있었습니다.\n훈련을 했는데도 그 순간이 되면 굳어버리는 자신이 답답했습니다.\n\n[그래도 계속하는 이유]\n그 순간들을 노트에 기록하고, 다음에는 어떻게 할 수 있었을지를 씁니다.\n이 과정이 느리지만 분명히 효과가 있다는 것을 조금씩 느끼기 때문에 계속하고 있습니다.',
-        rows: 5, relatedWorkbooks: ['experience']
+        rows: 5, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2_d3',
@@ -562,7 +562,7 @@ const PersonalityWorkbook = () => {
           ifStillDifficult: '단점의 반대편을 생각해보세요.'
         },
         placeholder: '예: 계획에 집착하는 성향이 위기 상황에서는 오히려 침착한 대응으로 이어집니다.\n다른 사람들이 당황할 때 이미 대비책을 생각해둔 경우가 많아 리스크 관리에 강점을 보입니다.\n이 단점을 인식하고 관리하는 과정에서,\n"언제 계획을 지키고 언제 내려놓아야 하는가"를 스스로 판단하는 능력도 함께 기르고 있습니다.',
-        rows: 4, relatedWorkbooks: ['experience']
+        rows: 4, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2_d4',
@@ -580,7 +580,7 @@ const PersonalityWorkbook = () => {
           ifStillDifficult: '아주 작은 변화도 괜찮습니다. 작은 변화가 쌓여 큰 성장이 됩니다.'
         },
         placeholder: '예: [관찰 가능한 변화]\n이전: 예상치 못한 변경 요청을 받으면 30분 이상 당황해서 대응이 늦었습니다.\n현재: 같은 상황에서 5분 이내에 플랜 B를 제시할 수 있게 되었습니다.\n\n[타인의 확인]\n팀장님이 "예전보다 훨씬 유연해졌다"고 말씀하셨고,\n최근 프로젝트에서 갑작스러운 일정 변경에도 팀에서 가장 먼저 대안을 제시했습니다.',
-        rows: 5, relatedWorkbooks: ['job_analysis', 'experience']
+        rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2_d5',
@@ -599,7 +599,7 @@ const PersonalityWorkbook = () => {
           warning: '"완벽주의", "너무 열심히 함"은 면접관에게 통하지 않습니다.'
         },
         placeholder: '예: [내 단점의 조건 확인]\n① 직무 핵심 아님: 마케터인데 "유연성 부족" — 치명적이지 않음 \n② 보완 증거 있음: 플랜 B 습관, 즉흥 데이, 타이머 훈련으로 매일 관리 중 \n③ 장점의 이면: 계획성(장점)의 과도함 → 유연성 부족(단점)으로 자연스럽게 연결 \n\n→ 3가지 조건을 갖춘 단점은 쓸수록 신뢰를 높입니다.',
-        rows: 5, relatedWorkbooks: ['job_analysis', 'experience']
+        rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
       },
       {
         id: 'q2_d6',
@@ -617,7 +617,7 @@ const PersonalityWorkbook = () => {
           ifStillDifficult: '확인 2가 "아니오"라면 노력 부분을 지금 실제로 하고 있는 것으로 바꾸세요.'
         },
         placeholder: '예: [확인 1 — 타인에게 확인]\n친한 친구에게 읽어줬더니 "맞아, 작년 OO 때 딱 그랬잖아"라고 했습니다.\n→ 구체적 경험을 떠올렸다는 것 자체가 진짜라는 증거입니다.\n\n[확인 3 — 흐름 점검]\n단점(과도한 계획성) → 인식(인턴십 경험) → 결심(팀에 불편을 끼쳤다) → 관리(플랜 B) → 변화(5분 내 대응)\n→ 각 단계가 자연스럽게 이어지면 완성입니다.',
-        rows: 5, relatedWorkbooks: ['experience']
+        rows: 5, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'goalachievement', 'careergoal']
       }
     ]
   };

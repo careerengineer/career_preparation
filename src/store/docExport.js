@@ -357,9 +357,19 @@ export async function exportFullDocx(master, options = {}) {
       spacing: { after: 300 },
     }),
     Sub(`내보낸 시각: ${new Date().toLocaleString('ko-KR')}`),
-    ...(liveUrl ? [Sub(`작성 URL: ${liveUrl}`)] : []),
+    ...(liveUrl ? [
+      new Paragraph({
+        children: [new TextRun({ text: `작성 URL: ${liveUrl}`, size: 22, color: NAVY, bold: true })],
+        alignment: AlignmentType.CENTER,
+        spacing: { before: 200, after: 100 },
+      }),
+      new Paragraph({
+        children: [new TextRun({ text: '이 문서를 위 URL에서 [가져오기]하면 작성 내용이 그대로 복원됩니다.', size: 18, color: GOLD, italics: true })],
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 200 },
+      }),
+    ] : []),
     ...(excludeExperiences ? [Sub('경험 정리(STAR 카드)는 별도 .xlsx 파일에 포함됩니다.')] : []),
-    Sub('이 문서를 위 URL에 [가져오기]하면 작성 내용이 그대로 복원됩니다.'),
     ...profileBlock(master),
   ];
 
