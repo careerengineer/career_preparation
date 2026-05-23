@@ -35,27 +35,33 @@ export default function Dashboard() {
           marginBottom: SPACING.xl, flexWrap: 'wrap', gap: SPACING.md,
           paddingBottom: SPACING.md, borderBottom: RULE,
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.md }}>
-            <CEMark size={72} />
-            <div>
+          <div>
             <p style={{
               margin: 0, fontSize: FONT.size.caption, color: COLORS.sub,
               letterSpacing: 4, fontWeight: FONT.weight.medium, textTransform: 'uppercase',
             }}>
               CAREER ENGINEERING · EST. 2026
             </p>
-            <h1 className="ce-h1-display" style={{
-              margin: '6px 0 0',
-              fontSize: FONT.size.h1,
-              fontWeight: 700,
-              letterSpacing: '-0.028em',
-              lineHeight: FONT.lineHeight.tight,
-              color: COLORS.ink,
+            {/* A · HORIZONTAL Lockup — 마크 + 워드마크 같은 라인 */}
+            <div style={{
+              display: 'inline-flex', alignItems: 'center',
+              gap: Math.round(48 * (683/620) * 0.24),
+              margin: '8px 0 0',
             }}>
-              Career<span style={{ color: COLORS.goldDeep }}>Engineer</span>
-            </h1>
+              <CEMark size={48} />
+              <h1 className="ce-h1-display" style={{
+                margin: 0,
+                fontSize: 44,
+                fontWeight: 700,
+                letterSpacing: '-0.028em',
+                lineHeight: 1,
+                color: COLORS.ink,
+              }}>
+                Career<span style={{ color: COLORS.goldDeep }}>Engineer</span>
+              </h1>
+            </div>
             <p style={{
-              margin: '12px 0 0',
+              margin: '14px 0 0',
               fontSize: FONT.size.bodyL,
               color: COLORS.ink,
               fontWeight: FONT.weight.semibold,
@@ -72,7 +78,6 @@ export default function Dashboard() {
             }}>
               취업이 막막하던 사람도 CareerEngineer의 질문에 답하다 보면, 생각하는 힘이 길러집니다. 일하는 방식이 달라집니다. 채용담당자가 먼저 알아봅니다.
             </p>
-            </div>
           </div>
           <ExportImportBar />
         </header>
