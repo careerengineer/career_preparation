@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ImportPanel } from './ImportPanel.jsx';
+import { ImportPreviewModal } from './ImportPreviewModal.jsx';
 import { MentoringBox } from './MentoringBox.jsx';
 import { WORKBOOKS } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
@@ -11,9 +12,7 @@ export function WorkbookShell({
   stepLabel,
   children,
   mentoringType,
-  onImport,
 }) {
-  // schema 우선, props로 override 가능
   const meta = WORKBOOKS.find((w) => w.key === workbookKey) || {};
   const resolvedTitle = title || meta.title || '';
   const resolvedStepLabel = stepLabel || meta.stepLabel || '';
@@ -22,6 +21,10 @@ export function WorkbookShell({
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [workbookKey]);
+
+  // ImportPanel 칩 클릭 → 미리보기 모달
+  const [previewItem, setPreviewItem] = useState(null);
+
   return (
     <div style={{ background: COLORS.bg, minHeight: '100vh', fontFamily: FONT.family }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: `${SPACING.lg}px ${SPACING.md}px ${SPACING.xxl}px` }}>
@@ -63,12 +66,17 @@ export function WorkbookShell({
           </h1>
         </div>
 
-        {onImport && <ImportPanel workbookKey={workbookKey} onImport={onImport} />}
+        {/* 이전 워크북에서 가져올 자료 (항상 표시) */}
+        <ImportPanel workbookKey={workbookKey} onImport={setPreviewItem} />
 
         {children}
 
         {mentoringType && <MentoringBox type={mentoringType} />}
       </div>
+
+      {previewItem && (
+        <ImportPreviewModal item={previewItem} onClose={() => setPreviewItem(null)} />
+      )}
     </div>
   );
 }
