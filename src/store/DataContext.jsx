@@ -99,6 +99,50 @@ export function DataProvider({ children }) {
     try { KEYS_TO_CLEAR.forEach((k) => localStorage.removeItem(k)); } catch {}
   }, []);
 
+  // ─── 회사별 슬롯 저장/복원 ────────────────────────────────
+  // localStorage에 별도 키로 회사별 스냅샷 보관
+  const SLOTS_KEY = 'careerengineer_company_slots_v1';
+
+  const readSlots = useCallback(() => {
+    try { return JSON.parse(localStorage.getItem(SLOTS_KEY) || '{}'); } catch { return {}; }
+  }, []);
+  const writeSlots = useCallback((slots) => {
+    try { localStorage.setItem(SLOTS_KEY, JSON.stringify(slots)); } catch (e) { console.warn(e); }
+  }, []);
+
+  const saveCompanySlot = useCallback((slotName) => {
+    if (!slotName || !slotName.trim()) return;
+    const slots = readSlots();
+    slots[slotName.trim()] = {
+      master,
+      savedAt: new Date().toISOString(),
+    };
+    writeSlots(slots);
+  }, [master, readSlots, writeSlots]);
+
+  const loadCompanySlot = useCallback((slotName) => {
+    const slots = readSlots();
+    const slot = slots[slotName];
+    if (!slot?.master) throw new Error('해당 슬롯이 없습니다.');
+    setMaster({ ...slot.master, updatedAt: new Date().toISOString() });
+  }, [readSlots]);
+
+  const deleteCompanySlot = useCallback((slotName) => {
+    const slots = readSlots();
+    delete slots[slotName];
+    writeSlots(slots);
+  }, [readSlots, writeSlots]);
+
+  const listCompanySlots = useCallback(() => {
+    const slots = readSlots();
+    return Object.entries(slots).map(([name, v]) => ({
+      name, savedAt: v.savedAt,
+      industry: v.master?.profile?.industry || '',
+      position: v.master?.profile?.position || '',
+      company: v.master?.profile?.company || '',
+    })).sort((a, b) => (b.savedAt || '').localeCompare(a.savedAt || ''));
+  }, [readSlots]);
+
   return (
     <DataContext.Provider
       value={{
@@ -111,6 +155,10 @@ export function DataProvider({ children }) {
         replaceMaster,
         resetAll,
         resetCompanyRelated,
+        saveCompanySlot,
+        loadCompanySlot,
+        deleteCompanySlot,
+        listCompanySlots,
       }}
     >
       {children}

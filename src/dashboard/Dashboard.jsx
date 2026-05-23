@@ -6,6 +6,7 @@ import { ExportImportBar } from '../shared/components/ExportImportBar.jsx';
 import ProfilePanel from './ProfilePanel.jsx';
 import StepCard from './StepCard.jsx';
 import NextActionCard from './NextActionCard.jsx';
+import CompanySlots from './CompanySlots.jsx';
 
 const STEPS = [
   { n: 0, name: '방향 설정' },
@@ -66,6 +67,9 @@ export default function Dashboard() {
 
         {/* 다음 액션 (profile 있을 때만 표시) */}
         <NextActionCard />
+
+        {/* 회사별 슬롯 (여러 회사 지원 관리) */}
+        <CompanySlots />
 
         {/* 6-STEP 진행률 */}
         <section style={{
