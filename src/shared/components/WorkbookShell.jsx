@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MentoringBox } from './MentoringBox.jsx';
 import { ReferenceInline } from './ReferenceInline.jsx';
+import { ReferenceFAB } from './ReferenceFAB.jsx';
 import { useDataStore } from '../../store/DataContext.jsx';
 import {
   exportWorkbookDocx, exportFullDocx,
@@ -177,6 +178,8 @@ export function WorkbookShell({
 
         {mentoringType && <MentoringBox type={mentoringType} />}
       </div>
+
+      <ReferenceFAB currentWorkbookKey={workbookKey} />
 
       {toast && (
         <div style={{
