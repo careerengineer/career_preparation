@@ -36,6 +36,13 @@ export function WorkbookShell({
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [workbookKey]);
 
+  // 워크북 내부 sticky 헤더에서 호출하는 reset 트리거
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.__CE_RESET = { fn: () => setResetMode('ask'), key: workbookKey };
+    return () => { if (window.__CE_RESET?.key === workbookKey) window.__CE_RESET = null; };
+  }, [workbookKey]);
+
   // localStorage 변경 감지 → "저장 중 → 저장됨" 상태 표시 (3초마다 체크)
   useEffect(() => {
     const LEGACY_KEYS = {
@@ -213,13 +220,6 @@ export function WorkbookShell({
               </button>
               <button onClick={handleExportAll} style={btnPrimary} disabled={busy}>
                 전체 결과 저장 (.docx)
-              </button>
-              <span style={{
-                display: 'inline-block', width: 1, height: 20,
-                background: COLORS.line, margin: '0 4px',
-              }} />
-              <button onClick={() => setResetMode('ask')} style={btnDanger} disabled={busy}>
-                {resolvedTitle} 삭제하고 다시 작성
               </button>
             </div>
           </div>
