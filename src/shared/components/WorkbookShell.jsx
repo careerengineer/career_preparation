@@ -180,7 +180,7 @@ export function WorkbookShell({
           }}>
             <div style={{ minWidth: 0 }}>
               <p style={{
-                fontSize: 14, color: COLORS.sub,
+                fontSize: 16, color: COLORS.sub,
                 margin: 0,
                 letterSpacing: 1.4, textTransform: 'uppercase',
                 fontWeight: FONT.weight.medium,
@@ -199,7 +199,7 @@ export function WorkbookShell({
 
             <div className="ce-workbook-header-actions" style={{ display: 'flex', gap: SPACING.xs, flexWrap: 'wrap', alignItems: 'center' }}>
               <span style={{
-                fontSize: 14, color: syncStatus === 'saving' ? COLORS.goldDeep : COLORS.green,
+                fontSize: 16, color: syncStatus === 'saving' ? COLORS.goldDeep : COLORS.green,
                 fontWeight: FONT.weight.semibold, padding: '0 6px', whiteSpace: 'nowrap',
               }}>
                 {syncStatus === 'saving' ? '저장 중…' : '✓ 자동 저장됨'}
@@ -304,9 +304,9 @@ export function WorkbookShell({
 
 const btnBase = {
   fontFamily: FONT.family,
-  fontSize: 14,
+  fontSize: 16,
   fontWeight: FONT.weight.semibold,
-  padding: '7px 12px',
+  padding: '8px 14px',
   cursor: 'pointer',
   borderRadius: 4,
   whiteSpace: 'nowrap',

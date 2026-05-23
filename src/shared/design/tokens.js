@@ -34,16 +34,26 @@ export const FONT = {
   serif: '"Noto Serif KR","Noto Serif","Source Han Serif KR",serif',  // editorial용
   mono: '"JetBrains Mono","SFMono-Regular",ui-monospace,monospace',
   size: {
-    // 브랜드 가이드 타입 스케일
+    // ── 워크북 내부 타입 스케일 (최소 16, 위계는 weight + size 조합으로 표현) ──
+    // 시각적 위계: 16(본문/캡션) → 18(보조 강조) → 20(소제목) → 24(H3) → 28(H2) → 36(H1)
+    // weight 위계  : 400(본문) · 500(라벨/캡션) · 600(소제목) · 700(제목)
+    // 색·letter-spacing·대문자(uppercase)로 추가 위계 표현. fontSize 만으로 위계 구분 X.
+    xs:   16,  // 캡션·짧은 메타 — 16/500 + uppercase + letter-spacing 으로 구분
+    sm:   16,  // 폼 라벨·작은 버튼 — 16/600
+    base: 16,  // 본문 — 16/400
+    md:   16,  // 본문 별칭
+    lg:   18,  // 보조 강조 / 답변 카드 / 인풋 — 18/400 또는 500
+    xl:   20,  // 소제목 (subsection title) — 20/600
+    xxl:  24,  // H3 (섹션 제목) — 24/700
+
+    // ── 브랜드 가이드 시스템 UI 스케일 (Dashboard 등) ──
     caption: 16,   // CAPTION 16/500
-    body: 16,      // BODY 16/400
-    bodyL: 20,     // BODY L 20/400
-    h3: 24,        // H3 24/600
-    h2: 32,        // H2 32/600
-    h1: 48,        // H1 48/700
-    display: 72,   // DISPLAY 72/700
-    // 워크북 호환 키
-    xs: 12, sm: 14, base: 16, md: 16, lg: 18, xl: 20, xxl: 24,
+    body:    16,   // BODY 16/400
+    bodyL:   20,   // BODY L 20/400
+    h3:      24,   // H3 24/700
+    h2:      28,   // H2 28/700  (구 32 → 28로 축소: 워크북 헤더와 위계 맞춤)
+    h1:      36,   // H1 36/700  (구 48 → 36으로 축소: 본문 24와 사이 36이 더 자연스러움)
+    display: 56,   // DISPLAY 56/700  (구 72 → 56로 축소)
   },
   weight: { regular: 400, medium: 500, semibold: 600, bold: 700 },
   lineHeight: { tight: 1.35, base: 1.6, loose: 1.75, relaxed: 1.7 },

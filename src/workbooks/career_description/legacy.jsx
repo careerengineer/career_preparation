@@ -99,7 +99,7 @@ const IntroFlowCard = ({ flow, flowTitle }) => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {flow.map((item, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 15, color: _INTRO_INK2 }}>
-            <span style={{ fontSize: 14, fontWeight: 700, color: _INTRO_INK, flexShrink: 0, minWidth: 64 }}>
+            <span style={{ fontSize: 16, fontWeight: 700, color: _INTRO_INK, flexShrink: 0, minWidth: 64 }}>
               {item.label}
             </span>
             <span style={{ flex: 1, lineHeight: 1.6 }}>{item.desc}</span>
@@ -123,7 +123,7 @@ const IntroPrerequisites = ({ items }) => {
           const link = recommend ? WORKBOOK_LINKS[recommend.workbookId] : null;
           return (
             <div key={i}>
-              <p style={{ fontSize: 14, color: _INTRO_INK, margin: 0, lineHeight: 1.6 }}>· {text}</p>
+              <p style={{ fontSize: 16, color: _INTRO_INK, margin: 0, lineHeight: 1.6 }}>· {text}</p>
               {link && (
                 <p style={{ fontSize: 13, color: _INTRO_MUTE, margin: '2px 0 0 14px', lineHeight: 1.6 }}>
                   └ {recommend.condition || '아직 준비되지 않았다면'} →{' '}
@@ -147,7 +147,7 @@ const IntroPrerequisites = ({ items }) => {
 
 const IntroCopyright = () => (
   <div style={{ background: _INTRO_PAPER, border: `1px solid ${_INTRO_INK}33`, color: _INTRO_INK, padding: 16, borderRadius: 10, marginBottom: 16 }}>
-    <p style={{ fontSize: 14, color: _INTRO_INK, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>
+    <p style={{ fontSize: 16, color: _INTRO_INK, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>
       작성 내용을 반드시 다운로드해 주세요. 페이지를 새로 고치거나 창을 닫으면 모든 내용이 즉시 삭제됩니다. 수시로 '저장하기' 버튼을 눌러 파일로 다운로드하시기 바랍니다.
     </p>
   </div>
@@ -161,7 +161,7 @@ const IntroFooterCopyright = () => (
 
 const IntroStickyHeader = () => (
   <div style={{ position: 'sticky', top: 0, zIndex: 10, background: '#F2F1EC', padding: '8px 0', marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
-    <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 14, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 36, display: 'inline-flex', alignItems: 'center' }}>삭제하고 다시 작성</button>
+    <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>삭제하고 다시 작성</button>
   </div>
 );
 
@@ -1707,7 +1707,7 @@ window.addEventListener('afterprint', function() {
                 }
                 setCompanyCount(prev => prev - 1);
                 setPerfCounts(prev => { const next = {...prev}; delete next[c]; return next; });
-              }} style={{ background: 'transparent', border: '1px solid #6E7A8F66', color: '#6E7A8F', padding: '4px 12px', borderRadius: 6, fontSize: 14, cursor: 'pointer' }}>
+              }} style={{ background: 'transparent', border: '1px solid #6E7A8F66', color: '#6E7A8F', padding: '4px 12px', borderRadius: 6, fontSize: 16, cursor: 'pointer' }}>
                 이 회사 삭제
               </button>
             )}
@@ -1747,7 +1747,7 @@ window.addEventListener('afterprint', function() {
             
             {perfCount < 3 && (
               <button onClick={() => setPerfCount(perfCount + 1)}
-                style={{ width: '100%', padding: 10, background: 'transparent', border: '1px dashed #6E7A8F66', color: '#1B3A6B', borderRadius: 6, fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
+                style={{ width: '100%', padding: 10, background: 'transparent', border: '1px dashed #6E7A8F66', color: '#1B3A6B', borderRadius: 6, fontSize: 16, fontWeight: 600, cursor: 'pointer' }}>
                 + 이 회사의 성과 추가 (현재 {perfCount}개, 최대 3개)
               </button>
             )}
@@ -1890,13 +1890,13 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
       <p style={{ fontSize: 16, fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', color: '#1B3A6B', marginBottom: 4 }}>
         EDIT · 작성 내용 직접 수정
       </p>
-      <p style={{ fontSize: 14, color: '#6E7A8F', margin: '0 0 12px 0' }}>아래 영역에서 바로 다듬을 수 있습니다. 수정한 내용은 워드 출력에도 자동 반영됩니다.</p>
+      <p style={{ fontSize: 16, color: '#6E7A8F', margin: '0 0 12px 0' }}>아래 영역에서 바로 다듬을 수 있습니다. 수정한 내용은 워드 출력에도 자동 반영됩니다.</p>
 
       {/* 1. 지원 정보 (PART 1) */}
       {(ans.company || ans.position) && (
         <div style={{ marginBottom: 12 }}>
-          <p style={{ fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 6, fontSize: 14 }}>지원 정보 (PART 1)</p>
-          <div style={{ background: '#FBFAF6', padding: 10, borderRadius: 6, fontSize: 14, color: '#6E7A8F' }}>
+          <p style={{ fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 6, fontSize: 16 }}>지원 정보 (PART 1)</p>
+          <div style={{ background: '#FBFAF6', padding: 10, borderRadius: 6, fontSize: 16, color: '#6E7A8F' }}>
             {[ans.company, ans.position].filter(Boolean).join(' · ')}
           </div>
         </div>
@@ -1905,30 +1905,30 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
       {/* 2. 경력 한 줄 요약 (PART 2) - 직접 수정 */}
       {ans.story_one && (
         <div style={{ marginBottom: 12 }}>
-          <label style={{ fontWeight: 700, color: '#0E2750', display: 'block', marginBottom: 6, fontSize: 14 }}>경력 한 줄 요약 (PART 2)</label>
+          <label style={{ fontWeight: 700, color: '#0E2750', display: 'block', marginBottom: 6, fontSize: 16 }}>경력 한 줄 요약 (PART 2)</label>
           <textarea value={ans.story_one || ''} onChange={e => set('story_one', e.target.value)}
             rows={2} className="resize-none"
-            style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 14, outline: 'none', background: '#FFFFFF' }} />
+            style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 16, outline: 'none', background: '#FFFFFF' }} />
         </div>
       )}
 
       {/* 3. 강점 하이라이트 (PART 3) */}
       {(ans.highlight_2line || ans.highlight_3keyword) && (
         <div style={{ marginBottom: 12 }}>
-          <p style={{ fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 6, fontSize: 14 }}>강점 하이라이트 (PART 3)</p>
+          <p style={{ fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 6, fontSize: 16 }}>강점 하이라이트 (PART 3)</p>
           {ans.highlight_2line && (
             <div style={{ marginBottom: 6 }}>
               <label style={{ fontSize: 13, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>2줄 강점</label>
               <textarea value={ans.highlight_2line || ''} onChange={e => set('highlight_2line', e.target.value)}
                 rows={2} className="resize-none"
-                style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 14, outline: 'none', background: '#FFFFFF' }} />
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 16, outline: 'none', background: '#FFFFFF' }} />
             </div>
           )}
           {ans.highlight_3keyword && (
             <div>
               <label style={{ fontSize: 13, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>3개 키워드</label>
               <input type="text" value={ans.highlight_3keyword || ''} onChange={e => set('highlight_3keyword', e.target.value)}
-                style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 14, outline: 'none', background: '#FFFFFF' }} />
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 16, outline: 'none', background: '#FFFFFF' }} />
             </div>
           )}
         </div>
@@ -1937,13 +1937,13 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
       {/* 4. 회사별 BRIAR 성과 (PART 5) - 동적 */}
       {Array.from({length: companyCount}, (_, i) => i + 1).some(c => ans[`c${c}_company`]) && (
         <div style={{ marginBottom: 12 }}>
-          <p style={{ fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 6, fontSize: 14 }}>회사별 BRIAR 성과 (PART 5)</p>
+          <p style={{ fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 6, fontSize: 16 }}>회사별 BRIAR 성과 (PART 5)</p>
           {Array.from({length: companyCount}, (_, i) => i + 1).map(c => {
             if (!ans[`c${c}_company`]) return null;
             const perfCount = perfCounts[c] || 1;
             return (
               <div key={c} style={{ background: '#FBFAF6', borderRadius: 6, padding: 12, marginBottom: 8 }}>
-                <p style={{ fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 6, fontSize: 14 }}>{ans[`c${c}_company`]} {ans[`c${c}_period`] ? `· ${ans[`c${c}_period`]}` : ''} {ans[`c${c}_title`] ? `· ${ans[`c${c}_title`]}` : ''}</p>
+                <p style={{ fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 6, fontSize: 16 }}>{ans[`c${c}_company`]} {ans[`c${c}_period`] ? `· ${ans[`c${c}_period`]}` : ''} {ans[`c${c}_title`] ? `· ${ans[`c${c}_title`]}` : ''}</p>
                 {Array.from({length: perfCount}, (_, i) => i + 1).map(p => (
                   ans[`c${c}_s${p}_title`] && (
                     <div key={p} style={{ background: '#FFFFFF', padding: 10, borderRadius: 4, marginBottom: 6, border: '1px solid #6E7A8F33' }}>
@@ -1968,13 +1968,13 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
       {/* 5. 핵심 역량 요약 (PART 8) - 직접 수정 */}
       {(ans.hard_skills || ans.soft_skills || ans.certs) && (
         <div style={{ marginBottom: 0 }}>
-          <p style={{ fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 6, fontSize: 14 }}>핵심 역량 요약 (PART 8)</p>
+          <p style={{ fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 6, fontSize: 16 }}>핵심 역량 요약 (PART 8)</p>
           {ans.hard_skills !== undefined && (
             <div style={{ marginBottom: 6 }}>
               <label style={{ fontSize: 13, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>하드 스킬</label>
               <textarea value={ans.hard_skills || ''} onChange={e => set('hard_skills', e.target.value)}
                 rows={2} className="resize-none"
-                style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 14, outline: 'none', background: '#FFFFFF' }} />
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 16, outline: 'none', background: '#FFFFFF' }} />
             </div>
           )}
           {ans.soft_skills !== undefined && (
@@ -1982,14 +1982,14 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
               <label style={{ fontSize: 13, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>소프트 스킬</label>
               <textarea value={ans.soft_skills || ''} onChange={e => set('soft_skills', e.target.value)}
                 rows={2} className="resize-none"
-                style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 14, outline: 'none', background: '#FFFFFF' }} />
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 16, outline: 'none', background: '#FFFFFF' }} />
             </div>
           )}
           {ans.certs !== undefined && (
             <div>
               <label style={{ fontSize: 13, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>자격증·인증</label>
               <input type="text" value={ans.certs || ''} onChange={e => set('certs', e.target.value)}
-                style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 14, outline: 'none', background: '#FFFFFF' }} />
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 16, outline: 'none', background: '#FFFFFF' }} />
             </div>
           )}
         </div>
@@ -2015,7 +2015,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
     <div style={{ marginBottom: 20 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
         <p style={{ fontSize: 18, fontWeight: 900, color: '#0E2750', margin: 0 }}>최종 문서 미리보기</p>
-        <p style={{ fontSize: 14, color: '#6E7A8F', margin: 0 }}>아래 그대로 워드로 다운로드됩니다</p>
+        <p style={{ fontSize: 16, color: '#6E7A8F', margin: 0 }}>아래 그대로 워드로 다운로드됩니다</p>
       </div>
       <div style={{ background: '#FFFFFF', border: '1px solid #6E7A8F33', borderRadius: 12, overflow: 'hidden', boxShadow: '0 2px 8px rgba(14, 39, 80, 0.06)' }}>
         <iframe
@@ -2061,21 +2061,21 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
       </button>
     </div>
     <div style={{ display: 'flex', gap: 12 }}>
-      <button onClick={dl} style={{ flex: 1, color: '#1B3A6B', borderRadius: 8, fontWeight: 600, fontSize: 14, background: '#F2F1EC', cursor: 'pointer', border: '1px solid #6E7A8F33', padding: '10px 16px' }}>
+      <button onClick={dl} style={{ flex: 1, color: '#1B3A6B', borderRadius: 8, fontWeight: 600, fontSize: 16, background: '#F2F1EC', cursor: 'pointer', border: '1px solid #6E7A8F33', padding: '10px 16px' }}>
         워드(.doc) 다운로드
       </button>
-      <button onClick={dlHtml} style={{ flex: 1, color: '#1B3A6B', borderRadius: 8, fontWeight: 600, fontSize: 14, background: '#F2F1EC', cursor: 'pointer', border: '1px solid #6E7A8F33', padding: '10px 16px' }}>
+      <button onClick={dlHtml} style={{ flex: 1, color: '#1B3A6B', borderRadius: 8, fontWeight: 600, fontSize: 16, background: '#F2F1EC', cursor: 'pointer', border: '1px solid #6E7A8F33', padding: '10px 16px' }}>
         HTML 다운로드
       </button>
     </div>
-    {downloaded && <p style={{ fontSize: 14, color: '#1FA47A', textAlign: 'center', marginTop: 12, fontWeight: 600 }}>✓ 완료! 새 탭에서 인쇄 → \"PDF로 저장\"하시면 됩니다.</p>}
+    {downloaded && <p style={{ fontSize: 16, color: '#1FA47A', textAlign: 'center', marginTop: 12, fontWeight: 600 }}>✓ 완료! 새 탭에서 인쇄 → \"PDF로 저장\"하시면 됩니다.</p>}
     
     <div style={{ marginTop: 16, background: '#FBFAF6', border: '1px solid #C9A86A66', borderRadius: 8, padding: 14, fontSize: 13, color: '#6E7A8F', lineHeight: 1.6 }}>
       <p style={{ margin: 0, marginBottom: 6, fontWeight: 700, color: '#0E2750' }}>어떤 방식으로 저장할까요?</p>
       <p style={{ margin: 0, marginBottom: 4 }}>· <strong style={{color:'#0E2750'}}>PDF로 저장 (추천 · 모든 환경)</strong>: 새 탭에서 자동으로 인쇄 대화창이 열립니다. <strong>\"PDF로 저장\"</strong> 선택하세요.</p>
-      <p style={{ margin: '0 0 4pt 12pt', fontSize: 12 }}>　• <strong>안드로이드</strong>: \"PDF로 저장\" 선택 → 파일 위치 지정</p>
-      <p style={{ margin: '0 0 4pt 12pt', fontSize: 12 }}>　• <strong>아이폰</strong>: 공유 버튼 → \"파일에 저장\"</p>
-      <p style={{ margin: '0 0 8pt 12pt', fontSize: 12 }}>　• <strong>PC</strong>: 인쇄 → 대상을 \"PDF로 저장\"으로 변경</p>
+      <p style={{ margin: '0 0 4pt 12pt', fontSize: 16 }}>　• <strong>안드로이드</strong>: \"PDF로 저장\" 선택 → 파일 위치 지정</p>
+      <p style={{ margin: '0 0 4pt 12pt', fontSize: 16 }}>　• <strong>아이폰</strong>: 공유 버튼 → \"파일에 저장\"</p>
+      <p style={{ margin: '0 0 8pt 12pt', fontSize: 16 }}>　• <strong>PC</strong>: 인쇄 → 대상을 \"PDF로 저장\"으로 변경</p>
       <p style={{ margin: 0, marginBottom: 4 }}>· <strong>워드(.doc) 다운로드</strong>: PC 워드에서 수정하고 싶을 때만. <strong style={{color:'#C9A86A'}}>안드로이드/아이폰에서는 안 열립니다.</strong></p>
       <p style={{ margin: 0 }}>· <strong>HTML 다운로드</strong>: 브라우저에서 열어 확인 가능 (백업용).</p>
     </div>
@@ -2117,9 +2117,9 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
               
               
             </div>
-            <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 14, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 36, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 14, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 36, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
+            <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
             
-            <button onClick={savePartial} style={{ background: '#C9A86A', color: '#fff', border: 'none', borderRadius: 10, padding: '0 14px', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, whiteSpace: 'nowrap', height: 36 }} title="지금까지 작성한 내용을 Word로 저장">
+            <button onClick={savePartial} style={{ background: '#C9A86A', color: '#fff', border: 'none', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, whiteSpace: 'nowrap', height: 36 }} title="지금까지 작성한 내용을 Word로 저장">
               저장 (.docx)
             </button>
           </div>

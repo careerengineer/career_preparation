@@ -1166,7 +1166,7 @@ const IntroFlowCard = ({ flow, flowTitle }) => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {flow.map((item, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 15, color: _INTRO_INK2 }}>
-            <span style={{ fontSize: 14, fontWeight: 700, color: _INTRO_INK, flexShrink: 0, minWidth: 64 }}>
+            <span style={{ fontSize: 16, fontWeight: 700, color: _INTRO_INK, flexShrink: 0, minWidth: 64 }}>
               {item.label}
             </span>
             <span style={{ flex: 1, lineHeight: 1.6 }}>{item.desc}</span>
@@ -1190,7 +1190,7 @@ const IntroPrerequisites = ({ items }) => {
           const link = recommend ? WORKBOOK_LINKS[recommend.workbookId] : null;
           return (
             <div key={i}>
-              <p style={{ fontSize: 14, color: _INTRO_INK, margin: 0, lineHeight: 1.6 }}>· {text}</p>
+              <p style={{ fontSize: 16, color: _INTRO_INK, margin: 0, lineHeight: 1.6 }}>· {text}</p>
               {link && (
                 <p style={{ fontSize: 13, color: _INTRO_MUTE, margin: '2px 0 0 14px', lineHeight: 1.6 }}>
                   └ {recommend.condition || '아직 준비되지 않았다면'} →{' '}
@@ -1214,7 +1214,7 @@ const IntroPrerequisites = ({ items }) => {
 
 const IntroCopyright = () => (
   <div style={{ background: _INTRO_PAPER, border: `1px solid ${_INTRO_INK}33`, color: _INTRO_INK, padding: 16, borderRadius: 10, marginBottom: 16 }}>
-    <p style={{ fontSize: 14, color: _INTRO_INK, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>
+    <p style={{ fontSize: 16, color: _INTRO_INK, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>
       작성 내용을 반드시 다운로드해 주세요. 페이지를 새로 고치거나 창을 닫으면 모든 내용이 즉시 삭제됩니다. 수시로 '저장하기' 버튼을 눌러 파일로 다운로드하시기 바랍니다.
     </p>
   </div>
@@ -1228,7 +1228,7 @@ const IntroFooterCopyright = () => (
 
 const IntroStickyHeader = () => (
   <div style={{ position: 'sticky', top: 0, zIndex: 10, background: '#F2F1EC', padding: '8px 0', marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
-    <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 14, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 36, display: 'inline-flex', alignItems: 'center' }}>삭제하고 다시 작성</button>
+    <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>삭제하고 다시 작성</button>
   </div>
 );
 
@@ -2001,7 +2001,7 @@ export default function App() {
               
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
-              <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 14, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 36, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 14, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 36, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
+              <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
               
               <span style={{ fontSize: 16, color: COLORS.sub, marginLeft: 4 }}>{qi+1}/{QS.length}</span>
             </div>
@@ -2061,7 +2061,7 @@ export default function App() {
               
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
-              <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 14, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 36, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 14, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 36, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
+              <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
               
               <button onClick={handleSaveResult} disabled={isSavingDocx}
                 style={{ background: isSavingDocx ? COLORS.sub : COLORS.accent, color: COLORS.white, border: 'none', borderRadius: RADIUS.base, padding: '0 14px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: isSavingDocx ? 'wait' : 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, opacity: isSavingDocx ? 0.7 : 1, fontFamily: 'inherit', whiteSpace: 'nowrap', height: 36 }}>
@@ -2162,7 +2162,7 @@ export default function App() {
             return (
               <div key={stage.step} style={{marginBottom:16}}>
                 <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8,padding:"6px 12px",background:isCurrentStage?COLORS.accent:"#FBFAF6",borderRadius:8}}>
-                  <span style={{fontSize:14,fontWeight:700,color:isCurrentStage?COLORS.white:COLORS.accent2,letterSpacing:0.3}}>STEP {stage.step}. {stage.name}</span>
+                  <span style={{fontSize: 16,fontWeight:700,color:isCurrentStage?COLORS.white:COLORS.accent2,letterSpacing:0.3}}>STEP {stage.step}. {stage.name}</span>
                   {isCurrentStage && <span style={{fontSize:13,color:COLORS.white,opacity:0.85,marginLeft:4}}>지금 가장 먼저</span>}
                 </div>
                 {stepActions.map((action, ai) => {
@@ -2172,7 +2172,7 @@ export default function App() {
                     <div key={actionKey} style={{marginBottom:8,marginLeft:8}}>
                       <div onClick={()=>setExpandedAction(isOpen?-1:actionKey)}
                         style={{padding:"14px 16px",borderRadius:isOpen?"14px 14px 0 0":"14px",background:"#fff",border:`1px solid ${COLORS.border}`,cursor:"pointer",display:"flex",alignItems:"flex-start",gap:12}}>
-                        <div style={{minWidth:28,height:28,borderRadius:8,background:isCurrentStage?COLORS.accent2:COLORS.sub,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize: 14,fontWeight:700,flexShrink:0}}>{ai+1}</div>
+                        <div style={{minWidth:28,height:28,borderRadius:8,background:isCurrentStage?COLORS.accent2:COLORS.sub,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize: 16,fontWeight:700,flexShrink:0}}>{ai+1}</div>
                         <div style={{flex:1}}>
                           <div style={{fontSize: 16,fontWeight:600,lineHeight:1.4,color:COLORS.accent}}>{action.text}</div>
                         </div>
@@ -2214,7 +2214,7 @@ export default function App() {
               <span>이럴 때는 도움이 필요할 수 있습니다</span>
             </p>
             <p style={{ fontSize: 16, color: COLORS.accent, margin: 0, lineHeight: 1.75 }}>{result.stageGuide.whenToAskHelp}</p>
-            <p style={{ fontSize: 14, color: COLORS.sub, margin: 0, marginTop: 10, lineHeight: 1.6, fontStyle: 'italic' }}>혼자 끙끙대는 시간이 길어지면 동기와 자신감이 같이 무너집니다. 적절한 타이밍에 도움을 받는 게 가장 효율적입니다.</p>
+            <p style={{ fontSize: 16, color: COLORS.sub, margin: 0, marginTop: 10, lineHeight: 1.6, fontStyle: 'italic' }}>혼자 끙끙대는 시간이 길어지면 동기와 자신감이 같이 무너집니다. 적절한 타이밍에 도움을 받는 게 가장 효율적입니다.</p>
           </div>
         )}
 
@@ -2229,13 +2229,13 @@ export default function App() {
                 <div key={i} style={{borderRadius:14,border:`1px solid ${COLORS.border}`,background:"#fff",overflow:"hidden"}}>
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 18px",background:"#FBFAF6",borderBottom: d.w ? `1px solid ${COLORS.border}` : "none"}}>
                     <div style={{display:"flex",alignItems:"center",gap:10,flex:1}}>
-                      <span style={{minWidth:28,height:28,borderRadius:8,background:COLORS.accent,color:"#fff",display:"inline-flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,flexShrink:0}}>{i+1}</span>
+                      <span style={{minWidth:28,height:28,borderRadius:8,background:COLORS.accent,color:"#fff",display:"inline-flex",alignItems:"center",justifyContent:"center",fontSize: 16,fontWeight:700,flexShrink:0}}>{i+1}</span>
                       <div style={{fontSize: 16,fontWeight:700,color:COLORS.accent,lineHeight:1.4}}>{d.n}</div>
                     </div>
                     {d.u ? (
-                      <a href={d.u} target="_blank" rel="noopener noreferrer" style={{fontSize: 14,color:"#fff",background:COLORS.accent2,textDecoration:"none",fontWeight:600,padding:"8px 16px",borderRadius:8,whiteSpace:"nowrap",marginLeft:12}}>자료 보기</a>
+                      <a href={d.u} target="_blank" rel="noopener noreferrer" style={{fontSize: 16,color:"#fff",background:COLORS.accent2,textDecoration:"none",fontWeight:600,padding:"8px 16px",borderRadius:8,whiteSpace:"nowrap",marginLeft:12}}>자료 보기</a>
                     ) : (
-                      <span style={{fontSize: 14,color:"#6E7A8F",padding:"8px 16px",border:`1px solid ${COLORS.border}`,borderRadius:8,whiteSpace:"nowrap",marginLeft:12}}>준비 중</span>
+                      <span style={{fontSize: 16,color:"#6E7A8F",padding:"8px 16px",border:`1px solid ${COLORS.border}`,borderRadius:8,whiteSpace:"nowrap",marginLeft:12}}>준비 중</span>
                     )}
                   </div>
                   {d.w && (
@@ -2273,7 +2273,7 @@ export default function App() {
                   {note && (note.summary || note.guidance) && (
                     <div style={{padding:"0 16px 14px 52px"}}>
                       {note.summary && (
-                        <p style={{fontSize: 14, fontWeight: 700, color: isCurrent ? COLORS.accent : COLORS.accent2, margin: 0, marginBottom: 4, letterSpacing: 0.3}}>{note.summary}</p>
+                        <p style={{fontSize: 16, fontWeight: 700, color: isCurrent ? COLORS.accent : COLORS.accent2, margin: 0, marginBottom: 4, letterSpacing: 0.3}}>{note.summary}</p>
                       )}
                       {note.guidance && (
                         <p style={{fontSize: 15, color: COLORS.accent, margin: 0, lineHeight: 1.7}}>{note.guidance}</p>
@@ -2364,7 +2364,7 @@ export default function App() {
         </div>
 
         <div style={{ marginTop: 32, paddingTop: 16, borderTop: '1px solid rgba(110, 122, 143, 0.2)' }}>
-          <p style={{ fontSize: 14, color: '#6E7A8F', textAlign: 'center', lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontSize: 16, color: '#6E7A8F', textAlign: 'center', lineHeight: 1.6, margin: 0 }}>
             © 2026 CareerEngineer. All Rights Reserved. 저작권법에 의하여 보호받는 저작물이므로 무단 전재와 무단 복제를 금합니다. 이 자료는 구매하신 분의 취업을 위한 개인 학습 용도로 자유롭게 활용하실 수 있으나, 자료의 전부 또는 일부를 다른 사람에게 공유하거나, 복제·재판매·재배포하는 것은 금지되어 있습니다. <strong>이를 위반할 경우 관련 법률에 따라 민·형사상 책임을 질 수 있습니다.</strong>
           </p>
         </div>

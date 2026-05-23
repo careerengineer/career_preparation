@@ -27,7 +27,7 @@ export const RESPONSIVE_CSS = `
   .ce-workbook-header-actions button,
   .ce-workbook-header-actions a {
     padding: 6px 10px !important;
-    font-size: 13px !important;
+    font-size: 16px !important;
     white-space: nowrap !important;
     flex-shrink: 0 !important;
   }
