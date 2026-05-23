@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ImportPanel } from './ImportPanel.jsx';
-import { ImportPreviewModal } from './ImportPreviewModal.jsx';
 import { MentoringBox } from './MentoringBox.jsx';
 import { WORKBOOKS } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
@@ -21,9 +19,6 @@ export function WorkbookShell({
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [workbookKey]);
-
-  // ImportPanel 칩 클릭 → 미리보기 모달
-  const [previewItem, setPreviewItem] = useState(null);
 
   return (
     <div style={{ background: COLORS.bg, minHeight: '100vh', fontFamily: FONT.family }}>
@@ -66,17 +61,11 @@ export function WorkbookShell({
           </h1>
         </div>
 
-        {/* 이전 워크북에서 가져올 자료 (항상 표시) */}
-        <ImportPanel workbookKey={workbookKey} onImport={setPreviewItem} />
-
+        {/* 본문 — 각 질문 옆에 ReferenceInline이 자동으로 표시됨 */}
         {children}
 
         {mentoringType && <MentoringBox type={mentoringType} />}
       </div>
-
-      {previewItem && (
-        <ImportPreviewModal item={previewItem} onClose={() => setPreviewItem(null)} />
-      )}
     </div>
   );
 }

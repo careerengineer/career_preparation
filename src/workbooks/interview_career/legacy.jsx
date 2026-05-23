@@ -1,6 +1,7 @@
 // [BUILD v36 20260520 10:30] docx 저장에 CareerEngineer 자료 + 멘토링 안내 섹션 추가 (ExternalHyperlink + linkP)
 import React, { useState, useEffect } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
+import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 // ══════════════════════════════════════════════════════════════
@@ -1636,33 +1637,7 @@ const CareerInterviewWorkbook = () => {
   };
 
   // 인라인 참고 워크북 (가이드 PART 7-15)
-  const RelatedWorkbookInline = ({ ids = [] }) => {
-    if (!ids || ids.length === 0) return null;
-    const links = ids.map(id => WORKBOOK_LINKS[id]).filter(Boolean);
-    if (links.length === 0) return null;
-    return (
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap',
-        padding: '8px 12px', background: '#FBFAF6',
-        borderLeft: `2px solid ${COLORS.accent2}`, borderRadius: 4,
-        marginTop: 4, marginBottom: 8,
-        fontSize: FONT.size.sm, lineHeight: FONT.lineHeight.base,
-      }}>
-        <span style={{ color: COLORS.sub, fontWeight: FONT.weight.semibold, flexShrink: 0 }}>
-          참고:
-        </span>
-        {links.map((link, idx) => (
-          <span key={idx}>
-            <a href={link.url} target="_blank" rel="noopener noreferrer"
-              style={{ color: COLORS.accent, textDecoration: 'underline', textUnderlineOffset: 2, fontWeight: FONT.weight.medium }}>
-              {link.label}
-            </a>
-            {idx < links.length - 1 && <span style={{ color: COLORS.sub, margin: '0 4px' }}>·</span>}
-          </span>
-        ))}
-      </div>
-    );
-  };
+  const RelatedWorkbookInline = ReferenceInline; // master 기반 inline 참고 패널 (shared)
 
   // STEP 네비게이터 드롭다운 (가이드 PART 7-6: 헤더 STEP 클릭 시)
   const StepNavigatorDropdown = ({ open, onClose, currentKey, anchorRef }) => {
