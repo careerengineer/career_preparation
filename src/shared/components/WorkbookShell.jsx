@@ -79,16 +79,6 @@ export function WorkbookShell({
     }
   };
 
-  const handleGoHome = () => {
-    const home = (typeof window !== 'undefined') ? window.__CE_HOME : null;
-    if (home?.key === workbookKey && typeof home.fn === 'function') {
-      home.fn();
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    } else {
-      showToast('이 워크북은 처음으로 이동을 지원하지 않습니다.');
-    }
-  };
-
   return (
     <div style={{ background: COLORS.bg, minHeight: '100vh', fontFamily: FONT.family }}>
       {/* 통합 sticky 헤더 */}
@@ -120,9 +110,6 @@ export function WorkbookShell({
               >
                 대시보드로 돌아가기
               </Link>
-              <button onClick={handleGoHome} style={btnSecondary}>
-                처음으로
-              </button>
             </div>
 
             <div className="ce-workbook-header-actions" style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap', alignItems: 'center' }}>
