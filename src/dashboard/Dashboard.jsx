@@ -62,7 +62,7 @@ export default function Dashboard() {
               lineHeight: FONT.lineHeight.tight,
               letterSpacing: '-0.2px',
             }}>
-              커리어를 설계하는 사람들의 동료.
+              생각하는 힘으로 커리어를 설계하다
             </p>
             <p style={{
               margin: '8px 0 0',
@@ -70,7 +70,9 @@ export default function Dashboard() {
               color: COLORS.sub,
               lineHeight: FONT.lineHeight.base,
             }}>
-              데이터로 다음 단계를 보여주고, 코칭으로 그 단계를 함께 걷습니다.
+              취업이 막막하던 사람도 CareerEngineer의 질문에 답하다 보면,
+              <br />
+              생각하는 힘이 길러집니다. 일하는 방식이 달라집니다. 채용담당자가 먼저 알아봅니다.
               <br />
               여러 회사에 지원하실 때도 활용 가능합니다.
             </p>
