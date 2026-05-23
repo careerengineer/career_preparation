@@ -171,7 +171,7 @@ export function ExportImportBar() {
     <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap' }}>
       <button onClick={handleImportClick} style={btnStyle}>가져오기 (.json/.xlsx/.docx)</button>
       <button onClick={handleExportXlsx} style={btnStyle}>경험 정리 저장 (.xlsx)</button>
-      <button onClick={handleExportRestDocx} style={btnPrimaryStyle}>나머지 전체 저장 (.docx)</button>
+      <button onClick={handleExportRestDocx} style={btnPrimaryStyle}>전체내용 저장 (.docx)</button>
       <button onClick={handleExportJson} style={btnStyle} title="모든 데이터 한 파일로 (다른 기기 복원용)">완전 백업 (.json)</button>
       <input
         ref={fileRef}
