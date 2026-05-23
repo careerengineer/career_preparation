@@ -140,19 +140,21 @@ export function getImportableItems(master, workbookKey) {
 // NextActionCard용: 다음에 할 일 추천
 // 우선순위:
 // 1) 프로필 없음 → 입력 안내
-// 2) STEP 0 진단 안 했으면 → 진단 먼저
-// 3) 약점 STEP 미완료 워크북 있으면 → 그것
-// 4) 진행 중(50%) 워크북 있으면 → 이어서 작성
-// 5) 다음 미시작 워크북 → 시작
+// 2) 진행 중(50%) 워크북 있으면 → 이어서 작성 (어디든)
+// 3) 약점 STEP 미완료 → 그것
+// 4) 작성한 워크북이 하나도 없으면 → STEP 0 진단 (시작점 안내)
+// 5) 미시작 워크북 → 다음
 // 6) 모두 완료 → done
 export function getNextRecommendation(master) {
   if (!master.profile.industry && !master.profile.position && !master.profile.company) {
     return { kind: 'profile', label: '먼저 산업/직무/회사를 입력해주세요' };
   }
-  if (!master.roadmap.completedAt && getWorkbookProgress(master, 'career_roadmap') < 100) {
-    return { kind: 'workbook', workbookKey: 'career_roadmap', label: 'STEP 0 · 취업 로드맵 진단부터 시작' };
+  // 진행 중(50%)인 것 이어서 작성이 가장 효율적
+  const inProgress = WORKBOOKS.find((w) => getWorkbookProgress(master, w.key) === 50);
+  if (inProgress) {
+    return { kind: 'workbook', workbookKey: inProgress.key, label: `이어서 작성: ${inProgress.stepLabel} · ${inProgress.title}` };
   }
-  // 약점 STEP 안의 미완료 워크북 우선
+  // 약점 STEP 안의 미완료 워크북
   if (master.roadmap.weakestStep != null) {
     const stepBooks = WORKBOOKS.filter((w) => w.step === master.roadmap.weakestStep);
     const target = stepBooks.find((w) => getWorkbookProgress(master, w.key) < 100);
@@ -160,10 +162,10 @@ export function getNextRecommendation(master) {
       return { kind: 'workbook', workbookKey: target.key, label: `약점 STEP ${master.roadmap.weakestStep} · ${target.title}` };
     }
   }
-  // 진행 중(50%)인 것 이어서 작성이 가장 효율적
-  const inProgress = WORKBOOKS.find((w) => getWorkbookProgress(master, w.key) === 50);
-  if (inProgress) {
-    return { kind: 'workbook', workbookKey: inProgress.key, label: `이어서 작성: ${inProgress.stepLabel} · ${inProgress.title}` };
+  // 아무것도 작성 안 했고 STEP 0 미완료면 시작점으로 안내 (한 번만)
+  const anyStarted = WORKBOOKS.some((w) => getWorkbookProgress(master, w.key) > 0);
+  if (!anyStarted && getWorkbookProgress(master, 'career_roadmap') < 100) {
+    return { kind: 'workbook', workbookKey: 'career_roadmap', label: '먼저 시작하기: STEP 0 · 취업 로드맵 진단' };
   }
   // 미시작 첫 워크북
   const notStarted = WORKBOOKS.find((w) => getWorkbookProgress(master, w.key) === 0);
