@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { exportToFile, parseImportFile, detectConflicts } from '../../store/exportImport.js';
-import { exportFullDocx, importExperiencesXlsx, extractBackupFromDocx } from '../../store/docExport.js';
+import { exportFullDocx, exportExperiencesXlsx, importExperiencesXlsx, extractBackupFromDocx } from '../../store/docExport.js';
 import { DEFAULT_MASTER } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { OverwriteModal } from './OverwriteModal.jsx';
@@ -18,10 +18,16 @@ export function ExportImportBar() {
     const filename = exportToFile(master);
     showToast(`백업: ${filename}`);
   };
-  const handleExportDocx = async () => {
+  const handleExportXlsx = () => {
     try {
-      const name = await exportFullDocx(master);
-      showToast(`문서: ${name}`);
+      const name = exportExperiencesXlsx(master);
+      showToast(`경험 정리: ${name}`);
+    } catch (e) { showToast('오류: ' + e.message); }
+  };
+  const handleExportRestDocx = async () => {
+    try {
+      const name = await exportFullDocx(master, { excludeExperiences: true });
+      showToast(`나머지 전체: ${name}`);
     } catch (e) { showToast('오류: ' + e.message); }
   };
 
@@ -143,8 +149,9 @@ export function ExportImportBar() {
   return (
     <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap' }}>
       <button onClick={handleImportClick} style={btnStyle}>가져오기 (.json/.xlsx/.docx)</button>
-      <button onClick={handleExportJson} style={btnStyle}>백업 (.json)</button>
-      <button onClick={handleExportDocx} style={btnPrimaryStyle}>전체 문서 (.docx)</button>
+      <button onClick={handleExportXlsx} style={btnStyle}>경험 정리 저장 (.xlsx)</button>
+      <button onClick={handleExportRestDocx} style={btnPrimaryStyle}>나머지 전체 저장 (.docx)</button>
+      <button onClick={handleExportJson} style={btnStyle} title="개발자용 / 완전 백업">.json</button>
       <input
         ref={fileRef}
         type="file"

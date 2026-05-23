@@ -272,14 +272,34 @@ export async function exportWorkbookDocx(master, workbookKey, workbookTitle) {
 }
 
 // ─── 전체 .docx ──────────────────────────────────────────
-export async function exportFullDocx(master) {
+// options.excludeExperiences = true 이면 경험 정리는 본문/임베드 JSON 모두 제외
+//   → 별도 .xlsx와 짝으로 다운로드 후 두 파일로 import 가능
+export async function exportFullDocx(master, options = {}) {
+  const { excludeExperiences = false } = options;
+
+  // 임베드 JSON: 옵션에 따라 experiences 제외
+  const dataPayload = excludeExperiences
+    ? (() => {
+        const { experiences, ...rest } = master;
+        // workbookRaw.experience도 제외 (xlsx에서 복원)
+        const wbRaw = { ...(rest.workbookRaw || {}) };
+        delete wbRaw.experience;
+        return { ...rest, experiences: [], workbookRaw: wbRaw };
+      })()
+    : master;
+
   const payload = {
     format: 'careerengineer-export',
     version: 1,
     appVersion: APP_VERSION,
     exportedAt: new Date().toISOString(),
-    data: master,
+    excludesExperiences: !!excludeExperiences,
+    data: dataPayload,
   };
+
+  const title = excludeExperiences
+    ? '취업 준비 통합 백업 (경험 제외)'
+    : '취업 준비 통합 백업';
 
   const children = [
     new Paragraph({
@@ -287,22 +307,24 @@ export async function exportFullDocx(master) {
       alignment: AlignmentType.CENTER,
     }),
     new Paragraph({
-      children: [new TextRun({ text: '취업 준비 통합 백업', size: 56, bold: true, color: NAVY })],
+      children: [new TextRun({ text: title, size: 56, bold: true, color: NAVY })],
       alignment: AlignmentType.CENTER,
       spacing: { after: 300 },
     }),
     Sub(`내보낸 시각: ${new Date().toLocaleString('ko-KR')}`),
+    ...(excludeExperiences ? [Sub('경험 정리(STAR 카드)는 별도 .xlsx 파일에 포함됩니다.')] : []),
     ...profileBlock(master),
   ];
 
   for (const w of WORKBOOKS) {
+    if (excludeExperiences && w.key === 'experience') continue;
     children.push(...workbookBlocks(master, w.key, true));
   }
   children.push(...backupBlocks(payload));
 
   const doc = new Document({
     creator: 'CareerEngineer',
-    title: 'CareerEngineer - 전체 백업',
+    title: `CareerEngineer - ${title}`,
     sections: [{ properties: {}, children }],
   });
 
@@ -310,7 +332,8 @@ export async function exportFullDocx(master) {
   const co  = safeName(master.profile.company);
   const ind = safeName(master.profile.industry) || 'backup';
   const ts  = timestampPart();
-  const parts = ['careerengineer_전체', co, ind].filter(Boolean);
+  const tag = excludeExperiences ? '나머지' : '전체';
+  const parts = [`careerengineer_${tag}`, co, ind].filter(Boolean);
   const name  = `${parts.join('_')}_${ts}.docx`;
   saveAs(blob, name);
   return name;
