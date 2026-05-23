@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import * as XLSX from 'xlsx';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 // ════════════════════════════════════════════════════════════════
@@ -1176,6 +1176,13 @@ const ExperienceWorkbook = () => {
     };
     tryNext();
   });
+  // [CE-DL] 외부 WorkbookShell 버튼에서 호출 위한 등록
+  const __ceDlRef = useRef(null);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.__CE_DOWNLOAD = { fn: () => __ceDlRef.current?.(), key: 'experience' };
+    return () => { if (window.__CE_DOWNLOAD?.key === 'experience') window.__CE_DOWNLOAD = null; };
+  }, []);
   const handleSaveXlsx = async () => {
     if (isSavingXlsx) return;
     setIsSavingXlsx(true);
@@ -1802,6 +1809,7 @@ const ExperienceWorkbook = () => {
       setTimeout(() => setSavedXlsx(false), 3000);
     }
   };
+  __ceDlRef.current = handleSaveXlsx; // [CE-DL] ref 갱신
   // ════════════════════════════════════════════════════════
   //  Phase 렌더러
   // ════════════════════════════════════════════════════════

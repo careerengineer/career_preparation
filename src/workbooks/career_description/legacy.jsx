@@ -1,5 +1,5 @@
 // [BUILD v36 20260520 10:30] docx 저장에 CareerEngineer 자료 + 멘토링 안내 섹션 추가 (ExternalHyperlink + linkP)
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
@@ -1048,6 +1048,13 @@ ${skillRows.length ? `${sectionHeader('핵심 역량')}
   });
   
   // 진짜 .docx 파일 생성 — 워드/한글에서 100% 호환
+  // [CE-DL] 외부 WorkbookShell 버튼에서 호출 위한 등록
+  const __ceDlRef = useRef(null);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.__CE_DOWNLOAD = { fn: () => __ceDlRef.current?.(), key: 'career_description' };
+    return () => { if (window.__CE_DOWNLOAD?.key === 'career_description') window.__CE_DOWNLOAD = null; };
+  }, []);
   const dl = async () => {
     try {
       setAutoSaveStatus && setAutoSaveStatus('문서 생성 중...');
@@ -1327,6 +1334,7 @@ ${skillRows.length ? `${sectionHeader('핵심 역량')}
       alert('워드 문서 생성에 실패했습니다. 잠시 후 다시 시도해주세요.\n\n' + (err.message || ''));
     }
   };
+  __ceDlRef.current = dl; // [CE-DL] ref 갱신
   
   // 새 탭에서 미리보기탭에서 미리보기 (브라우저 → 인쇄 → PDF로 저장 가능)
   // PDF 저장 (모든 환경 호환 — 모바일/PC/안드로이드/아이폰)

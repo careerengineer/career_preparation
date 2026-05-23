@@ -37,6 +37,14 @@ export function WorkbookShell({
   const handleExportThis = async () => {
     setBusy(true);
     try {
+      // 1순위: 워크북 원본의 정성 다운로드 함수 호출 (한글 라벨, 풍부한 스타일, 멘토링 안내 포함)
+      const dl = (typeof window !== 'undefined') ? window.__CE_DOWNLOAD : null;
+      if (dl?.key === workbookKey && typeof dl.fn === 'function') {
+        await dl.fn();
+        showToast(`${resolvedTitle} 결과를 저장했습니다.`);
+        return;
+      }
+      // 2순위: 우리 generic export
       const name = isExperience
         ? exportExperiencesXlsx(master)
         : await exportWorkbookDocx(master, workbookKey, resolvedTitle);

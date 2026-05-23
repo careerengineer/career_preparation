@@ -1,5 +1,5 @@
 // [BUILD v36 20260520 10:30] docx 저장에 CareerEngineer 자료 + 멘토링 안내 섹션 추가 (ExternalHyperlink + linkP)
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 
@@ -756,6 +756,20 @@ const CareerAspirationWorkbook = () => {
     tryNext();
   });
 
+  // [CE-DL] 외부 WorkbookShell 버튼에서 호출 위한 등록
+
+  const __ceDlRef = useRef(null);
+
+  useEffect(() => {
+
+    if (typeof window === 'undefined') return;
+
+    window.__CE_DOWNLOAD = { fn: () => __ceDlRef.current?.(), key: 'careergoal' };
+
+    return () => { if (window.__CE_DOWNLOAD?.key === 'careergoal') window.__CE_DOWNLOAD = null; };
+
+  }, []);
+
   const downloadFinalText = async () => {
     try {
       const docxLib = await loadDocxLib();
@@ -939,6 +953,8 @@ const CareerAspirationWorkbook = () => {
       alert('워드 문서 생성에 실패했습니다.\n' + (err.message || ''));
     }
   };
+
+  __ceDlRef.current = downloadFinalText; // [CE-DL] ref 갱신
 
   // 임시저장 — 현재까지 작성된 답변들과 최종 통합 본문을 함께 저장
   const savePartial = () => {

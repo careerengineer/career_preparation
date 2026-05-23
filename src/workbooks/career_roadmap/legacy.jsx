@@ -1,5 +1,5 @@
 // [BUILD v37 20260520 11:30] 4가지 페르소나 갭 해소 - Q1 라벨 명확화 + switch_new 추가 + essay/interview level 1·2 분기 + career 연봉/포지셔닝
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 
 
@@ -1350,6 +1350,13 @@ export default function App() {
   const [savedDocx, setSavedDocx] = useState(false);
 
   // 진단 결과 .docx 저장 (라이브러리 동적 로드)
+  // [CE-DL] 외부 WorkbookShell 버튼에서 호출 위한 등록
+  const __ceDlRef = useRef(null);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.__CE_DOWNLOAD = { fn: () => __ceDlRef.current?.(), key: 'career_roadmap' };
+    return () => { if (window.__CE_DOWNLOAD?.key === 'career_roadmap') window.__CE_DOWNLOAD = null; };
+  }, []);
   const handleSaveResult = async () => {
     if (!result) { alert('진단을 먼저 완료해주세요.'); return; }
     if (!result.weakest || !result.weakest.step) {
@@ -1613,6 +1620,7 @@ export default function App() {
       setIsSavingDocx(false);
     }
   };
+  __ceDlRef.current = handleSaveResult; // [CE-DL] ref 갱신
 
   const [expandedAction, setExpandedAction] = useState(0);
   const [autoSaveStatus, setAutoSaveStatus] = useState('');
