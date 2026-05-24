@@ -6,7 +6,7 @@ import { ReferenceFAB } from './ReferenceFAB.jsx';
 import { CEMark } from './CELogo.jsx';
 import { useDataStore } from '../../store/DataContext.jsx';
 import {
-  exportWorkbookDocx, exportFullDocx,
+  exportWorkbookDocx,
   exportExperiencesXlsx, importExperiencesXlsx,
   extractBackupFromDocx,
 } from '../../store/docExport.js';
@@ -174,16 +174,6 @@ export function WorkbookShell({
       setTimeout(() => window.location.reload(), 1500);
     } catch (err) {
       showToast('오류: ' + err.message);
-    } finally { setBusy(false); }
-  };
-
-  const handleExportAll = async () => {
-    setBusy(true);
-    try {
-      const name = await exportFullDocx(master);
-      showToast(`다운로드 완료: ${name}`);
-    } catch (e) {
-      showToast('오류: ' + e.message);
     } finally { setBusy(false); }
   };
 

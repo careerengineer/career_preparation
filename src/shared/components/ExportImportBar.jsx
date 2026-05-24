@@ -94,18 +94,31 @@ export function ExportImportBar() {
         }
         // 전체 백업
         if (payload.format === 'careerengineer-export') {
+          // "전체내용 저장(.docx)"은 경험을 일부러 제외하고 .xlsx로 분리한다.
+          // 이런 docx를 단독으로 import할 때 현재 경험 카드를 0으로 덮어쓰면 데이터 유실 →
+          // excludesExperiences면 현재 경험(experiences/workbookRaw.experience)을 보존한다.
+          const excludesExp = payload.excludesExperiences === true;
           const incoming = {
             ...DEFAULT_MASTER,
             ...payload.data,
             profile: { ...DEFAULT_MASTER.profile, ...(payload.data?.profile || {}) },
-            workbookRaw: { ...DEFAULT_MASTER.workbookRaw, ...(payload.data?.workbookRaw || {}) },
+            workbookRaw: {
+              ...DEFAULT_MASTER.workbookRaw,
+              ...(payload.data?.workbookRaw || {}),
+              ...(excludesExp ? { experience: master.workbookRaw?.experience ?? null } : {}),
+            },
             outputs: { ...DEFAULT_MASTER.outputs, ...(payload.data?.outputs || {}) },
-            experiences: Array.isArray(payload.data?.experiences) ? payload.data.experiences : [],
+            experiences: excludesExp
+              ? (master.experiences || [])
+              : (Array.isArray(payload.data?.experiences) ? payload.data.experiences : []),
           };
+          const doneMsg = excludesExp
+            ? 'docx에서 전체 내용을 복원했습니다. 경험정리는 .xlsx 파일로 따로 "가져오기" 하세요.'
+            : 'docx에서 전체 데이터를 복원했습니다.';
           const conflicts = detectConflicts(master, incoming);
           if (conflicts.length === 0) {
             replaceMaster(incoming);
-            showToast('docx에서 전체 데이터를 복원했습니다.');
+            showToast(doneMsg);
           } else {
             setConflictState({ conflicts, incoming });
           }
