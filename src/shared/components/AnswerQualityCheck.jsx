@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { useDataStore } from '../../store/DataContext.jsx';
 
@@ -55,6 +56,44 @@ function extractUserKeywords(master) {
   });
   // 중복 제거 + 너무 일반적인 짧은 단어 제외, 최대 12개
   return [...new Set(out)].filter((w) => w.length >= 2).slice(0, 12);
+}
+
+// 작성 전 안내: "채용공고 용어로 시작 → 내 경험을 그 용어에 연결" (기본 접힘)
+export function JdBridgeGuide() {
+  const { master } = useDataStore();
+  const [open, setOpen] = useState(false);
+  const keywords = extractUserKeywords(master);
+  return (
+    <div style={{ background: COLORS.cream, borderRadius: RADIUS.base, padding: SPACING.sm, marginBottom: SPACING.sm, border: `1px dashed ${COLORS.accent2}` }}>
+      <button onClick={() => setOpen((v) => !v)}
+        style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.goldDeep, fontFamily: FONT.family }}>
+        {open ? '▼ 채용담당자의 용어로 시작하는 법' : '▶ 채용담당자의 용어로 시작하는 법 (펼치기)'}
+      </button>
+      {open && (
+        <div style={{ marginTop: SPACING.sm }}>
+          <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, marginBottom: SPACING.sm, lineHeight: FONT.lineHeight.relaxed }}>
+            채용담당자는 <strong>자기들이 채용공고에 쓴 용어</strong>로 지원자를 이해합니다. 내 표현으로 풀어 쓰기보다, <strong>공고에 나온 요구역량·키워드를 그대로 가져와</strong> 그 용어에 내 경험을 연결하면 직무 적합성이 가장 빠르게 전달됩니다.
+          </p>
+          <div style={{ background: COLORS.bg, borderRadius: RADIUS.sm, padding: SPACING.sm, border: `1px solid ${COLORS.border}`, marginBottom: SPACING.sm }}>
+            <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: 4 }}>문장 틀</p>
+            <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base, fontStyle: 'italic' }}>
+              "[채용공고 용어/요구역량]이 핵심인 이 직무에서, 저는 [구체적 경험]을 통해 [그 역량]을 입증했습니다."
+            </p>
+          </div>
+          {keywords.length >= 1 && (
+            <div>
+              <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: 6 }}>내가 정리한 직무 용어 — 이 표현으로 시작해 보세요</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {keywords.map((k, i) => (
+                  <span key={i} style={{ fontSize: FONT.size.xs, padding: '3px 10px', borderRadius: RADIUS.pill, background: COLORS.white, border: `1px solid ${COLORS.accent2}`, color: COLORS.accent }}>{k}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function AnswerQualityCheck({ text, focusArea }) {
