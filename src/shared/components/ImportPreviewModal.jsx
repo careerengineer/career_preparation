@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { QUESTION_LABELS } from '../../store/questionLabels.js';
+import { formatComps } from '../../store/comps.js';
 
 // 코드성/내부용 키 — 미리보기에 노출하지 않음 (지원자에게 의미 없음)
 const NOISE_KEYS = new Set(['savedAt', 'completedAt', 'quizAnswers', 'scores', 'basicInfo', 'phase', 'version', 'id', 'persona']);
@@ -53,7 +54,9 @@ export function extractText(item) {
       `- 행동: ${e.star_a || ''}`,
       `- 결과: ${e.star_r || ''}`,
       `- 배운 점: ${e.learning || ''}`,
-      e.job_comps ? `\n직무 역량: ${Array.isArray(e.job_comps) ? e.job_comps.join(', ') : e.job_comps}` : '',
+      formatComps(e.job_comps) ? `\n직무 역량: ${formatComps(e.job_comps)}` : '',
+      formatComps(e.comm_comps) ? `소통 역량: ${formatComps(e.comm_comps)}` : '',
+      formatComps(e.att_comps) ? `태도 역량: ${formatComps(e.att_comps)}` : '',
     ].filter(Boolean).join('\n');
   }
 

@@ -3,6 +3,7 @@ import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import JSZip from 'jszip';
 import { ALL_WORKBOOKS as WORKBOOKS, APP_VERSION } from './schema.js';
+import { formatComps } from './comps.js';
 
 // 본문 끝 부록 영역에 base64로 백업 JSON을 임베드.
 // docx 표준 구조 그대로 유지 → Word/한글 정상 표시 + import 시 추출 가능.
@@ -191,7 +192,9 @@ function workbookBlocks(master, workbookKey, includeHeading = true) {
         blocks.push(P(`행동: ${e.star_a || ''}`));
         blocks.push(P(`결과: ${e.star_r || ''}`));
         if (e.learning) blocks.push(P(`배운 점: ${e.learning}`));
-        if (e.job_comps) blocks.push(P(`직무 역량: ${Array.isArray(e.job_comps) ? e.job_comps.join(', ') : e.job_comps}`));
+        if (formatComps(e.job_comps)) blocks.push(P(`직무 역량: ${formatComps(e.job_comps)}`));
+        if (formatComps(e.comm_comps)) blocks.push(P(`소통 역량: ${formatComps(e.comm_comps)}`));
+        if (formatComps(e.att_comps)) blocks.push(P(`태도 역량: ${formatComps(e.att_comps)}`));
         blocks.push(Spacer());
       });
     } else {
@@ -433,7 +436,12 @@ export function exportExperiencesXlsx(master) {
     const r = {};
     EXP_HEADER.forEach((k) => {
       const v = e[k];
-      r[EXP_LABEL[k]] = Array.isArray(v) ? v.join(', ') : (v ?? '');
+      // 역량(job/comm/att_comps)은 {name,score} 배열 → "이름 (점수)"로 포맷
+      if (k === 'job_comps' || k === 'comm_comps' || k === 'att_comps') {
+        r[EXP_LABEL[k]] = formatComps(v);
+      } else {
+        r[EXP_LABEL[k]] = Array.isArray(v) ? v.join(', ') : (v ?? '');
+      }
     });
     return r;
   });
