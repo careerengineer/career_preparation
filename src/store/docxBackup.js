@@ -23,7 +23,7 @@ function chunkString(str, n) {
 // 이 문구만 고치면 모든 저장 문서(docx)의 안내가 함께 바뀝니다.
 export const COPYRIGHT_TITLE = '［저작권·기밀 안내 / Confidential］';
 export const COPYRIGHT_TEXT =
-  '본 문서와 여기에 사용된 워크북의 구성·질문·예시 등 모든 콘텐츠의 저작권은 작성자(CareerEngineer)에게 있습니다. ' +
+  '본 문서와 여기에 사용된 워크북의 구성·질문·예시 등 모든 콘텐츠의 저작권은 CareerEngineer에게 있습니다. ' +
   '사전 서면 동의 없이 본 문서 및 워크북의 질문·구성을 복제·배포·공유·게시·2차 가공하거나 외부로 유출할 수 없습니다. ' +
   '무단 사용·유출 시 관련 법령에 따라 민·형사상 책임을 물을 수 있습니다.';
 export const COPYRIGHT_MARK = 'ⓒ 2026 CareerEngineer. All rights reserved.';
