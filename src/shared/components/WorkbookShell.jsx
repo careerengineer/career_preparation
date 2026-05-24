@@ -81,10 +81,21 @@ export function WorkbookShell({
   const handleExportThis = async () => {
     setBusy(true);
     try {
-      // 경험정리는 xlsx, 나머지는 docx (backup JSON 임베드 → 같은 파일을 다시 불러올 수 있음)
-      const name = isExperience
-        ? exportExperiencesXlsx(master)
-        : await exportWorkbookDocx(master, workbookKey, resolvedTitle);
+      // 경험정리: 복원용 simple xlsx (다중시트 결과물은 import 불가라 제외)
+      if (isExperience) {
+        const name = exportExperiencesXlsx(master);
+        showToast(`다운로드 완료: ${name}`);
+        return;
+      }
+      // 그 외: 워크북 고유의 풍부한 다운로드(이제 복원용 백업 임베드 포함) 우선 → 하단 버튼과 동일 결과
+      const dl = (typeof window !== 'undefined') ? window.__CE_DOWNLOAD : null;
+      if (dl?.key === workbookKey && typeof dl.fn === 'function') {
+        await dl.fn();
+        showToast(`${resolvedTitle} 저장 완료`);
+        return;
+      }
+      // 폴백: generic export (워크북 다운로드 함수 미준비 시)
+      const name = await exportWorkbookDocx(master, workbookKey, resolvedTitle);
       showToast(`다운로드 완료: ${name}`);
     } catch (e) {
       showToast('오류: ' + e.message);
