@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
+import { exportFullBackupFiles } from '../store/docExport.js';
 import { COLORS, FONT, SPACING, RULE } from '../shared/design/tokens.js';
 
 export default function CompanySlots() {
   const {
     master, saveCompanySlot, loadCompanySlot, deleteCompanySlot, listCompanySlots,
-    exportAllSlotsFile, exportSingleSlotFile, importAllSlotsFile,
+    getCompanySlotMaster, exportAllSlotsFile, importAllSlotsFile,
   } = useDataStore();
   const [slots, setSlots] = useState([]);
   const [toast, setToast] = useState(null);
@@ -44,10 +45,11 @@ export default function CompanySlots() {
     showToast(`'${name}' 저장본을 삭제했습니다.`);
   };
 
-  const handleSlotExport = (name) => {
+  const handleSlotExport = async (name) => {
     try {
-      const fn = exportSingleSlotFile(name);
-      showToast(`'${name}' 저장본을 파일로 저장했습니다: ${fn}`);
+      const slotMaster = getCompanySlotMaster(name);
+      const { docxName, xlsxName } = await exportFullBackupFiles(slotMaster);
+      showToast(`'${name}' 저장본을 파일로 저장: ${docxName}${xlsxName ? ' + ' + xlsxName : ''}`);
     } catch (e) { showToast('오류: ' + e.message); }
   };
 
@@ -195,7 +197,7 @@ export default function CompanySlots() {
               </div>
               <div style={{ display: 'flex', gap: SPACING.xs, flexWrap: 'wrap' }}>
                 <button onClick={() => handleLoad(s.name)} style={btnSecondary}>불러오기</button>
-                <button onClick={() => handleSlotExport(s.name)} style={btnSecondary}>이 저장본 .json</button>
+                <button onClick={() => handleSlotExport(s.name)} style={btnSecondary}>이 저장본 저장 (.docx+.xlsx)</button>
                 <button onClick={() => handleDelete(s.name)} style={btnDanger}>삭제</button>
               </div>
             </div>

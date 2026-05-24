@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
-import { exportToFile } from '../store/exportImport.js';
+import { exportFullBackupFiles } from '../store/docExport.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../shared/design/tokens.js';
 
 const CLEARED = [
@@ -41,8 +41,11 @@ export default function ResetCompanyButton() {
   const handleAskDelete       = () => setPendingMode('plain');
   const handleAskBackupDelete = () => setPendingMode('backup');
 
-  const handleFinalConfirm = () => {
-    if (pendingMode === 'backup') exportToFile(master);
+  const handleFinalConfirm = async () => {
+    if (pendingMode === 'backup') {
+      try { await exportFullBackupFiles(master); }
+      catch (e) { showToast('백업 오류: ' + e.message); return; }
+    }
     resetCompanyRelated();
     closeAll();
     // 페이지 상단으로 + alert로 명확히 안내 (토스트보다 강력)

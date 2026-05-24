@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
-import { exportToFile, parseImportFile, detectConflicts } from '../../store/exportImport.js';
-import { exportFullDocx, exportExperiencesXlsx, importExperiencesXlsx, extractBackupFromDocx, extractTextFromDocx } from '../../store/docExport.js';
+import { parseImportFile, detectConflicts } from '../../store/exportImport.js';
+import { exportExperiencesXlsx, exportFullBackupFiles, importExperiencesXlsx, extractBackupFromDocx, extractTextFromDocx } from '../../store/docExport.js';
 import { DEFAULT_MASTER } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { OverwriteModal } from './OverwriteModal.jsx';
@@ -34,15 +34,8 @@ export function ExportImportBar() {
       : '전체 내용 (.docx)을 저장합니다. 나중에 "가져오기"로 복원할 수 있습니다.\n\n계속할까요?';
     if (!window.confirm(msg)) return;
     try {
-      const docxName = await exportFullDocx(master, { excludeExperiences: true });
-      if (hasExp) {
-        // 두 번째 다운로드는 약간 간격을 두어 브라우저의 다중 다운로드 차단을 피함
-        await new Promise((r) => setTimeout(r, 700));
-        const xlsxName = exportExperiencesXlsx(master);
-        showToast(`저장 완료: ${docxName} + ${xlsxName}`);
-      } else {
-        showToast(`저장 완료: ${docxName}`);
-      }
+      const { docxName, xlsxName } = await exportFullBackupFiles(master);
+      showToast(xlsxName ? `저장 완료: ${docxName} + ${xlsxName}` : `저장 완료: ${docxName}`);
     } catch (e) { showToast('오류: ' + e.message); }
   };
 
@@ -183,22 +176,21 @@ export function ExportImportBar() {
     showToast('현재 데이터를 교체했습니다.');
   };
 
-  const handleBackupAndReplace = () => {
+  const handleBackupAndReplace = async () => {
     if (!conflictState) return;
-    exportToFile(master);
+    try { await exportFullBackupFiles(master); } catch (e) { showToast('백업 오류: ' + e.message); return; }
     replaceMaster(conflictState.incoming);
     setConflictState(null);
-    showToast('현재 데이터를 백업하고 교체했습니다.');
+    showToast('현재 데이터를 백업(.docx/.xlsx)하고 교체했습니다.');
   };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
-    <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap' }}>
+    <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap', width: '100%' }}>
       <button onClick={handleImportClick} style={btnStyle}>가져오기 (.docx/.xlsx)</button>
       <button onClick={handleExportXlsx} style={btnStyle}>경험 정리만 저장 (.xlsx)</button>
       <button onClick={handleExportAll} style={btnPrimaryStyle}>전체내용 저장 (.docx + .xlsx)</button>
-      <span aria-hidden style={{ width: 1, alignSelf: 'stretch', minHeight: 28, background: COLORS.line, margin: `0 ${SPACING.sm}px` }} />
-      <button onClick={() => setResetMode('ask')} style={{ ...btnDangerStyle, marginLeft: SPACING.sm }}>전체 삭제하고 다시 작성</button>
+      <button onClick={() => setResetMode('ask')} style={{ ...btnDangerStyle, marginLeft: 'auto' }}>전체 삭제하고 다시 작성</button>
       <input
         ref={fileRef}
         type="file"
