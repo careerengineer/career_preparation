@@ -149,7 +149,7 @@ const IntroPrerequisites = ({ items }) => {
 const IntroCopyright = () => (
   <div style={{ background: _INTRO_PAPER, border: `1px solid ${_INTRO_INK}33`, color: _INTRO_INK, padding: 16, borderRadius: 10, marginBottom: 16 }}>
     <p style={{ fontSize: 16, color: _INTRO_INK, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>
-      작성 내용을 반드시 다운로드해 주세요. 페이지를 새로 고치거나 창을 닫으면 모든 내용이 즉시 삭제됩니다. 수시로 '저장하기' 버튼을 눌러 파일로 다운로드하시기 바랍니다.
+      작성 내용은 이 브라우저에 자동 저장됩니다. 다만 캐시를 지우거나 다른 기기에서 열면 사라질 수 있으니, 가끔 '저장하기' 버튼으로 파일을 받아두면 안전합니다.
     </p>
   </div>
 );
@@ -2012,7 +2012,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
       <h2 style={{ fontSize: 20, fontWeight: 900, color: '#0E2750', marginBottom: 4 }}>경력기술서 워크북 작성 완료!</h2>
       <p style={{ fontSize: 16, color: '#6E7A8F' }}>작성 결과를 확인하고 다운로드하세요.</p>
     </div>
-    <Warn title="반드시 다운로드하세요!">페이지를 닫으면 모든 내용이 사라집니다.</Warn>
+    <Warn title="완성본은 파일로 받아두세요">이 브라우저에 자동 저장됩니다. 다만 캐시 삭제·다른 기기에서는 사라질 수 있으니 최종본을 파일로 받아두면 안전합니다.</Warn>
 
     {/* 최종 문서 미리보기 — 워드 다운로드 결과 그대로 표시 */}
     <div style={{ marginBottom: 20 }}>
