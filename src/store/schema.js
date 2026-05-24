@@ -120,9 +120,11 @@ export const VARIANTS = {
       'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement'],
     notice: {
       title: '서류를 마쳤다면, 다음은 신입 면접입니다',
-      body: '서류 통과 후에는 면접이 기다립니다. 1분 자기소개부터 예상 질문 답변까지 「신입 면접」 워크북에서 체계적으로 준비하세요.',
-      workbookKey: 'interview_new',
-      linkLabel: '신입 면접 워크북 열기',
+      body: '서류 통과 후에는 면접이 기다립니다. 신입 면접 준비 가이드로 체계적으로 대비하고, 필요하면 1:1 면접 멘토링으로 실전 점검까지 받으세요.',
+      links: [
+        { label: '신입 면접 준비', url: 'https://www.latpeed.com/products/H7UHo' },
+        { label: '1:1 면접 멘토링', url: 'https://www.latpeed.com/products/tZ5xw' },
+      ],
     },
   },
   documents_experienced: {

@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { useDataStore } from '../store/DataContext.jsx';
 import { WORKBOOKS, VARIANT_LABEL, VARIANT_NOTICE } from '../store/schema.js';
 import { getWorkbookProgress, getStepProgress } from '../store/selectors.js';
@@ -199,7 +198,7 @@ export default function Dashboard() {
           );
         })}
 
-        {/* variant 안내 배너 (예: 신입 서류 전용 → 신입 면접 워크북 안내) */}
+        {/* variant 안내 배너 (예: 신입 서류 전용 → 신입 면접 준비/멘토링 안내) */}
         {VARIANT_NOTICE && (
           <section style={{
             background: COLORS.white, border: RULE,
@@ -222,17 +221,26 @@ export default function Dashboard() {
                 {VARIANT_NOTICE.body}
               </p>
             </div>
-            <Link
-              to={`/workbook/${VARIANT_NOTICE.workbookKey}`}
-              style={{
-                background: COLORS.accent, color: COLORS.white,
-                textDecoration: 'none', whiteSpace: 'nowrap',
-                fontSize: 18, fontWeight: FONT.weight.semibold,
-                padding: '12px 20px', borderRadius: RADIUS.pill,
-              }}
-            >
-              {VARIANT_NOTICE.linkLabel}
-            </Link>
+            <div style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap', flexShrink: 0 }}>
+              {(VARIANT_NOTICE.links || []).map((lnk, i) => (
+                <a
+                  key={lnk.url}
+                  href={lnk.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    background: i === 0 ? COLORS.accent : COLORS.white,
+                    color: i === 0 ? COLORS.white : COLORS.accent,
+                    border: i === 0 ? `1px solid ${COLORS.accent}` : `1px solid ${COLORS.line}`,
+                    textDecoration: 'none', whiteSpace: 'nowrap',
+                    fontSize: 18, fontWeight: FONT.weight.semibold,
+                    padding: '12px 20px', borderRadius: RADIUS.pill,
+                  }}
+                >
+                  {lnk.label}
+                </a>
+              ))}
+            </div>
           </section>
         )}
 
