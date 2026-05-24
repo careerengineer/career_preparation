@@ -75,6 +75,24 @@ export function DataProvider({ children }) {
     try { if (LEGACY_KEYS[workbookKey]) localStorage.removeItem(LEGACY_KEYS[workbookKey]); } catch {}
   }, []);
 
+  // 전체 데이터 리셋 (모든 워크북 + 프로필 + 경험) — 회사별 저장본(슬롯)은 보존
+  const resetAllData = useCallback(() => {
+    const fresh = JSON.parse(JSON.stringify(DEFAULT_MASTER));
+    fresh.createdAt = new Date().toISOString();
+    fresh.updatedAt = new Date().toISOString();
+    setMaster(fresh);
+    // debounce 저장 전에 reload 되어도 옛 master가 안 돌아오도록 즉시 동기 저장
+    try { localStorage.setItem(MASTER_KEY, JSON.stringify(fresh)); } catch (e) { console.warn('reset-all save failed:', e); }
+    const ALL_LEGACY = [
+      'careerengineer_career_roadmap_v1', 'careerengineer_job_analysis_v1', 'careerengineer_experience_v1',
+      'careerengineer_resume_v1', 'careerengineer_career_description_v1', 'careerengineer_motivation_v1',
+      'careerengineer_jobcompetency_v1', 'careerengineer_personality_v1', 'careerengineer_goalachievement_v1',
+      'careerengineer_careergoal_v1', 'careerengineer_self_introduction_v1', 'careerengineer_interview_new_v1',
+      'careerengineer_interview_career_v1',
+    ];
+    try { ALL_LEGACY.forEach((k) => localStorage.removeItem(k)); } catch {}
+  }, []);
+
   // 회사·직무 관련 데이터만 리셋 (experience, career_roadmap은 유지)
   const resetCompanyRelated = useCallback(() => {
     setMaster((m) => ({
@@ -233,6 +251,7 @@ export function DataProvider({ children }) {
         updateSlice,
         replaceMaster,
         resetSingleWorkbook,
+        resetAllData,
         resetCompanyRelated,
         saveCompanySlot,
         loadCompanySlot,

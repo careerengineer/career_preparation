@@ -7,16 +7,19 @@ import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { OverwriteModal } from './OverwriteModal.jsx';
 
 export function ExportImportBar() {
-  const { master, replaceMaster } = useDataStore();
+  const { master, replaceMaster, resetAllData } = useDataStore();
   const fileRef = useRef(null);
   const [toast, setToast] = useState(null);
   const [conflictState, setConflictState] = useState(null);
+  const [resetMode, setResetMode] = useState(null); // null | 'ask' | 'confirm'
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 4000); };
 
-  const handleExportJson = () => {
-    const filename = exportToFile(master);
-    showToast(`백업: ${filename}`);
+  const handleResetAll = () => {
+    resetAllData();
+    setResetMode(null);
+    showToast('전체 내용을 삭제했습니다. 페이지를 새로고침합니다…');
+    setTimeout(() => window.location.reload(), 800);
   };
   const handleExportXlsx = () => {
     try {
@@ -27,8 +30,8 @@ export function ExportImportBar() {
   const handleExportRestDocx = async () => {
     const hasExp = (master.experiences || []).length > 0;
     const msg = hasExp
-      ? '"전체내용 저장(.docx)"은 읽기·제출용 통합 문서입니다.\n\n경험정리는 이 파일에 포함되지 않습니다 → 경험정리는 "경험 정리 저장(.xlsx)"로 따로 저장하세요.\n\n나중에 다시 불러올 백업이 목적이면 "완전 백업(.json)" 하나면 전부 복원됩니다.\n\n계속할까요?'
-      : '"전체내용 저장(.docx)"은 읽기·제출용 통합 문서입니다.\n\n다시 불러올 백업이 목적이면 "완전 백업(.json)"을 사용하세요.\n\n계속할까요?';
+      ? '전체 백업은 두 파일로 받으세요:\n\n1) "전체내용 저장(.docx)" — 자소서·면접 등 전체 내용\n2) "경험 정리 저장(.xlsx)" — 경험정리 (docx에는 포함되지 않습니다)\n\n두 파일 모두 나중에 "가져오기"로 복원할 수 있습니다.\n\n지금 전체내용(.docx)을 저장할까요?'
+      : '"전체내용 저장(.docx)"은 전체 내용을 담은 문서입니다. 나중에 "가져오기"로 복원할 수 있습니다.\n\n계속할까요?';
     if (!window.confirm(msg)) return;
     try {
       const name = await exportFullDocx(master, { excludeExperiences: true });
@@ -184,14 +187,14 @@ export function ExportImportBar() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
     <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap' }}>
-      <button onClick={handleImportClick} style={btnStyle}>가져오기 (.json/.xlsx/.docx)</button>
+      <button onClick={handleImportClick} style={btnStyle}>가져오기 (.docx/.xlsx)</button>
       <button onClick={handleExportXlsx} style={btnStyle}>경험 정리 저장 (.xlsx)</button>
       <button onClick={handleExportRestDocx} style={btnPrimaryStyle}>전체내용 저장 (.docx)</button>
-      <button onClick={handleExportJson} style={btnStyle} title="모든 데이터 한 파일로 (다른 기기 복원용)">완전 백업 (.json)</button>
+      <button onClick={() => setResetMode('ask')} style={btnDangerStyle}>전체 삭제하고 다시 작성</button>
       <input
         ref={fileRef}
         type="file"
-        accept=".json,.xlsx,.docx,application/json,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        accept=".docx,.xlsx,.json,application/json,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         onChange={handleFileChange}
         style={{ display: 'none' }}
       />
@@ -221,10 +224,34 @@ export function ExportImportBar() {
         />
       )}
     </div>
-    <p style={{ fontSize: 14, color: COLORS.sub, margin: 0, textAlign: 'right', lineHeight: 1.6, maxWidth: 560 }}>
-      나중에 다시 불러오려면 <strong>완전 백업(.json)</strong>이 가장 안전합니다(전부 한 파일).
-      전체내용 저장(.docx)은 읽기·제출용이며 <strong>경험정리는 경험 정리 저장(.xlsx)로 따로</strong> 저장하세요.
+    <p style={{ fontSize: 14, color: COLORS.sub, margin: 0, textAlign: 'right', lineHeight: 1.6, maxWidth: 600 }}>
+      전체 백업은 <strong>전체내용(.docx) + 경험 정리(.xlsx)</strong> 두 파일로 받으세요. 둘 다 "가져오기"로 복원됩니다.
+      각 워크북은 그 워크북 화면의 저장 파일로도 복원할 수 있습니다.
     </p>
+
+    {resetMode && (
+      <div onClick={() => setResetMode(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(14,39,80,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: SPACING.md }}>
+        <div onClick={(e) => e.stopPropagation()} style={{ background: COLORS.white, maxWidth: 480, width: '100%', padding: SPACING.lg, fontFamily: FONT.family, boxShadow: '0 12px 36px rgba(0,0,0,0.18)', borderTop: `4px solid ${COLORS.red}` }}>
+          <h2 style={{ margin: 0, fontSize: 24, color: COLORS.ink, fontWeight: FONT.weight.bold }}>전체 내용을 삭제하시겠습니까?</h2>
+          <p style={{ color: COLORS.sub, fontSize: 20, marginTop: SPACING.sm, marginBottom: SPACING.md, lineHeight: 1.6 }}>
+            모든 워크북·프로필·경험정리 작성 내용이 삭제되고 처음부터 다시 시작합니다.<br />
+            <strong>회사별 저장본(슬롯)은 유지</strong>되며, 미리 받아둔 저장 파일(.docx/.xlsx)로 복원할 수 있습니다.
+          </p>
+          {resetMode === 'confirm' && (
+            <div style={{ background: COLORS.redBg, borderLeft: `3px solid ${COLORS.red}`, padding: SPACING.md, marginBottom: SPACING.md }}>
+              <p style={{ margin: 0, fontSize: 20, color: COLORS.red, fontWeight: FONT.weight.semibold }}>마지막 확인 — 정말 전체 삭제할까요?</p>
+              <p style={{ margin: '6px 0 0', fontSize: 20, color: COLORS.ink }}>되돌릴 수 없습니다. 백업 파일을 먼저 받아두는 것을 권합니다.</p>
+            </div>
+          )}
+          <div style={{ display: 'flex', gap: SPACING.sm, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+            <button onClick={() => setResetMode(null)} style={{ ...btnStyle, color: COLORS.sub, border: `1px solid ${COLORS.line}` }}>취소</button>
+            {resetMode === 'ask'
+              ? <button onClick={() => setResetMode('confirm')} style={btnDangerStyle}>삭제</button>
+              : <button onClick={handleResetAll} style={{ ...btnDangerStyle, background: COLORS.red, color: COLORS.white }}>네, 전체 삭제합니다</button>}
+          </div>
+        </div>
+      </div>
+    )}
     </div>
   );
 }
@@ -243,4 +270,9 @@ const btnPrimaryStyle = {
   ...btnStyle,
   background: COLORS.accent2,
   color: COLORS.white,
+};
+const btnDangerStyle = {
+  ...btnStyle,
+  color: COLORS.red,
+  border: `1px solid ${COLORS.red}`,
 };
