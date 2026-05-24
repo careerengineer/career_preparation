@@ -42,16 +42,30 @@ export function buildWorkbookBackupParagraphs(DocxLib, payload) {
   ];
 }
 
-// 워크북 legacy localStorage 원본을 raw로 담은 단일-워크북 백업 payload 생성
+// 워크북 백업 payload 생성 — 상단 "저장"(exportWorkbookDocx)과 동일 구조로 맞춤.
+// raw(워크북 원본) + master의 구조화 슬라이스(profile/output/roadmap/careergoal/jobAnalysis/experiences)까지 담아
+// 상단·하단 저장의 복원 결과가 완전히 같아지도록 한다. (모두 localStorage 읽기 전용)
+const MASTER_KEY = 'careerengineer_master_v1';
 export function buildWorkbookPayload(workbookKey, workbookTitle, legacyKey) {
   let raw = {};
+  let master = {};
   try { raw = JSON.parse(localStorage.getItem(legacyKey) || '{}'); } catch { raw = {}; }
+  try { master = JSON.parse(localStorage.getItem(MASTER_KEY) || '{}'); } catch { master = {}; }
   return {
     format: 'careerengineer-workbook-export',
     version: 1,
     exportedAt: new Date().toISOString(),
     workbookKey,
     workbookTitle: workbookTitle || workbookKey,
-    data: { workbookKey, raw },
+    data: {
+      workbookKey,
+      profile: master.profile,
+      raw,
+      output: master.outputs?.[workbookKey] || null,
+      roadmap: workbookKey === 'career_roadmap' ? master.roadmap : undefined,
+      careergoal: workbookKey === 'careergoal' ? master.careergoal : undefined,
+      jobAnalysis: workbookKey === 'job_analysis' ? master.jobAnalysis : undefined,
+      experiences: workbookKey === 'experience' ? master.experiences : undefined,
+    },
   };
 }
