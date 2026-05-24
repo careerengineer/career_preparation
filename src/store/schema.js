@@ -103,27 +103,27 @@ export const ALL_WORKBOOKS = [
 // 빌드 시 VITE_VARIANT 값으로 선택 (예: 변형 브랜치의 .env.production).
 // 값이 없거나 모르는 값이면 전체(ALL_WORKBOOKS) 노출.
 export const VARIANTS = {
-  shinip: {
+  new_grad: {
     label: '신입 전용',
     keys: ['career_roadmap', 'job_analysis', 'experience', 'resume',
       'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement',
       'self_introduction', 'interview_new'],
   },
-  gyeongnyeok: {
+  experienced: {
     label: '경력 전용',
     keys: ['career_roadmap', 'job_analysis', 'experience', 'resume', 'career_description',
       'self_introduction', 'interview_career'],
   },
-  seoryu: {
+  documents: {
     label: '서류 전용',
     keys: ['job_analysis', 'experience', 'resume', 'career_description',
       'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement'],
   },
-  interview_shinip: {
+  interview_new_grad: {
     label: '신입 면접 전용',
     keys: ['experience', 'self_introduction', 'interview_new'],
   },
-  interview_gyeongnyeok: {
+  interview_experienced: {
     label: '경력 면접 전용',
     keys: ['experience', 'career_description', 'self_introduction', 'interview_career'],
   },
