@@ -1,6 +1,7 @@
 // [BUILD v37 20260520 11:30] 4가지 페르소나 갭 해소 - Q1 라벨 명확화 + switch_new 추가 + essay/interview level 1·2 분기 + career 연봉/포지셔닝
 import { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
+import { VARIANT_NOTICE } from '../../store/schema.js';
 
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
@@ -2125,6 +2126,29 @@ export default function App() {
                       {note.guidance && (
                         <p style={{fontSize: 15, color: COLORS.accent, margin: 0, lineHeight: 1.7}}>{note.guidance}</p>
                       )}
+                    </div>
+                  )}
+                  {/* 서류 변형: 면접(STEP 5) 단계는 제품에 없으므로 도움받을 링크 안내 (업셀) */}
+                  {r.step === 5 && VARIANT_NOTICE && (VARIANT_NOTICE.links || []).length > 0 && (
+                    <div style={{padding:"0 16px 16px 52px"}}>
+                      <p style={{fontSize: 15, color: COLORS.sub, margin: "0 0 8px", lineHeight: 1.6}}>
+                        면접은 이 워크북에 포함되어 있지 않습니다. 아래에서 면접 준비에 도움을 받을 수 있습니다.
+                      </p>
+                      <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+                        {VARIANT_NOTICE.links.map((lnk, li) => (
+                          <a key={lnk.url} href={lnk.url} target="_blank" rel="noopener noreferrer"
+                            style={{
+                              display:"inline-flex",alignItems:"center",
+                              background: li === 0 ? COLORS.accent : "#fff",
+                              color: li === 0 ? "#fff" : COLORS.accent,
+                              border: `1px solid ${li === 0 ? COLORS.accent : COLORS.border}`,
+                              textDecoration:"none",whiteSpace:"nowrap",
+                              fontSize:15,fontWeight:600,padding:"8px 14px",borderRadius:20,
+                            }}>
+                            {lnk.label}
+                          </a>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
