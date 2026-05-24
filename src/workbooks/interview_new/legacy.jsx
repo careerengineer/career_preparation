@@ -2440,11 +2440,11 @@ const NewInterviewWorkbook = () => {
                 {q.example && (
                   <>
                     <button onClick={() => toggleGuide(q.label + '_ex')} style={{ ...S.btnText, marginTop: 6 }}>
-                      {showGuide[q.label + '_ex'] ? '가이드 숨기기' : '가이드 보기'}
+                      {showGuide[q.label + '_ex'] ? '예시 답변 숨기기' : '예시 답변 보기'}
                     </button>
                     {showGuide[q.label + '_ex'] && (
                       <div style={{ ...S.boxInfo, borderLeft: `3px solid ${COLORS.accent2}`, marginTop: SPACING.sm }}>
-                        <p style={{ ...labelStyle(COLORS.accent2), marginBottom: SPACING.sm }}>GUIDE · 작성 가이드</p>
+                        <p style={{ ...labelStyle(COLORS.accent2), marginBottom: SPACING.sm }}>EXAMPLE · 예시 답변</p>
                         <p style={{ fontSize: FONT.size.sm, color: COLORS.sub, margin: 0, lineHeight: FONT.lineHeight.base, fontStyle: 'italic' }}>{q.example}</p>
                       </div>
                     )}
