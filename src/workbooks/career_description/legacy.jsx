@@ -842,7 +842,12 @@ const CareerDescWorkbook = () => {
     );
   };
   const activeSteps = STEPS.filter((_, i) => !skipStep(i));
-  const progress = Math.round((step / 9) * 100);
+  // 진행률은 현재 단계가 아니라 실제 작성한 내용(채워진 답변 수) 기반.
+  // basicInfo(회사/직무)는 자동 채움이라 제외하고, 의미있는 답변만 카운트.
+  const SKIP_KEYS = new Set(['company', 'position']);
+  const filledCount = Object.entries(ans)
+    .filter(([k, v]) => !SKIP_KEYS.has(k) && v && String(v).trim().length > 1).length;
+  const progress = Math.min(100, Math.round((filledCount / 18) * 100));
 
   const go = (n) => { setStep(n); window.scrollTo(0, 0); };
   const next = () => { let n = step + 1; while (n < 10 && skipStep(n)) n++; go(Math.min(n, 9)); };

@@ -402,11 +402,9 @@ export async function exportFullDocx(master, options = {}) {
 // 피하기 위해 두 번째 파일은 짧은 간격 후 저장.
 export async function exportFullBackupFiles(master) {
   const docxName = await exportFullDocx(master, { excludeExperiences: true });
-  let xlsxName = null;
-  if ((master.experiences || []).length > 0) {
-    await new Promise((r) => setTimeout(r, 700));
-    xlsxName = exportExperiencesXlsx(master);
-  }
+  // 경험이 없어도 빈 양식 .xlsx를 함께 저장 (항상 2종 파일로 일관)
+  await new Promise((r) => setTimeout(r, 700));
+  const xlsxName = exportExperiencesXlsx(master);
   return { docxName, xlsxName };
 }
 
