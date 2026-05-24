@@ -6,6 +6,7 @@ let lastField = null;
 
 function isEditable(el) {
   if (!el) return false;
+  if (el.readOnly || el.disabled) return false; // 미리보기(readOnly) textarea 등은 제외
   if (el.tagName === 'TEXTAREA') return true;
   if (el.tagName === 'INPUT') {
     const t = (el.type || 'text').toLowerCase();

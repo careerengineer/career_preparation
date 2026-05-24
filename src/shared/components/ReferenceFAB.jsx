@@ -7,8 +7,7 @@ import { useEffect, useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { ALL_WORKBOOKS as WORKBOOKS } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
-import { ImportPreviewModal, extractText } from './ImportPreviewModal.jsx';
-import { insertIntoFocusedField } from '../utils/fieldInsert.js';
+import { ImportPreviewModal } from './ImportPreviewModal.jsx';
 
 export function ReferenceFAB({ currentWorkbookKey }) {
   const { master } = useDataStore();
@@ -16,16 +15,11 @@ export function ReferenceFAB({ currentWorkbookKey }) {
   const [preview, setPreview] = useState(null);
   const [toast, setToast] = useState(null);
 
-  // 칩 클릭 → 직전에 작성 중이던 답변칸에 바로 삽입 후 패널 닫기. 포커스된 칸 없으면 미리보기로.
-  const handleChipClick = (it) => {
-    const text = extractText(it);
-    if (insertIntoFocusedField(text)) {
-      setOpen(false);
-      setToast('참고 내용을 입력칸에 넣었습니다');
-      setTimeout(() => setToast(null), 2500);
-    } else {
-      setPreview(it);
-    }
+  // 미리보기에서 '답변칸에 넣기' 성공 시: 패널 닫고 안내
+  const handleInserted = () => {
+    setOpen(false);
+    setToast('참고 내용을 입력칸에 넣었습니다');
+    setTimeout(() => setToast(null), 2500);
   };
 
   // ESC 닫기
@@ -241,8 +235,8 @@ export function ReferenceFAB({ currentWorkbookKey }) {
                       {grouped[g].map((it) => (
                         <button
                           key={it.id || it.kind}
-                          onClick={() => handleChipClick(it)}
-                          title="클릭하면 작성 중인 답변칸에 바로 삽입됩니다"
+                          onClick={() => setPreview(it)}
+                          title="클릭하면 내용을 미리 보고 답변칸에 넣을 수 있습니다"
                           style={{
                             textAlign: 'left',
                             background: COLORS.white,
@@ -273,7 +267,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
               fontSize: 20, color: COLORS.sub,
               lineHeight: FONT.lineHeight.base,
             }}>
-              작성 중이던 답변 칸을 한 번 클릭한 뒤, 항목을 클릭하면 그 칸에 바로 삽입됩니다. (입력칸을 먼저 누르지 않았다면 미리보기·복사로 열립니다)
+              항목을 클릭하면 내용을 미리 볼 수 있습니다. 작성 중이던 답변 칸을 먼저 한 번 클릭해 두면, 미리보기에서 [답변칸에 넣기]로 그 칸에 바로 넣을 수 있습니다. (또는 텍스트 복사)
             </div>
           </div>
         </>
@@ -289,7 +283,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
         </div>
       )}
 
-      {preview && <ImportPreviewModal item={preview} onClose={() => setPreview(null)} />}
+      {preview && <ImportPreviewModal item={preview} onClose={() => setPreview(null)} onInserted={handleInserted} />}
     </>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { QUESTION_LABELS } from '../../store/questionLabels.js';
 import { formatComps } from '../../store/comps.js';
+import { insertIntoFocusedField } from '../utils/fieldInsert.js';
 
 // 코드성/내부용 키 — 미리보기에 노출하지 않음 (지원자에게 의미 없음)
 const NOISE_KEYS = new Set(['savedAt', 'completedAt', 'quizAnswers', 'scores', 'basicInfo', 'phase', 'version', 'id', 'persona']);
@@ -106,9 +107,19 @@ export function extractText(item) {
   return readable(data);
 }
 
-export function ImportPreviewModal({ item, onClose }) {
+export function ImportPreviewModal({ item, onClose, onInserted }) {
   const [copied, setCopied] = useState(false);
+  const [insertMsg, setInsertMsg] = useState('');
   const text = useMemo(() => extractText(item), [item]);
+
+  const handleInsert = () => {
+    if (insertIntoFocusedField(text)) {
+      onInserted?.();
+      onClose?.();
+    } else {
+      setInsertMsg('먼저 넣을 답변칸을 한 번 클릭한 뒤, 다시 [답변칸에 넣기]를 눌러주세요.');
+    }
+  };
 
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose?.(); };
@@ -168,7 +179,7 @@ export function ImportPreviewModal({ item, onClose }) {
             margin: '6px 0 0', fontSize: 20, color: COLORS.sub,
             lineHeight: FONT.lineHeight.base,
           }}>
-            아래 텍스트를 복사해 원하는 답변 칸에 붙여넣으세요.
+            내용을 확인하고, [답변칸에 넣기]로 작성 중인 칸에 바로 넣거나 복사해서 붙여넣으세요.
           </p>
         </div>
 
@@ -191,14 +202,20 @@ export function ImportPreviewModal({ item, onClose }) {
           }}
         />
 
+        {insertMsg && (
+          <p style={{ margin: `${SPACING.sm}px 0 0`, fontSize: 16, color: COLORS.red, lineHeight: FONT.lineHeight.base }}>
+            {insertMsg}
+          </p>
+        )}
         <div style={{
           display: 'flex', gap: SPACING.sm, justifyContent: 'flex-end',
-          marginTop: SPACING.md,
+          marginTop: SPACING.md, flexWrap: 'wrap',
         }}>
           <button onClick={onClose} style={btnGhost}>닫기</button>
-          <button onClick={handleCopy} style={btnPrimary}>
+          <button onClick={handleCopy} style={btnGhost}>
             {copied ? '복사됨' : '텍스트 복사'}
           </button>
+          <button onClick={handleInsert} style={btnPrimary}>답변칸에 넣기</button>
         </div>
       </div>
     </div>
