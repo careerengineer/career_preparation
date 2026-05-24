@@ -109,9 +109,9 @@ export function WorkbookShell({
       if (workbookKey === 'careergoal'     && d.careergoal)  next.careergoal = d.careergoal;
       if (workbookKey === 'job_analysis'   && d.jobAnalysis) next.jobAnalysis = d.jobAnalysis;
       if (workbookKey === 'experience'     && Array.isArray(d.experiences)) next.experiences = d.experiences;
-    } else if (data.format === 'careerengineer-export' && data.master) {
-      // 전체 백업에서 해당 워크북 부분만 추출
-      const fm = data.master;
+    } else if (data.format === 'careerengineer-export' && (data.data || data.master)) {
+      // 전체 백업에서 해당 워크북 부분만 추출 (payload는 data 키에 master 스냅샷을 담음)
+      const fm = data.data || data.master;
       next.workbookRaw = { ...next.workbookRaw, [workbookKey]: fm.workbookRaw?.[workbookKey] || null };
       if (fm.outputs?.[workbookKey] !== undefined && next.outputs?.[workbookKey] !== undefined) {
         next.outputs = { ...next.outputs, [workbookKey]: fm.outputs[workbookKey] };
