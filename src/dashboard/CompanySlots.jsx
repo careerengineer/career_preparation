@@ -141,8 +141,8 @@ export default function CompanySlots() {
           lineHeight: FONT.lineHeight.base,
         }}>
           저장본은 <strong>이 브라우저에만</strong> 저장됩니다.
-          다른 기기에서 열거나 캐시를 지우면 사라지니, <strong>[전체 저장본 백업]</strong>으로 파일을 받아두십시오.
-          그 파일을 [저장본 백업 불러오기]에 올리면 그대로 복원됩니다.
+          다른 기기에서 열거나 캐시 삭제를 대비하여 <strong>[전체 저장본 백업]</strong>으로 파일을 다운로드할 수 있습니다.
+          다운로드한 파일을 [저장본 백업 불러오기]에 올리면 그대로 복원됩니다.
         </p>
         <p style={{ margin: '8px 0 0', fontSize: 16, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
           · <strong>[불러오기]</strong>: 이 저장본을 지금 바로 작업 화면에 적용합니다(가장 간편).<br />
