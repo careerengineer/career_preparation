@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload } from '../../store/docxBackup.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
+import { ExampleToggle } from '../../shared/components/ExampleToggle.jsx';
 import { AnswerQualityCheck } from '../../shared/components/AnswerQualityCheck.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
@@ -1446,6 +1447,7 @@ const SelfIntroWorkbook = () => {
                   );
                 })()}
 
+                <ExampleToggle text={q.placeholder} />
                 <textarea
                   key={`${q.label}-${resetCounter}`}
                   className="ce-textarea"

@@ -4,6 +4,7 @@ import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/desi
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload } from '../../store/docxBackup.js';
 import { AnswerQualityCheck, JdBridgeGuide } from '../../shared/components/AnswerQualityCheck.jsx';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
+import { ExampleToggle } from '../../shared/components/ExampleToggle.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 // ══════════════════════════════════════════════════════════════
@@ -1942,6 +1943,8 @@ const IntroPage = ({
                       </div>
                     </div>
                   )}
+
+                  <ExampleToggle text={q.placeholder} />
 
                   <textarea className="ce-textarea" value={answers[q.id] || ''} onChange={e => handleAnswerChange(q.id, e.target.value)} rows={q.rows || 3} style={S.textarea} placeholder={q.placeholder} />
                   {currentPhase === 'round3' && (
