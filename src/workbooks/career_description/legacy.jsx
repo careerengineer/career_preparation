@@ -1,6 +1,7 @@
 // [BUILD v36 20260520 10:30] docx 저장에 CareerEngineer 자료 + 멘토링 안내 섹션 추가 (ExternalHyperlink + linkP)
 import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
+import { buildWorkbookBackupParagraphs, buildWorkbookPayload } from '../../store/docxBackup.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
@@ -1306,6 +1307,7 @@ ${skillRows.length ? `${sectionHeader('핵심 역량')}
       }));
       children.push(linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
 
+      try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('career_description', '경력기술서', 'careerengineer_career_description_v1'))); } catch (e) { console.warn('[career_description] backup embed skipped:', e); }
       const doc = new Document({
         creator: '',
         title: '경력기술서',

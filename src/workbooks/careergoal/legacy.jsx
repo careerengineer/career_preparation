@@ -1,6 +1,7 @@
 // [BUILD v36 20260520 10:30] docx 저장에 CareerEngineer 자료 + 멘토링 안내 섹션 추가 (ExternalHyperlink + linkP)
 import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
+import { buildWorkbookBackupParagraphs, buildWorkbookPayload } from '../../store/docxBackup.js';
 import { AnswerQualityCheck, JdBridgeGuide } from '../../shared/components/AnswerQualityCheck.jsx';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 
@@ -932,6 +933,7 @@ const CareerAspirationWorkbook = () => {
       }));
       children.push(linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
 
+      try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('careergoal', '입사후 포부', 'careerengineer_careergoal_v1'))); } catch (e) { console.warn('[careergoal] backup embed skipped:', e); }
       const doc = new Document({
         creator: '',
         title: '입사후 포부',
