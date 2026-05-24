@@ -197,7 +197,8 @@ export function ExportImportBar() {
       <button onClick={handleImportClick} style={btnStyle}>가져오기 (.docx/.xlsx)</button>
       <button onClick={handleExportXlsx} style={btnStyle}>경험 정리만 저장 (.xlsx)</button>
       <button onClick={handleExportAll} style={btnPrimaryStyle}>전체내용 저장 (.docx + .xlsx)</button>
-      <button onClick={() => setResetMode('ask')} style={btnDangerStyle}>전체 삭제하고 다시 작성</button>
+      <span aria-hidden style={{ width: 1, alignSelf: 'stretch', minHeight: 28, background: COLORS.line, margin: `0 ${SPACING.sm}px` }} />
+      <button onClick={() => setResetMode('ask')} style={{ ...btnDangerStyle, marginLeft: SPACING.sm }}>전체 삭제하고 다시 작성</button>
       <input
         ref={fileRef}
         type="file"
