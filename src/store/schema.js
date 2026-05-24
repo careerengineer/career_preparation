@@ -114,10 +114,14 @@ export const VARIANTS = {
     keys: ['career_roadmap', 'job_analysis', 'experience', 'resume', 'career_description',
       'self_introduction', 'interview_career'],
   },
-  documents: {
-    label: '서류 전용',
-    keys: ['job_analysis', 'experience', 'resume', 'career_description',
+  documents_new_grad: {
+    label: '신입 서류 전용',
+    keys: ['job_analysis', 'experience', 'resume',
       'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement'],
+  },
+  documents_experienced: {
+    label: '경력 서류 전용',
+    keys: ['job_analysis', 'experience', 'resume', 'career_description'],
   },
   interview_new_grad: {
     label: '신입 면접 전용',
