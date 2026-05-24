@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload } from '../../store/docxBackup.js';
+import { useDataStore } from '../../store/DataContext.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 
@@ -327,8 +328,8 @@ const FORMS = [
     "fields": [
       {
         "key": "keywords",
-        "label": "반복되는 핵심 키워드 3~5개",
-        "hint": "공고를 읽으면서 여러 번 등장하는 용어",
+        "label": "여러 공고에서 반복 등장하는 핵심 키워드 3~5개는?",
+        "hint": "여러 공고에서 3회 이상 반복된 단어. 반복 = 이 직무의 핵심 역량 신호 (이력서·자소서에 그대로 쓸 단어)",
         "rows": 2
       },
       {
@@ -345,7 +346,8 @@ const FORMS = [
       },
       {
         "key": "daily_vs_periodic",
-        "label": "매일 하는 일 vs 분기별로 하는 일 구분",
+        "label": "이 직무가 매일 하는 일과 분기·연 단위로 하는 일은 각각 무엇인가?",
+        "hint": "매일 반복하는 일이 이 직무의 '실제 일상'. 그 일상이 견딜 만한지 보는 단계",
         "rows": 3
       }
     ],
@@ -448,7 +450,8 @@ const FORMS = [
     "fields": [
       {
         "key": "vision",
-        "label": "기업 비전·미션",
+        "label": "이 기업의 비전·미션은? (내 지원동기와 연결될 한 문장 찾기)",
+        "hint": "채용/IR 페이지 원문을 적고, 그 중 내 가치관·목표와 이어지는 한 문장을 고른다",
         "rows": 2
       },
       {
@@ -465,12 +468,14 @@ const FORMS = [
       },
       {
         "key": "competitors",
-        "label": "주요 경쟁사 2~3개 + 경쟁 포인트",
+        "label": "주요 경쟁사 2~3개와, 이 회사가 경쟁사보다 잘하는 점은?",
+        "hint": "경쟁사 대비 강점 = 지원동기의 재료 ('왜 다른 곳 아닌 여기인가'에 대한 답)",
         "rows": 3
       },
       {
         "key": "recent_news",
-        "label": "최근 3개월 주요 뉴스 (검증된 것만)",
+        "label": "최근 3개월 주요 뉴스는? (출처가 확인된 것만)",
+        "hint": "보도자료·공식발표 등 출처 있는 것만. 면접에서 인용할 수 있을 정도로 정확하게",
         "rows": 3
       },
       {
@@ -518,27 +523,32 @@ const FORMS = [
     "fields": [
       {
         "key": "energy_check",
-        "label": "핵심 업무 3개 중 에너지가 빠지는 것 / 올라가는 것",
+        "label": "핵심 업무 3가지 중, 하고 싶어 에너지가 오르는 일과 생각만 해도 지치는 일은?",
+        "hint": "PART 2에서 정리한 주요 업무를 떠올려보세요. 끌리는 일 vs 피하고 싶은 일을 구분",
         "rows": 3
       },
       {
         "key": "mismatch_reasons",
-        "label": "이 직무가 나에게 맞지 않을 수 있는 이유 3가지",
+        "label": "솔직히, 이 직무가 나와 안 맞을 수도 있는 이유 3가지는?",
+        "hint": "좋은 점 말고 '걸리는 점'만. 합격해도 힘들 수 있는 지점을 미리 알아두는 단계",
         "rows": 3
       },
       {
         "key": "no_performance",
-        "label": "이 직무에서 성과가 안 나오는 상황",
-        "rows": 2
+        "label": "내가 이 직무에서 성과를 내기 어려운 환경·조건은?",
+        "hint": "어떤 상황이면 내가 힘을 못 쓸까? 예: 혼자 묵묵히 처리해야 할 때 / 부서 협조가 안 될 때 / 정답 없이 모호할 때. → 입사 후 미리 대비할 지점",
+        "rows": 3
       },
       {
         "key": "5year_view",
-        "label": "이 직무를 5년 하면 내가 원하는 삶에 가까워지는가, 멀어지는가",
-        "rows": 2
+        "label": "이 직무를 5년 한 나의 모습은 내가 원하는 삶에 가까운가, 먼가? (이유와 함께)",
+        "hint": "5년 뒤에도 이 일을 하는 나를 상상 → 가까워지면 지원 신호, 멀어지면 재검토 신호",
+        "rows": 3
       },
       {
         "key": "quit_reasons",
-        "label": "이 직무 퇴사자들의 흔한 이유 3가지 (AI 조사 + 나의 판단)",
+        "label": "이 직무를 그만두는 사람들의 흔한 이유 3가지와, 그 중 나에게도 해당될 것 같은 것은?",
+        "hint": "AI에게 'OO 직무 퇴사 사유'를 묻고, 그 중 내게도 해당될 위험을 표시. 모르면 입사 후 후회한다",
         "rows": 3
       }
     ],
@@ -911,6 +921,8 @@ const FocusStyles = () => (
 );
 
 const JobAnalysisWorkbook = () => {
+  const { master } = useDataStore();
+  const experienceCards = master?.experiences || [];
   const [phase, setPhase] = useState('intro');
   const [showHelp, setShowHelp] = useState(true);
   const [showStepNav, setShowStepNav] = useState(false);
@@ -2154,6 +2166,7 @@ const JobAnalysisWorkbook = () => {
                 </div>
               </div>
             ) : (
+              <>
               <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md }}>
                 {form.fields.map(f => {
                   const answers = formAnswers[form.id] || {};
@@ -2182,6 +2195,46 @@ const JobAnalysisWorkbook = () => {
                   );
                 })}
               </div>
+
+              {/* 내 경험 ↔ 이 공고 요건 매핑 (경험정리에서 작성한 경험을 끌어와 연결) */}
+              {form.id === 'form_03' && (
+                <div style={{ marginTop: SPACING.lg, background: COLORS.bgAlt, borderRadius: RADIUS.base, padding: SPACING.md, borderLeft: `3px solid ${COLORS.accent2}` }}>
+                  <p style={{ margin: 0, fontSize: FONT.size.md, fontWeight: FONT.weight.bold, color: COLORS.accent }}>내 경험 ↔ 이 공고 요건 매핑</p>
+                  <p style={{ margin: '4px 0 12px', fontSize: FONT.size.sm, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
+                    경험정리에서 작성한 경험들입니다. 각 경험이 이 공고의 <strong>어떤 필수·우대 요건이나 키워드</strong>를 충족하는지 적어보세요. 여기서 만든 연결을 자소서·면접에서 그대로 활용합니다.
+                  </p>
+                  {experienceCards.length === 0 ? (
+                    <p style={{ margin: 0, fontSize: FONT.size.sm, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
+                      아직 경험정리에 작성된 경험이 없습니다. 먼저 <strong>경험 정리</strong> 워크북에서 경험을 정리하면 여기에 자동으로 나타납니다.
+                    </p>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.sm }}>
+                      {experienceCards.map((exp) => {
+                        const answers = formAnswers[form.id] || {};
+                        const comps = [...(exp.job_comps || []), ...(exp.comm_comps || []), ...(exp.att_comps || [])].filter(Boolean);
+                        return (
+                          <div key={exp.id} style={{ background: COLORS.white, borderRadius: RADIUS.base, padding: SPACING.sm, border: `1px solid ${COLORS.line}` }}>
+                            <p style={{ margin: 0, fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.ink }}>
+                              {exp.org || exp.category || '경험'}{exp.role ? ` · ${exp.role}` : ''}
+                            </p>
+                            {exp.summary && <p style={{ margin: '2px 0 0', fontSize: FONT.size.xs, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>{exp.summary}</p>}
+                            {comps.length > 0 && <p style={{ margin: '2px 0 6px', fontSize: FONT.size.xs, color: COLORS.accent2 }}>역량: {comps.join(', ')}</p>}
+                            <textarea
+                              className="ce-textarea"
+                              value={answers[`expmap_${exp.id}`] || ''}
+                              onChange={(e) => setFormAnswer(form.id, `expmap_${exp.id}`, e.target.value)}
+                              rows={2}
+                              style={{ ...S.textarea, fontSize: FONT.size.sm }}
+                              placeholder="이 경험이 충족하는 공고 요건·키워드 (예: 'SPC' → 관리도 직접 작성 / '데이터 기반 의사결정' → 리텐션 A/B 테스트)"
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+              </>
             )}
 
             {/* 네비 */}

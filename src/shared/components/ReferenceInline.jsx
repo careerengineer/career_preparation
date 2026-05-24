@@ -84,12 +84,30 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
     }
 
     if (id === 'career_roadmap') {
+      // 진단은 퀴즈 코드(q1:'b' 등)라 그대로 보여주면 의미 불명 →
+      // 사람이 읽을 수 있는 '진단 결과 요약'으로 변환해서 노출.
       const rm = master.roadmap;
-      if (rm && (rm.completedAt || rm.weakestStep != null || Object.keys(rm.quizAnswers || {}).length > 0)) {
+      const rmRaw = master.workbookRaw?.career_roadmap;
+      const STEP_NAMES = {
+        0: 'STEP 0 · 방향 설정', 1: 'STEP 1 · 채용공고 분석', 2: 'STEP 2 · 경험 소재 발굴',
+        3: 'STEP 3 · 이력서/경력기술서', 4: 'STEP 4 · 자소서', 5: 'STEP 5 · 면접',
+      };
+      const lines = [];
+      if (rm?.weakestStep != null) {
+        lines.push(`가장 보완이 필요한 단계: ${STEP_NAMES[rm.weakestStep] || ('STEP ' + rm.weakestStep)}`);
+      }
+      // 진단에서 직접 작성한 자유 서술이 있으면 함께 (코드성 quizAnswers는 제외)
+      if (rmRaw?.answers && typeof rmRaw.answers === 'object') {
+        Object.values(rmRaw.answers).forEach((v) => {
+          if (v && String(v).trim().length > 2) lines.push(String(v).trim());
+        });
+      }
+      if (lines.length > 0) {
         items.push({
-          kind: 'raw_career_roadmap',
+          kind: 'mapped',
+          id: 'career_roadmap_summary',
           label: `${wbTitle}: 진단 결과`,
-          data: { __raw: true, workbookKey: id, raw: rm },
+          data: { __mapped: true, label: `${wbTitle}: 진단 결과`, text: lines.join('\n\n') },
         });
       }
       continue;

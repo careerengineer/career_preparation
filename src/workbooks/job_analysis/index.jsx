@@ -73,7 +73,7 @@ export default function JobAnalysisPage() {
     <WorkbookShell
       workbookKey="job_analysis"
       mentoringType="cover_letter"
-      topReferenceIds={["career_roadmap"]}
+      topReferenceIds={["experience","career_roadmap"]}
     >
       <Bridge />
     </WorkbookShell>
