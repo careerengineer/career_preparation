@@ -4,7 +4,7 @@ import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/desi
 import { AnswerQualityCheck, JdBridgeGuide } from '../../shared/components/AnswerQualityCheck.jsx';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 import { ExampleToggle } from '../../shared/components/ExampleToggle.jsx';
-import { buildWorkbookBackupParagraphs, buildWorkbookPayload } from '../../store/docxBackup.js';
+import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 // ══════════════════════════════════════════════════════════════
@@ -498,6 +498,7 @@ const MotivationWorkbook = () => {
       try {
         const payload = buildWorkbookPayload('motivation', '지원동기', 'careerengineer_motivation_v1');
         children.push(...buildWorkbookBackupParagraphs(docxLib, payload));
+      try { children.unshift(...buildCopyrightParagraphs(docxLib)); } catch (e) { console.warn('copyright skip', e); }
       } catch (e) { console.warn('[motivation] backup embed skipped:', e); }
 
       const doc = new Document({

@@ -1,7 +1,7 @@
 // [BUILD v36 20260520 10:30] docx 저장에 CareerEngineer 자료 + 멘토링 안내 섹션 추가 (ExternalHyperlink + linkP)
 import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
-import { buildWorkbookBackupParagraphs, buildWorkbookPayload } from '../../store/docxBackup.js';
+import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 
 import { JobSituationGuide } from '../../shared/components/JobSituationGuide.jsx';
@@ -2226,6 +2226,7 @@ const CareerInterviewWorkbook = () => {
       children.push(linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
 
       try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('interview_career', '경력직 면접', 'careerengineer_interview_career_v1'))); } catch (e) { console.warn('[interview_career] backup embed skipped:', e); }
+      try { children.unshift(...buildCopyrightParagraphs(docxLib)); } catch (e) { console.warn('copyright skip', e); }
       const doc = new Document({
         creator: '',
         title: '경력 면접 답변집',

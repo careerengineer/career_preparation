@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import * as XLSX from 'xlsx';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
-import { utf8ToBase64 } from '../../store/docxBackup.js';
+import { utf8ToBase64, COPYRIGHT_TITLE, COPYRIGHT_TEXT, COPYRIGHT_MARK } from '../../store/docxBackup.js';
 // ════════════════════════════════════════════════════════════════
 //  CareerEngineer 워크북 라이브러리 (URL은 나중에 일괄 적용)
 // ════════════════════════════════════════════════════════════════
@@ -1194,6 +1194,12 @@ const ExperienceWorkbook = () => {
     try {
     const XLSX_S = await loadXlsxStyleLib() || XLSX;
     const wb = XLSX_S.utils.book_new();
+    // 저작권·기밀 안내를 첫 시트로
+    try {
+      const noticeWs = XLSX_S.utils.aoa_to_sheet([[COPYRIGHT_TITLE], [COPYRIGHT_TEXT], [COPYRIGHT_MARK]]);
+      noticeWs['!cols'] = [{ wch: 110 }];
+      XLSX_S.utils.book_append_sheet(wb, noticeWs, '저작권 안내');
+    } catch (e) { console.warn('[experience] copyright sheet skipped:', e); }
     const today = new Date().toISOString().slice(0, 10);
     // ═══════════════════════════════════════════════════════════
     // CareerEngineer Heritage 브랜딩 컬러
