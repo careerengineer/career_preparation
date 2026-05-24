@@ -923,7 +923,17 @@ const FocusStyles = () => (
 
 const JobAnalysisWorkbook = () => {
   const { master } = useDataStore();
-  const experienceCards = master?.experiences || [];
+  // 경험 카드 출처를 여러 곳에서 안전하게 확보 (master.experiences가 비어도 표시되도록)
+  const experienceCards = (() => {
+    if (Array.isArray(master?.experiences) && master.experiences.length > 0) return master.experiences;
+    const wbExp = master?.workbookRaw?.experience?.experiences;
+    if (Array.isArray(wbExp) && wbExp.length > 0) return wbExp;
+    try {
+      const d = JSON.parse(localStorage.getItem('careerengineer_experience_v1') || '{}');
+      if (Array.isArray(d.experiences) && d.experiences.length > 0) return d.experiences;
+    } catch { /* noop */ }
+    return [];
+  })();
   const [phase, setPhase] = useState('intro');
   const [showHelp, setShowHelp] = useState(true);
   const [showStepNav, setShowStepNav] = useState(false);
