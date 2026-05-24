@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload } from '../../store/docxBackup.js';
 import { useDataStore } from '../../store/DataContext.jsx';
+import { formatComps } from '../../store/comps.js';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 
@@ -2204,7 +2205,7 @@ const JobAnalysisWorkbook = () => {
                   <div style={{ marginTop: SPACING.lg, background: COLORS.bgAlt, borderRadius: RADIUS.base, padding: SPACING.md, borderLeft: `3px solid ${COLORS.accent2}` }}>
                     <p style={{ margin: 0, fontSize: FONT.size.md, fontWeight: FONT.weight.bold, color: COLORS.accent }}>공고별 경험 매핑</p>
                     <p style={{ margin: '4px 0 12px', fontSize: FONT.size.sm, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
-                      지원할 공고를 <strong>하나씩 붙여넣고</strong>, 경험정리에서 작성한 경험들이 그 공고의 어떤 요건·키워드를 충족하는지 <strong>하나씩 연결</strong>하세요. 여기서 만든 연결을 자소서·면접에서 그대로 활용합니다. 공고가 여러 개면 [공고 추가]로 늘리세요.
+                      지원할 공고를 <strong>하나씩 붙여넣고</strong>, 내 경험 중 <strong>그 공고에 맞는 것만 골라</strong> 연결하세요. 모든 경험을 연결할 필요는 없고, 맞는 것을 최대한 찾는 게 핵심입니다. 여기서 만든 연결을 자소서·면접에서 그대로 활용합니다. 공고가 여러 개면 [공고 추가]로 늘리세요.
                     </p>
                     {experienceCards.length === 0 && (
                       <p style={{ margin: '0 0 12px', fontSize: FONT.size.sm, color: COLORS.red, lineHeight: FONT.lineHeight.base }}>
@@ -2224,24 +2225,39 @@ const JobAnalysisWorkbook = () => {
                             placeholder="여기에 채용공고 원문을 붙여넣으세요 (자격요건·우대사항·주요업무 등)"
                           />
                           {experienceCards.length > 0 && (
-                            <p style={{ margin: `0 0 4px`, fontSize: FONT.size.xs, color: COLORS.sub }}>↓ 이 공고에 내 경험을 하나씩 연결</p>
+                            <p style={{ margin: `0 0 6px`, fontSize: FONT.size.xs, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
+                              ↓ 내 경험을 참고해, 이 공고에 <strong>맞는 것만 골라 체크</strong>하고 연결하세요 (모든 경험을 연결할 필요 없이, 맞는 것을 최대한 찾기)
+                            </p>
                           )}
                           {experienceCards.map((exp) => {
-                            const comps = [...(exp.job_comps || []), ...(exp.comm_comps || []), ...(exp.att_comps || [])].filter(Boolean);
+                            const compText = formatComps([...(exp.job_comps || []), ...(exp.comm_comps || []), ...(exp.att_comps || [])]);
+                            const selKey = `tpost_${i}_sel_${exp.id}`;
+                            const selected = !!mapAns[selKey];
                             return (
-                              <div key={exp.id} style={{ marginBottom: SPACING.sm, paddingLeft: SPACING.sm, borderLeft: `2px solid ${COLORS.bgAlt}` }}>
-                                <p style={{ margin: 0, fontSize: FONT.size.xs, fontWeight: FONT.weight.semibold, color: COLORS.ink }}>
-                                  {exp.org || exp.category || '경험'}{exp.role ? ` · ${exp.role}` : ''}
-                                  {comps.length > 0 && <span style={{ color: COLORS.accent2, fontWeight: FONT.weight.regular }}> · {comps.join(', ')}</span>}
-                                </p>
-                                <input
-                                  type="text"
-                                  className="ce-input"
-                                  value={mapAns[`tpost_${i}_map_${exp.id}`] || ''}
-                                  onChange={(e) => setFormAnswer(form.id, `tpost_${i}_map_${exp.id}`, e.target.value)}
-                                  style={{ ...S.input, fontSize: FONT.size.sm }}
-                                  placeholder="이 공고의 어떤 요건을 충족? (예: 'SPC' → 관리도 직접 작성)"
-                                />
+                              <div key={exp.id} style={{ marginBottom: SPACING.sm, paddingLeft: SPACING.sm, borderLeft: `2px solid ${selected ? COLORS.accent2 : COLORS.bgAlt}` }}>
+                                <label style={{ display: 'flex', gap: SPACING.xs, alignItems: 'flex-start', cursor: 'pointer' }}>
+                                  <input
+                                    type="checkbox"
+                                    checked={selected}
+                                    onChange={(e) => setFormAnswer(form.id, selKey, e.target.checked ? '1' : '')}
+                                    style={{ marginTop: 4, flexShrink: 0 }}
+                                  />
+                                  <span style={{ fontSize: FONT.size.xs, color: COLORS.ink, lineHeight: FONT.lineHeight.base }}>
+                                    <strong>{exp.org || exp.category || '경험'}{exp.role ? ` · ${exp.role}` : ''}</strong>
+                                    {exp.summary && <span style={{ color: COLORS.sub }}> — {exp.summary}</span>}
+                                    {compText && <span style={{ color: COLORS.accent2 }}> · {compText}</span>}
+                                  </span>
+                                </label>
+                                {selected && (
+                                  <input
+                                    type="text"
+                                    className="ce-input"
+                                    value={mapAns[`tpost_${i}_map_${exp.id}`] || ''}
+                                    onChange={(e) => setFormAnswer(form.id, `tpost_${i}_map_${exp.id}`, e.target.value)}
+                                    style={{ ...S.input, fontSize: FONT.size.sm, marginTop: 4, marginLeft: 24, width: 'calc(100% - 24px)' }}
+                                    placeholder="이 경험이 이 공고의 어떤 요건·키워드를 충족? (예: 'SPC' → 관리도 직접 작성)"
+                                  />
+                                )}
                               </div>
                             );
                           })}
