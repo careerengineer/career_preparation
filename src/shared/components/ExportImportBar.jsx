@@ -27,15 +27,22 @@ export function ExportImportBar() {
       showToast(`경험 정리: ${name}`);
     } catch (e) { showToast('오류: ' + e.message); }
   };
-  const handleExportRestDocx = async () => {
+  const handleExportAll = async () => {
     const hasExp = (master.experiences || []).length > 0;
     const msg = hasExp
-      ? '전체 백업은 두 파일로 받으세요:\n\n1) "전체내용 저장(.docx)" — 자소서·면접 등 전체 내용\n2) "경험 정리 저장(.xlsx)" — 경험정리 (docx에는 포함되지 않습니다)\n\n두 파일 모두 나중에 "가져오기"로 복원할 수 있습니다.\n\n지금 전체내용(.docx)을 저장할까요?'
-      : '"전체내용 저장(.docx)"은 전체 내용을 담은 문서입니다. 나중에 "가져오기"로 복원할 수 있습니다.\n\n계속할까요?';
+      ? '전체내용을 저장합니다. 두 파일이 함께 다운로드됩니다:\n\n1) 전체 내용 (.docx) — 자소서·면접 등\n2) 경험 정리 (.xlsx) — 경험정리 카드\n\n두 파일 모두 나중에 "가져오기"로 복원할 수 있습니다.\n\n계속할까요?'
+      : '전체 내용 (.docx)을 저장합니다. 나중에 "가져오기"로 복원할 수 있습니다.\n\n계속할까요?';
     if (!window.confirm(msg)) return;
     try {
-      const name = await exportFullDocx(master, { excludeExperiences: true });
-      showToast(hasExp ? `저장 완료: ${name} · 경험정리는 .xlsx로 따로 저장하세요` : `저장 완료: ${name}`);
+      const docxName = await exportFullDocx(master, { excludeExperiences: true });
+      if (hasExp) {
+        // 두 번째 다운로드는 약간 간격을 두어 브라우저의 다중 다운로드 차단을 피함
+        await new Promise((r) => setTimeout(r, 700));
+        const xlsxName = exportExperiencesXlsx(master);
+        showToast(`저장 완료: ${docxName} + ${xlsxName}`);
+      } else {
+        showToast(`저장 완료: ${docxName}`);
+      }
     } catch (e) { showToast('오류: ' + e.message); }
   };
 
@@ -188,8 +195,8 @@ export function ExportImportBar() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
     <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap' }}>
       <button onClick={handleImportClick} style={btnStyle}>가져오기 (.docx/.xlsx)</button>
-      <button onClick={handleExportXlsx} style={btnStyle}>경험 정리 저장 (.xlsx)</button>
-      <button onClick={handleExportRestDocx} style={btnPrimaryStyle}>전체내용 저장 (.docx)</button>
+      <button onClick={handleExportXlsx} style={btnStyle}>경험 정리만 저장 (.xlsx)</button>
+      <button onClick={handleExportAll} style={btnPrimaryStyle}>전체내용 저장 (.docx + .xlsx)</button>
       <button onClick={() => setResetMode('ask')} style={btnDangerStyle}>전체 삭제하고 다시 작성</button>
       <input
         ref={fileRef}
@@ -225,7 +232,7 @@ export function ExportImportBar() {
       )}
     </div>
     <p style={{ fontSize: 14, color: COLORS.sub, margin: 0, textAlign: 'right', lineHeight: 1.6, maxWidth: 600 }}>
-      전체 백업은 <strong>전체내용(.docx) + 경험 정리(.xlsx)</strong> 두 파일로 받으세요. 둘 다 "가져오기"로 복원됩니다.
+      <strong>전체내용 저장</strong>을 누르면 <strong>.docx + .xlsx</strong> 두 파일이 함께 저장됩니다. 둘 다 "가져오기"로 복원됩니다.
       각 워크북은 그 워크북 화면의 저장 파일로도 복원할 수 있습니다.
     </p>
 
