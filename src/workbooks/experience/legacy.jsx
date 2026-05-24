@@ -1435,8 +1435,11 @@ const ExperienceWorkbook = () => {
         // A 행
         ['', '', '', '', '', '', e.star_a ? 'A (행동): ' + e.star_a : '', '',
           jc[2].name, jc[2].score, cc[2].name, cc[2].score, ac[2].name, ac[2].score],
-        // R 행
-        ['', '', '', '', '', '', e.star_r ? 'R (결과): ' + e.star_r : '', '',
+        // R 행 (+ 객관적 어려움 한 줄 동봉 — 행/열 구조 변경 없이 동일 셀에 표기)
+        ['', '', '', '', '', '', [
+          e.star_r ? 'R (결과): ' + e.star_r : '',
+          e.difficulty ? '[객관적 어려움] ' + e.difficulty : '',
+        ].filter(Boolean).join('\n'), '',
           jc[3].name, jc[3].score, cc[3].name, cc[3].score, ac[3].name, ac[3].score],
       ];
     };
