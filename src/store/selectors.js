@@ -25,82 +25,108 @@ function rawIsCompleted(raw) {
   return false;
 }
 
-// 작성 진도 비율 계산 (0~95) — 작성된 답변 수 기반
-function calcProgressFromRaw(raw) {
-  if (!raw) return 0;
-  if (raw.answers && typeof raw.answers === 'object') {
-    const filled = Object.values(raw.answers).filter((v) => v && String(v).trim().length > 3).length;
-    if (filled === 0) return 5;       // 시작만 함
-    if (filled <= 2) return 20;
-    if (filled <= 5) return 40;
-    if (filled <= 10) return 60;
-    if (filled <= 15) return 75;
-    return 90;
-  }
-  if (raw.experiences && Array.isArray(raw.experiences)) {
-    const n = raw.experiences.length;
-    if (n === 0) return 5;
-    if (n === 1) return 30;
-    if (n === 2) return 55;
-    return 80;
-  }
-  return 10;
+// 의미 있게 작성된 답변 개수 (공백/3자 이하 제외)
+function countFilled(obj) {
+  if (!obj || typeof obj !== 'object') return 0;
+  return Object.values(obj).filter((v) => v && String(v).trim().length > 3).length;
 }
 
+// 여러 후보 중 가장 긴 본문 길이
+function bestTextLen(...vals) {
+  let max = 0;
+  for (const v of vals) {
+    const len = v ? String(v).trim().length : 0;
+    if (len > max) max = len;
+  }
+  return max;
+}
+
+// 작성된 답변 개수를 진행률(0~90)로 — 내용량 기반, 절대 100 아님
+function scoreByFilled(filled) {
+  if (filled <= 0) return 0;
+  if (filled === 1) return 20;
+  if (filled === 2) return 35;
+  if (filled <= 4) return 55;
+  if (filled <= 6) return 70;
+  if (filled <= 9) return 80;
+  return 90;
+}
+
+// ⚠ 진행률은 '완료 버튼'이 아니라 '실제 내용 유무'로 결정한다.
+//   완료 페이지에 도달(rawIsCompleted)했더라도 내용이 비어 있으면 100%가 되지 않는다.
+//   100%는 (완료 표시 + 충분한 내용)이 모두 충족될 때만.
 export function getWorkbookProgress(master, workbookKey) {
   const raw = master.workbookRaw?.[workbookKey];
+  const completedFlag = rawIsCompleted(raw);
 
   if (workbookKey === 'experience') {
-    if (rawIsCompleted(raw)) return 100;
-    if (master.experiences.length > 0) {
-      const n = master.experiences.length;
-      if (n === 1) return 35;
-      if (n === 2) return 55;
-      if (n === 3) return 75;
-      return 90;
-    }
-    if (rawHasContent(raw)) return 10;
-    return 0;
+    const n = master.experiences.length;
+    if (n === 0) return rawHasContent(raw) ? 10 : 0;        // 카드 없음 → 미완료
+    if (completedFlag && n >= 1) return 100;                // 완료 + 카드 있음
+    if (n === 1) return 35;
+    if (n === 2) return 55;
+    if (n === 3) return 75;
+    return 90;
   }
+
   if (workbookKey === 'career_roadmap') {
-    if (master.roadmap.completedAt || rawIsCompleted(raw)) return 100;
-    if (Object.keys(master.roadmap.quizAnswers || {}).length > 0) {
-      const n = Object.keys(master.roadmap.quizAnswers).length;
-      if (n <= 2) return 25;
-      if (n <= 5) return 55;
+    const quizN = Object.keys(master.roadmap.quizAnswers || {}).length;
+    const done = master.roadmap.completedAt || completedFlag;
+    const hasContent = quizN > 0 || rawHasContent(raw);
+    if (done && hasContent) return 100;                     // 완료 + 내용 있음
+    if (quizN > 0) {
+      if (quizN <= 2) return 25;
+      if (quizN <= 5) return 55;
       return 80;
     }
-    if (rawHasContent(raw)) return calcProgressFromRaw(raw);
+    if (rawHasContent(raw)) return scoreByFilled(countFilled(raw.answers));
     return 0;
   }
+
   if (workbookKey === 'careergoal') {
-    if (master.careergoal.completedAt || rawIsCompleted(raw)) return 100;
-    const filled = ['year5', 'year3', 'year1', 'rationale'].filter((k) => master.careergoal[k]).length;
-    if (filled === 4) return 90;
-    if (filled >= 2) return 60;
-    if (filled >= 1) return 30;
-    if (rawHasContent(raw)) return calcProgressFromRaw(raw);
+    const filled = ['year5', 'year3', 'year1', 'rationale']
+      .filter((k) => master.careergoal[k] && String(master.careergoal[k]).trim()).length;
+    const done = master.careergoal.completedAt || completedFlag;
+    if (done && filled >= 3) return 100;                    // 완료 + 핵심 항목 작성
+    if (filled >= 4) return 90;
+    if (filled === 3) return 70;
+    if (filled === 2) return 50;
+    if (filled === 1) return 25;
+    if (rawHasContent(raw)) return scoreByFilled(countFilled(raw.answers));
     return 0;
   }
+
   if (workbookKey === 'job_analysis') {
-    if (master.jobAnalysis.completedAt || rawIsCompleted(raw)) return 100;
     const fields = ['my_experience_pool', 'success_signals', 'connection_sentences', 'experience_translation'];
-    const filled = fields.filter((k) => master.jobAnalysis[k]).length;
-    if (filled === 4) return 90;
-    if (filled >= 2) return 60;
-    if (filled >= 1) return 30;
-    if (rawHasContent(raw)) return calcProgressFromRaw(raw);
+    const filled = fields
+      .filter((k) => master.jobAnalysis[k] && String(master.jobAnalysis[k]).trim()).length;
+    const done = master.jobAnalysis.completedAt || completedFlag;
+    if (done && filled >= 3) return 100;                    // 완료 + 핵심 항목 작성
+    if (filled >= 4) return 90;
+    if (filled === 3) return 70;
+    if (filled === 2) return 50;
+    if (filled === 1) return 25;
+    if (rawHasContent(raw)) return scoreByFilled(countFilled(raw.answers));
     return 0;
   }
-  // 나머지 워크북
-  const out = master.outputs[workbookKey];
-  if (out?.completedAt || rawIsCompleted(raw)) return 100;
-  if (out?.finalText && out.finalText.trim()) return 85;
-  if (out?.answers && Object.keys(out.answers).length > 0) {
-    return Math.max(30, Math.min(85, Object.keys(out.answers).length * 10));
-  }
-  if (rawHasContent(raw)) return calcProgressFromRaw(raw);
-  return 0;
+
+  // 나머지 워크북 (자소서·면접 등): 답변 개수 + 최종 본문 길이로 판단
+  const out = master.outputs[workbookKey] || {};
+  const filled = Math.max(countFilled(out.answers), countFilled(raw?.answers));
+  const finalLen = bestTextLen(out.finalText, raw?.finalText);
+  const done = out.completedAt || completedFlag;
+
+  // 내용이 전혀 없으면 완료를 눌렀어도 0
+  if (filled === 0 && finalLen < 30) return 0;
+
+  // 완료 + 충분한 내용(최종 본문 또는 답변 다수)일 때만 100
+  if (done && (finalLen >= 80 || filled >= 3)) return 100;
+
+  // 내용량 기반 진행률
+  let p = scoreByFilled(filled);
+  if (finalLen >= 100) p = Math.max(p, 85);
+  else if (finalLen >= 30) p = Math.max(p, 40);
+  return p;
 }
 
 // STEP별 평균 진행률
@@ -198,8 +224,11 @@ export function getNextRecommendation(master) {
   if (!master.profile.industry && !master.profile.position && !master.profile.company) {
     return { kind: 'profile', label: '먼저 산업/직무/회사를 입력해주세요' };
   }
-  // 진행 중(50%)인 것 이어서 작성이 가장 효율적
-  const inProgress = WORKBOOKS.find((w) => getWorkbookProgress(master, w.key) === 50);
+  // 진행 중(1~99%)인 것 이어서 작성이 가장 효율적
+  const inProgress = WORKBOOKS.find((w) => {
+    const p = getWorkbookProgress(master, w.key);
+    return p > 0 && p < 100;
+  });
   if (inProgress) {
     return { kind: 'workbook', workbookKey: inProgress.key, label: `이어서 작성: ${inProgress.stepLabel} · ${inProgress.title}` };
   }
