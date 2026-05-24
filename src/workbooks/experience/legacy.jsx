@@ -1032,7 +1032,7 @@ const ExperienceWorkbook = () => {
   const emptyExperience = (category) => ({
     id: `exp_${Date.now()}`,
     category: category || '', period: '', org: '', role: '', summary: '', motivation: '',
-    star_s: '', star_t: '', star_a: '', star_r: '', learning: '',
+    star_s: '', star_t: '', star_a: '', star_r: '', difficulty: '', learning: '',
     job_comps: [{ name: '', score: '' }],
     comm_comps: [{ name: '', score: '' }],
     att_comps: [{ name: '', score: '' }],
@@ -2177,6 +2177,22 @@ const ExperienceWorkbook = () => {
               </ExpField>
               <ExpField label="R (Result) — 결과" hint="정량적(숫자) + 정성적(영향) 결과 모두 기록. 수치가 없어도 괜찮지만, 가능하면 Before/After 비교.">
                 <textarea className="ce-textarea" value={e.star_r} onChange={ev => upd('star_r', ev.target.value)} rows={3} placeholder="예: A+ 획득. 데이터 기반 의사결정 역량 향상. 팀원 만족도 90% 이상" style={textareaStyle} />
+              </ExpField>
+            </div>
+            <div style={{ marginTop: SPACING.lg, paddingTop: SPACING.md, borderTop: `1px dashed ${COLORS.border}` }}>
+              <div style={{ background: COLORS.redBg, borderLeft: `3px solid ${COLORS.red}`, borderRadius: RADIUS.base, padding: SPACING.md, marginBottom: SPACING.md }}>
+                <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.red, margin: 0, marginBottom: 6 }}>실무자가 확인하고 싶어 하는 것 — 객관적 어려움</p>
+                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginBottom: 6, lineHeight: FONT.lineHeight.relaxed }}>
+                  ① 왜 힘들었나 ② 누가 들어도 "아 힘들었겠다" 공감하는가 ③ 그런데도 해냈는가. <strong>어려움이 약하면 결과도 약해 보입니다</strong> — 난이도가 명확해야 해결력이 부각됩니다.
+                </p>
+                <p style={{ fontSize: 11, color: COLORS.sub, margin: 0, fontStyle: 'italic' }}>
+                  예: "전공자가 아닌데 3주 만에 SQL을 익혀야 했음" · "팀원 3명이 빠져 혼자 진행" · "참고할 사내 사례가 없어 외부 자료를 직접 발굴"
+                </p>
+              </div>
+              <ExpField label="객관적 어려움 (선택)" hint="이 경험이 왜 어려웠는지 한두 줄. 자소서·면접에서 해결력을 부각하는 핵심 재료가 됩니다.">
+                <textarea className="ce-textarea" value={e.difficulty || ''} onChange={ev => upd('difficulty', ev.target.value)} rows={3}
+                  placeholder="예: 마케팅 전공이라 데이터 분석은 처음이었고, 참고할 선례도 없어 3주 만에 SQL과 GA를 독학하며 진행해야 했다."
+                  style={textareaStyle} />
               </ExpField>
             </div>
             <div style={{ marginTop: SPACING.lg, paddingTop: SPACING.md, borderTop: `1px dashed ${COLORS.border}` }}>
