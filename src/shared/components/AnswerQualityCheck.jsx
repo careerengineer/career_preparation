@@ -33,29 +33,53 @@ const CHECKS = {
   },
 };
 
-// master에서 "직무-경험 연결"에 쓸 본인 키워드 추출 (신뢰 가능한 소스만)
+// "채용공고 용어" 우선으로 본인 키워드 추출 (읽기 전용, 저장 무변경)
+// 순서: 실제 채용공고 키워드 → import된 직무분석 키워드 → 경험 직무역량 → 지원 직무·산업
+function splitTerms(text) {
+  return String(text || '')
+    .split(/[,/·、|;\n]+|\s{2,}/)
+    .map((s) => s.replace(/^[-•\d.\s]+/, '').trim())
+    .filter((s) => s.length >= 2 && s.length <= 20);
+}
 function extractUserKeywords(master) {
   const out = [];
   const push = (v) => {
     if (!v) return;
     const s = String(v).trim();
-    if (s.length >= 2) out.push(s);
+    if (s.length >= 2 && s.length <= 20) out.push(s);
   };
-  // 지원 직무·산업
-  push(master?.profile?.position);
-  push(master?.profile?.industry);
-  // 경험에 태그한 직무 역량 (job_comps: [{name,score}] 또는 문자열)
-  (master?.experiences || []).forEach((e) => {
-    const jc = e?.job_comps;
-    if (Array.isArray(jc)) jc.forEach((c) => push(typeof c === 'string' ? c : c?.name));
-  });
-  // import 등으로 채워진 경우의 직무분석 키워드
+  // 1) 채용공고 분석 원본의 핵심 키워드 (사용자가 공고에서 뽑은 실제 용어) — 최우선
+  const ja = master?.workbookRaw?.job_analysis;
+  if (ja) {
+    const fa = ja.formAnswers || {};
+    Object.values(fa).forEach((form) => {
+      if (form && typeof form === 'object') {
+        ['keywords', 'core', 'hard_skills', 'required_skills', 'tools'].forEach((k) => {
+          if (form[k]) splitTerms(form[k]).forEach(push);
+        });
+      }
+    });
+    if (Array.isArray(ja.jobPostings)) {
+      ja.jobPostings.forEach((p) => {
+        if (p && p.keywords) splitTerms(p.keywords).forEach(push);
+      });
+    }
+  }
+  // 2) import 등으로 채워진 구조화 직무분석 키워드
   const kw = master?.jobAnalysis?.keywords || {};
   [kw.hard_skills, kw.soft_skills, kw.domain].forEach((arr) => {
     if (Array.isArray(arr)) arr.forEach((x) => push(typeof x === 'string' ? x : x?.name));
   });
-  // 중복 제거 + 너무 일반적인 짧은 단어 제외, 최대 12개
-  return [...new Set(out)].filter((w) => w.length >= 2).slice(0, 12);
+  // 3) 경험에 태그한 직무 역량 (job_comps: [{name,score}] 또는 문자열)
+  (master?.experiences || []).forEach((e) => {
+    const jc = e?.job_comps;
+    if (Array.isArray(jc)) jc.forEach((c) => push(typeof c === 'string' ? c : c?.name));
+  });
+  // 4) 지원 직무·산업 (보조)
+  push(master?.profile?.position);
+  push(master?.profile?.industry);
+  // 중복 제거, 최대 12개 (채용공고 키워드가 앞쪽 우선)
+  return [...new Set(out)].slice(0, 12);
 }
 
 // 작성 전 안내: "채용공고 용어로 시작 → 내 경험을 그 용어에 연결" (기본 접힘)
