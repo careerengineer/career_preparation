@@ -396,6 +396,20 @@ export async function exportFullDocx(master, options = {}) {
   return name;
 }
 
+// ─── 전체 백업(.docx + .xlsx) 한 번에 ──────────────────────
+// 전체내용(.docx, 경험 제외) + 경험정리(.xlsx)를 연속 다운로드.
+// 두 파일 모두 "가져오기"로 복원 가능. 브라우저 다중 다운로드 차단을
+// 피하기 위해 두 번째 파일은 짧은 간격 후 저장.
+export async function exportFullBackupFiles(master) {
+  const docxName = await exportFullDocx(master, { excludeExperiences: true });
+  let xlsxName = null;
+  if ((master.experiences || []).length > 0) {
+    await new Promise((r) => setTimeout(r, 700));
+    xlsxName = exportExperiencesXlsx(master);
+  }
+  return { docxName, xlsxName };
+}
+
 // ─── experience 전용 .xlsx export ─────────────────────────
 const EXP_HEADER = [
   'id', 'category', 'period', 'org', 'role',

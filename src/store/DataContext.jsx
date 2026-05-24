@@ -195,32 +195,12 @@ export function DataProvider({ children }) {
     return filename;
   }, [readSlots]);
 
-  // 단일 슬롯을 .json으로 export
-  const exportSingleSlotFile = useCallback((slotName) => {
+  // 단일 슬롯의 master 스냅샷 반환 (docx+xlsx 내보내기에 사용)
+  const getCompanySlotMaster = useCallback((slotName) => {
     const slots = readSlots();
     const slot = slots[slotName];
-    if (!slot) throw new Error('해당 슬롯이 없습니다.');
-    const payload = {
-      format: 'careerengineer-export',
-      version: 1,
-      exportedAt: new Date().toISOString(),
-      data: slot.master,
-      slotName,
-    };
-    const json = JSON.stringify(payload, null, 2);
-    const blob = new Blob([json], { type: 'application/json' });
-    const safe = (s) => (s || '').replace(/[^가-힣a-zA-Z0-9]/g, '_').slice(0, 30);
-    const ts = (() => {
-      const d = new Date(); const pad = (n) => String(n).padStart(2, '0');
-      return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}`;
-    })();
-    const filename = `careerengineer_슬롯_${safe(slotName)}_${ts}.json`;
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    return filename;
+    if (!slot?.master) throw new Error('해당 슬롯이 없습니다.');
+    return slot.master;
   }, [readSlots]);
 
   // 전체 슬롯 import (병합/덮어쓰기)
@@ -257,8 +237,8 @@ export function DataProvider({ children }) {
         loadCompanySlot,
         deleteCompanySlot,
         listCompanySlots,
+        getCompanySlotMaster,
         exportAllSlotsFile,
-        exportSingleSlotFile,
         importAllSlotsFile,
       }}
     >
