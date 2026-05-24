@@ -4,6 +4,7 @@ import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/desi
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 
 import { JobSituationGuide } from '../../shared/components/JobSituationGuide.jsx';
+import { AnswerQualityCheck } from '../../shared/components/AnswerQualityCheck.jsx';
 
 // [Phase A-3] 세부 단계(stages) 답변을 최종 답변 작성 전에 모아 보여주는 박스
 function Part2DigestBox({ q, answers }) {
@@ -2722,6 +2723,7 @@ const CareerInterviewWorkbook = () => {
             <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, textAlign: 'right', margin: '4px 0 0', fontVariantNumeric: 'tabular-nums' }}>
                     {(answers[`${q.label}_final`] || '').length}자
                   </p>
+            <AnswerQualityCheck text={answers[`${q.label}_final`]} focusArea={['autonomy', 'number', 'difficulty', 'connection']} />
           </div>
 
           {/* ─── Step 4: 꼬리질문 대비 ─── */}
