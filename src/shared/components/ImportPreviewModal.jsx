@@ -22,7 +22,7 @@ function readable(obj) {
 }
 
 // item 종류별로 적절한 텍스트 추출
-function extractText(item) {
+export function extractText(item) {
   if (!item) return '';
   const { kind, data } = item;
 

@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { ALL_WORKBOOKS as WORKBOOKS } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
-import { ImportPreviewModal } from './ImportPreviewModal.jsx';
+import { ImportPreviewModal, extractText } from './ImportPreviewModal.jsx';
+import { insertIntoFocusedField } from '../utils/fieldInsert.js';
 import { QUESTION_MAPPING, resolveMappedData } from '../../store/questionMapping.js';
 
 // 각 워크북의 질문 옆에 표시 — 이 질문과 관련된 다른 워크북의 작성 내용을 칩으로 노출.
@@ -12,6 +13,18 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
   const { master } = useDataStore();
   const [preview, setPreview] = useState(null);
   const [expanded, setExpanded] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  // 칩 클릭 → 직전에 작성 중이던 답변칸에 바로 삽입. 포커스된 칸이 없으면 미리보기(복사)로.
+  const handleChipClick = (it) => {
+    const text = extractText(it);
+    if (insertIntoFocusedField(text)) {
+      setToast('참고 내용을 입력칸에 넣었습니다');
+      setTimeout(() => setToast(null), 2500);
+    } else {
+      setPreview(it);
+    }
+  };
 
   // 질문 id 매핑이 있으면 정확한 필드 데이터를 칩으로 노출
   let mappedItems = [];
@@ -158,7 +171,8 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
         {visibleItems.map((it, idx) => (
           <button
             key={it.id || it.kind + idx}
-            onClick={() => setPreview(it)}
+            onClick={() => handleChipClick(it)}
+            title="클릭하면 작성 중인 답변칸에 바로 삽입됩니다"
             style={{
               background: it.kind === 'mapped' ? COLORS.bgAlt : COLORS.white,
               border: `1px solid ${it.kind === 'mapped' ? COLORS.accent2 : COLORS.line}`,
@@ -191,6 +205,16 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
         )}
       </div>
       {preview && <ImportPreviewModal item={preview} onClose={() => setPreview(null)} />}
+      {toast && (
+        <div style={{
+          position: 'fixed', bottom: SPACING.lg, left: '50%', transform: 'translateX(-50%)',
+          background: COLORS.accent, color: COLORS.white,
+          padding: `${SPACING.sm}px ${SPACING.md}px`, fontFamily: FONT.family, fontSize: 18,
+          boxShadow: '0 6px 18px rgba(0,0,0,0.18)', zIndex: 1100,
+        }}>
+          {toast}
+        </div>
+      )}
     </>
   );
 }
