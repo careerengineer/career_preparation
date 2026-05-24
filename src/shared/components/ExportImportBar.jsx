@@ -190,7 +190,6 @@ export function ExportImportBar() {
       <button onClick={handleImportClick} style={btnStyle}>가져오기 (.docx/.xlsx)</button>
       <button onClick={handleExportXlsx} style={btnStyle}>경험 정리만 저장 (.xlsx)</button>
       <button onClick={handleExportAll} style={btnPrimaryStyle}>전체내용 저장 (.docx + .xlsx)</button>
-      <button onClick={() => setResetMode('ask')} style={{ ...btnDangerStyle, marginLeft: 'auto' }}>전체 삭제하고 다시 작성</button>
       <input
         ref={fileRef}
         type="file"
@@ -228,6 +227,11 @@ export function ExportImportBar() {
       <strong>전체내용 저장</strong>을 누르면 <strong>.docx + .xlsx</strong> 두 파일이 함께 저장됩니다. 둘 다 "가져오기"로 복원됩니다.
       각 워크북은 그 워크북 화면의 저장 파일로도 복원할 수 있습니다.
     </p>
+
+    {/* 위험 동작: 저장 버튼들과 떨어뜨려 맨 오른쪽 끝에 단독 배치 (오클릭 방지) */}
+    <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', marginTop: SPACING.sm }}>
+      <button onClick={() => setResetMode('ask')} style={btnDangerStyle}>전체 삭제하고 다시 작성</button>
+    </div>
 
     {resetMode && (
       <div onClick={() => setResetMode(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(14,39,80,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: SPACING.md }}>
