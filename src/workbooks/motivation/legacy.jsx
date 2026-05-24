@@ -533,7 +533,9 @@ const MotivationWorkbook = () => {
   const getRawText = () => `원본 답변 모음\n\n[기본 정보]\n산업: ${basicInfo.industry||'-'}\n직무: ${basicInfo.position||'-'}\n회사: ${basicInfo.company||'-'}\n\n[Q1: 왜 이 직무인가]\nQ1-1 관심 계기: ${answers.q1_1||'-'}\nQ1-2 가치관 연결: ${answers.q1_2||'-'}\nQ1-3 성장 경로: ${answers.q1_3||'-'}\n\n[Q2: 왜 이 회사인가]\nQ2-1 차별점: ${answers.q2_1||'-'}\nQ2-2 가치관+회사: ${answers.q2_2||'-'}\n\n[Q3: 무엇을 왜 준비]\nQ3-1 필요 역량: ${answers.q3_1||'-'}\nQ3-2 준비 과정: ${answers.q3_2||'-'}\nQ3-3 업무 연결: ${answers.q3_3||'-'}\n\n[Q4: 어떻게 기여]\nQ4-1 동기→역량→기여: ${answers.q4_1||'-'}\nQ4-2 회사 과제 연결: ${answers.q4_2||'-'}\n\n[3라운드 연결]\nQ1→Q2: ${answers.connect_q1q2||'-'}\nQ2→Q3: ${answers.connect_q2q3||'-'}\nQ3→Q4: ${answers.connect_q3q4||'-'}`;
 
   const canGoNext = () => { if (currentPhase === 'evaluation') return selectedSteps.length >= 1; return true; };
-  const progress = currentPhase === 'round1' ? ((currentStep + 1) / round1Steps.length) * 33 : currentPhase === 'round2' ? 33 + ((currentStep + 1) / Math.max(selectedSteps.length, 1)) * 33 : 66 + ((currentStep + 1) / round3Questions.length) * 34;
+  // 진행률은 현재 단계가 아니라 실제 작성한 답변 기반
+  const ALL_ANS_KEYS = ['q1_1','q1_2','q1_3','q2_1','q2_2','q3_1','q3_2','q3_3','q4_1','q4_2','connect_q1q2','connect_q2q3','connect_q3q4'];
+  const progress = Math.round(ALL_ANS_KEYS.filter((k) => (answers[k] || '').trim().length > 1).length / ALL_ANS_KEYS.length * 100);
 
   // ══════════════════════════════════════════════════════════════
   //  스타일 (careerengineer-theme.js 기반)

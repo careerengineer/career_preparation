@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
 import { exportFullBackupFiles } from '../store/docExport.js';
+import { syncLegacyFromMaster } from '../store/legacySync.js';
 import { COLORS, FONT, SPACING, RULE } from '../shared/design/tokens.js';
 
 export default function CompanySlots() {
@@ -33,8 +34,12 @@ export default function CompanySlots() {
   const handleLoad = (name) => {
     if (!window.confirm(`'${name}' 저장본의 데이터로 현재 작업을 교체합니다.\n현재 작업이 사라질 수 있으니, 먼저 별도 저장본에 저장하거나 백업하세요.\n계속할까요?`)) return;
     try {
+      const slotMaster = getCompanySlotMaster(name);
       loadCompanySlot(name);
-      showToast(`'${name}' 저장본을 불러왔습니다.`);
+      // 각 워크북 legacy storage까지 동기화해야 워크북 화면에 내용이 반영됨
+      syncLegacyFromMaster(slotMaster);
+      showToast(`'${name}' 저장본을 불러왔습니다. 페이지를 새로고침합니다…`);
+      setTimeout(() => window.location.reload(), 1200);
     } catch (e) { showToast('오류: ' + e.message); }
   };
 
@@ -138,6 +143,10 @@ export default function CompanySlots() {
           저장본은 <strong>이 브라우저에만</strong> 저장됩니다.
           다른 기기에서 열거나 캐시를 지우면 사라지니, <strong>[전체 저장본 백업]</strong>으로 파일을 받아두십시오.
           그 파일을 [저장본 백업 불러오기]에 올리면 그대로 복원됩니다.
+        </p>
+        <p style={{ margin: '8px 0 0', fontSize: 16, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
+          · <strong>[불러오기]</strong>: 이 저장본을 지금 바로 작업 화면에 적용합니다(가장 간편).<br />
+          · <strong>[이 저장본 저장 (.docx+.xlsx)]</strong>: 외부 백업용 파일입니다. 복원할 때는 상단 <strong>[가져오기]</strong>로 그 파일을 올리면 됩니다.
         </p>
       </div>
 

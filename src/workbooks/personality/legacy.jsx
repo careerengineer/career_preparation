@@ -947,7 +947,9 @@ const PersonalityWorkbook = () => {
   };
 
   const canGoNext = () => { if (currentPhase === 'evaluation') return selectedSteps.length >= 1; return true; };
-  const progress = currentPhase === 'round1' ? ((currentStep + 1) / round1Steps.length) * 33 : currentPhase === 'round2' ? 33 + ((currentStep + 1) / Math.max(selectedSteps.length, 1)) * 33 : 66 + ((currentStep + 1) / round3Questions.length) * 34;
+  // 진행률은 현재 단계가 아니라 실제 작성한 핵심 답변 기반
+  const ALL_ANS_KEYS = ['q1_1','q1_2','q1_3','q1_4','q1_5','q1_6','q1_7','q2_1','q2_2','q2_3','q2_4','connect_adv_core','connect_adv_evidence','connect_adv_contribution','connect_dis_growth','connect_dis_recognition'];
+  const progress = Math.round(ALL_ANS_KEYS.filter((k) => (answers[k] || '').trim().length > 1).length / ALL_ANS_KEYS.length * 100);
 
 
   // ══════════ 스타일 객체 (공식 브랜드 토큰 기반) ══════════

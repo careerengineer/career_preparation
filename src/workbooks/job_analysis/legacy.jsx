@@ -672,6 +672,40 @@ const FORMS = [
   }
 ];
 
+// 각 분석 항목별 "작성 예시" — 지원자가 막힐 때 참고용 (품질관리 엔지니어 예시 기준).
+// 채용공고의 실제 용어로 바꿔 적는 것이 핵심.
+const FIELD_EXAMPLES = {
+  keywords: '예: "공정능력(Cpk)", "4M 변경관리", "IATF 16949", "고객 클레임 대응", "양산 품질" — 10개 공고에서 3회 이상 반복된 단어를 고른다.',
+  term_meaning: '예: APQP = 양산 전 품질을 미리 계획·검증하는 절차. PPAP = 양산 승인용 제출 서류. → 공고 용어를 모르면 그 직무를 모르는 것. AI에게 "OO 직무에서 OO 용어의 실무적 의미"를 물어 정리한다.',
+  work_flow: '예: (입고검사) 협력사 부품 수입검사 → (공정검사) 라인 순회·SPC 모니터링 → (출하검사) 최종 샘플링 → 협업: 생산/구매/개발팀, 산출물: 검사성적서·부적합보고서(8D).',
+  daily_vs_periodic: '예: [매일] 라인 순회점검·불량 데이터 입력 / [주간] 부적합 회의 / [분기] 공정능력 재평가·내부심사 / [연간] IATF 갱신심사 대응.',
+  required_must: '공고 원문을 그대로 붙여넣기. 예: "기계공학 전공 또는 품질 직무 경험, 통계적 공정관리(SPC) 이해, MS Office 활용 가능".',
+  required_plus: '예: "IATF 16949 내부심사원 자격, 6시그마 GB 이상, 자동차 부품사 경험 우대". — 우대는 합격 가산점이지 필수가 아님.',
+  my_match_must: '각 요건에 O/△/X와 증거를 붙인다. 예: "SPC 이해 → O (학부 통계 프로젝트에서 관리도 직접 작성)", "품질 직무 경험 → △ (인턴 1개월, 정식 경력 아님)".',
+  my_match_plus: '예: "6시그마 GB → X (미보유, 학습 예정)", "자동차 부품사 경험 → △ (공모전에서 부품 데이터 분석)". X가 많아도 솔직하게 — 보완계획이 더 중요.',
+  gap_plan: '예: "SPC 부족 → 2주간 Minitab 무료강의 + 관리도 실습 3건. IATF 용어 → 1주차에 핵심 8개 용어 정리." 막연한 "공부하기"가 아니라 측정 가능하게.',
+  vision: '기업 IR/채용페이지에서 그대로. 예: "친환경 모빌리티 부품으로 글로벌 Top3 도약" → 내 지원동기와 연결할 한 문장을 찾는다.',
+  recent_investment: '예: "전기차용 구동모터 신공장 증설(2025), 배터리 부품 R&D 인력 확대" — 투자처 = 회사가 사람을 더 뽑을 영역.',
+  value_chain: '예: "완성차에 부품을 납품하는 1차 협력사(Tier1). 원자재→가공→조립→납품 중 \'조립·품질보증\' 단계 담당."',
+  competitors: '예: "OO정밀(원가 경쟁력), △△산업(기술 특허) — 우리 회사는 납기·품질 신뢰도로 경쟁." 경쟁 포인트까지 적어야 차별화가 보인다.',
+  recent_news: '검증된 것만. 예: "2025.3 OO완성차와 5년 장기공급 계약 체결(보도자료)". 출처 없는 추측은 면접에서 위험.',
+  culture: '현직자 콘텐츠(블라인드·잡플래닛·링크드인) 기반. 예: "데이터로 말하는 문화, 부적합은 개인 탓이 아니라 시스템으로 개선." 추측 말고 근거와 함께.',
+  energy_check: '예: "[올라감] 불량 원인을 데이터로 파고들어 재발방지까지 / [빠짐] 같은 서류를 반복 작성하는 행정업무." 솔직할수록 직무 적합성 판단이 정확.',
+  mismatch_reasons: '예: "1) 반복·정형 업무 비중이 높음 2) 생산현장 야간대응 가능성 3) 빠른 신제품보다 안정·표준 중시." 단점을 알아야 면접에서 흔들리지 않음.',
+  no_performance: '예: "데이터가 정리 안 된 환경에서 혼자 수작업해야 할 때, 부서간 협조가 안 될 때 성과가 안 남." → 입사 후 미리 대비할 지점.',
+  '5year_view': '예: "5년 후 품질 데이터 기반으로 공정을 개선하는 전문가가 되고 싶다 → 이 직무는 그 경로에 가깝다(O)." 가까워지면 지원, 멀어지면 재검토.',
+  quit_reasons: '예: "1) 현장 스트레스 2) 성장 정체감 3) 보상 — 이 중 1·2는 내가 데이터 역량으로 차별화하면 극복 가능하다고 판단." AI 조사 + 내 판단을 함께.',
+  resume_keywords: '예: "SPC / 8D / IATF 16949 / 공정능력분석 / 데이터분석 — \'기술스택\'과 \'경험\' 섹션에 배치." 공고 키워드를 이력서에 그대로 노출시키는 게 핵심.',
+  essay_angle: '예: "남들은 \'꼼꼼하다\'로 끝낼 때, 나는 \'불량을 데이터로 정의→재발방지 표준화\'한 경험으로 차별화한다." 한 줄 앵글을 먼저 정한다.',
+  interview_reverse_q: '예: "1) 입사 후 6개월간 가장 먼저 익혀야 할 품질 지표는? 2) 팀의 가장 큰 품질 과제는? 3) 신입에게 기대하는 1년 차 모습은?" 회사를 조사했다는 신호.',
+  portfolio_format: '예: "PDF 10p 이내. 표지-요약-작업 3건-연락처 구성. 직무상세내용 요구 기술을 목차 키워드로." 형식부터 직무에 맞춘다.',
+  jd_skills: '직무상세내용을 그대로 리스트업. 예: "Minitab, SPC, 통계분석, 도면 해독, 측정기(CMM) 운용".',
+  portfolio_works: '예: "1) 공정 불량률 분석(관리도로 원인 규명) 2) 수입검사 데이터 대시보드 3) 8D 재발방지 사례." 제목+한 줄 설명으로.',
+  mapping: '예: "요구 \'SPC\' ↔ 내 작업1(관리도 분석), 요구 \'데이터분석\' ↔ 작업2(대시보드)." 요구사항마다 내 근거를 1:1로 연결.',
+  gaps: '예: "요구 \'CMM 측정기 운용\'은 내 포폴에 없음 → 면접에서 \'학습 의지\'로 보완 멘트 준비." 빈칸을 미리 알아야 질문에 대비.',
+  showcase_plan: '예: "상위 3개는 [상황→내가 한 일→수치 성과→배운 점] 4단계로 1p씩. 특히 성과는 \'불량률 2.1%→0.7%\'처럼 숫자로." 과정과 수치 중심.',
+};
+
 const PERSONAS = {
   "A": {
     "title": "문과/비전공 전환자",
@@ -899,6 +933,7 @@ const JobAnalysisWorkbook = () => {
 
   const [jobPostings, setJobPostings] = useState([{ id: Date.now() }]);
   const [formAnswers, setFormAnswers] = useState({});
+  const [showExamples, setShowExamples] = useState({}); // 항목별 "예시 보기" 토글
 
   const [editingFormId, setEditingFormId] = useState(null);
 
@@ -2126,6 +2161,22 @@ const JobAnalysisWorkbook = () => {
                     <div key={f.key} style={{ borderLeft: `3px solid ${COLORS.accent2}`, paddingLeft: SPACING.md }}>
                       <label style={S.label}>{f.label}</label>
                       {f.hint && <p style={S.hint}>{f.hint}</p>}
+                      {FIELD_EXAMPLES[f.key] && (
+                        <div style={{ marginBottom: SPACING.sm }}>
+                          <button
+                            type="button"
+                            onClick={() => setShowExamples(p => ({ ...p, [f.key]: !p[f.key] }))}
+                            style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: COLORS.accent2, fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, fontFamily: 'inherit' }}
+                          >
+                            {showExamples[f.key] ? '예시 숨기기 ▲' : '작성 예시 보기 ▼'}
+                          </button>
+                          {showExamples[f.key] && (
+                            <p style={{ margin: '6px 0 0', padding: SPACING.sm, background: COLORS.yellowBg, borderLeft: `3px solid ${COLORS.yellow}`, borderRadius: RADIUS.base, fontSize: FONT.size.sm, color: COLORS.accent, lineHeight: FONT.lineHeight.base, whiteSpace: 'pre-wrap' }}>
+                              {FIELD_EXAMPLES[f.key]}
+                            </p>
+                          )}
+                        </div>
+                      )}
                       <textarea className="ce-textarea" value={answers[f.key] || ''} onChange={e => setFormAnswer(form.id, f.key, e.target.value)} rows={f.rows || 3} style={S.textarea} placeholder={f.placeholder || ''} />
                     </div>
                   );

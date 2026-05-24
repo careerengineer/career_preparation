@@ -1767,7 +1767,8 @@ const NewInterviewWorkbook = () => {
   const toggleGuide = (id) => setShowExample(p => ({ ...p, [id]: !p[id] }));
 
   const q = QUESTIONS[currentIdx];
-  const progress = ((currentIdx + 1) / QUESTIONS.length) * 100;
+  // 진행률은 현재 위치가 아니라 실제 작성한 내용 기반 (질문별 0~4단계 합 / 만점)
+  const progress = (QUESTIONS.reduce((s, qq) => s + getQuestionStatus(qq), 0) / (QUESTIONS.length * 4)) * 100;
 
   const partGroups = QUESTIONS.reduce((acc, qq) => {
     if (!acc[qq.part]) acc[qq.part] = [];
