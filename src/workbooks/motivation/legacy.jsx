@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { AnswerQualityCheck, JdBridgeGuide } from '../../shared/components/AnswerQualityCheck.jsx';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
+import { buildWorkbookBackupParagraphs, buildWorkbookPayload } from '../../store/docxBackup.js';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 // ══════════════════════════════════════════════════════════════
@@ -491,6 +492,12 @@ const MotivationWorkbook = () => {
         indent: { left: 240 }
       }));
       children.push(linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
+
+      // 결과물 docx에 복원용 백업 동봉 → 이 파일 그대로 "기존 지원동기 불러오기"로 재import 가능
+      try {
+        const payload = buildWorkbookPayload('motivation', '지원동기', 'careerengineer_motivation_v1');
+        children.push(...buildWorkbookBackupParagraphs(docxLib, payload));
+      } catch (e) { console.warn('[motivation] backup embed skipped:', e); }
 
       const doc = new Document({
         creator: '',
