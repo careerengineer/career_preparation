@@ -25,9 +25,14 @@ export function ExportImportBar() {
     } catch (e) { showToast('오류: ' + e.message); }
   };
   const handleExportRestDocx = async () => {
+    const hasExp = (master.experiences || []).length > 0;
+    const msg = hasExp
+      ? '"전체내용 저장(.docx)"은 읽기·제출용 통합 문서입니다.\n\n경험정리는 이 파일에 포함되지 않습니다 → 경험정리는 "경험 정리 저장(.xlsx)"로 따로 저장하세요.\n\n나중에 다시 불러올 백업이 목적이면 "완전 백업(.json)" 하나면 전부 복원됩니다.\n\n계속할까요?'
+      : '"전체내용 저장(.docx)"은 읽기·제출용 통합 문서입니다.\n\n다시 불러올 백업이 목적이면 "완전 백업(.json)"을 사용하세요.\n\n계속할까요?';
+    if (!window.confirm(msg)) return;
     try {
       const name = await exportFullDocx(master, { excludeExperiences: true });
-      showToast(`나머지 전체: ${name}`);
+      showToast(hasExp ? `저장 완료: ${name} · 경험정리는 .xlsx로 따로 저장하세요` : `저장 완료: ${name}`);
     } catch (e) { showToast('오류: ' + e.message); }
   };
 
@@ -168,6 +173,7 @@ export function ExportImportBar() {
   };
 
   return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
     <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap' }}>
       <button onClick={handleImportClick} style={btnStyle}>가져오기 (.json/.xlsx/.docx)</button>
       <button onClick={handleExportXlsx} style={btnStyle}>경험 정리 저장 (.xlsx)</button>
@@ -205,6 +211,11 @@ export function ExportImportBar() {
           onCancel={() => setConflictState(null)}
         />
       )}
+    </div>
+    <p style={{ fontSize: 14, color: COLORS.sub, margin: 0, textAlign: 'right', lineHeight: 1.6, maxWidth: 560 }}>
+      나중에 다시 불러오려면 <strong>완전 백업(.json)</strong>이 가장 안전합니다(전부 한 파일).
+      전체내용 저장(.docx)은 읽기·제출용이며 <strong>경험정리는 경험 정리 저장(.xlsx)로 따로</strong> 저장하세요.
+    </p>
     </div>
   );
 }
