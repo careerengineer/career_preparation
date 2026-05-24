@@ -5,6 +5,7 @@ import JSZip from 'jszip';
 import { ALL_WORKBOOKS as WORKBOOKS, APP_VERSION } from './schema.js';
 import { formatComps } from './comps.js';
 import { buildCopyrightParagraphs, COPYRIGHT_TITLE, COPYRIGHT_TEXT, COPYRIGHT_MARK } from './docxBackup.js';
+import { LEGACY_KEYS } from './legacySync.js';
 
 // 본문 끝 부록 영역에 base64로 백업 JSON을 임베드.
 // docx 표준 구조 그대로 유지 → Word/한글 정상 표시 + import 시 추출 가능.
@@ -267,6 +268,18 @@ export async function exportWorkbookDocx(master, workbookKey, workbookTitle) {
   const meta = WORKBOOKS.find((w) => w.key === workbookKey);
   const title = workbookTitle || meta?.title || workbookKey;
 
+  // master.workbookRaw는 Bridge가 1.5초마다 동기화하므로, 방금 선택/입력한 내용이
+  // 아직 반영 안 됐을 수 있다. 저장 시점에 해당 워크북의 legacy localStorage를 직접 읽어
+  // 가장 최신 내용(예: 로드맵 ans)을 백업에 담는다.
+  let freshRaw = null;
+  try {
+    const lk = LEGACY_KEYS[workbookKey];
+    if (lk) { const v = localStorage.getItem(lk); if (v) freshRaw = JSON.parse(v); }
+  } catch { freshRaw = null; }
+  const raw = (freshRaw && Object.keys(freshRaw).length > 0)
+    ? freshRaw
+    : (master.workbookRaw?.[workbookKey] || null);
+
   const payload = {
     format: 'careerengineer-workbook-export',
     version: 1,
@@ -277,7 +290,7 @@ export async function exportWorkbookDocx(master, workbookKey, workbookTitle) {
     data: {
       workbookKey,
       profile: master.profile,
-      raw: master.workbookRaw?.[workbookKey] || null,
+      raw,
       output: master.outputs?.[workbookKey] || null,
       roadmap: workbookKey === 'career_roadmap' ? master.roadmap : undefined,
       careergoal: workbookKey === 'careergoal' ? master.careergoal : undefined,
