@@ -122,7 +122,7 @@ export const VARIANTS = {
       title: '서류를 마쳤다면, 다음은 신입 면접입니다',
       body: '서류 통과 후에는 면접이 기다립니다. 신입 면접 멘토링과 1:1 컨설팅, 가이드 워크북으로 실전까지 대비하세요.',
       links: [
-        { label: '신입 면접 멘토링 (PT면접 포함)', url: 'https://www.latpeed.com/products/tZ5xw' },
+        { label: '신입 면접 멘토링 (PT면접 포함)', url: 'https://www.latpeed.com/products/fKnUV' },
         { label: '1:1 1시간 컨설팅', url: 'https://www.latpeed.com/products/S92cP' },
         { label: '신입 면접 멘토링 가이드 & 워크북', url: 'https://www.latpeed.com/products/H7UHo' },
       ],
