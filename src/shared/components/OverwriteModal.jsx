@@ -61,7 +61,7 @@ export function OverwriteModal({ conflicts, onReplace, onBackupAndReplace, onCan
 
         <div style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
           <button onClick={onCancel} style={btnGhost}>취소</button>
-          <button onClick={onReplace} style={btnSecondary}>그대로 교체</button>
+          <button onClick={onReplace} style={btnSecondary}>백업 없이 교체</button>
           <button onClick={onBackupAndReplace} style={btnPrimary}>현재 백업 후 교체</button>
         </div>
       </div>
