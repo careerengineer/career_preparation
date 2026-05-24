@@ -6,6 +6,7 @@
 //   { type: 'jobAnalysis', field: 'success_signals', label: '회사 성공 신호' }
 //   { type: 'outputs', workbookKey: 'motivation', field: 'finalText', label: '지원동기 완성본' }
 //   { type: 'careergoal', field: 'year5', label: '5년 목표' }
+import { formatComps } from './comps.js';
 
 export const QUESTION_MAPPING = {
   // ─── motivation 지원동기 ───
@@ -104,7 +105,7 @@ export function resolveMappedData(master, source) {
         const v = e[field];
         if (!v) return null;
         const header = `[${e.org || e.category || '경험'}${e.role ? ' · ' + e.role : ''}]`;
-        if (Array.isArray(v)) return `${header} ${v.join(', ')}`;
+        if (Array.isArray(v)) return `${header} ${formatComps(v)}`;
         return `${header} ${v}`;
       })
       .filter(Boolean);
