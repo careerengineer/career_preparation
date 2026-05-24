@@ -2,6 +2,25 @@ import { useEffect, useState, useMemo } from 'react';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { QUESTION_LABELS } from '../../store/questionLabels.js';
 
+// 코드성/내부용 키 — 미리보기에 노출하지 않음 (지원자에게 의미 없음)
+const NOISE_KEYS = new Set(['savedAt', 'completedAt', 'quizAnswers', 'scores', 'basicInfo', 'phase', 'version', 'id', 'persona']);
+
+// 객체를 사람이 읽을 수 있는 텍스트로 (JSON 코드 덤프 방지)
+function readable(obj) {
+  if (obj == null) return '';
+  if (typeof obj !== 'object') return String(obj);
+  if (Array.isArray(obj)) {
+    return obj.map((v) => (typeof v === 'object' ? readable(v) : String(v))).filter(Boolean).join(', ');
+  }
+  const lines = [];
+  for (const [k, v] of Object.entries(obj)) {
+    if (NOISE_KEYS.has(k) || v == null || v === '') continue;
+    const inner = typeof v === 'object' ? readable(v) : String(v).trim();
+    if (inner) lines.push(`${k}: ${inner}`);
+  }
+  return lines.join('\n');
+}
+
 // item 종류별로 적절한 텍스트 추출
 function extractText(item) {
   if (!item) return '';
@@ -45,13 +64,13 @@ function extractText(item) {
     if (ja.success_signals) lines.push(`\n[성공 신호]\n${ja.success_signals}`);
     if (ja.my_experience_pool) lines.push(`\n[내 경험 풀]\n${ja.my_experience_pool}`);
     if (ja.connection_sentences) lines.push(`\n[연결 문장]\n${ja.connection_sentences}`);
-    return lines.join('\n') || JSON.stringify(ja, null, 2);
+    return lines.join('\n') || readable(ja);
   }
 
   if (kind.startsWith('output_')) {
     if (data.finalText) return data.finalText;
-    if (data.answers) return JSON.stringify(data.answers, null, 2);
-    return JSON.stringify(data, null, 2);
+    if (data.answers) return readable(data.answers);
+    return readable(data);
   }
 
   if (kind.startsWith('raw_')) {
@@ -78,10 +97,10 @@ function extractText(item) {
     if (raw.finalText) {
       lines.push(`\n[완성본]\n${raw.finalText}`);
     }
-    return lines.join('\n') || JSON.stringify(raw, null, 2);
+    return lines.join('\n') || readable(raw);
   }
 
-  return JSON.stringify(data, null, 2);
+  return readable(data);
 }
 
 export function ImportPreviewModal({ item, onClose }) {
