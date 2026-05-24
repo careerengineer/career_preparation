@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 
+import { JobSituationGuide } from '../../shared/components/JobSituationGuide.jsx';
+
 // [Phase A-3] 세부 단계(stages) 답변을 최종 답변 작성 전에 모아 보여주는 박스
 function Part2DigestBox({ q, answers }) {
   const hasAny = (q.stages || []).some((s, si) =>
@@ -2168,6 +2170,8 @@ const NewInterviewWorkbook = () => {
               <h1 style={S.h1Center}>질문 목록</h1>
               <p style={{ ...S.subtitle, textAlign: 'center' }}>원하는 질문을 눌러 바로 이동하세요 · 최종답변 {answeredCount}/{QUESTIONS.length}문항 완료</p>
             </div>
+
+            <JobSituationGuide />
 
             <div style={S.boxTip}>
               <p style={{ ...labelStyle(COLORS.yellow), marginBottom: SPACING.sm }}>TIP · 작성 순서</p>
