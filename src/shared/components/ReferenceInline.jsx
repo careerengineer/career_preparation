@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { ALL_WORKBOOKS as WORKBOOKS } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
-import { ImportPreviewModal, extractText } from './ImportPreviewModal.jsx';
-import { insertIntoFocusedField } from '../utils/fieldInsert.js';
+import { ImportPreviewModal } from './ImportPreviewModal.jsx';
 import { QUESTION_MAPPING, resolveMappedData } from '../../store/questionMapping.js';
 
 // 각 워크북의 질문 옆에 표시 — 이 질문과 관련된 다른 워크북의 작성 내용을 칩으로 노출.
@@ -15,15 +14,9 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
   const [expanded, setExpanded] = useState(false);
   const [toast, setToast] = useState(null);
 
-  // 칩 클릭 → 직전에 작성 중이던 답변칸에 바로 삽입. 포커스된 칸이 없으면 미리보기(복사)로.
-  const handleChipClick = (it) => {
-    const text = extractText(it);
-    if (insertIntoFocusedField(text)) {
-      setToast('참고 내용을 입력칸에 넣었습니다');
-      setTimeout(() => setToast(null), 2500);
-    } else {
-      setPreview(it);
-    }
+  const showInsertedToast = () => {
+    setToast('참고 내용을 입력칸에 넣었습니다');
+    setTimeout(() => setToast(null), 2500);
   };
 
   // 질문 id 매핑이 있으면 정확한 필드 데이터를 칩으로 노출
@@ -171,8 +164,8 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
         {visibleItems.map((it, idx) => (
           <button
             key={it.id || it.kind + idx}
-            onClick={() => handleChipClick(it)}
-            title="클릭하면 작성 중인 답변칸에 바로 삽입됩니다"
+            onClick={() => setPreview(it)}
+            title="클릭하면 내용을 미리 보고 답변칸에 넣을 수 있습니다"
             style={{
               background: it.kind === 'mapped' ? COLORS.bgAlt : COLORS.white,
               border: `1px solid ${it.kind === 'mapped' ? COLORS.accent2 : COLORS.line}`,
@@ -204,7 +197,7 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
           </button>
         )}
       </div>
-      {preview && <ImportPreviewModal item={preview} onClose={() => setPreview(null)} />}
+      {preview && <ImportPreviewModal item={preview} onClose={() => setPreview(null)} onInserted={showInsertedToast} />}
       {toast && (
         <div style={{
           position: 'fixed', bottom: SPACING.lg, left: '50%', transform: 'translateX(-50%)',
