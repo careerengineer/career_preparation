@@ -3,6 +3,60 @@ import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 
+// [Phase A-3] 세부 단계(stages) 답변을 최종 답변 작성 전에 모아 보여주는 박스
+function Part2DigestBox({ q, answers }) {
+  const hasAny = (q.stages || []).some((s, si) =>
+    s.questions.some((_, qi) => answers[`${q.label}_s${si}_q${qi}`]?.trim())
+  );
+  if (!hasAny) return null;
+  return (
+    <div style={{ background: COLORS.bgAlt, borderRadius: RADIUS.base, padding: SPACING.md, marginBottom: SPACING.sm, borderLeft: `3px solid ${COLORS.accent2}` }}>
+      <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: SPACING.sm }}>
+        세부 질문에 적은 내용 모음 · 이 키워드들을 연결해 최종 답변을 만들어 보세요
+      </p>
+      {q.stages.map((stage, si) => {
+        const items = stage.questions
+          .map((_, qi) => answers[`${q.label}_s${si}_q${qi}`])
+          .filter((a) => a && a.trim());
+        if (items.length === 0) return null;
+        return (
+          <div key={si} style={{ marginBottom: SPACING.sm }}>
+            <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.semibold, color: COLORS.accent2, margin: 0, marginBottom: 4 }}>[{stage.name}]</p>
+            {items.map((a, idx) => (
+              <p key={idx} style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, marginBottom: 2, paddingLeft: 8, lineHeight: 1.6 }}>· {a}</p>
+            ))}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// [Phase A-5] 최종 답변 내용 기반 규칙형 꼬리질문 (콘텐츠 작성 불필요)
+function DynamicTailQuestions({ finalAnswer }) {
+  if (!finalAnswer || finalAnswer.length < 50) return null;
+  const detected = [];
+  if (/\d+\s*[%개건명년원배점]/.test(finalAnswer)) detected.push({ q: '그 수치는 어떻게 측정한 건가요?', tip: '측정 방법과 비교 대상(전·후, 목표 대비)을 준비하세요' });
+  if (/팀|협업|함께|동료/.test(finalAnswer)) detected.push({ q: '팀 안에서 본인의 구체적인 역할은 무엇이었나요?', tip: '본인이 주도한 부분과 협업한 부분을 구분해 답변' });
+  if (/데이터|분석|지표/.test(finalAnswer)) detected.push({ q: '구체적으로 어떤 데이터를 어떤 도구로 다뤘나요?', tip: '도구명·데이터 규모·분석 방법을 구체적으로' });
+  if (/리더|주도|이끌|설득/.test(finalAnswer)) detected.push({ q: '의견이 갈렸을 때 어떻게 설득했나요?', tip: '구체적인 대화 사례나 데이터로 설득한 경험' });
+  if (/실패|어려움|문제|갈등/.test(finalAnswer)) detected.push({ q: '그때 가장 힘들었던 점과 어떻게 극복했나요?', tip: '극복 과정에서의 본인 행동을 구체적으로' });
+  if (detected.length === 0) return null;
+  return (
+    <div style={{ background: COLORS.bgAlt, borderRadius: RADIUS.base, padding: SPACING.md, marginTop: SPACING.sm, borderLeft: `3px solid ${COLORS.accent}` }}>
+      <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: SPACING.sm }}>
+        내 답변에서 예상되는 추가 꼬리질문
+      </p>
+      {detected.map((t, i) => (
+        <div key={i} style={{ marginBottom: SPACING.sm }}>
+          <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: 2 }}>꼬리질문: "{t.q}"</p>
+          <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: 0, fontStyle: 'italic' }}>준비 Tip: {t.tip}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 // ══════════════════════════════════════════════════════════════
 //  CareerEngineer 공식 디자인 토큰 (PART 7-2)
@@ -2463,6 +2517,7 @@ const NewInterviewWorkbook = () => {
                 )}
               </div>
             )}
+            <Part2DigestBox q={q} answers={answers} />
             <textarea
               className="ce-textarea"
               value={answers[`${q.label}_final`] || ''}
@@ -2477,14 +2532,15 @@ const NewInterviewWorkbook = () => {
           </div>
 
           {/* ─── Step 4: 꼬리질문 대비 ─── */}
-          {q.tails && q.tails.length > 0 && (
+          {((q.tails && q.tails.length > 0) || (answers[`${q.label}_final`] || '').length >= 50) && (
             <div style={{ marginBottom: SPACING.lg }}>
               <label style={{ ...S.label, display: 'flex', alignItems: 'center' }}>
                 <span style={stepBadge(4)}>PART 4</span>
                 예상 꼬리질문 대비
               </label>
+              <DynamicTailQuestions finalAnswer={answers[`${q.label}_final`]} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.sm }}>
-                {q.tails.map((t, ti) => (
+                {(q.tails || []).map((t, ti) => (
                   <div key={ti} style={{ background: COLORS.bgAlt, padding: SPACING.md, borderRadius: RADIUS.base }}>
                     <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: 4 }}>꼬리질문: "{t.q}"</p>
                     {t.tip && <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: 0, marginBottom: SPACING.sm, fontStyle: 'italic' }}>준비 Tip: {t.tip}</p>}
