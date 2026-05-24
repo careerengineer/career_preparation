@@ -1,5 +1,5 @@
 import { useDataStore } from '../store/DataContext.jsx';
-import { WORKBOOKS } from '../store/schema.js';
+import { WORKBOOKS, VARIANT_LABEL } from '../store/schema.js';
 import { getWorkbookProgress, getStepProgress } from '../store/selectors.js';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS, RULE } from '../shared/design/tokens.js';
 import { ExportImportBar } from '../shared/components/ExportImportBar.jsx';
@@ -9,7 +9,7 @@ import StepCard from './StepCard.jsx';
 import NextActionCard from './NextActionCard.jsx';
 import CompanySlots from './CompanySlots.jsx';
 
-const STEPS = [
+const ALL_STEPS = [
   { n: 0, name: '방향 설정' },
   { n: 1, name: '채용공고 분석' },
   { n: 2, name: '경험 소재 발굴' },
@@ -17,6 +17,8 @@ const STEPS = [
   { n: 4, name: '자소서 작성' },
   { n: 5, name: '면접 준비' },
 ];
+// variant에 포함된 워크북이 있는 STEP만 노출
+const STEPS = ALL_STEPS.filter((s) => WORKBOOKS.some((w) => w.step === s.n));
 
 export default function Dashboard() {
   const { master } = useDataStore();
@@ -52,6 +54,17 @@ export default function Dashboard() {
               }}>
                 Career<span style={{ color: COLORS.goldDeep }}>Engineer</span>
               </h1>
+              {VARIANT_LABEL && (
+                <span style={{
+                  alignSelf: 'center',
+                  background: COLORS.accent, color: COLORS.white,
+                  fontSize: 18, fontWeight: FONT.weight.bold,
+                  padding: '6px 14px', borderRadius: RADIUS.pill,
+                  letterSpacing: '-0.2px', whiteSpace: 'nowrap',
+                }}>
+                  {VARIANT_LABEL}
+                </span>
+              )}
             </div>
             {/* H2: 슬로건 */}
             <p style={{

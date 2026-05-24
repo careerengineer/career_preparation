@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
-import { WORKBOOKS } from '../../store/schema.js';
+import { ALL_WORKBOOKS as WORKBOOKS } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { ImportPreviewModal } from './ImportPreviewModal.jsx';
 import { QUESTION_MAPPING, resolveMappedData } from '../../store/questionMapping.js';

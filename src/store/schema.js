@@ -82,7 +82,8 @@ export const DEFAULT_MASTER = {
   },
 };
 
-export const WORKBOOKS = [
+// 전체 워크북 (full 대시보드). variant가 없으면 이 전체가 노출됨.
+export const ALL_WORKBOOKS = [
   { key: 'career_roadmap',     step: 0, title: '취업 로드맵',     stepLabel: 'STEP 0 · 방향 설정' },
   { key: 'job_analysis',       step: 1, title: '채용공고·직무 분석', stepLabel: 'STEP 1 · 채용공고 분석' },
   { key: 'experience',         step: 2, title: '경험 정리',       stepLabel: 'STEP 2 · 경험 소재 발굴' },
@@ -97,3 +98,42 @@ export const WORKBOOKS = [
   { key: 'interview_new',      step: 5, title: '신입 면접',       stepLabel: 'STEP 5 · 면접: 신입' },
   { key: 'interview_career',   step: 5, title: '경력직 면접',     stepLabel: 'STEP 5 · 면접: 경력직' },
 ];
+
+// 변형(variant)별 노출 워크북 키 + 라벨.
+// 빌드 시 VITE_VARIANT 값으로 선택 (예: 변형 브랜치의 .env.production).
+// 값이 없거나 모르는 값이면 전체(ALL_WORKBOOKS) 노출.
+export const VARIANTS = {
+  shinip: {
+    label: '신입 전용',
+    keys: ['career_roadmap', 'job_analysis', 'experience', 'resume',
+      'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement',
+      'self_introduction', 'interview_new'],
+  },
+  gyeongnyeok: {
+    label: '경력 전용',
+    keys: ['career_roadmap', 'job_analysis', 'experience', 'resume', 'career_description',
+      'self_introduction', 'interview_career'],
+  },
+  seoryu: {
+    label: '서류 전용',
+    keys: ['job_analysis', 'experience', 'resume', 'career_description',
+      'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement'],
+  },
+  interview_shinip: {
+    label: '신입 면접 전용',
+    keys: ['experience', 'self_introduction', 'interview_new'],
+  },
+  interview_gyeongnyeok: {
+    label: '경력 면접 전용',
+    keys: ['experience', 'career_description', 'self_introduction', 'interview_career'],
+  },
+};
+
+const RAW_VARIANT = (typeof import.meta !== 'undefined' && import.meta.env)
+  ? import.meta.env.VITE_VARIANT : undefined;
+export const VARIANT = (RAW_VARIANT && VARIANTS[RAW_VARIANT]) ? RAW_VARIANT : null;
+export const VARIANT_LABEL = VARIANT ? VARIANTS[VARIANT].label : null;
+
+export const WORKBOOKS = VARIANT
+  ? ALL_WORKBOOKS.filter((w) => VARIANTS[VARIANT].keys.includes(w.key))
+  : ALL_WORKBOOKS;

@@ -2,7 +2,7 @@ import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Page
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import JSZip from 'jszip';
-import { WORKBOOKS, APP_VERSION } from './schema.js';
+import { ALL_WORKBOOKS as WORKBOOKS, APP_VERSION } from './schema.js';
 
 // 본문 끝 부록 영역에 base64로 백업 JSON을 임베드.
 // docx 표준 구조 그대로 유지 → Word/한글 정상 표시 + import 시 추출 가능.
