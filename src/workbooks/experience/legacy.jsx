@@ -2027,6 +2027,25 @@ const ExperienceWorkbook = () => {
             </button>
           )}
         </div>
+        {/* 전체 경험 평면 목록 — 카테고리 매칭과 무관하게 항상 표시 (불러온 경험이 무조건 보이도록) */}
+        {experiences.length > 0 && (
+          <div style={{ background: COLORS.white, border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.md, padding: SPACING.md, marginBottom: SPACING.lg }}>
+            <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: SPACING.sm }}>전체 경험 목록 ({experiences.length})</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {experiences.map((e, idx) => {
+                const status = getExpStatus(e);
+                return (
+                  <div key={e.id || idx} style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm, padding: `${SPACING.xs}px ${SPACING.sm}px`, background: COLORS.bgAlt, borderRadius: RADIUS.sm }}>
+                    <span style={{ fontSize: FONT.size.xs, color: status.color, background: status.bg, padding: '2px 6px', borderRadius: RADIUS.sm, fontWeight: FONT.weight.semibold, flexShrink: 0 }}>{status.label}</span>
+                    <span style={{ fontSize: FONT.size.xs, color: COLORS.sub, flexShrink: 0, maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.category || '미분류'}</span>
+                    <span style={{ fontSize: FONT.size.sm, color: COLORS.accent, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.org || e.summary || `경험 ${idx + 1}`}</span>
+                    <button onClick={() => editExperience(e.id)} style={{ background: 'transparent', border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.sm, cursor: 'pointer', color: COLORS.accent, fontSize: FONT.size.xs, padding: '2px 8px', fontFamily: FONT.family }}>편집</button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
         {personaHints.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.sm, marginBottom: SPACING.lg }}>
             {personaHints.map((h, i) => (
