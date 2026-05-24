@@ -263,6 +263,23 @@ const EXPERIENCE_CATEGORIES = [
   { id: 'daily', label: '일상 경험 (가족 행사 · 모임 · 기획)', desc: '가족 행사 기획, 친구 모임 주도',
     prompts: ['가족/친구 모임을 기획한 경험이 있나요?', '예산·일정을 직접 관리한 적이 있나요?', '여러 사람의 의견을 조율해본 적이 있나요?'] },
 ];
+// 경험 category 문자열을 7개 표준 카테고리 id로 관용 매칭 (정확 라벨/약식/임포트 표기 모두 수용)
+// → 인벤토리에서 "카운트만 잡히고 카드가 안 보이는" 문제 방지
+function categoryIdOf(raw) {
+  const c = (raw || '').trim();
+  if (!c) return 'school';
+  const exact = EXPERIENCE_CATEGORIES.find((x) => x.label === c);
+  if (exact) return exact.id;
+  if (/학교|수업|학업|전공|학술|과제|발표/.test(c)) return 'school';
+  if (/동아리|학회|학생회/.test(c)) return 'club';
+  if (/인턴|아르바이트|알바|근무|현장실습/.test(c)) return 'intern';
+  if (/대외|공모전|봉사|서포터즈/.test(c)) return 'extern';
+  if (/자격|교육|수료|부트캠프|강의|자기계발|독학|온라인/.test(c)) return 'cert';
+  if (/개인|블로그|취미|여행|프로젝트/.test(c)) return 'personal';
+  if (/일상|가족|모임|친구/.test(c)) return 'daily';
+  return 'school'; // 미매칭도 보이도록 학교 활동으로 귀속
+}
+
 // 카테고리 재정렬 (페르소나 상태별)
 const orderCategoriesByPersona = (status) => {
   const order = (() => {
@@ -2031,7 +2048,7 @@ const ExperienceWorkbook = () => {
         )}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: SPACING.md, marginBottom: SPACING.xl }}>
           {orderedCategories.map(cat => {
-            const catExps = experiences.filter(e => e.category === cat.label);
+            const catExps = experiences.filter(e => categoryIdOf(e.category) === cat.id);
             return (
               <div key={cat.id} style={{ background: COLORS.white, border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.md, padding: SPACING.md, display: 'flex', flexDirection: 'column', gap: SPACING.sm }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm }}>
@@ -2388,7 +2405,7 @@ const ExperienceWorkbook = () => {
   const renderReview = () => {
     const byCategory = orderedCategories.map(cat => ({
       cat,
-      items: experiences.filter(e => e.category === cat.label),
+      items: experiences.filter(e => categoryIdOf(e.category) === cat.id),
     })).filter(g => g.items.length > 0);
     return (
       <div style={{ maxWidth: 1350, margin: '0 auto', padding: `${SPACING.xl}px ${SPACING.md}px` }}>
