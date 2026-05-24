@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import { useDataStore } from '../store/DataContext.jsx';
-import { WORKBOOKS, VARIANT_LABEL } from '../store/schema.js';
+import { WORKBOOKS, VARIANT_LABEL, VARIANT_NOTICE } from '../store/schema.js';
 import { getWorkbookProgress, getStepProgress } from '../store/selectors.js';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS, RULE } from '../shared/design/tokens.js';
 import { ExportImportBar } from '../shared/components/ExportImportBar.jsx';
@@ -197,6 +198,43 @@ export default function Dashboard() {
             </section>
           );
         })}
+
+        {/* variant 안내 배너 (예: 신입 서류 전용 → 신입 면접 워크북 안내) */}
+        {VARIANT_NOTICE && (
+          <section style={{
+            background: COLORS.white, border: RULE,
+            borderLeft: `4px solid ${COLORS.accent2}`,
+            padding: SPACING.lg, marginBottom: SPACING.xl,
+            display: 'flex', flexWrap: 'wrap', alignItems: 'center',
+            justifyContent: 'space-between', gap: SPACING.md,
+          }}>
+            <div style={{ flex: 1, minWidth: 240 }}>
+              <h3 style={{
+                margin: 0, fontSize: 22, color: COLORS.ink,
+                fontWeight: FONT.weight.bold, letterSpacing: '-0.3px',
+              }}>
+                {VARIANT_NOTICE.title}
+              </h3>
+              <p style={{
+                margin: '8px 0 0', fontSize: 20, color: COLORS.sub,
+                lineHeight: 1.6,
+              }}>
+                {VARIANT_NOTICE.body}
+              </p>
+            </div>
+            <Link
+              to={`/workbook/${VARIANT_NOTICE.workbookKey}`}
+              style={{
+                background: COLORS.accent, color: COLORS.white,
+                textDecoration: 'none', whiteSpace: 'nowrap',
+                fontSize: 18, fontWeight: FONT.weight.semibold,
+                padding: '12px 20px', borderRadius: RADIUS.pill,
+              }}
+            >
+              {VARIANT_NOTICE.linkLabel}
+            </Link>
+          </section>
+        )}
 
         {/* Footer */}
         <footer style={{

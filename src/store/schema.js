@@ -118,6 +118,12 @@ export const VARIANTS = {
     label: '신입 서류 전용',
     keys: ['job_analysis', 'experience', 'resume',
       'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement'],
+    notice: {
+      title: '서류를 마쳤다면, 다음은 신입 면접입니다',
+      body: '서류 통과 후에는 면접이 기다립니다. 1분 자기소개부터 예상 질문 답변까지 「신입 면접」 워크북에서 체계적으로 준비하세요.',
+      workbookKey: 'interview_new',
+      linkLabel: '신입 면접 워크북 열기',
+    },
   },
   documents_experienced: {
     label: '경력 서류 전용',
@@ -137,6 +143,7 @@ const RAW_VARIANT = (typeof import.meta !== 'undefined' && import.meta.env)
   ? import.meta.env.VITE_VARIANT : undefined;
 export const VARIANT = (RAW_VARIANT && VARIANTS[RAW_VARIANT]) ? RAW_VARIANT : null;
 export const VARIANT_LABEL = VARIANT ? VARIANTS[VARIANT].label : null;
+export const VARIANT_NOTICE = (VARIANT && VARIANTS[VARIANT].notice) ? VARIANTS[VARIANT].notice : null;
 
 export const WORKBOOKS = VARIANT
   ? ALL_WORKBOOKS.filter((w) => VARIANTS[VARIANT].keys.includes(w.key))
