@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx';
 import JSZip from 'jszip';
 import { ALL_WORKBOOKS as WORKBOOKS, APP_VERSION } from './schema.js';
 import { formatComps } from './comps.js';
+import { buildCopyrightParagraphs, COPYRIGHT_TITLE, COPYRIGHT_TEXT, COPYRIGHT_MARK } from './docxBackup.js';
 
 // 본문 끝 부록 영역에 base64로 백업 JSON을 임베드.
 // docx 표준 구조 그대로 유지 → Word/한글 정상 표시 + import 시 추출 가능.
@@ -291,6 +292,7 @@ export async function exportWorkbookDocx(master, workbookKey, workbookTitle) {
     sections: [{
       properties: {},
       children: [
+        ...buildCopyrightParagraphs({ Paragraph, TextRun }),
         new Paragraph({
           children: [new TextRun({ text: 'CAREER ENGINEER', size: 18, color: GOLD, bold: true })],
           alignment: AlignmentType.CENTER,
@@ -350,6 +352,7 @@ export async function exportFullDocx(master, options = {}) {
 
   const liveUrl = (typeof window !== 'undefined' && window.location?.origin) || '';
   const children = [
+    ...buildCopyrightParagraphs({ Paragraph, TextRun }),
     new Paragraph({
       children: [new TextRun({ text: 'CAREER ENGINEER', size: 22, color: GOLD, bold: true })],
       alignment: AlignmentType.CENTER,
@@ -451,6 +454,10 @@ export function exportExperiencesXlsx(master) {
   ws['!cols'] = EXP_HEADER.map((k) => ({ wch: k === 'id' ? 14 : 24 }));
 
   const wb = XLSX.utils.book_new();
+  // 저작권·기밀 안내를 첫 시트로
+  const noticeWs = XLSX.utils.aoa_to_sheet([[COPYRIGHT_TITLE], [COPYRIGHT_TEXT], [COPYRIGHT_MARK]]);
+  noticeWs['!cols'] = [{ wch: 110 }];
+  XLSX.utils.book_append_sheet(wb, noticeWs, '저작권 안내');
   XLSX.utils.book_append_sheet(wb, ws, '경험 카드');
 
   // 메타 시트

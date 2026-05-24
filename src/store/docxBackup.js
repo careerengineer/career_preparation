@@ -19,6 +19,39 @@ function chunkString(str, n) {
   return out;
 }
 
+// ── 저작권·기밀 안내 (저장 문서 맨 앞에 삽입) ───────────────────
+// 이 문구만 고치면 모든 저장 문서(docx)의 안내가 함께 바뀝니다.
+export const COPYRIGHT_TITLE = '［저작권·기밀 안내 / Confidential］';
+export const COPYRIGHT_TEXT =
+  '본 문서와 여기에 사용된 워크북의 구성·질문·예시 등 모든 콘텐츠의 저작권은 작성자(CareerEngineer)에게 있습니다. ' +
+  '사전 서면 동의 없이 본 문서 및 워크북의 질문·구성을 복제·배포·공유·게시·2차 가공하거나 외부로 유출할 수 없습니다. ' +
+  '무단 사용·유출 시 관련 법령에 따라 민·형사상 책임을 물을 수 있습니다.';
+export const COPYRIGHT_MARK = 'ⓒ 2026 CareerEngineer. All rights reserved.';
+
+// 저장 문서 최상단에 넣을 저작권 단락들. DocxLib: { Paragraph, TextRun }.
+export function buildCopyrightParagraphs(DocxLib) {
+  const { Paragraph, TextRun } = DocxLib || {};
+  if (!Paragraph || !TextRun) return [];
+  return [
+    new Paragraph({
+      children: [new TextRun({ text: COPYRIGHT_TITLE, bold: true, size: 20, color: 'B00020' })],
+      spacing: { after: 60 },
+    }),
+    new Paragraph({
+      children: [new TextRun({ text: COPYRIGHT_TEXT, size: 16, color: '595959' })],
+      spacing: { after: 40 },
+    }),
+    new Paragraph({
+      children: [new TextRun({ text: COPYRIGHT_MARK, size: 16, color: '595959', italics: true })],
+      spacing: { after: 60 },
+    }),
+    new Paragraph({
+      children: [new TextRun({ text: '────────────────────────────', size: 14, color: 'CCCCCC' })],
+      spacing: { after: 120 },
+    }),
+  ];
+}
+
 // DocxLib: 워크북이 로드한 docx 라이브러리(window.docx 또는 import). Paragraph/TextRun(필수), PageBreak(선택).
 // payload: { format:'careerengineer-workbook-export', workbookKey, workbookTitle, data:{ workbookKey, raw, ... } }
 export function buildWorkbookBackupParagraphs(DocxLib, payload) {
