@@ -1949,18 +1949,14 @@ export default function App() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const data = JSON.parse(saved);
+        // 이전 진단(또는 불러오기한) 선택이 있으면 확인 없이 그대로 복원 → 선택이 이미 돼 있는 상태로 표시
         if (data.ans && Object.keys(data.ans).length > 0) {
-          const savedDate = data.savedAt ? new Date(data.savedAt).toLocaleString('ko-KR') : '이전';
-          if (window.confirm(`이전에 진단한 내용이 있습니다 (${savedDate}).\n불러올까요?`)) {
-            if (data.ans) setAns(data.ans);
-            if (data.result) setResult(data.result);
-            if (typeof data.qi === 'number') setQi(data.qi);
-            if (data.page) setPage(data.page);
-            setAutoSaveStatus('✓ 이전 진단 내용을 불러왔습니다');
-            setTimeout(() => setAutoSaveStatus(''), 5000);
-          } else {
-            localStorage.removeItem(STORAGE_KEY);
-          }
+          setAns(data.ans);
+          if (data.result) setResult(data.result);
+          if (typeof data.qi === 'number') setQi(data.qi);
+          if (data.page) setPage(data.page);
+          setAutoSaveStatus('✓ 이전 진단 내용을 불러왔습니다');
+          setTimeout(() => setAutoSaveStatus(''), 5000);
         }
       }
     } catch (e) { console.warn(e); }
