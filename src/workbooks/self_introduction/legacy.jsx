@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
+import { AnswerQualityCheck } from '../../shared/components/AnswerQualityCheck.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 // ══════════════════════════════════════════════════════════════
@@ -1366,6 +1367,28 @@ const SelfIntroWorkbook = () => {
             {s.intro && (
               <p style={{ ...S.subtitle, marginTop: SPACING.sm }}>{s.intro}</p>
             )}
+            {s.step === 1 && (
+              <div style={{ background: COLORS.cream, borderLeft: `4px solid ${COLORS.accent2}`, borderRadius: RADIUS.sm, padding: SPACING.md, marginTop: SPACING.md }}>
+                <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.goldDeep, margin: 0, marginBottom: SPACING.sm }}>1분 자기소개의 핵심</p>
+                <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.relaxed, marginBottom: SPACING.sm }}>
+                  면접관이 1분 30초 안에 확인하고 싶은 건 단 하나 — <strong>"이 사람은 어떤 패턴의 사람인가"</strong>. 자랑·나열이 아니라 아래 3가지가 한 줄로 정리되어야 합니다.
+                </p>
+                <ol style={{ fontSize: FONT.size.sm, color: COLORS.accent, paddingLeft: 20, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>
+                  <li><strong>어떤 상황에서도 [어떻게] 행동하는 사람인가</strong> — 행동 패턴</li>
+                  <li><strong>그걸 보여주는 가장 강력한 경험 1개</strong> — 증거</li>
+                  <li><strong>이 패턴이 직무에서 어떻게 발휘될 것인가</strong> — 연결</li>
+                </ol>
+                <div style={{ background: COLORS.bg, borderRadius: RADIUS.sm, padding: SPACING.sm, marginTop: SPACING.sm, border: `1px solid ${COLORS.border}` }}>
+                  <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: 4 }}>좋은 예시</p>
+                  <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base, fontStyle: 'italic' }}>
+                    "낯선 영역에서도 직접 답을 찾는 사람입니다. 마케팅 동아리에서 SQL을 처음 익혀 3주 만에 고객 데이터 분석을 도입했고, 이 학습 속도를 마케터로서 새로운 도구·트렌드 습득에 그대로 적용하겠습니다."
+                  </p>
+                  <p style={{ fontSize: 11, color: COLORS.sub, margin: '6px 0 0' }}>
+                    → "낯선 영역에서도 직접 답을 찾는다"가 행동 패턴 · "SQL을 3주 만에"가 증거 · "마케터의 새 도구 습득에 적용"이 연결
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.lg }}>
@@ -1434,6 +1457,9 @@ const SelfIntroWorkbook = () => {
                   <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, textAlign: 'right', margin: '4px 0 0', fontVariantNumeric: 'tabular-nums' }}>
                     {(answers[q.label] || '').length}자
                   </p>
+                )}
+                {(q.label === 'Q19' || q.label === 'Q20') && (
+                  <AnswerQualityCheck text={answers[q.label]} focusArea={['autonomy', 'number', 'connection']} />
                 )}
               </div>
             ))}
