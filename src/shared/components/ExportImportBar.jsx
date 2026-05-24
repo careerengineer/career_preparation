@@ -50,6 +50,15 @@ export function ExportImportBar() {
       try {
         const { experiences } = await importExperiencesXlsx(file);
         replaceMaster({ ...master, experiences });
+        // 경험정리 워크북이 읽는 legacy localStorage에도 반영 (워크북 진입 시 카드 표시)
+        try {
+          const LK = 'careerengineer_experience_v1';
+          let data = {};
+          try { data = JSON.parse(localStorage.getItem(LK) || '{}'); } catch {}
+          data.experiences = experiences;
+          data.savedAt = new Date().toISOString();
+          localStorage.setItem(LK, JSON.stringify(data));
+        } catch {}
         showToast(`경험 카드 ${experiences.length}개를 불러왔습니다.`);
       } catch (err) { showToast('오류: ' + err.message); }
       return;

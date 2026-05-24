@@ -203,7 +203,17 @@ export function WorkbookShell({
     try {
       const { experiences } = await importExperiencesXlsx(file);
       replaceMaster({ ...master, experiences });
-      showToast(`경험 카드 ${experiences.length}개를 불러왔습니다.`);
+      // 워크북이 읽는 legacy localStorage에도 반영해야 카드 내용이 실제로 보임
+      try {
+        const LK = 'careerengineer_experience_v1';
+        let data = {};
+        try { data = JSON.parse(localStorage.getItem(LK) || '{}'); } catch {}
+        data.experiences = experiences;
+        data.savedAt = new Date().toISOString();
+        localStorage.setItem(LK, JSON.stringify(data));
+      } catch {}
+      showToast(`경험 카드 ${experiences.length}개를 불러왔습니다. 페이지를 새로고침합니다…`);
+      setTimeout(() => window.location.reload(), 1200);
     } catch (err) {
       showToast('오류: ' + err.message);
     }
