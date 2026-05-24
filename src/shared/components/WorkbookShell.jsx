@@ -209,6 +209,7 @@ export function WorkbookShell({
         let data = {};
         try { data = JSON.parse(localStorage.getItem(LK) || '{}'); } catch {}
         data.experiences = experiences;
+        data.phase = 'list'; // 새로고침 후 경험 인벤토리 화면에서 카드가 바로 보이도록
         data.savedAt = new Date().toISOString();
         localStorage.setItem(LK, JSON.stringify(data));
       } catch {}
