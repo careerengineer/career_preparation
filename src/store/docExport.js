@@ -459,6 +459,19 @@ export function importExperiencesXlsx(file) {
     reader.onload = (e) => {
       try {
         const wb = XLSX.read(e.target.result, { type: 'array' });
+
+        // 1순위: 숨은 백업 시트(_CE_BACKUP)에서 전체 경험 복원 (예쁜 다중시트 파일도 완전 복원)
+        if (wb.SheetNames.includes('_CE_BACKUP')) {
+          try {
+            const aoa = XLSX.utils.sheet_to_json(wb.Sheets['_CE_BACKUP'], { header: 1 });
+            if (aoa[0] && String(aoa[0][0]).includes('CE_EXPERIENCE_BACKUP')) {
+              const b64 = aoa.slice(1).map((r) => (r && r[0]) || '').join('');
+              const parsed = JSON.parse(base64ToUtf8(b64));
+              if (Array.isArray(parsed.experiences)) { resolve({ experiences: parsed.experiences }); return; }
+            }
+          } catch (be) { console.warn('백업 시트 복원 실패, 표 파싱으로 폴백:', be); }
+        }
+
         const sheetName = wb.SheetNames.find((n) => n === '경험 카드') || wb.SheetNames[0];
         const ws = wb.Sheets[sheetName];
         const json = XLSX.utils.sheet_to_json(ws, { defval: '' });

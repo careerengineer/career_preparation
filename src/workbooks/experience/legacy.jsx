@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import * as XLSX from 'xlsx';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
+import { utf8ToBase64 } from '../../store/docxBackup.js';
 // ════════════════════════════════════════════════════════════════
 //  CareerEngineer 워크북 라이브러리 (URL은 나중에 일괄 적용)
 // ════════════════════════════════════════════════════════════════
@@ -1789,6 +1790,17 @@ const ExperienceWorkbook = () => {
       ws4['!pageSetup'] = { orientation: 'landscape', fitToWidth: 1, fitToHeight: 0, paperSize: 9 };
       XLSX_S.utils.book_append_sheet(wb, ws4, '직무상세내용 매칭');
     }
+    // 복원용 백업 임베드 — 숨은 시트(_CE_BACKUP)에 전체 경험 JSON(base64) 저장 → 이 파일 그대로 재import 가능
+    try {
+      const b64 = utf8ToBase64(JSON.stringify({ format: 'careerengineer-experience-xlsx', version: 1, experiences }));
+      const CH = 30000;
+      const rows = [['CE_EXPERIENCE_BACKUP']];
+      for (let i = 0; i < b64.length; i += CH) rows.push([b64.slice(i, i + CH)]);
+      const bws = XLSX_S.utils.aoa_to_sheet(rows);
+      XLSX_S.utils.book_append_sheet(wb, bws, '_CE_BACKUP');
+      const bi = wb.SheetNames.indexOf('_CE_BACKUP');
+      if (bi >= 0) { wb.Workbook = wb.Workbook || {}; wb.Workbook.Sheets = wb.Workbook.Sheets || []; wb.Workbook.Sheets[bi] = { Hidden: 1 }; }
+    } catch (e) { console.warn('[experience] backup sheet skipped:', e); }
     XLSX_S.writeFile(wb, `CareerEngineer_경험정리_${today}.xlsx`);
     } catch (err) {
       console.error('xlsx 생성 실패:', err);
