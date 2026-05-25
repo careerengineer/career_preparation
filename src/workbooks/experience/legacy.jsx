@@ -1135,19 +1135,29 @@ const ExperienceWorkbook = () => {
     try {
       const d = JSON.parse(localStorage.getItem('careerengineer_job_analysis_v1') || '{}');
       const fa = d.formAnswers || {};
+      const duties = (fa.form_02 && fa.form_02.jd_duties) || '';
       const keywords = (fa.form_02 && fa.form_02.keywords) || '';
       const must = (fa.form_03 && fa.form_03.required_must) || '';
       const plus = (fa.form_03 && fa.form_03.required_plus) || '';
       const postings = (d.jobPostings || []).filter(j => j && (j.company || j.job_title));
-      return { keywords, must, plus, postings, has: !!(keywords || must || plus || postings.length) };
-    } catch { return { has: false, keywords: '', must: '', plus: '', postings: [] }; }
+      return { duties, keywords, must, plus, postings, has: !!(duties || keywords || must || plus || postings.length) };
+    } catch { return { has: false, duties: '', keywords: '', must: '', plus: '', postings: [] }; }
   };
+  // 직무상세내용 항목을 한 줄에 하나씩(쉼표 구분도 허용) 정규화 → 경험과 1:1 매핑 가능한 목록
+  const normalizeDuties = (text) => (text || '')
+    .split(/\r?\n|·|•|^\s*[-*]\s*/gm)
+    .flatMap(s => s.split(','))
+    .map(s => s.replace(/^[-*\s]+/, '').trim())
+    .filter(Boolean);
   const importJdFromAnalysis = () => {
     const j = getJdFromAnalysis();
     if (!j.has) return;
+    // 직무상세내용(주요 업무) 항목이 있으면 그것을 핵심 매핑 대상으로, 없으면 키워드/필수요건 사용
+    const dutyList = normalizeDuties(j.duties);
+    const core = dutyList.length ? dutyList.join(', ') : (j.keywords || j.must || '');
     setJdKeywords(prev => ({
       ...prev,
-      core: prev.core || j.keywords || j.must || '',
+      core: prev.core || core,
       memo: prev.memo || [j.must && ('필수: ' + j.must), j.plus && ('우대: ' + j.plus)].filter(Boolean).join('\n'),
     }));
   };
@@ -2033,12 +2043,13 @@ const ExperienceWorkbook = () => {
           if (jd.has) {
             return (
               <div style={{ background: COLORS.blueBg || COLORS.bgAlt, border: `1px solid ${COLORS.accent2}`, borderRadius: RADIUS.base, padding: SPACING.md }}>
-                <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: 6 }}>STEP 1 채용공고·직무분석에서 가져온 키워드</p>
+                <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: 6 }}>STEP 1 채용공고·직무분석에서 가져온 직무상세내용</p>
+                {jd.duties && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px', whiteSpace: 'pre-wrap' }}><strong>주요 업무(직무상세내용):</strong>{'\n'}{jd.duties}</p>}
                 {jd.keywords && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>핵심 키워드:</strong> {jd.keywords}</p>}
                 {jd.must && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>필수 요건:</strong> {jd.must}</p>}
                 {jd.plus && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>우대 사항:</strong> {jd.plus}</p>}
                 {jd.postings.length > 0 && <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: '0 0 8px' }}>분석한 공고: {jd.postings.map(p => `${p.company || ''} ${p.job_title || ''}`.trim()).filter(Boolean).join(' · ')}</p>}
-                <button onClick={importJdFromAnalysis} style={{ background: COLORS.accent2, color: COLORS.white, border: 'none', borderRadius: RADIUS.sm, padding: '6px 12px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: 'pointer', fontFamily: FONT.family }}>이 키워드를 직무상세내용으로 가져오기</button>
+                <button onClick={importJdFromAnalysis} style={{ background: COLORS.accent2, color: COLORS.white, border: 'none', borderRadius: RADIUS.sm, padding: '6px 12px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: 'pointer', fontFamily: FONT.family }}>직무상세내용을 매핑 대상으로 가져오기</button>
               </div>
             );
           }
@@ -2495,12 +2506,13 @@ const ExperienceWorkbook = () => {
                 <div style={{ marginBottom: SPACING.sm }}>
                   {jd.has ? (
                     <div style={{ background: COLORS.blueBg || COLORS.bgAlt, border: `1px solid ${COLORS.accent2}`, borderRadius: RADIUS.base, padding: SPACING.md }}>
-                      <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: 6 }}>STEP 1 직무분석에서 가져온 채용공고 키워드</p>
+                      <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: 6 }}>STEP 1 직무분석에서 가져온 직무상세내용</p>
+                      {jd.duties && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px', whiteSpace: 'pre-wrap' }}><strong>주요 업무(직무상세내용):</strong>{'\n'}{jd.duties}</p>}
                       {jd.keywords && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>핵심 키워드:</strong> {jd.keywords}</p>}
                       {jd.must && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>필수 요건:</strong> {jd.must}</p>}
                       {jd.plus && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 8px' }}><strong>우대 사항:</strong> {jd.plus}</p>}
-                      <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: '0 0 8px' }}>↓ 위 키워드 중 이 경험으로 뒷받침할 수 있는 것을 골라 아래에 연결을 적으세요.</p>
-                      <button onClick={importJdFromAnalysis} style={{ background: COLORS.accent2, color: COLORS.white, border: 'none', borderRadius: RADIUS.sm, padding: '6px 12px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: 'pointer', fontFamily: FONT.family }}>직무상세내용 키워드로 가져오기</button>
+                      <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: '0 0 8px' }}>↓ 위 직무상세내용 항목 중 이 경험으로 뒷받침할 수 있는 것을 골라 아래에 연결을 적으세요.</p>
+                      <button onClick={importJdFromAnalysis} style={{ background: COLORS.accent2, color: COLORS.white, border: 'none', borderRadius: RADIUS.sm, padding: '6px 12px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: 'pointer', fontFamily: FONT.family }}>직무상세내용을 매핑 대상으로 가져오기</button>
                     </div>
                   ) : (
                     <Hint type="tip">
