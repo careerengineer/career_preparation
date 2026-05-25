@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
+import { buildCareerDescDocxChildren } from '../../store/workbookDocx.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
 
@@ -1165,146 +1166,7 @@ ${skillRows.length ? `${sectionHeader('핵심 역량')}
       });
       
       // === 문서 내용 조립 ===
-      const children = [dateP(), titleP('경 력 기 술 서')];
-      
-      // 메타 정보
-      if (has('company') || has('position') || has('type')) {
-        if (has('company')) children.push(metaP('지원 회사', v('company')));
-        if (has('position')) children.push(metaP('지원 직무', v('position')));
-        if (has('type')) children.push(metaP('지원 유형', v('type')));
-        children.push(metaP('작성일', today));
-      }
-      
-      // 경력 한 문장
-      if (has('story_one')) {
-        children.push(sectionH('경력 한 문장'));
-        children.push(highlightP(v('story_one')));
-      }
-      
-      // 경력 요약
-      if (has('summary')) {
-        children.push(sectionH('경력 요약'));
-        children.push(bodyP(v('summary')));
-      }
-      
-      // 강점 하이라이트
-      const hasStrengths = has('highlight_2line') || has('highlight_3keyword') || has('str1') || has('str2') || has('str3');
-      if (hasStrengths) {
-        children.push(sectionH('강점 하이라이트'));
-        if (has('highlight_2line')) children.push(highlightP(v('highlight_2line')));
-        if (has('highlight_3keyword')) {
-          children.push(new Paragraph({
-            children: [
-              new TextRun({ text: '▪ 핵심 키워드: ', bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' }),
-              new TextRun({ text: v('highlight_3keyword'), size: 22, font: '맑은 고딕', color: '0E2750' })
-            ],
-            spacing: { before: 120, after: 120 }
-          }));
-        }
-        [1, 2, 3].filter(n => has(`str${n}`)).forEach(n => {
-          children.push(new Paragraph({
-            children: [
-              new TextRun({ text: '0' + n + '\t', bold: true, size: 20, font: '맑은 고딕', color: '1B3A6B' }),
-              new TextRun({ text: v(`str${n}`), size: 22, font: '맑은 고딕', color: '0E2750' })
-            ],
-            spacing: { before: 100, after: 100 },
-            border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: 'E8E5DD', space: 4 } }
-          }));
-        });
-      }
-      
-      // 경력 사항
-      const hasCareer = Array.from({length: companyCount}, (_, i) => i + 1).some(c => has(`c${c}_company`));
-      if (hasCareer) {
-        children.push(sectionH('경력 사항'));
-        for (let c = 1; c <= companyCount; c++) {
-          if (!has(`c${c}_company`)) continue;
-          children.push(companyH(v(`c${c}_company`), v(`c${c}_period`)));
-          
-          // 직책·범위 한 줄
-          const metaParts = [];
-          if (has(`c${c}_title`)) metaParts.push({ text: v(`c${c}_title`), bold: true });
-          if (has(`c${c}_scope`)) metaParts.push({ text: v(`c${c}_scope`), bold: false });
-          if (metaParts.length > 0) {
-            const runs = [];
-            metaParts.forEach((p, i) => {
-              if (i > 0) runs.push(new TextRun({ text: '   |   ', size: 22, font: '맑은 고딕', color: '6E7A8F' }));
-              runs.push(new TextRun({ text: p.text, size: 22, font: '맑은 고딕', color: p.bold ? '1B3A6B' : '0E2750', bold: p.bold }));
-            });
-            children.push(new Paragraph({ children: runs, spacing: { before: 80, after: 200 } }));
-          }
-          
-          // BRIAR 성과 (자연스러운 서술)
-          const perfCount = perfCounts[c] || 1;
-          for (let p = 1; p <= perfCount; p++) {
-            if (!has(`c${c}_s${p}_title`)) continue;
-            children.push(perfTitleP(v(`c${c}_s${p}_title`)));
-            
-            // 배경 + 역할 (자연스러운 단락)
-            if (has(`c${c}_s${p}_bg`)) children.push(bodyP(v(`c${c}_s${p}_bg`)));
-            if (has(`c${c}_s${p}_role`)) children.push(bodyP(v(`c${c}_s${p}_role`)));
-            // 행동
-            if (has(`c${c}_s${p}_action`)) children.push(bodyP(v(`c${c}_s${p}_action`)));
-            // 결과 (▸ 화살표 + 굵게)
-            if (has(`c${c}_s${p}_result`)) children.push(resultP(v(`c${c}_s${p}_result`), true));
-            // 파급 (▸ 화살표)
-            if (has(`c${c}_s${p}_ripple`)) children.push(resultP(v(`c${c}_s${p}_ripple`), false));
-          }
-        }
-      }
-      
-      // 관리·리더십 (조건부)
-      if (has('lead_team') || has('decision') || has('cross')) {
-        children.push(sectionH('관리 · 리더십'));
-        if (has('lead_team')) { children.push(labelP('▪ 팀 관리')); children.push(labelBodyP(v('lead_team'))); }
-        if (has('decision')) { children.push(labelP('▪ 의사결정')); children.push(labelBodyP(v('decision'))); }
-        if (has('cross')) { children.push(labelP('▪ 크로스펑셔널 협업')); children.push(labelBodyP(v('cross'))); }
-      }
-      
-      // 직무 전환 (조건부)
-      if (has('trans_why') || has('bridge')) {
-        children.push(sectionH('직무 전환'));
-        if (has('trans_why')) { children.push(labelP('▪ 전환 이유')); children.push(labelBodyP(v('trans_why'))); }
-        if (has('bridge')) { children.push(labelP('▪ 연결 역량')); children.push(labelBodyP(v('bridge'))); }
-      }
-      
-      // 핵심 역량
-      if (has('hard_skills') || has('soft_skills') || has('certs')) {
-        children.push(sectionH('핵심 역량'));
-        if (has('hard_skills')) children.push(metaP('하드 스킬', v('hard_skills')));
-        if (has('soft_skills')) children.push(metaP('소프트 스킬', v('soft_skills')));
-        if (has('certs')) children.push(metaP('자격증 · 인증', v('certs')));
-      }
-      
-      // === 문서 생성 ===
-            
-      // ═══ CareerEngineer 자료 + 멘토링 안내 (docx 본문 끝) ═══
-      children.push(sectionH('CareerEngineer 자료 — 다음 단계로'));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '이 워크북을 완성한 후 다음 단계로 나아가는 데 도움이 되는 자료들입니다.', italic: true, size: 20, font: '맑은 고딕', color: '6E7A8F' })],
-        spacing: { before: 80, after: 160 }
-      }));
-      children.push(linkP('경력기술서 작성 가이드북', 'https://www.latpeed.com/products/AkBH-'));
-      children.push(linkP('이력서 작성 가이드북', 'https://www.latpeed.com/products/F8JkO'));
-      children.push(linkP('이직 컨설팅 — 경력자 전용 1:1 컨설팅', 'https://www.latpeed.com/products/LimF9'));
-      children.push(linkP('CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer'));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '', size: 22, font: '맑은 고딕' })],
-        spacing: { before: 240, after: 60 }
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: 'CareerEngineer 전자책 / 멘토링 전체 안내', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })],
-        spacing: { before: 160, after: 80 },
-        shading: { fill: 'F2F1EC' },
-        border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } },
-        indent: { left: 240 }
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: 'CareerEngineer는 취업·이직 준비의 모든 단계를 지원하는 전자책과 멘토링을 운영합니다. 자소서 작성, 경력기술서, 면접 답변집 등 단계별 가이드와 1:1 멘토링이 있으며, 모든 자료는 공학박사 멘토의 실제 합격 사례 기반으로 설계되어 있습니다.', size: 20, font: '맑은 고딕', color: '0E2750' })],
-        spacing: { before: 0, after: 120, line: 360 },
-        indent: { left: 240 }
-      }));
-      children.push(linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
+      const children = buildCareerDescDocxChildren({ ans, companyCount, perfCounts }, docxLib);
 
       try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('career_description', '경력기술서', 'careerengineer_career_description_v1'))); } catch (e) { console.warn('[career_description] backup embed skipped:', e); }
       try { children.unshift(...buildCopyrightParagraphs(docxLib)); } catch (e) { console.warn('copyright skip', e); }
