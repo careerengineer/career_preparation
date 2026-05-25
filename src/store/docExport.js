@@ -336,7 +336,7 @@ export async function exportWorkbookDocx(master, workbookKey, workbookTitle) {
 // ─── 전체 .docx ──────────────────────────────────────────
 // options.excludeExperiences = true 이면 경험 정리는 본문/임베드 JSON 모두 제외
 //   → 별도 .xlsx와 짝으로 다운로드 후 두 파일로 import 가능
-export async function exportFullDocx(master, options = {}) {
+async function buildFullDocxBlob(master, options = {}) {
   const { excludeExperiences = false } = options;
 
   // 임베드 JSON: 옵션에 따라 experiences 제외
@@ -411,6 +411,11 @@ export async function exportFullDocx(master, options = {}) {
   const tag = excludeExperiences ? '나머지' : '전체';
   const parts = [`careerengineer_${tag}`, co, ind].filter(Boolean);
   const name  = `${parts.join('_')}_${ts}.docx`;
+  return { blob, name };
+}
+
+export async function exportFullDocx(master, options = {}) {
+  const { blob, name } = await buildFullDocxBlob(master, options);
   saveAs(blob, name);
   return name;
 }
@@ -425,6 +430,42 @@ export async function exportFullBackupFiles(master) {
   await new Promise((r) => setTimeout(r, 700));
   const xlsxName = exportExperiencesXlsx(master);
   return { docxName, xlsxName };
+}
+
+// ─── 전체 백업을 단일 .zip으로 (.docx + .xlsx 한 파일) ──────
+// 브라우저의 다중 다운로드 차단 없이 한 번에 안정적으로 저장된다.
+// "가져오기 (.zip)"로 docx(전체)+xlsx(경험)를 함께 복원.
+export async function exportFullBackupZip(master) {
+  const { blob: docxBlob, name: docxName } = await buildFullDocxBlob(master, { excludeExperiences: true });
+  const { blob: xlsxBlob, name: xlsxName } = buildExperiencesXlsxBlob(master);
+  const zip = new JSZip();
+  zip.file(docxName, docxBlob);
+  zip.file(xlsxName, xlsxBlob);
+  const co = safeName(master.profile.company);
+  const ts = timestampPart();
+  const zipName = `careerengineer_저장본_${co ? co + '_' : ''}${ts}.zip`;
+  const zipBlob = await zip.generateAsync({ type: 'blob' });
+  saveAs(zipBlob, zipName);
+  return { zipName, docxName, xlsxName };
+}
+
+// .zip 백업에서 docx(전체 백업 JSON)와 xlsx(경험 카드)를 추출
+export async function extractBackupFromZip(file) {
+  const zip = await JSZip.loadAsync(await file.arrayBuffer());
+  let docxPayload = null;
+  let experiences = null;
+  for (const entry of Object.values(zip.files)) {
+    if (entry.dir) continue;
+    const n = entry.name.toLowerCase();
+    if (n.endsWith('.docx')) {
+      const b = await entry.async('blob');
+      try { docxPayload = await extractBackupFromDocx(new File([b], entry.name)); } catch { /* 백업 없는 docx 무시 */ }
+    } else if (n.endsWith('.xlsx')) {
+      const b = await entry.async('blob');
+      try { experiences = (await importExperiencesXlsx(new File([b], entry.name))).experiences; } catch { /* 무시 */ }
+    }
+  }
+  return { docxPayload, experiences };
 }
 
 // ─── experience 전용 .xlsx export ─────────────────────────
@@ -447,7 +488,7 @@ const EXP_LABEL = {
   jd_match: 'JD 매칭', usedIn: '사용처',
 };
 
-export function exportExperiencesXlsx(master) {
+function buildExperiencesWb(master) {
   const rows = (master.experiences || []).map((e) => {
     const r = {};
     EXP_HEADER.forEach((k) => {
@@ -482,12 +523,27 @@ export function exportExperiencesXlsx(master) {
   ];
   const metaWs = XLSX.utils.aoa_to_sheet(meta);
   XLSX.utils.book_append_sheet(wb, metaWs, '메타');
+  return wb;
+}
 
+function experiencesXlsxName(master) {
   const co = safeName(master.profile.company);
   const ts = timestampPart();
-  const name = `careerengineer_경험정리_${co ? co + '_' : ''}${ts}.xlsx`;
+  return `careerengineer_경험정리_${co ? co + '_' : ''}${ts}.xlsx`;
+}
+
+export function exportExperiencesXlsx(master) {
+  const wb = buildExperiencesWb(master);
+  const name = experiencesXlsxName(master);
   XLSX.writeFile(wb, name);
   return name;
+}
+
+function buildExperiencesXlsxBlob(master) {
+  const wb = buildExperiencesWb(master);
+  const arr = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([arr], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  return { blob, name: experiencesXlsxName(master) };
 }
 
 // ─── experience 전용 .xlsx import ─────────────────────────
