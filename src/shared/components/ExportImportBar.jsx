@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { parseImportFile, detectConflicts } from '../../store/exportImport.js';
-import { exportExperiencesXlsx, exportFullBackupFiles, importExperiencesXlsx, extractBackupFromDocx, extractTextFromDocx } from '../../store/docExport.js';
+import { exportExperiencesXlsx, exportFullBackupFiles, importExperiencesXlsx, extractBackupFromDocx, extractTextFromDocx, extractBackupFromZip } from '../../store/docExport.js';
 import { syncLegacyFromMaster } from '../../store/legacySync.js';
 import { DEFAULT_MASTER } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
@@ -53,6 +53,30 @@ export function ExportImportBar() {
     e.target.value = '';
     if (!file) return;
     const lower = file.name.toLowerCase();
+
+    // zip → 저장본 백업(.docx 전체 + .xlsx 경험)을 함께 복원
+    if (lower.endsWith('.zip')) {
+      if (!window.confirm('저장본 백업(.zip)으로 복원합니다. 현재 작업 내용이 덮어쓰기됩니다. 계속할까요?')) return;
+      try {
+        const { docxPayload, experiences } = await extractBackupFromZip(file);
+        if (!docxPayload && !(experiences && experiences.length)) {
+          showToast('이 .zip에서 CareerEngineer 백업 데이터를 찾지 못했습니다.');
+          return;
+        }
+        const data = docxPayload?.data || {};
+        const incoming = {
+          ...DEFAULT_MASTER,
+          ...data,
+          profile: { ...DEFAULT_MASTER.profile, ...(data.profile || {}) },
+          workbookRaw: { ...DEFAULT_MASTER.workbookRaw, ...(data.workbookRaw || {}) },
+          outputs: { ...DEFAULT_MASTER.outputs, ...(data.outputs || {}) },
+          experiences: Array.isArray(experiences) ? experiences
+            : (Array.isArray(data.experiences) ? data.experiences : []),
+        };
+        applyMasterAndReload(incoming, '저장본(.zip)에서 전체 내용을 복원했습니다. 페이지를 새로고침합니다…');
+      } catch (err) { showToast('오류: ' + err.message); }
+      return;
+    }
 
     // xlsx → experience 카드 import
     if (lower.endsWith('.xlsx')) {
@@ -194,7 +218,7 @@ export function ExportImportBar() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end', width: '100%' }}>
     <style>{`@media (max-width:640px){ .ce-iebar-row{ gap:8px; } .ce-iebar-row > button{ flex:1 1 100%; } .ce-iebar-divider{ display:none !important; } }`}</style>
     <div className="ce-iebar-row" style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap', width: '100%' }}>
-      <button onClick={handleImportClick} style={btnStyle}>가져오기 (.docx/.xlsx)</button>
+      <button onClick={handleImportClick} style={btnStyle}>가져오기 (.docx/.xlsx/.zip)</button>
       <button onClick={handleExportXlsx} style={btnStyle}>경험 정리만 저장 (.xlsx)</button>
       <button onClick={handleExportAll} style={btnPrimaryStyle}>전체내용 저장 (.docx + .xlsx)</button>
       {/* 저장 버튼들과 확실히 떨어뜨려 맨 오른쪽에 단독 배치 (오클릭 방지) */}
@@ -203,7 +227,7 @@ export function ExportImportBar() {
       <input
         ref={fileRef}
         type="file"
-        accept=".docx,.xlsx,.json,application/json,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        accept=".docx,.xlsx,.json,.zip,application/json,application/zip,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         onChange={handleFileChange}
         style={{ display: 'none' }}
       />

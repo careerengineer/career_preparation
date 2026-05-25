@@ -324,7 +324,7 @@ export function WorkbookShell({
           {children}
         </div>
 
-        <WorkbookFooter currentWorkbookKey={workbookKey} />
+        <WorkbookFooter />
       </div>
 
       <ReferenceFAB currentWorkbookKey={workbookKey} />

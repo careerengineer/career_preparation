@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
-import { exportFullBackupFiles } from '../store/docExport.js';
+import { exportFullBackupZip } from '../store/docExport.js';
 import { syncLegacyFromMaster } from '../store/legacySync.js';
 import { COLORS, FONT, SPACING, RULE } from '../shared/design/tokens.js';
 
@@ -53,8 +53,8 @@ export default function CompanySlots() {
   const handleSlotExport = async (name) => {
     try {
       const slotMaster = getCompanySlotMaster(name);
-      const { docxName, xlsxName } = await exportFullBackupFiles(slotMaster);
-      showToast(`'${name}' 저장본을 파일로 저장: ${docxName}${xlsxName ? ' + ' + xlsxName : ''}`);
+      const { zipName } = await exportFullBackupZip(slotMaster);
+      showToast(`'${name}' 저장본을 파일로 저장했습니다: ${zipName} (.docx + .xlsx 포함)`);
     } catch (e) { showToast('오류: ' + e.message); }
   };
 
@@ -146,7 +146,7 @@ export default function CompanySlots() {
         </p>
         <p style={{ margin: '8px 0 0', fontSize: 16, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
           · <strong>[불러오기]</strong>: 이 저장본을 지금 바로 작업 화면에 적용합니다(가장 간편).<br />
-          · <strong>[이 저장본 저장 (.docx+.xlsx)]</strong>: 외부 백업용 파일입니다. 복원할 때는 상단 <strong>[가져오기]</strong>로 그 파일을 올리면 됩니다.
+          · <strong>[이 저장본 저장 (.zip)]</strong>: .docx(전체 내용)와 .xlsx(경험 정리)를 한 파일로 묶은 외부 백업용입니다. 복원할 때는 상단 <strong>[가져오기]</strong>로 그 .zip을 그대로 올리면 됩니다.
         </p>
       </div>
 
@@ -206,7 +206,7 @@ export default function CompanySlots() {
               </div>
               <div style={{ display: 'flex', gap: SPACING.xs, flexWrap: 'wrap' }}>
                 <button onClick={() => handleLoad(s.name)} style={btnSecondary}>불러오기</button>
-                <button onClick={() => handleSlotExport(s.name)} style={btnSecondary}>이 저장본 저장 (.docx+.xlsx)</button>
+                <button onClick={() => handleSlotExport(s.name)} style={btnSecondary}>이 저장본 저장 (.zip)</button>
                 <button onClick={() => handleDelete(s.name)} style={btnDanger}>삭제</button>
               </div>
             </div>
