@@ -2,6 +2,8 @@
 // dx = docx 라이브러리 클래스 묶음 ({ Paragraph, TextRun, AlignmentType, BorderStyle, ExternalHyperlink }).
 // 각 빌더는 "본문 children 배열"을 반환한다 (저작권 머리말/백업 꼬리말은 호출측에서 부여).
 import { QUESTION_LABELS } from './questionLabels.js';
+import { QUESTIONS as INTERVIEW_NEW_QUESTIONS } from '../workbooks/interview_new/questions.js';
+import { QUESTIONS as INTERVIEW_CAREER_QUESTIONS } from '../workbooks/interview_career/questions.js';
 
 export function makeDocxHelpers(dx) {
   const { Paragraph, TextRun, AlignmentType, BorderStyle, ExternalHyperlink } = dx;
@@ -376,6 +378,70 @@ export function buildSelfIntroDocxChildren({ basicInfo = {}, answers = {}, check
   return children;
 }
 
+// 면접(신입/경력) docx 본문 children — questions/title/links만 다르고 구조 동일
+export function buildInterviewDocxChildren({ title, questions = [], basicInfo = {}, answers = {}, finalText = '', mentoringLinks = [] }, dx, { includeMentoring = true } = {}) {
+  const { Paragraph, TextRun, BorderStyle } = dx;
+  const h = makeDocxHelpers(dx);
+  const qHeader = (label, qtitle, required) => new Paragraph({ children: [new TextRun({ text: `[${label}] `, bold: true, size: 24, font: '맑은 고딕', color: '0E2750' }), new TextRun({ text: qtitle, bold: true, size: 24, font: '맑은 고딕', color: '0E2750' }), ...(required ? [new TextRun({ text: '  (필수)', size: 18, font: '맑은 고딕', color: 'C9A86A' })] : [])], spacing: { before: 360, after: 120 }, border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: '1B3A6B', space: 4 } } });
+  const finalAnsP = (t, hasContent) => new Paragraph({ children: String(t).split('\n').flatMap((line, i) => i === 0 ? [new TextRun({ text: line, size: 22, font: '맑은 고딕', color: hasContent ? '0E2750' : '6E7A8F', italic: !hasContent })] : [new TextRun({ break: 1, text: line, size: 22, font: '맑은 고딕', color: hasContent ? '0E2750' : '6E7A8F', italic: !hasContent })]), spacing: { before: 100, after: 200, line: 380 }, shading: { fill: hasContent ? 'F2F1EC' : 'FBFAF6' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '0E2750', space: 8 } }, indent: { left: 240 } });
+  const highlightP = (t) => new Paragraph({ children: String(t).split('\n').flatMap((line, i) => i === 0 ? [new TextRun({ text: line, size: 22, font: '맑은 고딕', color: '0E2750' })] : [new TextRun({ break: 1, text: line, size: 22, font: '맑은 고딕', color: '0E2750' })]), spacing: { before: 100, after: 200, line: 380 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '0E2750', space: 8 } }, indent: { left: 240 } });
+  const guideTitle = (t, color) => new Paragraph({ children: [new TextRun({ text: t, bold: true, size: 20, font: '맑은 고딕', color })], spacing: { before: 200, after: 60 }, indent: { left: 240 } });
+  const guideBody = (t) => new Paragraph({ children: [new TextRun({ text: t, size: 20, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 0, after: 160, line: 340 }, indent: { left: 360 }, shading: { fill: 'FBFAF6' } });
+
+  const children = [h.dateP(), h.titleP(title)];
+  if (basicInfo.company || basicInfo.position) {
+    const sub = (basicInfo.company || '') + (basicInfo.company && basicInfo.position ? ' · ' : '') + (basicInfo.position ? basicInfo.position + ' 지원' : '');
+    children.push(h.subtitleP(sub));
+  }
+  children.push(h.sectionH('통합 완성본 — 핵심 답변 정리'));
+  if (finalText && finalText.trim()) {
+    finalText.split('\n\n').filter((x) => x.trim()).forEach((para) => children.push(highlightP(para)));
+  } else {
+    children.push(new Paragraph({ children: [new TextRun({ text: '[통합 완성본이 여기에 정리됩니다.]', italic: true, size: 22, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 100, after: 200, line: 380 }, shading: { fill: 'FBFAF6' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: 'C9A86A', space: 8 } }, indent: { left: 240 } }));
+  }
+  children.push(h.sectionH('질문별 답변 정리'));
+  questions.forEach((qq) => {
+    children.push(qHeader(qq.label, qq.title, qq.required));
+    if (qq.interviewerWants) { children.push(guideTitle('면접관이 이 질문으로 확인하려는 것', 'C9A86A')); children.push(guideBody(qq.interviewerWants)); }
+    if (qq.answerStrategy) { children.push(guideTitle('답변 핵심 전략', '0E2750')); children.push(guideBody(qq.answerStrategy)); }
+    children.push(h.labelP('핵심 문장'));
+    const core = answers[`${qq.label}_core`];
+    children.push(core && core.trim() ? h.labelBodyP(core) : h.placeholderP('[작성 전]'));
+    (qq.stages || []).forEach((st, si) => {
+      (st.questions || []).forEach((sq, qi) => {
+        children.push(h.labelP(sq));
+        const ans = answers[`${qq.label}_s${si}_q${qi}`];
+        children.push(ans && ans.trim() ? h.labelBodyP(ans) : h.placeholderP('[작성 전]'));
+      });
+    });
+    const finalA = answers[`${qq.label}_final`];
+    children.push(new Paragraph({ children: [new TextRun({ text: '최종 답변', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 280, after: 80 }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '0E2750', space: 8 } }, indent: { left: 240 } }));
+    children.push(finalA && finalA.trim() ? finalAnsP(finalA, true) : finalAnsP('[최종 답변 작성 전]', false));
+    (qq.tails || []).forEach((t, ti) => {
+      children.push(h.labelP(`[꼬리질문] ${t.q}`));
+      const ans = answers[`${qq.label}_tail_${ti}`];
+      children.push(ans && ans.trim() ? h.labelBodyP(ans) : h.placeholderP('[작성 전]'));
+    });
+  });
+  if (includeMentoring) {
+    children.push(h.sectionH('CareerEngineer 자료 — 다음 단계로'));
+    children.push(h.plain('이 워크북을 완성한 후 다음 단계로 나아가는 데 도움이 되는 자료들입니다.', { italic: true, spacing: { before: 80, after: 160 } }));
+    mentoringLinks.forEach(([label, url]) => children.push(h.linkP(label, url)));
+    children.push(new Paragraph({ children: [new TextRun({ text: '', size: 22, font: '맑은 고딕' })], spacing: { before: 240, after: 60 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: 'CareerEngineer 전자책 / 멘토링 전체 안내', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 160, after: 80 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } }, indent: { left: 240 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: 'CareerEngineer는 취업·이직 준비의 모든 단계를 지원하는 전자책과 멘토링을 운영합니다. 자소서 작성, 경력기술서, 면접 답변집 등 단계별 가이드와 1:1 멘토링이 있으며, 모든 자료는 공학박사 멘토의 실제 합격 사례 기반으로 설계되어 있습니다.', size: 20, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 0, after: 120, line: 360 }, indent: { left: 240 } }));
+    children.push(h.linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
+  }
+  return children;
+}
+
+const INTERVIEW_NEW_LINKS = [
+  ['신입 면접 준비 가이드북', 'https://www.latpeed.com/products/H7UHo'],
+  ['면접 유형별 답변 전략', 'https://www.latpeed.com/products/O-KKc'],
+  ['면접 멘토링 — 모의 면접과 실전 피드백', 'https://www.latpeed.com/products/tZ5xw'],
+  ['CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer'],
+];
+
 const essayFromMaster = (key) => (master, dx, opts) => buildEssayDocxChildren(key, {
   basicInfo: { company: master?.profile?.company || '', position: master?.profile?.position || '' },
   finalText: master?.outputs?.[key]?.finalText || master?.workbookRaw?.[key]?.finalText || '',
@@ -403,5 +469,26 @@ export const WORKBOOK_DOCX_BUILDERS = {
     basicInfo: { company: master?.profile?.company || '', position: master?.profile?.position || '' },
     answers: master?.workbookRaw?.self_introduction?.answers || {},
     checks: master?.workbookRaw?.self_introduction?.checks || {},
+  }, dx, opts),
+  interview_new: (master, dx, opts) => buildInterviewDocxChildren({
+    title: '신 입 면 접 답변집',
+    questions: INTERVIEW_NEW_QUESTIONS,
+    basicInfo: { company: master?.profile?.company || '', position: master?.profile?.position || '' },
+    answers: master?.workbookRaw?.interview_new?.answers || {},
+    finalText: master?.outputs?.interview_new?.finalText || master?.workbookRaw?.interview_new?.finalText || '',
+    mentoringLinks: INTERVIEW_NEW_LINKS,
+  }, dx, opts),
+  interview_career: (master, dx, opts) => buildInterviewDocxChildren({
+    title: '경 력 면 접 답변집',
+    questions: INTERVIEW_CAREER_QUESTIONS,
+    basicInfo: { company: master?.profile?.company || '', position: master?.profile?.position || '' },
+    answers: master?.workbookRaw?.interview_career?.answers || {},
+    finalText: master?.outputs?.interview_career?.finalText || master?.workbookRaw?.interview_career?.finalText || '',
+    mentoringLinks: [
+      ['경력 면접 준비 가이드북', 'https://www.latpeed.com/products/j3RfY'],
+      ['면접 유형별 답변 전략', 'https://www.latpeed.com/products/O-KKc'],
+      ['면접 멘토링 — 모의 면접과 실전 피드백', 'https://www.latpeed.com/products/tZ5xw'],
+      ['이직 컨설팅', 'https://www.latpeed.com/products/LimF9'],
+    ],
   }, dx, opts),
 };
