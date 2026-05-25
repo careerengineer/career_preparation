@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
+import { buildEssayDocxChildren } from '../../store/workbookDocx.js';
 import { AnswerQualityCheck, JdBridgeGuide } from '../../shared/components/AnswerQualityCheck.jsx';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 import { ExampleToggle } from '../../shared/components/ExampleToggle.jsx';
@@ -841,99 +842,7 @@ const CareerAspirationWorkbook = () => {
         indent: { left: 360 }
       });
       
-      const children = [dateP(), titleP('입 사 후 포 부')];
-      
-      // 회사·직무
-      if (basicInfo.company || basicInfo.position) {
-        const sub = (basicInfo.company || '') + 
-          (basicInfo.company && basicInfo.position ? ' · ' : '') +
-          (basicInfo.position ? basicInfo.position + ' 지원' : '');
-        children.push(subtitleP(sub));
-      }
-      
-      // === 제출용 본문 ===
-      if (finalText && finalText.trim()) {
-        finalText.split('\n\n').filter(x => x.trim()).forEach(para => {
-          children.push(bodyP(para));
-        });
-      } else {
-        children.push(placeholderP('[입사후 포부 본문이 여기에 들어갑니다.]'));
-      }
-      
-      // === 작성 노트 (페이지 분리) ===
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '', size: 22 })],
-        pageBreakBefore: true
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '작성 노트 — 단계별 답변', bold: true, size: 28, font: '맑은 고딕', color: '0E2750' })],
-        spacing: { before: 0, after: 100 },
-        border: { bottom: { style: BorderStyle.SINGLE, size: 12, color: '0E2750', space: 4 } }
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '아래는 자소서 작성 과정에서 정리한 모든 답변입니다. 다음에 이어 작업하거나 다른 자소서에 활용할 때 참고하세요.', italic: true, size: 20, font: '맑은 고딕', color: '6E7A8F' })],
-        spacing: { before: 0, after: 280 }
-      }));
-      
-      // round1Steps 자동 펼침
-      round1Steps.slice(1).forEach(step => {
-        const hasAny = (step.questions || []).some(q => answers[q.id]);
-        // 항목 있는 step만 표시 (질문 자체가 있으면 모두 표시)
-        if (!step.questions || step.questions.length === 0) return;
-        children.push(subH(step.title));
-        step.questions.forEach(q => {
-          children.push(labelP(q.label || q.id));
-          const ans = answers[q.id];
-          if (ans && ans.trim()) {
-            children.push(labelBodyP(ans));
-          } else {
-            children.push(placeholderP('[작성 전]'));
-          }
-        });
-      });
-      
-      // round3Questions (있으면)
-      if (typeof round3Questions !== 'undefined' && Array.isArray(round3Questions) && round3Questions.length > 0) {
-        children.push(subH('연결 문장'));
-        round3Questions.forEach(q => {
-          children.push(labelP(q.label || q.id));
-          const ans = answers[q.id];
-          if (ans && ans.trim()) {
-            children.push(labelBodyP(ans));
-          } else {
-            children.push(placeholderP('[작성 전]'));
-          }
-        });
-      }
-      
-            
-      // ═══ CareerEngineer 자료 + 멘토링 안내 (docx 본문 끝) ═══
-      children.push(sectionH('CareerEngineer 자료 — 다음 단계로'));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '이 워크북을 완성한 후 다음 단계로 나아가는 데 도움이 되는 자료들입니다.', italic: true, size: 20, font: '맑은 고딕', color: '6E7A8F' })],
-        spacing: { before: 80, after: 160 }
-      }));
-      children.push(linkP('자소서 작성 전자책 시리즈 (5대 항목 전체)', 'https://www.latpeed.com/products/dfdMW'));
-      children.push(linkP('자소서 멘토링 — 실제 글을 함께 다듬는 1:1 멘토링', 'https://www.latpeed.com/products/fKnUV'));
-      children.push(linkP('1:1 취업 컨설팅 — 방향 설정부터 함께', 'https://www.latpeed.com/products/S92cP'));
-      children.push(linkP('CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer'));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '', size: 22, font: '맑은 고딕' })],
-        spacing: { before: 240, after: 60 }
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: 'CareerEngineer 전자책 / 멘토링 전체 안내', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })],
-        spacing: { before: 160, after: 80 },
-        shading: { fill: 'F2F1EC' },
-        border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } },
-        indent: { left: 240 }
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: 'CareerEngineer는 취업·이직 준비의 모든 단계를 지원하는 전자책과 멘토링을 운영합니다. 자소서 작성, 경력기술서, 면접 답변집 등 단계별 가이드와 1:1 멘토링이 있으며, 모든 자료는 공학박사 멘토의 실제 합격 사례 기반으로 설계되어 있습니다.', size: 20, font: '맑은 고딕', color: '0E2750' })],
-        spacing: { before: 0, after: 120, line: 360 },
-        indent: { left: 240 }
-      }));
-      children.push(linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
+      const children = buildEssayDocxChildren('careergoal', { basicInfo, finalText, answers }, docxLib);
 
       try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('careergoal', '입사후 포부', 'careerengineer_careergoal_v1'))); } catch (e) { console.warn('[careergoal] backup embed skipped:', e); }
       try { children.unshift(...buildCopyrightParagraphs(docxLib)); } catch (e) { console.warn('copyright skip', e); }
