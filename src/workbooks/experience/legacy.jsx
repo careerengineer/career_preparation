@@ -1130,6 +1130,28 @@ const ExperienceWorkbook = () => {
     setActiveCompany('');
   };
 
+  // STEP 1 채용공고·직무분석에서 분석한 내용을 가져온다 (경험과 연결할 키워드 자동 확보)
+  const getJdFromAnalysis = () => {
+    try {
+      const d = JSON.parse(localStorage.getItem('careerengineer_job_analysis_v1') || '{}');
+      const fa = d.formAnswers || {};
+      const keywords = (fa.form_02 && fa.form_02.keywords) || '';
+      const must = (fa.form_03 && fa.form_03.required_must) || '';
+      const plus = (fa.form_03 && fa.form_03.required_plus) || '';
+      const postings = (d.jobPostings || []).filter(j => j && (j.company || j.job_title));
+      return { keywords, must, plus, postings, has: !!(keywords || must || plus || postings.length) };
+    } catch { return { has: false, keywords: '', must: '', plus: '', postings: [] }; }
+  };
+  const importJdFromAnalysis = () => {
+    const j = getJdFromAnalysis();
+    if (!j.has) return;
+    setJdKeywords(prev => ({
+      ...prev,
+      core: prev.core || j.keywords || j.must || '',
+      memo: prev.memo || [j.must && ('필수: ' + j.must), j.plus && ('우대: ' + j.plus)].filter(Boolean).join('\n'),
+    }));
+  };
+
   // 역량 사전에서 클릭 시: 현재 편집 중인 경험의 해당 타입에 빈 슬롯 채우기(또는 추가)
   const handleDictPick = (type, name) => {
     if (!editingId) return;
@@ -2006,9 +2028,26 @@ const ExperienceWorkbook = () => {
         아직 채용공고가 없어도 괜찮습니다. 이 단계는 건너뛰고 나중에 돌아와도 됩니다.
       </Hint>
       <div style={{ marginTop: SPACING.sm }}>
-        <Hint type="tip">
-          <strong>직무상세내용 키워드를 어떻게 뽑아야 할지 막막하다면</strong> — STEP 1의 <strong>「채용공고·직무분석 가이드」</strong>를 먼저 참고하세요. 채용공고에서 핵심 키워드를 추출하는 5단계 방법(반복 단어 카운트, 직무상세내용 매칭, 우선순위 분류 등)이 정리되어 있습니다.
-        </Hint>
+        {(() => {
+          const jd = getJdFromAnalysis();
+          if (jd.has) {
+            return (
+              <div style={{ background: COLORS.blueBg || COLORS.bgAlt, border: `1px solid ${COLORS.accent2}`, borderRadius: RADIUS.base, padding: SPACING.md }}>
+                <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: 6 }}>STEP 1 채용공고·직무분석에서 가져온 키워드</p>
+                {jd.keywords && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>핵심 키워드:</strong> {jd.keywords}</p>}
+                {jd.must && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>필수 요건:</strong> {jd.must}</p>}
+                {jd.plus && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>우대 사항:</strong> {jd.plus}</p>}
+                {jd.postings.length > 0 && <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: '0 0 8px' }}>분석한 공고: {jd.postings.map(p => `${p.company || ''} ${p.job_title || ''}`.trim()).filter(Boolean).join(' · ')}</p>}
+                <button onClick={importJdFromAnalysis} style={{ background: COLORS.accent2, color: COLORS.white, border: 'none', borderRadius: RADIUS.sm, padding: '6px 12px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: 'pointer', fontFamily: FONT.family }}>이 키워드를 직무상세내용으로 가져오기</button>
+              </div>
+            );
+          }
+          return (
+            <Hint type="tip">
+              <strong>STEP 1 채용공고·직무분석을 먼저 하면</strong> 거기서 추출한 핵심 키워드·자격요건이 여기로 자동으로 와서, 내 경험을 바로 연결할 수 있습니다.
+            </Hint>
+          );
+        })()}
       </div>
       {/* 경험 발굴 체크리스트 (가이드 박스) */}
       <div style={{ marginTop: SPACING.md }}>
@@ -2450,13 +2489,27 @@ const ExperienceWorkbook = () => {
           <div>
             <h3 style={{ fontSize: FONT.size.xl, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: SPACING.sm }}>4단계 · 직무상세내용 키워드 연결</h3>
             <p style={{ fontSize: FONT.size.sm, color: COLORS.sub, margin: 0, marginBottom: SPACING.md, lineHeight: FONT.lineHeight.relaxed }}>이 경험이 채용공고의 어떤 요구 역량과 연결되는지 메모하면, STEP 3 자소서에서 바로 활용 가능합니다.</p>
-            {!jdKeywords.core && !jdKeywords.tools && !jdKeywords.soft && (
-              <div style={{ marginBottom: SPACING.sm }}>
-                <Hint type="tip">
-                  <strong>직무상세내용 키워드를 어떻게 뽑을지 막막하다면</strong> — STEP 1의 <strong>「채용공고·직무분석 가이드」</strong>를 참고해 채용공고에서 핵심 키워드를 추출한 뒤 돌아오세요.
-                </Hint>
-              </div>
-            )}
+            {!jdKeywords.core && !jdKeywords.tools && !jdKeywords.soft && (() => {
+              const jd = getJdFromAnalysis();
+              return (
+                <div style={{ marginBottom: SPACING.sm }}>
+                  {jd.has ? (
+                    <div style={{ background: COLORS.blueBg || COLORS.bgAlt, border: `1px solid ${COLORS.accent2}`, borderRadius: RADIUS.base, padding: SPACING.md }}>
+                      <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: 6 }}>STEP 1 직무분석에서 가져온 채용공고 키워드</p>
+                      {jd.keywords && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>핵심 키워드:</strong> {jd.keywords}</p>}
+                      {jd.must && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>필수 요건:</strong> {jd.must}</p>}
+                      {jd.plus && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 8px' }}><strong>우대 사항:</strong> {jd.plus}</p>}
+                      <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: '0 0 8px' }}>↓ 위 키워드 중 이 경험으로 뒷받침할 수 있는 것을 골라 아래에 연결을 적으세요.</p>
+                      <button onClick={importJdFromAnalysis} style={{ background: COLORS.accent2, color: COLORS.white, border: 'none', borderRadius: RADIUS.sm, padding: '6px 12px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: 'pointer', fontFamily: FONT.family }}>직무상세내용 키워드로 가져오기</button>
+                    </div>
+                  ) : (
+                    <Hint type="tip">
+                      <strong>STEP 1 채용공고·직무분석을 먼저 하면</strong> 거기서 추출한 핵심 키워드가 여기로 자동으로 와서, 이 경험을 바로 연결할 수 있습니다.
+                    </Hint>
+                  )}
+                </div>
+              );
+            })()}
             {personaAnswers.status === 'transfer' && (
               <Hint type="warning">
                 <strong>직무 전환자는 직무상세내용 매칭이 설득력의 핵심입니다.</strong> 이전 직무 경험을 지원 직무의 언어로 번역해서 기록하세요. (예: "영업에서 고객 니즈 분석" → "마케팅의 고객 세그먼테이션 기초 역량")
