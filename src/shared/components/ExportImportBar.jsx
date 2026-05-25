@@ -191,13 +191,14 @@ export function ExportImportBar() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
-    <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap', width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end', width: '100%' }}>
+    <style>{`@media (max-width:640px){ .ce-iebar-row{ gap:8px; } .ce-iebar-row > button{ flex:1 1 100%; } .ce-iebar-divider{ display:none !important; } }`}</style>
+    <div className="ce-iebar-row" style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap', width: '100%' }}>
       <button onClick={handleImportClick} style={btnStyle}>가져오기 (.docx/.xlsx)</button>
       <button onClick={handleExportXlsx} style={btnStyle}>경험 정리만 저장 (.xlsx)</button>
       <button onClick={handleExportAll} style={btnPrimaryStyle}>전체내용 저장 (.docx + .xlsx)</button>
       {/* 저장 버튼들과 확실히 떨어뜨려 맨 오른쪽에 단독 배치 (오클릭 방지) */}
-      <span aria-hidden style={{ alignSelf: 'stretch', width: 1, background: COLORS.line, margin: '0 24px' }} />
+      <span aria-hidden className="ce-iebar-divider" style={{ alignSelf: 'stretch', width: 1, background: COLORS.line, marginLeft: 'auto', marginRight: SPACING.md }} />
       <button onClick={() => setResetMode('ask')} style={btnDangerStyle}>전체 삭제하고 다시 작성</button>
       <input
         ref={fileRef}
