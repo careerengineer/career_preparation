@@ -233,9 +233,8 @@ export function ExportImportBar() {
         />
       )}
     </div>
-    <p style={{ fontSize: 14, color: COLORS.sub, margin: 0, textAlign: 'right', lineHeight: 1.6, maxWidth: 600 }}>
-      <strong>전체내용 저장</strong>을 누르면 <strong>.docx + .xlsx</strong> 두 파일이 함께 저장됩니다. 둘 다 "가져오기"로 복원됩니다.
-      각 워크북은 그 워크북 화면의 저장 파일로도 복원할 수 있습니다.
+    <p style={{ fontSize: 14, color: COLORS.sub, margin: 0, textAlign: 'center', lineHeight: 1.6, width: '100%' }}>
+      <strong>전체내용 저장</strong>을 누르면 <strong>.docx + .xlsx</strong> 두 파일이 함께 저장됩니다. 둘 다 "가져오기"로 복원됩니다. 각 워크북은 그 워크북 화면의 저장 파일로도 복원할 수 있습니다.
     </p>
 
     {resetMode && (
