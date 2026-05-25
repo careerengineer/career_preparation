@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import * as XLSX from 'xlsx';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
-import { utf8ToBase64, COPYRIGHT_TITLE, COPYRIGHT_TEXT, COPYRIGHT_MARK } from '../../store/docxBackup.js';
+import { utf8ToBase64 } from '../../store/docxBackup.js';
 // ════════════════════════════════════════════════════════════════
 //  CareerEngineer 워크북 라이브러리 (URL은 나중에 일괄 적용)
 // ════════════════════════════════════════════════════════════════
@@ -1194,12 +1194,6 @@ const ExperienceWorkbook = () => {
     try {
     const XLSX_S = await loadXlsxStyleLib() || XLSX;
     const wb = XLSX_S.utils.book_new();
-    // 저작권·기밀 안내를 첫 시트로
-    try {
-      const noticeWs = XLSX_S.utils.aoa_to_sheet([[COPYRIGHT_TITLE], [COPYRIGHT_TEXT], [COPYRIGHT_MARK]]);
-      noticeWs['!cols'] = [{ wch: 110 }];
-      XLSX_S.utils.book_append_sheet(wb, noticeWs, '저작권 안내');
-    } catch (e) { console.warn('[experience] copyright sheet skipped:', e); }
     const today = new Date().toISOString().slice(0, 10);
     // ═══════════════════════════════════════════════════════════
     // CareerEngineer Heritage 브랜딩 컬러
@@ -1473,7 +1467,7 @@ const ExperienceWorkbook = () => {
     const addRow = (data, meta) => { tmplRows.push(data); rowMeta.push(meta || {}); };
     // 헤더 영역
     addRow(['경험정리 가이드'], { type: 'title' });
-    addRow(['저작권 안내   © ' + new Date().getFullYear() + ' CareerEngineer All Rights Reserved.   이 문서는 저작권법의 보호를 받으며, 무단 복제·배포·수정·상업적 이용을 금합니다.'], { type: 'copyright' });
+    addRow(['이 문서에 사용된 워크북의 구성·질문·예시 등 모든 콘텐츠의 저작권은 CareerEngineer에게 있습니다. 사전 서면 동의 없이 본 문서 및 워크북의 질문·구성을 복제·배포·공유·게시·2차 가공하거나 외부로 유출할 수 없습니다. 무단 사용·유출 시 관련 법령에 따라 민·형사상 책임을 물을 수 있습니다.'], { type: 'copyright' });
     addRow(['작성 가이드\n경험 인벤토리: 대학생활의 모든 경험을 카테고리별로 정리하세요. 사소해 보이는 경험도 빠짐없이 기록하세요.\nSTAR 분석: 각 경험을 Situation(상황) → Task(과제) → Action(행동) → Result(결과) 순서로 자세히 작성하세요.\n역량 점수: 0-10점 척도로 평가하세요. (0=전혀 없음, 10=전문가 수준)'], { type: 'guide' });
     addRow(blankRow(COL_COUNT), { type: 'gap' });
     // 도움 자료 섹션
