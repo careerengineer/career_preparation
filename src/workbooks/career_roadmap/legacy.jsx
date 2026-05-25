@@ -1640,17 +1640,7 @@ export default function App() {
         <div style={{ position: 'sticky', top: 0, zIndex: 10, background: '#F2F1EC', borderBottom: `1px solid #6E7A8F33`, padding: '12px 16px', marginLeft: -16, marginRight: -16, marginTop: -16, marginBottom: 16, boxShadow: '0 2px 8px rgba(14, 39, 80, 0.12)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
             <CELockupA height={32} />
-            <div style={{ position: 'relative', flex: 1, display: 'flex', justifyContent: 'center' }}>
-              <button onClick={() => setShowStepNav(v => !v)} style={{ 
-                background: COLORS.bgAlt, border: 'none', cursor: 'pointer',
-                fontSize: FONT.size.sm, color: COLORS.accent, textAlign: 'center',
-                padding: '4px 12px', borderRadius: 4, fontFamily: FONT.family,
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 4}} title="전체 7단계 보기" className="ce-step-nav-trigger">
-                STEP 0 · 취업준비 진단
-                <span style={{ fontSize: FONT.size.xs, color: COLORS.accent, opacity: 1, transform: showStepNav ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }}>▾</span>
-              </button>
-              <StepNavigatorDropdown open={showStepNav} onClose={() => setShowStepNav(false)} currentKey="career_roadmap" />
-            </div>
+            <div style={{ flex: 1 }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
               <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
               <span style={{ fontSize: 16, color: COLORS.sub, marginLeft: 4 }}>{current}/{total}</span>
@@ -1723,17 +1713,7 @@ export default function App() {
         <div style={{ position: 'sticky', top: 0, zIndex: 10, background: '#F2F1EC', borderBottom: `1px solid #6E7A8F33`, padding: '12px 16px', marginLeft: -16, marginRight: -16, marginTop: -16, marginBottom: 16, boxShadow: '0 2px 8px rgba(14, 39, 80, 0.12)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
             <CELockupA height={32} />
-            <div style={{ position: 'relative', flex: 1, display: 'flex', justifyContent: 'center' }}>
-              <button onClick={() => setShowStepNav(v => !v)} style={{
-                background: COLORS.bgAlt, border: 'none', cursor: 'pointer',
-                fontSize: FONT.size.sm, color: COLORS.accent, textAlign: 'center',
-                padding: '4px 12px', borderRadius: 4, fontFamily: FONT.family,
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 4}} title="전체 7단계 보기" className="ce-step-nav-trigger">
-                STEP 0 · 진단 결과
-                <span style={{ fontSize: FONT.size.xs, color: COLORS.accent, opacity: 1, transform: showStepNav ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }}>▾</span>
-              </button>
-              <StepNavigatorDropdown open={showStepNav} onClose={() => setShowStepNav(false)} currentKey="career_roadmap" />
-            </div>
+            <div style={{ flex: 1 }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
               <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
               <button onClick={handleSaveResult} disabled={isSavingDocx}
