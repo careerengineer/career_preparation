@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MentoringBox } from './MentoringBox.jsx';
 import { ReferenceInline } from './ReferenceInline.jsx';
 import { ReferenceFAB } from './ReferenceFAB.jsx';
+import { WorkbookFooter } from './WorkbookFooter.jsx';
 import { CEMark } from './CELogo.jsx';
 import { useDataStore } from '../../store/DataContext.jsx';
 import {
@@ -324,6 +325,8 @@ export function WorkbookShell({
         <div className="ce-workbook-body">
           {children}
         </div>
+
+        <WorkbookFooter currentWorkbookKey={workbookKey} />
       </div>
 
       <ReferenceFAB currentWorkbookKey={workbookKey} />
