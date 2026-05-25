@@ -218,11 +218,7 @@ const IntroCopyright = () => (
   </div>
 );
 
-const IntroFooterCopyright = () => (
-  <p style={{ textAlign: 'center', fontSize: 13, color: _INTRO_MUTE, marginTop: 16, lineHeight: 1.6, padding: '0 16px' }}>
-    © 2026 CareerEngineer. All Rights Reserved. 저작권법에 의하여 보호받는 저작물이므로 무단 전재와 무단 복제를 금합니다. 이 자료는 구매하신 분의 취업을 위한 개인 학습 용도로 자유롭게 활용하실 수 있으나, 자료의 전부 또는 일부를 다른 사람에게 공유하거나, 복제·재판매·재배포하는 것은 금지되어 있습니다. <strong>이를 위반할 경우 관련 법률에 따라 민·형사상 책임을 질 수 있습니다.</strong>
-  </p>
-);
+const IntroFooterCopyright = () => null;
 
 const IntroStickyHeader = () => null;
 
@@ -1362,7 +1358,6 @@ const QUESTIONS = [
 const StickyFooter = () => (
   <div style={{ position: 'sticky', bottom: 0, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}`, padding: '10px 16px', marginTop: 24, zIndex: 5 }}>
     <div style={{ maxWidth: 1350, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-      <p style={{ fontSize: 16, color: COLORS.sub, margin: 0 }}>© 2026 CareerEngineer. All Rights Reserved.</p>
       <p style={{ fontSize: 16, color: COLORS.sub, margin: 0 }}>
         <a href="https://open.kakao.com/me/careerengineer" target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, textDecoration: 'none' }}>CareerEngineer 카카오톡 상담</a>
       </p>
@@ -2332,10 +2327,6 @@ const NewInterviewWorkbook = () => {
 
             {downloadSuccess && <p style={{ fontSize: FONT.size.sm, color: COLORS.green, textAlign: 'center', marginTop: SPACING.md, fontWeight: FONT.weight.semibold }}>✓ 다운로드 완료</p>}
 
-            <div style={S.copyrightWrap}>
-              <p style={S.copyrightText}>© 2026 CareerEngineer. All Rights Reserved.</p>
-              <p style={S.copyrightWarn}>저작권법에 의하여 보호받는 저작물이므로 무단 전재와 무단 복제를 금합니다. 이 자료는 구매하신 분의 취업을 위한 개인 학습 용도로 자유롭게 활용하실 수 있으나, 자료의 전부 또는 일부를 다른 사람에게 공유하거나, 복제·재판매·재배포하는 것은 금지되어 있습니다. <strong>이를 위반할 경우 관련 법률에 따라 민·형사상 책임을 질 수 있습니다.</strong></p>
-            </div>
           </div>
           <StickyFooter />
         </div>
@@ -2586,7 +2577,6 @@ const NewInterviewWorkbook = () => {
           </div>
         </div>
 
-        <p style={{ ...S.copyrightText, marginTop: SPACING.lg }}>© 2026 CareerEngineer. All Rights Reserved.</p>
         <StickyFooter />
       </div>
     </div>
