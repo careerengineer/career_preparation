@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MentoringBox } from './MentoringBox.jsx';
 import { ReferenceInline } from './ReferenceInline.jsx';
 import { ReferenceFAB } from './ReferenceFAB.jsx';
 import { WorkbookFooter } from './WorkbookFooter.jsx';
@@ -19,7 +18,6 @@ export function WorkbookShell({
   title,
   stepLabel,
   children,
-  mentoringType,
   topReferenceIds,
 }) {
   const { master, replaceMaster, resetSingleWorkbook } = useDataStore();

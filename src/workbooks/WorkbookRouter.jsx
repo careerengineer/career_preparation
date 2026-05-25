@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { COLORS, FONT, SPACING } from '../shared/design/tokens.js'
+import { ErrorBoundary } from '../shared/components/ErrorBoundary.jsx'
 
 const PAGES = {
   career_roadmap:     lazy(() => import('./career_roadmap/index.jsx')),
@@ -73,8 +74,10 @@ export default function WorkbookRouter() {
     )
   }
   return (
-    <Suspense fallback={<Loading />}>
-      <Page />
-    </Suspense>
+    <ErrorBoundary key={workbookKey}>
+      <Suspense fallback={<Loading />}>
+        <Page />
+      </Suspense>
+    </ErrorBoundary>
   )
 }

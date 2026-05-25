@@ -2055,7 +2055,7 @@ const ExperienceWorkbook = () => {
           }
           return (
             <Hint type="tip">
-              <strong>STEP 1 채용공고·직무분석을 먼저 하면</strong> 거기서 추출한 핵심 키워드·자격요건이 여기로 자동으로 와서, 내 경험을 바로 연결할 수 있습니다.
+              <strong>STEP 1 채용공고·직무분석을 먼저 진행하면</strong> 여기에서 해당 직무와 자신의 경험을 바로 연결할 수 있습니다.
             </Hint>
           );
         })()}
@@ -2516,7 +2516,7 @@ const ExperienceWorkbook = () => {
                     </div>
                   ) : (
                     <Hint type="tip">
-                      <strong>STEP 1 채용공고·직무분석을 먼저 하면</strong> 거기서 추출한 핵심 키워드가 여기로 자동으로 와서, 이 경험을 바로 연결할 수 있습니다.
+                      <strong>STEP 1 채용공고·직무분석을 먼저 진행하면</strong> 여기에서 해당 직무와 자신의 경험을 바로 연결할 수 있습니다.
                     </Hint>
                   )}
                 </div>
