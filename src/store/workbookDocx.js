@@ -308,6 +308,74 @@ export function buildCareerDescDocxChildren({ ans = {}, companyCount = 2, perfCo
   return children;
 }
 
+// 1분 자기소개(self_introduction) docx 본문 children
+const SELF_INTRO_PARTS = [
+  { step: 1, title: '직무 분석 — 직무 이해도를 보여준다', labels: ['Q1', 'Q2', 'Q3'] },
+  { step: 2, title: '경험 연결 — 즉시 전력화 가능성을 보여준다', labels: ['Q4', 'Q5-a', 'Q5-b', 'Q5-c', 'Q6'] },
+  { step: 3, title: '강점 도출 — 함께 일하고 싶은 동료인가를 보여준다', labels: ['Q7', 'Q8'] },
+  { step: 4, title: '마무리 — 오래 함께할 수 있는 사람인가를 보여준다', labels: ['Q9', 'Q10'] },
+  { step: 5, title: '자기소개 조립 — 키워드 카드 만들기', labels: ['Q11', 'Q12', 'Q13'] },
+  { step: 6, title: '연결 — 키워드 사이를 자연스럽게 잇기', labels: ['Q14', 'Q15', 'Q16', 'Q17'] },
+  { step: 7, title: '초안 작성 — 키워드를 보고 말한 후, 그대로 적기', labels: ['Q18', 'Q19', 'Q20'] },
+];
+const SELF_INTRO_CHECKLIST = [
+  { label: 'Q21', criteria: '직무 이해도', question: '채용담당자가 "이 사람이 우리 직무의 핵심을 이해하고 있구나"라고 느끼는가?' },
+  { label: 'Q22', criteria: '즉시 전력화', question: '채용담당자가 "이 사람이 입사하면 어떤 업무를 할 수 있겠다"를 구체적으로 떠올릴 수 있는가?' },
+  { label: 'Q23', criteria: '성과 창출', question: '경험과 성과가 "이 사람은 실제로 결과를 만들어낼 수 있겠다"는 인상을 주는가?' },
+  { label: 'Q24', criteria: '함께 일하고 싶은 동료', question: '강점이 "성실함" 같은 범용 표현이 아니라, 직무에서 구체적으로 어떻게 쓰이는지까지 연결되어 있는가?' },
+  { label: 'Q25', criteria: '오래 함께할 사람', question: '지원동기와 기여방향이 "어떤 회사에도 쓸 수 있는 말"이 아니라, 이 회사에만 해당되는 구체적 내용인가?' },
+  { label: 'Q26', criteria: '전체 흐름', question: '첫 문장부터 마지막까지 자연스럽게 이어지고, 꼬리질문이 나와도 일관성 있게 답할 수 있는가?' },
+];
+export function buildSelfIntroDocxChildren({ basicInfo = {}, answers = {}, checks = {} }, dx, { includeMentoring = true } = {}) {
+  const { Paragraph, TextRun, BorderStyle } = dx;
+  const h = makeDocxHelpers(dx);
+  const labels = QUESTION_LABELS.self_introduction || {};
+  const highlightP = (t) => new Paragraph({ children: String(t).split('\n').flatMap((line, i) => i === 0 ? [new TextRun({ text: line, size: 24, font: '맑은 고딕', color: '0E2750' })] : [new TextRun({ break: 1, text: line, size: 24, font: '맑은 고딕', color: '0E2750' })]), spacing: { before: 100, after: 200, line: 400 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '0E2750', space: 8 } }, indent: { left: 240 } });
+  const softHighlightP = (t) => new Paragraph({ children: String(t).split('\n').flatMap((line, i) => i === 0 ? [new TextRun({ text: line, size: 22, font: '맑은 고딕', color: '0E2750' })] : [new TextRun({ break: 1, text: line, size: 22, font: '맑은 고딕', color: '0E2750' })]), spacing: { before: 100, after: 200, line: 380 }, shading: { fill: 'FBFAF6' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: 'C9A86A', space: 8 } }, indent: { left: 240 } });
+  const checkP = (checked, criteria, question) => new Paragraph({ children: [new TextRun({ text: (checked ? '✓  ' : '·  '), bold: true, size: 22, font: '맑은 고딕', color: 'C9A86A' }), new TextRun({ text: criteria + '  ', bold: true, size: 20, font: '맑은 고딕', color: '1B3A6B' }), new TextRun({ text: question, size: 20, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 80, after: 80 }, border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: 'E8E5DD', space: 4 } } });
+
+  const finalAnswer = answers['Q20'] || '';
+  const shortAnswer = answers['Q18'] || '';
+  const children = [h.dateP(), h.titleP('1 분  자 기 소 개')];
+  if (basicInfo.company || basicInfo.position) {
+    const sub = (basicInfo.company || '') + (basicInfo.company && basicInfo.position ? ' · ' : '') + (basicInfo.position ? basicInfo.position + ' 지원' : '');
+    children.push(h.subtitleP(sub));
+  }
+  children.push(h.sectionH('1분 자기소개 — 최종 답변'));
+  children.push(finalAnswer && finalAnswer.trim() ? highlightP(finalAnswer) : softHighlightP('[1분 자기소개 본 답변이 여기에 들어갑니다.]'));
+  children.push(h.sectionH('30초 단축 버전'));
+  children.push(shortAnswer && shortAnswer.trim() ? softHighlightP(shortAnswer) : softHighlightP('[30초 단축 버전이 여기에 들어갑니다.]'));
+  children.push(h.sectionH('면접 당일 — 키워드 메모'));
+  children.push(h.labelP('30초 버전 키워드'));
+  children.push(answers['Q12'] ? h.labelBodyP(answers['Q12']) : h.placeholderP('[작성 전]'));
+  children.push(h.labelP('1분 버전 키워드'));
+  children.push(answers['Q13'] ? h.labelBodyP(answers['Q13']) : h.placeholderP('[작성 전]'));
+  children.push(h.sectionH('자가 점검 체크리스트'));
+  SELF_INTRO_CHECKLIST.forEach((c) => children.push(checkP(checks[c.label], c.criteria, c.question)));
+  children.push(h.pageBreak());
+  children.push(new Paragraph({ children: [new TextRun({ text: '전체 작성 내용', bold: true, size: 28, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 0, after: 100 }, border: { bottom: { style: BorderStyle.SINGLE, size: 12, color: '0E2750', space: 4 } } }));
+  SELF_INTRO_PARTS.forEach((s) => {
+    children.push(h.subH(`PART ${s.step}. ${s.title}`));
+    s.labels.forEach((lab) => {
+      children.push(h.labelP(`${lab}. ${labels[lab] || ''}`));
+      children.push(answers[lab] ? h.labelBodyP(answers[lab]) : h.placeholderP('[작성 전]'));
+    });
+  });
+  if (includeMentoring) {
+    children.push(h.sectionH('CareerEngineer 자료 — 다음 단계로'));
+    children.push(h.plain('이 워크북을 완성한 후 다음 단계로 나아가는 데 도움이 되는 자료들입니다.', { italic: true, spacing: { before: 80, after: 160 } }));
+    children.push(h.linkP('1분 자기소개 가이드 워크북', 'https://www.latpeed.com/products/LObbV'));
+    children.push(h.linkP('면접 멘토링 — 모의 면접과 실전 피드백', 'https://www.latpeed.com/products/tZ5xw'));
+    children.push(h.linkP('신입 면접 준비 가이드북', 'https://www.latpeed.com/products/H7UHo'));
+    children.push(h.linkP('CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer'));
+    children.push(new Paragraph({ children: [new TextRun({ text: '', size: 22, font: '맑은 고딕' })], spacing: { before: 240, after: 60 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: 'CareerEngineer 전자책 / 멘토링 전체 안내', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 160, after: 80 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } }, indent: { left: 240 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: 'CareerEngineer는 취업·이직 준비의 모든 단계를 지원하는 전자책과 멘토링을 운영합니다. 자소서 작성, 경력기술서, 면접 답변집 등 단계별 가이드와 1:1 멘토링이 있으며, 모든 자료는 공학박사 멘토의 실제 합격 사례 기반으로 설계되어 있습니다.', size: 20, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 0, after: 120, line: 360 }, indent: { left: 240 } }));
+    children.push(h.linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
+  }
+  return children;
+}
+
 const essayFromMaster = (key) => (master, dx, opts) => buildEssayDocxChildren(key, {
   basicInfo: { company: master?.profile?.company || '', position: master?.profile?.position || '' },
   finalText: master?.outputs?.[key]?.finalText || master?.workbookRaw?.[key]?.finalText || '',
@@ -330,5 +398,10 @@ export const WORKBOOK_DOCX_BUILDERS = {
     ans: master?.workbookRaw?.career_description?.ans || {},
     companyCount: master?.workbookRaw?.career_description?.companyCount ?? 2,
     perfCounts: master?.workbookRaw?.career_description?.perfCounts ?? { 1: 2, 2: 1 },
+  }, dx, opts),
+  self_introduction: (master, dx, opts) => buildSelfIntroDocxChildren({
+    basicInfo: { company: master?.profile?.company || '', position: master?.profile?.position || '' },
+    answers: master?.workbookRaw?.self_introduction?.answers || {},
+    checks: master?.workbookRaw?.self_introduction?.checks || {},
   }, dx, opts),
 };
