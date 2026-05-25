@@ -2338,7 +2338,6 @@ export default function App() {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
               <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
-              <button onClick={clearSavedData} disabled={clearedFlash} title={clearedFlash ? '기록 삭제됨' : confirmingClear ? '한번 더 클릭하면 기록이 삭제됩니다' : '저장된 작성 내용 기록을 삭제 (페이지 유지)'} style={{ background: confirmingClear ? '#C9A86A' : clearedFlash ? '#E8F5F0' : autoSaveStatus ? '#F0F9F5' : 'transparent', color: confirmingClear ? '#fff' : clearedFlash ? '#1FA47A' : autoSaveStatus ? '#1FA47A' : '#6E7A8F', border: confirmingClear ? '1px solid #C9A86A' : clearedFlash ? '1px solid #1FA47A' : autoSaveStatus ? '1px solid #1FA47A66' : '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 11, fontWeight: 600, cursor: clearedFlash ? 'default' : 'pointer', whiteSpace: 'pre-line', fontFamily: 'inherit', lineHeight: 1.15, width: 140, height: 36, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>{confirmingClear ? '기록을 삭제\n하시겠습니까?' : clearedFlash ? '✓ 기록 삭제됨' : autoSaveStatus ? autoSaveStatus : '기록 삭제하고\n다시 선택'}</button>
               <span style={{ fontSize: 16, color: COLORS.sub, marginLeft: 4 }}>{current}/{total}</span>
             </div>
           </div>
@@ -2366,7 +2365,7 @@ export default function App() {
           })}
         </div>
 
-        <div style={{display:"flex",justifyContent:"flex-start",padding:"0 0 24px"}}>
+        <div style={{display:"flex",justifyContent:"space-between",padding:"0 0 24px"}}>
           <button onClick={()=>{
               // 이전 보이는 질문으로 이동 (조건부 질문 스킵)
               const prev = findPrevVisibleIdx(qi - 1, ans);
@@ -2375,6 +2374,18 @@ export default function App() {
             }}
             style={{cursor:"pointer",fontSize:16,color:COLORS.accent,padding:"12px 24px",border:`1px solid ${COLORS.border}`,background:"transparent",borderRadius:10,fontWeight:500}}>
             이전
+          </button>
+          <button
+            disabled={ans[q.id] === undefined}
+            onClick={()=>{
+              // 이미 선택돼 있을 때(예: 불러오기) 다음 보이는 질문으로 이동, 마지막이면 결과로
+              const nextIdx = findNextVisibleIdx(qi + 1, ans);
+              if (nextIdx !== -1) setQi(nextIdx);
+              else { const r = analyze(ans); setResult(r); setPage("result"); }
+              window.scrollTo(0, 0);
+            }}
+            style={{cursor: ans[q.id] === undefined ? "not-allowed" : "pointer", opacity: ans[q.id] === undefined ? 0.4 : 1, fontSize:16, color:"#fff", padding:"12px 24px", border:"none", background:COLORS.accent, borderRadius:10, fontWeight:600}}>
+            다음
           </button>
         </div>
       </div>
@@ -2410,9 +2421,6 @@ export default function App() {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
               <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
-              <button onClick={clearSavedData} disabled={clearedFlash} style={{ background: confirmingClear ? '#C9A86A' : clearedFlash ? '#E8F5F0' : autoSaveStatus ? '#F0F9F5' : 'transparent', color: confirmingClear ? '#fff' : clearedFlash ? '#1FA47A' : autoSaveStatus ? '#1FA47A' : '#6E7A8F', border: confirmingClear ? '1px solid #C9A86A' : clearedFlash ? '1px solid #1FA47A' : autoSaveStatus ? '1px solid #1FA47A66' : '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 11, fontWeight: 600, cursor: clearedFlash ? 'default' : 'pointer', whiteSpace: 'pre-line', fontFamily: 'inherit', lineHeight: 1.15, width: 140, height: 36, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }} title={clearedFlash ? '기록 삭제됨' : confirmingClear ? '한번 더 클릭하면 기록이 삭제됩니다' : '저장된 작성 내용 기록을 삭제 (페이지 유지)'}>
-                {confirmingClear ? '기록을 삭제\n하시겠습니까?' : clearedFlash ? '✓ 기록 삭제됨' : autoSaveStatus ? autoSaveStatus : '기록 삭제하고\n다시 선택'}
-              </button>
               <button onClick={handleSaveResult} disabled={isSavingDocx}
                 style={{ background: isSavingDocx ? COLORS.sub : COLORS.accent, color: COLORS.white, border: 'none', borderRadius: RADIUS.base, padding: '0 14px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: isSavingDocx ? 'wait' : 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, opacity: isSavingDocx ? 0.7 : 1, fontFamily: 'inherit', whiteSpace: 'nowrap', height: 36 }}>
                 {isSavingDocx ? (

@@ -1447,7 +1447,7 @@ const JobAnalysisWorkbook = () => {
     lines.push(`지원 직무: ${basicInfo.position || '-'}`);
     lines.push(`지원 회사/타겟: ${basicInfo.target || '-'}`);
     if (persona) {
-      lines.push(`분석 목표: ${persona}. ${PERSONAS[persona].title}`);
+      lines.push(`분석 목표: ${PERSONAS[persona].title}`);
       lines.push(`추천 경로: ${PERSONAS[persona].flow}`);
     }
     lines.push('');
@@ -1647,7 +1647,7 @@ const JobAnalysisWorkbook = () => {
       if (persona && PERSONAS[persona]) {
         children.push(sectionH('분석 목표'));
         children.push(new Paragraph({
-          children: [new TextRun({ text: `${persona}. ${PERSONAS[persona].title}`, bold: true, size: 26, font: '맑은 고딕', color: '0E2750' })],
+          children: [new TextRun({ text: `${PERSONAS[persona].title}`, bold: true, size: 26, font: '맑은 고딕', color: '0E2750' })],
           spacing: { before: 100, after: 100 },
           shading: { fill: 'F2F1EC' },
           border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } },
@@ -1881,7 +1881,7 @@ const JobAnalysisWorkbook = () => {
             <div style={{ marginBottom: SPACING.lg }}>
               <p style={S.brandEyebrow}>페르소나 진단</p>
               <h1 style={S.h1Center}>나의 상황은 어디에?</h1>
-              <p style={{ ...S.subtitle, textAlign: 'center' }}>3개 질문에 답하면 10개 페르소나(A~J) 중 맞춤 경로를 추천합니다</p>
+              <p style={{ ...S.subtitle, textAlign: 'center' }}>3개 질문에 답하면 맞춤 경로를 추천합니다</p>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.lg }}>
@@ -1920,7 +1920,7 @@ const JobAnalysisWorkbook = () => {
               return (
                 <div style={{ ...S.boxInfo, marginTop: SPACING.lg }}>
                   <p style={{ ...labelStyle(COLORS.blue), marginBottom: SPACING.sm }}>채용공고 및 직무분석 목표</p>
-                  <p style={{ fontSize: FONT.size.lg, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: 4 }}>{pid}. {p.title}</p>
+                  <p style={{ fontSize: FONT.size.lg, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: 4 }}>{p.title}</p>
                   <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, marginBottom: 8, lineHeight: FONT.lineHeight.relaxed }}>{p.desc}</p>
                   <p style={{ fontSize: FONT.size.sm, color: COLORS.blue, margin: 0, fontWeight: FONT.weight.semibold }}>추천 경로: {p.flow}</p>
                   <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: '8px 0 0', lineHeight: FONT.lineHeight.relaxed, fontStyle: 'italic' }}>※ 위 안내는 입력하신 상황을 바탕으로 한 \"이 워크북의 활용 목표\"입니다. 실제 본인 상황(전공 지식, 실무 경험, 인턴십 등)이 더 깊다면 워크북을 더 빠르게 진행하셔도 좋습니다.</p>
@@ -1982,7 +1982,7 @@ const JobAnalysisWorkbook = () => {
           <div style={S.cardLarge}>
             <div style={{ ...S.boxInfo, marginBottom: SPACING.lg }}>
               <p style={{ ...labelStyle(COLORS.blue), marginBottom: SPACING.sm }}>나의 페르소나</p>
-              <p style={{ fontSize: FONT.size.lg, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: 4 }}>{persona}. {p.title}</p>
+              <p style={{ fontSize: FONT.size.lg, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: 4 }}>{p.title}</p>
               <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, marginBottom: 8 }}>{p.desc}</p>
               <p style={{ fontSize: FONT.size.sm, color: COLORS.blue, margin: 0, fontWeight: FONT.weight.semibold }}>추천 경로: {p.flow}</p>
               <button onClick={() => setPhase('diagnosis')} style={{ ...S.btnText, marginTop: 8 }}>페르소나 다시 진단</button>
@@ -2310,7 +2310,7 @@ const JobAnalysisWorkbook = () => {
                 style={{ ...S.btnSecondary, opacity: fIdx === 0 ? 0.4 : 1, cursor: fIdx === 0 ? 'not-allowed' : 'pointer' }}
                 className="ce-btn"
               >
-                이전 양식
+                이전
               </button>
               {fIdx < FORMS.length - 1 ? (
                 <button onClick={() => { setEditingFormId(FORMS[fIdx+1].id); window.scrollTo(0,0); }} style={{ ...S.btnPrimary, flex: 1 }} className="ce-btn">
