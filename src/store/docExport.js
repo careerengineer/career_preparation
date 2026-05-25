@@ -7,6 +7,7 @@ import { formatComps } from './comps.js';
 import { buildCopyrightParagraphs, COPYRIGHT_TITLE, COPYRIGHT_TEXT, COPYRIGHT_MARK } from './docxBackup.js';
 import { LEGACY_KEYS } from './legacySync.js';
 import { QUESTION_LABELS } from './questionLabels.js';
+import { decodeAnswer } from './answerLabels.js';
 
 // 본문 끝 부록 영역에 base64로 백업 JSON을 임베드.
 // docx 표준 구조 그대로 유지 → Word/한글 정상 표시 + import 시 추출 가능.
@@ -250,9 +251,12 @@ function workbookBlocks(master, workbookKey, includeHeading = true) {
     blocks.push(H2('작성 답변'));
     const labels = QUESTION_LABELS[workbookKey] || {};
     Object.entries(raw.answers).forEach(([k, v]) => {
-      if (!v || !String(v).trim()) return;
+      if (v === undefined || v === null || v === '') return;
+      // 클릭형 선택지는 코드값 대신 실제 선택 문구로 변환
+      const decoded = decodeAnswer(workbookKey, k, v);
+      if (!String(decoded).trim()) return;
       blocks.push(H3(labels[k] || k));
-      String(v).split('\n').forEach((line) => blocks.push(P(line || ' ')));
+      String(decoded).split('\n').forEach((line) => blocks.push(P(line || ' ')));
     });
   }
 
