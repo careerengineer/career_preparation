@@ -4,6 +4,8 @@
 import { QUESTION_LABELS } from './questionLabels.js';
 import { QUESTIONS as INTERVIEW_NEW_QUESTIONS } from '../workbooks/interview_new/questions.js';
 import { QUESTIONS as INTERVIEW_CAREER_QUESTIONS } from '../workbooks/interview_career/questions.js';
+import { FORMS as JA_FORMS, PERSONAS as JA_PERSONAS, COMPLETION_CHECKLIST as JA_CHECKLIST } from '../workbooks/job_analysis/data.js';
+import { analyze as roadmapAnalyze } from '../workbooks/career_roadmap/analyze.js';
 
 export function makeDocxHelpers(dx) {
   const { Paragraph, TextRun, AlignmentType, BorderStyle, ExternalHyperlink } = dx;
@@ -442,6 +444,157 @@ const INTERVIEW_NEW_LINKS = [
   ['CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer'],
 ];
 
+// 채용공고·직무 분석(job_analysis) docx 본문 children
+export function buildJobAnalysisDocxChildren({ basicInfo = {}, persona = '', finalText = '', jobPostings = [], formAnswers = {}, checklistState = {} }, dx, { includeMentoring = true } = {}) {
+  const { Paragraph, TextRun, BorderStyle } = dx;
+  const h = makeDocxHelpers(dx);
+  const hintP = (t) => new Paragraph({ children: [new TextRun({ text: t, italic: true, size: 18, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 0, after: 80 }, indent: { left: 360 } });
+  const highlightP = (t) => new Paragraph({ children: String(t).split('\n').flatMap((line, i) => i === 0 ? [new TextRun({ text: line, size: 22, font: '맑은 고딕', color: '0E2750' })] : [new TextRun({ break: 1, text: line, size: 22, font: '맑은 고딕', color: '0E2750' })]), spacing: { before: 100, after: 200, line: 380 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '0E2750', space: 8 } }, indent: { left: 240 } });
+  const checkP = (checked, item) => new Paragraph({ children: [new TextRun({ text: (checked ? '✓  ' : '·  '), bold: true, size: 22, font: '맑은 고딕', color: 'C9A86A' }), new TextRun({ text: item, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 80, after: 80 }, border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: 'E8E5DD', space: 4 } } });
+
+  const children = [h.dateP(), h.titleP('채 용 공 고  및  직 무  분 석')];
+  if (basicInfo.industry || basicInfo.position || basicInfo.target) {
+    const parts = [];
+    if (basicInfo.industry) parts.push(basicInfo.industry);
+    if (basicInfo.position) parts.push(basicInfo.position);
+    if (basicInfo.target) parts.push(basicInfo.target);
+    children.push(h.subtitleP(parts.join(' · ')));
+  }
+  if (persona && JA_PERSONAS[persona]) {
+    children.push(h.sectionH('분석 목표'));
+    children.push(new Paragraph({ children: [new TextRun({ text: `${JA_PERSONAS[persona].title}`, bold: true, size: 26, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 100, after: 100 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } }, indent: { left: 240 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: JA_PERSONAS[persona].desc, size: 22, font: '맑은 고딕', color: '1B3A6B' })], spacing: { before: 0, after: 100, line: 360 }, indent: { left: 240 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: '추천 경로: ', bold: true, size: 20, font: '맑은 고딕', color: '6E7A8F' }), new TextRun({ text: JA_PERSONAS[persona].flow, size: 20, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 0, after: 200 }, indent: { left: 240 } }));
+  }
+  children.push(h.sectionH('통합 완성본'));
+  if (finalText && finalText.trim()) {
+    finalText.split('\n\n').filter((x) => x.trim()).forEach((para) => children.push(highlightP(para)));
+  } else {
+    children.push(new Paragraph({ children: [new TextRun({ text: '[채용공고 분석 통합 완성본이 여기에 정리됩니다.]', italic: true, size: 22, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 100, after: 200, line: 380 }, shading: { fill: 'FBFAF6' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: 'C9A86A', space: 8 } }, indent: { left: 240 } }));
+  }
+  const form1 = JA_FORMS.find((f) => f.id === 'form_01');
+  const validJobs = (jobPostings || []).filter((j) => form1.fields.some((f) => (j[f.key] || '').trim()));
+  if (validJobs.length > 0) {
+    children.push(h.sectionH(`${form1.title} — 수집 공고 ${validJobs.length}개`));
+    validJobs.forEach((j, i) => {
+      children.push(new Paragraph({ children: [new TextRun({ text: `[공고 ${i + 1}]`, bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 200, after: 80 }, border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: '1B3A6B', space: 4 } } }));
+      form1.fields.forEach((f) => {
+        if ((j[f.key] || '').trim()) children.push(new Paragraph({ children: [new TextRun({ text: f.label + ': ', bold: true, size: 20, font: '맑은 고딕', color: '1B3A6B' }), new TextRun({ text: j[f.key], size: 20, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 60, after: 60 }, indent: { left: 240 } }));
+      });
+    });
+  } else {
+    children.push(h.sectionH(form1.title));
+    children.push(h.placeholderP('[수집된 채용공고가 여기에 정리됩니다.]'));
+  }
+  JA_FORMS.filter((f) => f.id !== 'form_01').forEach((form) => {
+    const formAns = formAnswers[form.id] || {};
+    children.push(h.sectionH(form.title));
+    if (form.subtitle) children.push(new Paragraph({ children: [new TextRun({ text: form.subtitle, italic: true, size: 20, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 0, after: 200 } }));
+    form.fields.forEach((f) => {
+      children.push(h.labelP(f.label));
+      if (f.hint) children.push(hintP(f.hint));
+      if (formAns[f.key] && formAns[f.key].trim()) children.push(h.labelBodyP(formAns[f.key]));
+      else children.push(h.placeholderP('[작성 전]'));
+    });
+  });
+  const checkedCount = JA_CHECKLIST.filter((_, i) => checklistState[i]).length;
+  children.push(h.sectionH(`완성 기준 체크리스트 — ${checkedCount}/${JA_CHECKLIST.length}`));
+  JA_CHECKLIST.forEach((it, i) => children.push(checkP(checklistState[i], it)));
+  if (includeMentoring) {
+    children.push(h.sectionH('CareerEngineer 자료 — 다음 단계로'));
+    children.push(h.plain('이 워크북을 완성한 후 다음 단계로 나아가는 데 도움이 되는 자료들입니다.', { italic: true, spacing: { before: 80, after: 160 } }));
+    [['채용공고 및 직무 분석 가이드북', 'https://www.latpeed.com/products/-3Wgm'], ['자소서 작성 전자책 시리즈', 'https://www.latpeed.com/products/dfdMW'], ['1:1 취업 컨설팅 — 직무 매칭부터 함께', 'https://www.latpeed.com/products/S92cP'], ['CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer']].forEach(([l, u]) => children.push(h.linkP(l, u)));
+    children.push(new Paragraph({ children: [new TextRun({ text: '', size: 22, font: '맑은 고딕' })], spacing: { before: 240, after: 60 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: 'CareerEngineer 전자책 / 멘토링 전체 안내', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 160, after: 80 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } }, indent: { left: 240 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: 'CareerEngineer는 취업·이직 준비의 모든 단계를 지원하는 전자책과 멘토링을 운영합니다. 자소서 작성, 경력기술서, 면접 답변집 등 단계별 가이드와 1:1 멘토링이 있으며, 모든 자료는 공학박사 멘토의 실제 합격 사례 기반으로 설계되어 있습니다.', size: 20, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 0, after: 120, line: 360 }, indent: { left: 240 } }));
+    children.push(h.linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
+  }
+  return children;
+}
+
+// 취업 로드맵(career_roadmap) docx 본문 children — analyze(answers) 결과를 결과페이지 디자인으로
+export function buildRoadmapDocxChildren({ answers = {}, result: providedResult = null }, dx) {
+  const { Paragraph, TextRun, AlignmentType, BorderStyle } = dx;
+  const today = new Date().toISOString().slice(0, 10);
+  const titleP = (t) => new Paragraph({ children: [new TextRun({ text: t, bold: true, size: 40, font: '맑은 고딕', color: '0E2750' })], alignment: AlignmentType.CENTER, spacing: { before: 200, after: 240 }, border: { bottom: { style: BorderStyle.SINGLE, size: 24, color: '0E2750', space: 6 } } });
+  const subtitleP = (t) => new Paragraph({ children: [new TextRun({ text: t, bold: true, size: 24, font: '맑은 고딕', color: '1B3A6B' })], alignment: AlignmentType.CENTER, spacing: { before: 200, after: 480 } });
+  const sectionH = (t) => new Paragraph({ children: [new TextRun({ text: t, bold: true, size: 28, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 480, after: 200 }, border: { bottom: { style: BorderStyle.SINGLE, size: 12, color: '0E2750', space: 4 } } });
+  const labelP = (t) => new Paragraph({ children: [new TextRun({ text: t, bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' })], spacing: { before: 200, after: 80 }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: 'C9A86A', space: 8 } }, indent: { left: 200 } });
+  const bodyP = (t) => new Paragraph({ children: (t || '').split('\n').flatMap((line, i) => i === 0 ? [new TextRun({ text: line, size: 22, font: '맑은 고딕', color: '0E2750' })] : [new TextRun({ break: 1, text: line, size: 22, font: '맑은 고딕', color: '0E2750' })]), spacing: { before: 0, after: 160, line: 360 }, indent: { left: 360 } });
+  const dateP = () => new Paragraph({ children: [new TextRun({ text: '진단일 · ' + today, size: 20, font: '맑은 고딕', color: '6E7A8F' })], alignment: AlignmentType.RIGHT, spacing: { after: 80 } });
+  const item = (label, val) => { const out = [labelP(label)]; out.push(val ? bodyP(val) : new Paragraph({ children: [new TextRun({ text: '[해당 단계에 정보 없음]', size: 22, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 0, after: 160 }, indent: { left: 360 } })); return out; };
+  const calloutTitle = (t, color) => new Paragraph({ children: [new TextRun({ text: t, bold: true, size: 22, font: '맑은 고딕', color: color || '0E2750' })], spacing: { before: 200, after: 80 }, shading: { fill: 'FBFAF6' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: color || 'C9A86A', space: 8 } }, indent: { left: 240 } });
+  const calloutBody = (t) => new Paragraph({ children: (t || '').split('\n').flatMap((line, i) => i === 0 ? [new TextRun({ text: line, size: 22, font: '맑은 고딕', color: '0E2750' })] : [new TextRun({ break: 1, text: line, size: 22, font: '맑은 고딕', color: '0E2750' })]), spacing: { before: 0, after: 200, line: 360 }, shading: { fill: 'FBFAF6' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: 'C9A86A', space: 8 } }, indent: { left: 240 } });
+  const statusKr = { done: '완료', partial: '보완 필요', todo: '아직 안 함', locked: '앞 단계 먼저' };
+  const statusColor = { done: '1B3A6B', partial: 'C9A86A', todo: '6E7A8F', locked: 'A8A8A8' };
+
+  let result = providedResult;
+  try { if (!result && answers && Object.keys(answers).length > 0) result = roadmapAnalyze(answers); } catch { result = null; }
+  if (!result || !result.weakest) {
+    return [dateP(), titleP('취 업 준 비  진 단  결 과'), sectionH('진단 결과'), new Paragraph({ children: [new TextRun({ text: '[진단을 완료하면 결과가 여기에 표시됩니다.]', italic: true, size: 22, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 0, after: 160 }, indent: { left: 360 } })];
+  }
+  const persona = result.who === 'new' ? '신입 (학부)' : result.who === 'grad' ? '신입 (대학원)' : result.who === 'career' ? '경력' : result.who === 'switch' ? '직무 전환 (경력직)' : '미선택';
+  const children = [dateP(), titleP('취 업 준 비  진 단  결 과'), subtitleP(persona)];
+  children.push(sectionH('가장 약한 단계 — 지금 집중할 곳'));
+  children.push(new Paragraph({ children: [new TextRun({ text: 'STEP ' + result.weakest.step + '. ' + result.weakest.name, bold: true, size: 28, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 100, after: 100 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '0E2750', space: 8 } }, indent: { left: 240 } }));
+  if (result.levels && result.levels.essay === -1) {
+    children.push(calloutTitle('이력서·경력기술서와 면접이 평가 전체입니다'));
+    children.push(calloutBody('자소서가 빠진 만큼 이력서·경력기술서의 밀도와 면접 답변의 구체성이 평가를 좌우합니다. 특히 경력기술서가 면접 답변의 70%를 책임지는 베이스 자료가 되니, 프로젝트별 본인 기여 분리와 정량 성과 보강이 가장 큰 레버리지입니다. (참고: 같은 회사라도 직무·포지션에 따라 자소서를 요구할 수 있으니 공고를 한 번 더 확인하세요.)'));
+  }
+  if (result.essayWarning) { children.push(calloutTitle(result.essayWarning.title)); children.push(calloutBody(result.essayWarning.message)); }
+  if (result.stageGuide) {
+    children.push(sectionH('이 단계에 대한 가이드'));
+    children.push(...item('지금 당신의 상태', result.stageGuide.situation));
+    if (result.stageGuide.concerns && result.stageGuide.concerns.length > 0) {
+      children.push(labelP('당신만 그런 게 아닙니다 — 흔한 고민'));
+      result.stageGuide.concerns.forEach((c) => children.push(new Paragraph({ children: [new TextRun({ text: '“' + c + '”', size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 60, after: 60, line: 360 }, indent: { left: 360 } })));
+    }
+    if (result.stageGuide.selfCheck && result.stageGuide.selfCheck.length > 0) {
+      children.push(labelP('셀프 체크포인트'));
+      result.stageGuide.selfCheck.forEach((c) => children.push(new Paragraph({ children: [new TextRun({ text: '☐  ', size: 22, font: '맑은 고딕', color: '1B3A6B' }), new TextRun({ text: c, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 60, after: 60, line: 360 }, indent: { left: 360, hanging: 240 } })));
+    }
+    children.push(...item('이 단계를 넘으면', result.stageGuide.vision));
+    if (result.stageGuide.selfHelp && result.stageGuide.selfHelp.length > 0) {
+      children.push(labelP('혼자서도 충분히 할 수 있습니다 — 구체적 방법'));
+      children.push(new Paragraph({ children: [new TextRun({ text: '아래 방법은 멘토 없이도 바로 적용 가능한 실전 가이드입니다.', size: 20, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 0, after: 120 }, indent: { left: 360 } }));
+      result.stageGuide.selfHelp.forEach((tip, i) => children.push(new Paragraph({ children: [new TextRun({ text: (i + 1) + '. ', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' }), new TextRun({ text: tip, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 100, after: 100, line: 360 }, indent: { left: 480, hanging: 240 } })));
+    }
+    if (result.stageGuide.whenToAskHelp) {
+      children.push(labelP('이럴 때는 도움이 필요할 수 있습니다'));
+      children.push(bodyP(result.stageGuide.whenToAskHelp));
+    }
+  }
+  const hasAnyAction = result.actionsByStep && Object.values(result.actionsByStep).some((arr) => arr && arr.length > 0);
+  if (hasAnyAction) {
+    children.push(sectionH('지금 해야 할 일 — STEP별 액션'));
+    children.push(new Paragraph({ children: [new TextRun({ text: result.weakest.step === 0 ? '지금 단계에서 집중할 일만 정리했습니다. 이 단계를 통과한 뒤 다시 진단받으면 다음 STEP 안내가 이어집니다.' : '각 STEP별로 무엇을 해야 하는지 정리했습니다. 진한 강조 단계가 가장 먼저 집중할 곳입니다.', size: 20, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 80, after: 200 } }));
+    const filteredStages = result.remaining.filter((stage) => result.weakest.step !== 0 || stage.step === 0);
+    filteredStages.forEach((stage) => {
+      const stepActions = (result.actionsByStep && result.actionsByStep[stage.step]) ? result.actionsByStep[stage.step] : [];
+      if (stepActions.length === 0) return;
+      const isCurrent = stage.step === result.weakest.step;
+      children.push(new Paragraph({ children: [new TextRun({ text: 'STEP ' + stage.step + '. ' + stage.name, bold: true, size: 24, font: '맑은 고딕', color: isCurrent ? '0E2750' : '1B3A6B' }), ...(isCurrent ? [new TextRun({ text: '   — 지금 가장 먼저', bold: true, size: 20, font: '맑은 고딕', color: 'C9A86A' })] : [])], spacing: { before: 320, after: 120 }, shading: { fill: isCurrent ? 'F2F1EC' : 'FBFAF6' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: isCurrent ? '0E2750' : 'C9A86A', space: 8 } }, indent: { left: 240 } }));
+      stepActions.forEach((a, ai) => {
+        children.push(new Paragraph({ children: [new TextRun({ text: (ai + 1) + '. ', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' }), new TextRun({ text: a.text, bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 160, after: 60 }, indent: { left: 360, hanging: 240 } }));
+        if (a.detail) children.push(new Paragraph({ children: (a.detail || '').split('\n').flatMap((line, li) => li === 0 ? [new TextRun({ text: line, size: 22, font: '맑은 고딕', color: '6E7A8F' })] : [new TextRun({ break: 1, text: line, size: 22, font: '맑은 고딕', color: '6E7A8F' })]), spacing: { before: 0, after: 100, line: 340 }, indent: { left: 600 } }));
+      });
+    });
+  }
+  children.push(sectionH('앞으로의 큰 그림 — 전체 STEP 진행 상황'));
+  result.remaining.forEach((r) => {
+    let statusText = statusKr[r.status] || r.status;
+    if (r.key === 'essay' && r.level === -1) statusText = '해당없음';
+    children.push(new Paragraph({ children: [new TextRun({ text: 'STEP ' + r.step, bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' }), new TextRun({ text: '\t' + r.name + '\t', size: 22, font: '맑은 고딕', color: '0E2750' }), new TextRun({ text: statusText, bold: true, size: 22, font: '맑은 고딕', color: statusColor[r.status] || '6E7A8F' })], spacing: { before: 80, after: 80 }, border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: 'E8E5DD', space: 4 } } }));
+    const note = result.stageNotes && result.stageNotes[r.key];
+    const isCurrent = r.step === result.weakest.step;
+    if (note && (note.summary || note.guidance)) {
+      if (note.summary) children.push(new Paragraph({ children: [new TextRun({ text: note.summary, bold: true, size: 20, font: '맑은 고딕', color: isCurrent ? '0E2750' : 'C9A86A' })], spacing: { before: 60, after: 40 }, indent: { left: 360 } }));
+      if (note.guidance) children.push(new Paragraph({ children: [new TextRun({ text: note.guidance, size: 20, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 0, after: 160, line: 340 }, indent: { left: 360 } }));
+    }
+  });
+  return children;
+}
+
 const essayFromMaster = (key) => (master, dx, opts) => buildEssayDocxChildren(key, {
   basicInfo: { company: master?.profile?.company || '', position: master?.profile?.position || '' },
   finalText: master?.outputs?.[key]?.finalText || master?.workbookRaw?.[key]?.finalText || '',
@@ -490,5 +643,16 @@ export const WORKBOOK_DOCX_BUILDERS = {
       ['면접 멘토링 — 모의 면접과 실전 피드백', 'https://www.latpeed.com/products/tZ5xw'],
       ['이직 컨설팅', 'https://www.latpeed.com/products/LimF9'],
     ],
+  }, dx, opts),
+  job_analysis: (master, dx, opts) => buildJobAnalysisDocxChildren({
+    basicInfo: master?.workbookRaw?.job_analysis?.basicInfo || { industry: master?.profile?.industry || '', position: master?.profile?.position || '', target: master?.profile?.company || '' },
+    persona: master?.workbookRaw?.job_analysis?.persona || '',
+    finalText: master?.workbookRaw?.job_analysis?.finalText || '',
+    jobPostings: master?.workbookRaw?.job_analysis?.jobPostings || [],
+    formAnswers: master?.workbookRaw?.job_analysis?.formAnswers || {},
+    checklistState: master?.workbookRaw?.job_analysis?.checklistState || {},
+  }, dx, opts),
+  career_roadmap: (master, dx, opts) => buildRoadmapDocxChildren({
+    answers: master?.workbookRaw?.career_roadmap?.answers || master?.roadmap?.quizAnswers || {},
   }, dx, opts),
 };
