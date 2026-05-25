@@ -2,8 +2,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
-import { useDataStore } from '../../store/DataContext.jsx';
-import { formatComps } from '../../store/comps.js';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 
@@ -922,18 +920,6 @@ const FocusStyles = () => (
 );
 
 const JobAnalysisWorkbook = () => {
-  const { master } = useDataStore();
-  // 경험 카드 출처를 여러 곳에서 안전하게 확보 (master.experiences가 비어도 표시되도록)
-  const experienceCards = (() => {
-    if (Array.isArray(master?.experiences) && master.experiences.length > 0) return master.experiences;
-    const wbExp = master?.workbookRaw?.experience?.experiences;
-    if (Array.isArray(wbExp) && wbExp.length > 0) return wbExp;
-    try {
-      const d = JSON.parse(localStorage.getItem('careerengineer_experience_v1') || '{}');
-      if (Array.isArray(d.experiences) && d.experiences.length > 0) return d.experiences;
-    } catch { /* noop */ }
-    return [];
-  })();
   const [phase, setPhase] = useState('intro');
   const [showHelp, setShowHelp] = useState(true);
   const [showStepNav, setShowStepNav] = useState(false);
@@ -2178,7 +2164,6 @@ const JobAnalysisWorkbook = () => {
                 </div>
               </div>
             ) : (
-              <>
               <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md }}>
                 {form.fields.map(f => {
                   const answers = formAnswers[form.id] || {};
@@ -2208,95 +2193,6 @@ const JobAnalysisWorkbook = () => {
                 })}
               </div>
 
-              {/* 공고별 경험 매핑: 공고를 하나씩 붙여넣고, 각 경험을 그 공고에 하나씩 연결 */}
-              {form.id === 'form_03' && (() => {
-                const mapAns = formAnswers[form.id] || {};
-                const postCount = Math.max(1, parseInt(mapAns.tpost_count || '1', 10));
-                return (
-                  <div style={{ marginTop: SPACING.lg, background: COLORS.bgAlt, borderRadius: RADIUS.base, padding: SPACING.md, borderLeft: `3px solid ${COLORS.accent2}` }}>
-                    <p style={{ margin: 0, fontSize: FONT.size.md, fontWeight: FONT.weight.bold, color: COLORS.accent }}>공고별 경험 매핑</p>
-                    <p style={{ margin: '4px 0 12px', fontSize: FONT.size.sm, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
-                      지원할 공고를 <strong>하나씩 붙여넣고</strong>, 내 경험 중 <strong>그 공고에 맞는 것만 골라</strong> 연결하세요. 모든 경험을 연결할 필요는 없고, 맞는 것을 최대한 찾는 게 핵심입니다. 여기서 만든 연결을 자소서·면접에서 그대로 활용합니다. 공고가 여러 개면 [공고 추가]로 늘리세요.
-                    </p>
-                    {experienceCards.length === 0 && (
-                      <p style={{ margin: '0 0 12px', fontSize: FONT.size.sm, color: COLORS.red, lineHeight: FONT.lineHeight.base }}>
-                        먼저 <strong>경험 정리</strong> 워크북에서 경험을 정리하면, 여기서 공고에 매핑할 수 있습니다.
-                      </p>
-                    )}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md }}>
-                      {Array.from({ length: postCount }).map((_, i) => (
-                        <div key={i} style={{ background: COLORS.white, borderRadius: RADIUS.base, padding: SPACING.md, border: `1px solid ${COLORS.line}` }}>
-                          <p style={{ margin: '0 0 6px', fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent2 }}>공고 {i + 1}</p>
-                          <textarea
-                            className="ce-textarea"
-                            value={mapAns[`tpost_${i}_jd`] || ''}
-                            onChange={(e) => setFormAnswer(form.id, `tpost_${i}_jd`, e.target.value)}
-                            rows={4}
-                            style={{ ...S.textarea, fontSize: FONT.size.sm, marginBottom: SPACING.sm }}
-                            placeholder="여기에 채용공고 원문을 붙여넣으세요 (자격요건·우대사항·주요업무 등)"
-                          />
-                          {experienceCards.length > 0 && (
-                            <p style={{ margin: `0 0 6px`, fontSize: FONT.size.xs, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
-                              ↓ 내 경험을 참고해, 이 공고에 <strong>맞는 것만 골라 체크</strong>하고 연결하세요 (모든 경험을 연결할 필요 없이, 맞는 것을 최대한 찾기)
-                            </p>
-                          )}
-                          {experienceCards.map((exp) => {
-                            const compArr = ['job_comps', 'comm_comps', 'att_comps'].flatMap((k) => (Array.isArray(exp[k]) ? exp[k] : []));
-                            const compText = formatComps(compArr);
-                            const selKey = `tpost_${i}_sel_${exp.id}`;
-                            const selected = !!mapAns[selKey];
-                            return (
-                              <div key={exp.id} style={{ marginBottom: SPACING.sm, paddingLeft: SPACING.sm, borderLeft: `2px solid ${selected ? COLORS.accent2 : COLORS.bgAlt}` }}>
-                                <label style={{ display: 'flex', gap: SPACING.xs, alignItems: 'flex-start', cursor: 'pointer' }}>
-                                  <input
-                                    type="checkbox"
-                                    checked={selected}
-                                    onChange={(e) => setFormAnswer(form.id, selKey, e.target.checked ? '1' : '')}
-                                    style={{ marginTop: 4, flexShrink: 0 }}
-                                  />
-                                  <span style={{ fontSize: FONT.size.xs, color: COLORS.ink, lineHeight: FONT.lineHeight.base }}>
-                                    <strong>{exp.org || exp.category || '경험'}{exp.role ? ` · ${exp.role}` : ''}</strong>
-                                    {exp.summary && <span style={{ color: COLORS.sub }}> — {exp.summary}</span>}
-                                    {compText && <span style={{ color: COLORS.accent2 }}> · {compText}</span>}
-                                  </span>
-                                </label>
-                                {selected && (
-                                  <input
-                                    type="text"
-                                    className="ce-input"
-                                    value={mapAns[`tpost_${i}_map_${exp.id}`] || ''}
-                                    onChange={(e) => setFormAnswer(form.id, `tpost_${i}_map_${exp.id}`, e.target.value)}
-                                    style={{ ...S.input, fontSize: FONT.size.sm, marginTop: 4, marginLeft: 24, width: 'calc(100% - 24px)' }}
-                                    placeholder="이 경험이 이 공고의 어떤 요건·키워드를 충족? (예: 'SPC' → 관리도 직접 작성)"
-                                  />
-                                )}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ))}
-                    </div>
-                    <div style={{ display: 'flex', gap: SPACING.sm, marginTop: SPACING.sm, flexWrap: 'wrap' }}>
-                      <button
-                        onClick={() => setFormAnswer(form.id, 'tpost_count', String(postCount + 1))}
-                        style={{ ...S.btnSecondary, justifyContent: 'center', borderStyle: 'dashed' }}
-                        className="ce-btn"
-                      >
-                        공고 추가
-                      </button>
-                      {postCount > 1 && (
-                        <button
-                          onClick={() => setFormAnswer(form.id, 'tpost_count', String(postCount - 1))}
-                          style={{ ...S.btnText, color: COLORS.red }}
-                        >
-                          마지막 공고 삭제
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                );
-              })()}
-              </>
             )}
 
             {/* 네비 */}

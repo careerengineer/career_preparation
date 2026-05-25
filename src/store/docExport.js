@@ -467,14 +467,12 @@ export function exportExperiencesXlsx(master) {
   ws['!cols'] = EXP_HEADER.map((k) => ({ wch: k === 'id' ? 14 : 24 }));
 
   const wb = XLSX.utils.book_new();
-  // 저작권·기밀 안내를 첫 시트로
-  const noticeWs = XLSX.utils.aoa_to_sheet([[COPYRIGHT_TITLE], [COPYRIGHT_TEXT], [COPYRIGHT_MARK]]);
-  noticeWs['!cols'] = [{ wch: 110 }];
-  XLSX.utils.book_append_sheet(wb, noticeWs, '저작권 안내');
   XLSX.utils.book_append_sheet(wb, ws, '경험 카드');
 
-  // 메타 시트
+  // 메타 시트 (저작권 안내를 별도 시트 대신 여기 상단에 포함)
   const meta = [
+    ['저작권 안내', COPYRIGHT_TEXT],
+    ['', ''],
     ['프로필 산업', master.profile.industry || ''],
     ['프로필 직무', master.profile.position || ''],
     ['프로필 회사', master.profile.company || ''],
