@@ -6,6 +6,7 @@ import { ALL_WORKBOOKS as WORKBOOKS, APP_VERSION } from './schema.js';
 import { formatComps } from './comps.js';
 import { buildCopyrightParagraphs, COPYRIGHT_TITLE, COPYRIGHT_TEXT, COPYRIGHT_MARK } from './docxBackup.js';
 import { LEGACY_KEYS } from './legacySync.js';
+import { QUESTION_LABELS } from './questionLabels.js';
 
 // 본문 끝 부록 영역에 base64로 백업 JSON을 임베드.
 // docx 표준 구조 그대로 유지 → Word/한글 정상 표시 + import 시 추출 가능.
@@ -246,10 +247,11 @@ function workbookBlocks(master, workbookKey, includeHeading = true) {
 
   const raw = master.workbookRaw?.[workbookKey];
   if (raw?.answers && Object.keys(raw.answers).length > 0) {
-    blocks.push(H2('답변 정리'));
+    blocks.push(H2('작성 답변'));
+    const labels = QUESTION_LABELS[workbookKey] || {};
     Object.entries(raw.answers).forEach(([k, v]) => {
       if (!v || !String(v).trim()) return;
-      blocks.push(H3(k));
+      blocks.push(H3(labels[k] || k));
       String(v).split('\n').forEach((line) => blocks.push(P(line || ' ')));
     });
   }
@@ -336,7 +338,7 @@ export async function exportWorkbookDocx(master, workbookKey, workbookTitle) {
 // ─── 전체 .docx ──────────────────────────────────────────
 // options.excludeExperiences = true 이면 경험 정리는 본문/임베드 JSON 모두 제외
 //   → 별도 .xlsx와 짝으로 다운로드 후 두 파일로 import 가능
-async function buildFullDocxBlob(master, options = {}) {
+export async function buildFullDocxBlob(master, options = {}) {
   const { excludeExperiences = false } = options;
 
   // 임베드 JSON: 옵션에 따라 experiences 제외
@@ -394,7 +396,10 @@ async function buildFullDocxBlob(master, options = {}) {
 
   for (const w of WORKBOOKS) {
     if (excludeExperiences && w.key === 'experience') continue;
-    children.push(...workbookBlocks(master, w.key, true));
+    const blocks = workbookBlocks(master, w.key, true);
+    // 각 워크북 섹션을 새 페이지에서 시작 (가독성)
+    children.push(new Paragraph({ children: [new PageBreak()] }));
+    children.push(...blocks);
   }
   children.push(...backupBlocks(payload));
 
@@ -489,40 +494,77 @@ const EXP_LABEL = {
 };
 
 function buildExperiencesWb(master) {
-  const rows = (master.experiences || []).map((e) => {
-    const r = {};
-    EXP_HEADER.forEach((k) => {
-      const v = e[k];
-      // 역량(job/comm/att_comps)은 {name,score} 배열 → "이름 (점수)"로 포맷
-      if (k === 'job_comps' || k === 'comm_comps' || k === 'att_comps') {
-        r[EXP_LABEL[k]] = formatComps(v);
-      } else {
-        r[EXP_LABEL[k]] = Array.isArray(v) ? v.join(', ') : (v ?? '');
-      }
-    });
-    return r;
-  });
-  if (rows.length === 0) rows.push(EXP_HEADER.reduce((acc, k) => ({ ...acc, [EXP_LABEL[k]]: '' }), {}));
-
-  const ws = XLSX.utils.json_to_sheet(rows, { header: EXP_HEADER.map((k) => EXP_LABEL[k]) });
-  ws['!cols'] = EXP_HEADER.map((k) => ({ wch: k === 'id' ? 14 : 24 }));
-
+  const exps = master.experiences || [];
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, '경험 카드');
 
-  // 메타 시트 (저작권 안내를 별도 시트 대신 여기 상단에 포함)
+  // [시트 1] 경험 정리 — 경험별 카드형 블록 (한눈에 읽기 좋게)
+  const aoa = [];
+  const merges = [];
+  const pushTitle = (text) => {
+    const r = aoa.length;
+    aoa.push([text, '']);
+    merges.push({ s: { r, c: 0 }, e: { r, c: 1 } });
+  };
+  pushTitle('CareerEngineer · 경험 정리');
+  pushTitle(`${[master.profile.industry, master.profile.position, master.profile.company].filter(Boolean).join(' / ') || '프로필 미입력'}`);
+  pushTitle(`총 ${exps.length}개 경험 · 내보낸 시각 ${new Date().toLocaleString('ko-KR')}`);
+  aoa.push([]);
+
+  if (exps.length === 0) {
+    aoa.push(['아직 작성된 경험이 없습니다. 경험 정리 워크북에서 경험 카드를 추가해 보세요.']);
+  }
+  exps.forEach((e, i) => {
+    pushTitle(`■ 경험 ${i + 1}.  ${(e.org || e.category || '경험')}${e.role ? '  ·  ' + e.role : ''}`);
+    const row = (label, val) => { if (val != null && String(val).trim()) aoa.push([label, String(val)]); };
+    row('카테고리', e.category);
+    row('기간', e.period);
+    row('요약', e.summary);
+    row('지원 동기', e.motivation);
+    if (e.star_s || e.star_t || e.star_a || e.star_r) aoa.push(['── STAR ──', '']);
+    row('상황 (S)', e.star_s);
+    row('과제 (T)', e.star_t);
+    row('행동 (A)', e.star_a);
+    row('결과 (R)', e.star_r);
+    row('어려웠던 점', e.difficulty);
+    row('배운 점', e.learning);
+    row('직무 역량', formatComps(e.job_comps));
+    row('소통 역량', formatComps(e.comm_comps));
+    row('태도 역량', formatComps(e.att_comps));
+    row('직무상세내용 매칭', e.jd_match);
+    aoa.push([]); // 경험 사이 빈 줄
+  });
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols'] = [{ wch: 18 }, { wch: 95 }];
+  if (merges.length) ws['!merges'] = merges;
+  XLSX.utils.book_append_sheet(wb, ws, '경험 정리');
+
+  // [시트 2] 메타 (저작권 + 프로필)
   const meta = [
     ['저작권 안내', COPYRIGHT_TEXT],
     ['', ''],
     ['프로필 산업', master.profile.industry || ''],
     ['프로필 직무', master.profile.position || ''],
     ['프로필 회사', master.profile.company || ''],
-    ['총 경험 카드', (master.experiences || []).length],
+    ['총 경험', exps.length],
     ['내보낸 시각', new Date().toLocaleString('ko-KR')],
     ['포맷', 'careerengineer-experience-xlsx-v1'],
   ];
   const metaWs = XLSX.utils.aoa_to_sheet(meta);
+  metaWs['!cols'] = [{ wch: 14 }, { wch: 110 }];
   XLSX.utils.book_append_sheet(wb, metaWs, '메타');
+
+  // [시트 3] _CE_BACKUP (숨김) — 이 파일을 그대로 다시 가져오면 경험이 완전 복원됨
+  try {
+    const b64 = utf8ToBase64(JSON.stringify({ format: 'careerengineer-experience-xlsx', version: 1, experiences: exps }));
+    const CH = 30000;
+    const brows = [['CE_EXPERIENCE_BACKUP']];
+    for (let i = 0; i < b64.length; i += CH) brows.push([b64.slice(i, i + CH)]);
+    const bws = XLSX.utils.aoa_to_sheet(brows);
+    XLSX.utils.book_append_sheet(wb, bws, '_CE_BACKUP');
+    const bi = wb.SheetNames.indexOf('_CE_BACKUP');
+    if (bi >= 0) { wb.Workbook = wb.Workbook || {}; wb.Workbook.Sheets = wb.Workbook.Sheets || []; wb.Workbook.Sheets[bi] = { Hidden: 1 }; }
+  } catch (err) { console.warn('[xlsx] backup sheet skipped:', err); }
+
   return wb;
 }
 
@@ -539,7 +581,7 @@ export function exportExperiencesXlsx(master) {
   return name;
 }
 
-function buildExperiencesXlsxBlob(master) {
+export function buildExperiencesXlsxBlob(master) {
   const wb = buildExperiencesWb(master);
   const arr = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
   const blob = new Blob([arr], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
