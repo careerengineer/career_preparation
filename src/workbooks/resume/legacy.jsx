@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
+import { buildResumeDocxChildren } from '../../store/workbookDocx.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
@@ -718,124 +719,7 @@ const ResumeWorkbook = () => {
         return text.split('\n').filter(x => x.trim()).map(x => bulletP(x.replace(/^[•\-*·▪]\s*/, '').trim()));
       };
       
-      const children = [dateP(), titleP('이  력  서')];
-      
-      // 회사·직무 부제
-      if (a('company') || a('position')) {
-        const sub = (a('company') || '') + 
-          (a('company') && a('position') ? ' · ' : '') +
-          (a('position') ? a('position') + ' 지원' : '');
-        children.push(subtitleP(sub));
-      }
-      
-      // 한 줄 소개
-      const oneline = a('oneline_final') || a('oneline_draft');
-      if (oneline) {
-        children.push(sectionH('한 줄 소개'));
-        children.push(highlightP(oneline));
-        if (has('oneline_kw')) {
-          children.push(new Paragraph({
-            children: [
-              new TextRun({ text: '핵심 키워드  |  ', bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' }),
-              new TextRun({ text: a('oneline_kw'), size: 22, font: '맑은 고딕', color: '0E2750' })
-            ],
-            spacing: { before: 120, after: 120 }
-          }));
-        }
-      }
-      
-      // 경력 / 경험
-      const hasExp = Array.from({length: expCount}, (_, i) => i + 1).some(n => has(`exp${n}_name`));
-      if (hasExp) {
-        children.push(sectionH('경력 / 경험'));
-        for (let n = 1; n <= expCount; n++) {
-          if (!has(`exp${n}_name`)) continue;
-          children.push(expH(a(`exp${n}_name`), a(`exp${n}_role`), a(`exp${n}_period`)));
-          if (has(`exp${n}_detail`)) {
-            children.push(...renderBullets(a(`exp${n}_detail`)));
-          }
-          if (has(`exp${n}_result`)) {
-            children.push(resultP(a(`exp${n}_result`)));
-          }
-        }
-        // 추가 메타
-        if (has('career_depth')) {
-          children.push(noteP('가장 깊이 있게 다룬 경력', a('career_depth')));
-        }
-        if (has('career_gap')) {
-          children.push(noteP('경력 공백 설명', a('career_gap')));
-        }
-      }
-      
-      // 프로젝트
-      const hasProj = Array.from({length: projCount}, (_, i) => i + 1).some(p => has(`proj${p}_name`));
-      if (hasProj) {
-        children.push(sectionH('프로젝트'));
-        for (let p = 1; p <= projCount; p++) {
-          if (!has(`proj${p}_name`)) continue;
-          children.push(expH(a(`proj${p}_name`), a(`proj${p}_org`), a(`proj${p}_period`)));
-          if (has(`proj${p}_role`)) {
-            children.push(new Paragraph({
-              children: [new TextRun({ text: '담당 역할 · ' + a(`proj${p}_role`), bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' })],
-              spacing: { before: 80, after: 120 }
-            }));
-          }
-          if (has(`proj${p}_detail`)) {
-            children.push(...renderBullets(a(`proj${p}_detail`)));
-          }
-        }
-      }
-      
-      // 스킬 · 자격증
-      if (has('skills')) {
-        children.push(sectionH('스킬 · 자격증'));
-        children.push(...renderBullets(a('skills')));
-      }
-      
-      // 교육 · 부트캠프
-      if (has('edu_extra')) {
-        children.push(sectionH('교육 · 부트캠프'));
-        children.push(...renderBullets(a('edu_extra')));
-      }
-      
-      // 직무 분석 (작성자 참고용 — 마지막)
-      const hasJD = has('jd_core') || has('jd_tools') || has('jd_nice') || has('priority_reason');
-      if (hasJD) {
-        children.push(sectionH('직무 분석'));
-        if (has('jd_core')) children.push(metaP('핵심 역량 키워드', a('jd_core')));
-        if (has('jd_tools')) children.push(metaP('도구·기술 키워드', a('jd_tools')));
-        if (has('jd_nice')) children.push(metaP('우대 사항', a('jd_nice')));
-        if (has('priority_reason')) children.push(metaP('우선순위 결정 근거', a('priority_reason')));
-      }
-      
-            
-      // ═══ CareerEngineer 자료 + 멘토링 안내 (docx 본문 끝) ═══
-      children.push(sectionH('CareerEngineer 자료 — 다음 단계로'));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '이 워크북을 완성한 후 다음 단계로 나아가는 데 도움이 되는 자료들입니다.', italic: true, size: 20, font: '맑은 고딕', color: '6E7A8F' })],
-        spacing: { before: 80, after: 160 }
-      }));
-      children.push(linkP('이력서 작성 가이드북 — 한줄소개부터 경력 정리까지', 'https://www.latpeed.com/products/F8JkO'));
-      children.push(linkP('경력기술서 작성 가이드북 (경력직)', 'https://www.latpeed.com/products/AkBH-'));
-      children.push(linkP('1:1 취업 컨설팅 — 이력서 검토와 방향 잡기', 'https://www.latpeed.com/products/S92cP'));
-      children.push(linkP('CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer'));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '', size: 22, font: '맑은 고딕' })],
-        spacing: { before: 240, after: 60 }
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: 'CareerEngineer 전자책 / 멘토링 전체 안내', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })],
-        spacing: { before: 160, after: 80 },
-        shading: { fill: 'F2F1EC' },
-        border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } },
-        indent: { left: 240 }
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: 'CareerEngineer는 취업·이직 준비의 모든 단계를 지원하는 전자책과 멘토링을 운영합니다. 자소서 작성, 경력기술서, 면접 답변집 등 단계별 가이드와 1:1 멘토링이 있으며, 모든 자료는 공학박사 멘토의 실제 합격 사례 기반으로 설계되어 있습니다.', size: 20, font: '맑은 고딕', color: '0E2750' })],
-        spacing: { before: 0, after: 120, line: 360 },
-        indent: { left: 240 }
-      }));
-      children.push(linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
+      const children = buildResumeDocxChildren({ answers, expCount, projCount }, docxLib);
 
       try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('resume', '이력서', 'careerengineer_resume_v1'))); } catch (e) { console.warn('[resume] backup embed skipped:', e); }
       try { children.unshift(...buildCopyrightParagraphs(docxLib)); } catch (e) { console.warn('copyright skip', e); }

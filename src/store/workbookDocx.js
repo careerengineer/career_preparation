@@ -140,6 +140,174 @@ export function buildMotivationDocxChildren(data, dx, opts) {
   return buildEssayDocxChildren('motivation', data, dx, opts);
 }
 
+// 이력서(resume) docx 본문 children — 워크북 고유 디자인(한줄소개/경력·경험/프로젝트/스킬/교육/직무분석)
+export function buildResumeDocxChildren({ answers = {}, expCount = 3, projCount = 1 }, dx, { includeMentoring = true } = {}) {
+  const { Paragraph, TextRun, BorderStyle } = dx;
+  const h = makeDocxHelpers(dx);
+  const a = (k) => (answers[k] || '').toString();
+  const has = () => true;
+  const expH = (name, role, period) => {
+    const runs = [new TextRun({ text: name, bold: true, size: 24, font: '맑은 고딕', color: '0E2750' })];
+    if (role) { runs.push(new TextRun({ text: '   |   ', size: 22, font: '맑은 고딕', color: '6E7A8F' })); runs.push(new TextRun({ text: role, bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' })); }
+    if (period) runs.push(new TextRun({ text: '   ' + period, size: 20, font: '맑은 고딕', color: '6E7A8F' }));
+    return new Paragraph({ children: runs, spacing: { before: 360, after: 120 }, border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: '1B3A6B', space: 4 } } });
+  };
+  const bulletP = (t) => new Paragraph({ children: [new TextRun({ text: '▪  ', size: 22, font: '맑은 고딕', color: '1B3A6B' }), new TextRun({ text: t, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 60, after: 60, line: 340 }, indent: { left: 240, hanging: 240 } });
+  const resultP = (t) => new Paragraph({ children: [new TextRun({ text: '▸  ', size: 22, font: '맑은 고딕', color: '1B3A6B', bold: true }), new TextRun({ text: t, size: 22, font: '맑은 고딕', color: '0E2750', bold: true })], spacing: { before: 80, after: 160, line: 340 }, indent: { left: 240, hanging: 240 } });
+  const highlightP = (t) => new Paragraph({ children: String(t).split('\n').flatMap((line, i) => i === 0 ? [new TextRun({ text: line, size: 22, font: '맑은 고딕', color: '0E2750' })] : [new TextRun({ break: 1, text: line, size: 22, font: '맑은 고딕', color: '0E2750' })]), spacing: { before: 100, after: 200, line: 360 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } }, indent: { left: 240 } });
+  const metaP = (label, value) => new Paragraph({ children: [new TextRun({ text: label + '\t', bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' }), new TextRun({ text: value, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 100, after: 100 }, border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: 'E8E5DD', space: 4 } } });
+  const noteP = (label, value) => new Paragraph({ children: [new TextRun({ text: label + ': ', bold: true, size: 20, font: '맑은 고딕', color: '1B3A6B' }), new TextRun({ text: value, size: 20, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 80, after: 80 } });
+  const renderBullets = (text) => String(text).split('\n').filter((x) => x.trim()).map((x) => bulletP(x.replace(/^[•\-*·▪]\s*/, '').trim()));
+
+  const children = [h.dateP(), h.titleP('이  력  서')];
+  if (a('company') || a('position')) {
+    const sub = (a('company') || '') + (a('company') && a('position') ? ' · ' : '') + (a('position') ? a('position') + ' 지원' : '');
+    children.push(h.subtitleP(sub));
+  }
+  const oneline = a('oneline_final') || a('oneline_draft');
+  if (oneline) {
+    children.push(h.sectionH('한 줄 소개'));
+    children.push(highlightP(oneline));
+    if (has('oneline_kw')) children.push(new Paragraph({ children: [new TextRun({ text: '핵심 키워드  |  ', bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' }), new TextRun({ text: a('oneline_kw'), size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 120, after: 120 } }));
+  }
+  const hasExp = Array.from({ length: expCount }, (_, i) => i + 1).some((n) => has(`exp${n}_name`));
+  if (hasExp) {
+    children.push(h.sectionH('경력 / 경험'));
+    for (let n = 1; n <= expCount; n++) {
+      if (!has(`exp${n}_name`)) continue;
+      children.push(expH(a(`exp${n}_name`), a(`exp${n}_role`), a(`exp${n}_period`)));
+      if (has(`exp${n}_detail`)) children.push(...renderBullets(a(`exp${n}_detail`)));
+      if (has(`exp${n}_result`)) children.push(resultP(a(`exp${n}_result`)));
+    }
+    if (has('career_depth')) children.push(noteP('가장 깊이 있게 다룬 경력', a('career_depth')));
+    if (has('career_gap')) children.push(noteP('경력 공백 설명', a('career_gap')));
+  }
+  const hasProj = Array.from({ length: projCount }, (_, i) => i + 1).some((p) => has(`proj${p}_name`));
+  if (hasProj) {
+    children.push(h.sectionH('프로젝트'));
+    for (let p = 1; p <= projCount; p++) {
+      if (!has(`proj${p}_name`)) continue;
+      children.push(expH(a(`proj${p}_name`), a(`proj${p}_org`), a(`proj${p}_period`)));
+      if (has(`proj${p}_role`)) children.push(new Paragraph({ children: [new TextRun({ text: '담당 역할 · ' + a(`proj${p}_role`), bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' })], spacing: { before: 80, after: 120 } }));
+      if (has(`proj${p}_detail`)) children.push(...renderBullets(a(`proj${p}_detail`)));
+    }
+  }
+  if (has('skills')) { children.push(h.sectionH('스킬 · 자격증')); children.push(...renderBullets(a('skills'))); }
+  if (has('edu_extra')) { children.push(h.sectionH('교육 · 부트캠프')); children.push(...renderBullets(a('edu_extra'))); }
+  if (has('jd_core') || has('jd_tools') || has('jd_nice') || has('priority_reason')) {
+    children.push(h.sectionH('직무 분석'));
+    if (has('jd_core')) children.push(metaP('핵심 역량 키워드', a('jd_core')));
+    if (has('jd_tools')) children.push(metaP('도구·기술 키워드', a('jd_tools')));
+    if (has('jd_nice')) children.push(metaP('우대 사항', a('jd_nice')));
+    if (has('priority_reason')) children.push(metaP('우선순위 결정 근거', a('priority_reason')));
+  }
+  if (includeMentoring) {
+    children.push(h.sectionH('CareerEngineer 자료 — 다음 단계로'));
+    children.push(h.plain('이 워크북을 완성한 후 다음 단계로 나아가는 데 도움이 되는 자료들입니다.', { italic: true, spacing: { before: 80, after: 160 } }));
+    children.push(h.linkP('이력서 작성 가이드북 — 한줄소개부터 경력 정리까지', 'https://www.latpeed.com/products/F8JkO'));
+    children.push(h.linkP('경력기술서 작성 가이드북 (경력직)', 'https://www.latpeed.com/products/AkBH-'));
+    children.push(h.linkP('1:1 취업 컨설팅 — 이력서 검토와 방향 잡기', 'https://www.latpeed.com/products/S92cP'));
+    children.push(h.linkP('CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer'));
+    children.push(new Paragraph({ children: [new TextRun({ text: '', size: 22, font: '맑은 고딕' })], spacing: { before: 240, after: 60 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: 'CareerEngineer 전자책 / 멘토링 전체 안내', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 160, after: 80 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } }, indent: { left: 240 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: 'CareerEngineer는 취업·이직 준비의 모든 단계를 지원하는 전자책과 멘토링을 운영합니다. 자소서 작성, 경력기술서, 면접 답변집 등 단계별 가이드와 1:1 멘토링이 있으며, 모든 자료는 공학박사 멘토의 실제 합격 사례 기반으로 설계되어 있습니다.', size: 20, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 0, after: 120, line: 360 }, indent: { left: 240 } }));
+    children.push(h.linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
+  }
+  return children;
+}
+
+// 경력기술서(career_description) docx 본문 children — 워크북 고유 디자인
+export function buildCareerDescDocxChildren({ ans = {}, companyCount = 2, perfCounts = { 1: 2, 2: 1 } }, dx, { includeMentoring = true } = {}) {
+  const { Paragraph, TextRun, AlignmentType, BorderStyle } = dx;
+  const today = new Date().toISOString().slice(0, 10);
+  const v = (k) => (ans[k] || '').toString();
+  const has = () => true;
+  const titleP = (t) => new Paragraph({ children: [new TextRun({ text: t, bold: true, size: 44, font: '맑은 고딕', color: '0E2750', characterSpacing: 200 })], alignment: AlignmentType.CENTER, spacing: { before: 200, after: 240 }, border: { bottom: { style: BorderStyle.SINGLE, size: 24, color: '0E2750', space: 6 } } });
+  const sectionH = (t) => new Paragraph({ children: [new TextRun({ text: t, bold: true, size: 28, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 480, after: 200 }, border: { bottom: { style: BorderStyle.SINGLE, size: 12, color: '0E2750', space: 4 } } });
+  const companyH = (company, period) => new Paragraph({ children: [new TextRun({ text: company, bold: true, size: 24, font: '맑은 고딕', color: '0E2750' }), ...(period ? [new TextRun({ text: '   ' + period, size: 20, font: '맑은 고딕', color: '6E7A8F' })] : [])], spacing: { before: 360, after: 120 }, border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: '1B3A6B', space: 4 } } });
+  const bodyP = (t, opts = {}) => new Paragraph({ children: String(t).split('\n').flatMap((line, i) => i === 0 ? [new TextRun({ text: line, size: 22, font: '맑은 고딕', color: '0E2750', ...opts })] : [new TextRun({ break: 1, text: line, size: 22, font: '맑은 고딕', color: '0E2750', ...opts })]), spacing: { before: 100, after: 160, line: 360 }, alignment: AlignmentType.JUSTIFIED });
+  const linkP = (label, url, options = {}) => new Paragraph({ children: [new TextRun({ text: options.prefix || '', size: 22, font: '맑은 고딕', color: '1B3A6B' }), new dx.ExternalHyperlink({ link: url, children: [new TextRun({ text: label, size: 22, font: '맑은 고딕', color: '0563C1', underline: { type: 'single', color: '0563C1' } })] })], spacing: { before: options.before || 60, after: options.after || 60, line: 340 }, indent: { left: options.indent || 240 } });
+  const highlightP = (t) => new Paragraph({ children: String(t).split('\n').flatMap((line, i) => i === 0 ? [new TextRun({ text: line, size: 22, font: '맑은 고딕', color: '0E2750' })] : [new TextRun({ break: 1, text: line, size: 22, font: '맑은 고딕', color: '0E2750' })]), spacing: { before: 100, after: 200, line: 360 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } }, indent: { left: 240 } });
+  const perfTitleP = (t) => new Paragraph({ children: [new TextRun({ text: t, bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 280, after: 120, line: 320 }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } }, indent: { left: 240 } });
+  const resultP = (t, bold = true) => new Paragraph({ children: [new TextRun({ text: '▸ ', size: 22, font: '맑은 고딕', color: '1B3A6B', bold: true }), new TextRun({ text: t, size: 22, font: '맑은 고딕', color: '0E2750', bold })], spacing: { before: 80, after: 80, line: 340 }, indent: { left: 360 } });
+  const labelP = (t) => new Paragraph({ children: [new TextRun({ text: t, bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' })], spacing: { before: 200, after: 80 }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: 'C9A86A', space: 8 } }, indent: { left: 200 } });
+  const labelBodyP = (t) => new Paragraph({ children: String(t).split('\n').flatMap((line, i) => i === 0 ? [new TextRun({ text: line, size: 22, font: '맑은 고딕', color: '0E2750' })] : [new TextRun({ break: 1, text: line, size: 22, font: '맑은 고딕', color: '0E2750' })]), spacing: { before: 0, after: 160, line: 360 }, indent: { left: 360 } });
+  const dateP = () => new Paragraph({ children: [new TextRun({ text: '작성일 · ' + today, size: 20, font: '맑은 고딕', color: '6E7A8F' })], alignment: AlignmentType.RIGHT, spacing: { after: 80 } });
+  const metaP = (label, value) => new Paragraph({ children: [new TextRun({ text: label + '\t', bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' }), new TextRun({ text: value, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 100, after: 100 }, border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: 'E8E5DD', space: 4 } } });
+
+  const children = [dateP(), titleP('경 력 기 술 서')];
+  if (has('company') || has('position') || has('type')) {
+    if (has('company')) children.push(metaP('지원 회사', v('company')));
+    if (has('position')) children.push(metaP('지원 직무', v('position')));
+    if (has('type')) children.push(metaP('지원 유형', v('type')));
+    children.push(metaP('작성일', today));
+  }
+  if (has('story_one')) { children.push(sectionH('경력 한 문장')); children.push(highlightP(v('story_one'))); }
+  if (has('summary')) { children.push(sectionH('경력 요약')); children.push(bodyP(v('summary'))); }
+  if (has('highlight_2line') || has('highlight_3keyword') || has('str1') || has('str2') || has('str3')) {
+    children.push(sectionH('강점 하이라이트'));
+    if (has('highlight_2line')) children.push(highlightP(v('highlight_2line')));
+    if (has('highlight_3keyword')) children.push(new Paragraph({ children: [new TextRun({ text: '▪ 핵심 키워드: ', bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' }), new TextRun({ text: v('highlight_3keyword'), size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 120, after: 120 } }));
+    [1, 2, 3].filter((n) => has(`str${n}`)).forEach((n) => children.push(new Paragraph({ children: [new TextRun({ text: '0' + n + '\t', bold: true, size: 20, font: '맑은 고딕', color: '1B3A6B' }), new TextRun({ text: v(`str${n}`), size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 100, after: 100 }, border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: 'E8E5DD', space: 4 } } })));
+  }
+  const hasCareer = Array.from({ length: companyCount }, (_, i) => i + 1).some((c) => has(`c${c}_company`));
+  if (hasCareer) {
+    children.push(sectionH('경력 사항'));
+    for (let c = 1; c <= companyCount; c++) {
+      if (!has(`c${c}_company`)) continue;
+      children.push(companyH(v(`c${c}_company`), v(`c${c}_period`)));
+      const metaParts = [];
+      if (has(`c${c}_title`)) metaParts.push({ text: v(`c${c}_title`), bold: true });
+      if (has(`c${c}_scope`)) metaParts.push({ text: v(`c${c}_scope`), bold: false });
+      if (metaParts.length > 0) {
+        const runs = [];
+        metaParts.forEach((p, i) => { if (i > 0) runs.push(new TextRun({ text: '   |   ', size: 22, font: '맑은 고딕', color: '6E7A8F' })); runs.push(new TextRun({ text: p.text, size: 22, font: '맑은 고딕', color: p.bold ? '1B3A6B' : '0E2750', bold: p.bold })); });
+        children.push(new Paragraph({ children: runs, spacing: { before: 80, after: 200 } }));
+      }
+      const perfCount = perfCounts[c] || 1;
+      for (let p = 1; p <= perfCount; p++) {
+        if (!has(`c${c}_s${p}_title`)) continue;
+        children.push(perfTitleP(v(`c${c}_s${p}_title`)));
+        if (has(`c${c}_s${p}_bg`)) children.push(bodyP(v(`c${c}_s${p}_bg`)));
+        if (has(`c${c}_s${p}_role`)) children.push(bodyP(v(`c${c}_s${p}_role`)));
+        if (has(`c${c}_s${p}_action`)) children.push(bodyP(v(`c${c}_s${p}_action`)));
+        if (has(`c${c}_s${p}_result`)) children.push(resultP(v(`c${c}_s${p}_result`), true));
+        if (has(`c${c}_s${p}_ripple`)) children.push(resultP(v(`c${c}_s${p}_ripple`), false));
+      }
+    }
+  }
+  if (has('lead_team') || has('decision') || has('cross')) {
+    children.push(sectionH('관리 · 리더십'));
+    if (has('lead_team')) { children.push(labelP('▪ 팀 관리')); children.push(labelBodyP(v('lead_team'))); }
+    if (has('decision')) { children.push(labelP('▪ 의사결정')); children.push(labelBodyP(v('decision'))); }
+    if (has('cross')) { children.push(labelP('▪ 크로스펑셔널 협업')); children.push(labelBodyP(v('cross'))); }
+  }
+  if (has('trans_why') || has('bridge')) {
+    children.push(sectionH('직무 전환'));
+    if (has('trans_why')) { children.push(labelP('▪ 전환 이유')); children.push(labelBodyP(v('trans_why'))); }
+    if (has('bridge')) { children.push(labelP('▪ 연결 역량')); children.push(labelBodyP(v('bridge'))); }
+  }
+  if (has('hard_skills') || has('soft_skills') || has('certs')) {
+    children.push(sectionH('핵심 역량'));
+    if (has('hard_skills')) children.push(metaP('하드 스킬', v('hard_skills')));
+    if (has('soft_skills')) children.push(metaP('소프트 스킬', v('soft_skills')));
+    if (has('certs')) children.push(metaP('자격증 · 인증', v('certs')));
+  }
+  if (includeMentoring) {
+    children.push(sectionH('CareerEngineer 자료 — 다음 단계로'));
+    children.push(new Paragraph({ children: [new TextRun({ text: '이 워크북을 완성한 후 다음 단계로 나아가는 데 도움이 되는 자료들입니다.', italic: true, size: 20, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 80, after: 160 } }));
+    children.push(linkP('경력기술서 작성 가이드북', 'https://www.latpeed.com/products/AkBH-'));
+    children.push(linkP('이력서 작성 가이드북', 'https://www.latpeed.com/products/F8JkO'));
+    children.push(linkP('이직 컨설팅 — 경력자 전용 1:1 컨설팅', 'https://www.latpeed.com/products/LimF9'));
+    children.push(linkP('CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer'));
+    children.push(new Paragraph({ children: [new TextRun({ text: '', size: 22, font: '맑은 고딕' })], spacing: { before: 240, after: 60 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: 'CareerEngineer 전자책 / 멘토링 전체 안내', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 160, after: 80 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } }, indent: { left: 240 } }));
+    children.push(new Paragraph({ children: [new TextRun({ text: 'CareerEngineer는 취업·이직 준비의 모든 단계를 지원하는 전자책과 멘토링을 운영합니다. 자소서 작성, 경력기술서, 면접 답변집 등 단계별 가이드와 1:1 멘토링이 있으며, 모든 자료는 공학박사 멘토의 실제 합격 사례 기반으로 설계되어 있습니다.', size: 20, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 0, after: 120, line: 360 }, indent: { left: 240 } }));
+    children.push(linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
+  }
+  return children;
+}
+
 const essayFromMaster = (key) => (master, dx, opts) => buildEssayDocxChildren(key, {
   basicInfo: { company: master?.profile?.company || '', position: master?.profile?.position || '' },
   finalText: master?.outputs?.[key]?.finalText || master?.workbookRaw?.[key]?.finalText || '',
@@ -153,4 +321,14 @@ export const WORKBOOK_DOCX_BUILDERS = {
   personality: essayFromMaster('personality'),
   goalachievement: essayFromMaster('goalachievement'),
   careergoal: essayFromMaster('careergoal'),
+  resume: (master, dx, opts) => buildResumeDocxChildren({
+    answers: master?.workbookRaw?.resume?.answers || {},
+    expCount: master?.workbookRaw?.resume?.expCount ?? 3,
+    projCount: master?.workbookRaw?.resume?.projCount ?? 1,
+  }, dx, opts),
+  career_description: (master, dx, opts) => buildCareerDescDocxChildren({
+    ans: master?.workbookRaw?.career_description?.ans || {},
+    companyCount: master?.workbookRaw?.career_description?.companyCount ?? 2,
+    perfCounts: master?.workbookRaw?.career_description?.perfCounts ?? { 1: 2, 2: 1 },
+  }, dx, opts),
 };
