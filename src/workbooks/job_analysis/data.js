@@ -1,0 +1,514 @@
+// 직무분석 데이터 (워크북 UI + docx 백업 공용)
+export const FORMS = [
+  {
+    "id": "form_01",
+    "title": "지원할 회사·직무 기본 정보",
+    "subtitle": "PART 1 — 지원하는 한 회사·직무 정리",
+    "type": "repeat",
+    "required_for": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J"
+    ],
+    "desc": "이번에 지원하려는 한 회사의 채용공고를 기준으로 입력하세요. 여러 회사를 늘어놓기보다 지원하는 한 회사·한 직무에 집중해 깊이 분석하는 것이 합격에 훨씬 효과적입니다. (정말 비교가 필요할 때만 아래 [비교할 공고 추가]로 덧붙이세요.)",
+    "completion_criteria": "지원할 회사·직무 기본 정보 입력",
+    "references": [],
+    "fields": [
+      {
+        "key": "company",
+        "label": "회사명",
+        "placeholder": "예: 현대자동차"
+      },
+      {
+        "key": "job_title",
+        "label": "직무명",
+        "placeholder": "예: 품질관리 엔지니어"
+      },
+      {
+        "key": "industry",
+        "label": "산업",
+        "placeholder": "예: 자동차 제조"
+      },
+      {
+        "key": "location",
+        "label": "근무지",
+        "placeholder": "예: 울산"
+      },
+      {
+        "key": "deadline",
+        "label": "마감일",
+        "placeholder": "YYYY-MM-DD"
+      },
+      {
+        "key": "docs",
+        "label": "제출 서류",
+        "placeholder": "자소서·이력서·포폴·증빙서류 등"
+      },
+      {
+        "key": "unknown_terms",
+        "label": "모르는 용어 (밑줄 친 것)",
+        "placeholder": "예: APQP, PPAP, IATF 16949",
+        "rows": 2
+      }
+    ],
+    "prompt": null
+  },
+  {
+    "id": "form_02",
+    "title": "직무 용어 및 주요 업무 분석",
+    "subtitle": "PART 2 — 공고의 용어를 깊이 이해",
+    "type": "structured",
+    "required_for": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J"
+    ],
+    "desc": "지원하려는 이 회사 공고의 '주요 업무(직무상세내용)'를 항목별로 분해하고, 낯선 용어를 AI와 함께 분석합니다. 분해한 직무상세내용 항목은 STEP 2 경험정리에서 내 경험과 1:1로 매핑됩니다.",
+    "completion_criteria": "주요 업무(직무상세내용) 항목별 분해 + 용어 의미 + 업무 흐름 정리",
+    "references": [
+      {
+        "formId": "form_01",
+        "label": "공고 기본 정보",
+        "showField": "unknown_terms"
+      }
+    ],
+    "fields": [
+      {
+        "key": "jd_duties",
+        "label": "이 회사 공고의 '주요 업무(직무상세내용)'를 한 줄에 하나씩 적어주세요",
+        "hint": "공고의 '담당업무 / 주요업무 / Responsibilities' 항목을 한 줄에 하나씩 분해하세요. 이 한 줄 한 줄이 STEP 2 경험정리에서 '내 어떤 경험이 이 일을 해봤는가'와 1:1로 매핑됩니다. 한 회사·한 직무 기준으로 구체적으로.",
+        "rows": 6
+      },
+      {
+        "key": "keywords",
+        "label": "(여러 공고를 봤다면) 반복 등장하는 핵심 키워드 3~5개 — 선택",
+        "hint": "여러 공고를 비교했을 때 3회 이상 반복된 단어. 반복 = 이 직무의 핵심 역량 신호 (이력서·자소서에 그대로 쓸 단어). 한 회사만 분석한다면 비워둬도 됩니다.",
+        "rows": 2
+      },
+      {
+        "key": "term_meaning",
+        "label": "각 용어의 실무적 의미 (AI 조사 결과)",
+        "hint": "용어 → 이 산업에서 실제로 어떻게 쓰이는지",
+        "rows": 5
+      },
+      {
+        "key": "work_flow",
+        "label": "주요 업무의 시간 순서 + 협업 부서 + 산출물",
+        "hint": "AI에게 재배열 요청한 결과 + 나의 이해",
+        "rows": 5
+      },
+      {
+        "key": "daily_vs_periodic",
+        "label": "이 직무가 매일 하는 일과 분기·연 단위로 하는 일은 각각 무엇인가?",
+        "hint": "매일 반복하는 일이 이 직무의 '실제 일상'. 그 일상이 견딜 만한지 보는 단계",
+        "rows": 3
+      }
+    ],
+    "prompt": {
+      "title": "GenAI 용어 분석 프롬프트",
+      "body": "[용어]가 [산업]에서 실제로 어떻게 쓰이는지 설명해줘. 신입이 이 용어와 관련해서 매일 하는 일, 분기별로 하는 일, 그리고 내가 직접 수행하는 건지 결과물을 받아서 활용하는 건지 구분해줘"
+    }
+  },
+  {
+    "id": "form_03",
+    "title": "자격 요건과 역량 비교",
+    "subtitle": "PART 3 — 공고 요건 vs 내 역량 매핑",
+    "type": "structured",
+    "required_for": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J"
+    ],
+    "desc": "공고의 필수·우대 요건을 나열하고, 각각에 대해 내가 가진 역량을 O/△/X로 판단합니다.",
+    "completion_criteria": "모든 필수 요건에 O/△/X 판단 완료",
+    "references": [
+      {
+        "formId": "form_01",
+        "label": "공고 기본 정보",
+        "showField": "job_title"
+      },
+      {
+        "formId": "form_02",
+        "label": "직무 용어 분석",
+        "showField": "keywords"
+      }
+    ],
+    "fields": [
+      {
+        "key": "required_must",
+        "label": "필수 자격요건 (공고 원문)",
+        "hint": "\"필수\", \"요구\" 등으로 표시된 항목",
+        "rows": 4
+      },
+      {
+        "key": "required_plus",
+        "label": "우대 사항 (공고 원문)",
+        "hint": "\"우대\", \"환영\" 등으로 표시된 항목",
+        "rows": 4
+      },
+      {
+        "key": "my_match_must",
+        "label": "필수 요건에 대한 내 역량 판단 (O/△/X + 증거)",
+        "hint": "O 충족: 실무 독립 사용 / △ 부분: 수업·강의 / X 미충족: 경험 없음",
+        "rows": 5
+      },
+      {
+        "key": "my_match_plus",
+        "label": "우대 사항에 대한 내 역량 판단 (O/△/X + 증거)",
+        "rows": 4
+      },
+      {
+        "key": "gap_plan",
+        "label": "부족한 역량의 2주 학습 계획",
+        "hint": "구체적 강의·플랫폼·일일 시간",
+        "rows": 4
+      }
+    ],
+    "prompt": {
+      "title": "GenAI 역량 연결 프롬프트",
+      "body": "나는 [경험 설명]을 했어. 이 공고에서 요구하는 [역량]과 어떻게 연결할 수 있는지 구체적으로 알려줘. 연결이 약하면 솔직하게 알려줘"
+    }
+  },
+  {
+    "id": "form_04",
+    "title": "기업 및 직무 심층 조사",
+    "subtitle": "PART 4 — 공고 밖 정보 수집",
+    "type": "structured",
+    "required_for": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "F",
+      "G",
+      "H",
+      "J"
+    ],
+    "desc": "기업의 비전·최근 투자·밸류체인 상 위치를 조사합니다. 자소서 지원동기의 원천이 됩니다.",
+    "completion_criteria": "밸류체인·경쟁사·최근 뉴스까지 파악",
+    "references": [
+      {
+        "formId": "form_01",
+        "label": "공고 기본 정보",
+        "showField": "company"
+      }
+    ],
+    "fields": [
+      {
+        "key": "vision",
+        "label": "이 기업의 비전·미션은? (내 지원동기와 연결될 한 문장 찾기)",
+        "hint": "채용/IR 페이지 원문을 적고, 그 중 내 가치관·목표와 이어지는 한 문장을 고른다",
+        "rows": 2
+      },
+      {
+        "key": "recent_investment",
+        "label": "최근 1년간 가장 크게 투자한 사업 영역",
+        "hint": "이것이 지원 직무에 미치는 영향까지",
+        "rows": 3
+      },
+      {
+        "key": "value_chain",
+        "label": "밸류체인 상 위치",
+        "hint": "원자재 → 공급사 → 이 회사 → 고객사 → 최종소비자",
+        "rows": 3
+      },
+      {
+        "key": "competitors",
+        "label": "주요 경쟁사 2~3개와, 이 회사가 경쟁사보다 잘하는 점은?",
+        "hint": "경쟁사 대비 강점 = 지원동기의 재료 ('왜 다른 곳 아닌 여기인가'에 대한 답)",
+        "rows": 3
+      },
+      {
+        "key": "recent_news",
+        "label": "최근 3개월 주요 뉴스는? (출처가 확인된 것만)",
+        "hint": "보도자료·공식발표 등 출처 있는 것만. 면접에서 인용할 수 있을 정도로 정확하게",
+        "rows": 3
+      },
+      {
+        "key": "culture",
+        "label": "기업 문화 (현직자 콘텐츠 기반)",
+        "hint": "유튜브·블로그·커피챗으로 수집한 것",
+        "rows": 2
+      }
+    ],
+    "prompt": {
+      "title": "GenAI 기업 조사 프롬프트",
+      "body": "[회사명]의 밸류체인을 설명해줘. 이 회사의 주요 고객사, 공급사, 경쟁사를 각각 2~3개씩 알려주고, 이 회사가 경쟁사 대비 기술적으로 다른 점을 알려줘"
+    }
+  },
+  {
+    "id": "form_05",
+    "title": "직무 적합성 평가",
+    "subtitle": "PART 5 — 확증 편향 깨기",
+    "type": "structured",
+    "required_for": [
+      "A",
+      "C",
+      "D",
+      "G"
+    ],
+    "desc": "\"이 직무가 나한테 맞나?\"를 역방향 질문으로 검증합니다. 확증 편향에 빠지지 않도록.",
+    "completion_criteria": "5개 역방향 질문에 모두 답변",
+    "references": [
+      {
+        "formId": "form_02",
+        "label": "직무 용어 분석",
+        "showField": "work_flow"
+      },
+      {
+        "formId": "form_03",
+        "label": "자격 요건과 역량",
+        "showField": "my_match_must"
+      },
+      {
+        "formId": "form_04",
+        "label": "기업 심층 조사",
+        "showField": "vision"
+      }
+    ],
+    "fields": [
+      {
+        "key": "energy_check",
+        "label": "핵심 업무 3가지 중, 하고 싶어 에너지가 오르는 일과 생각만 해도 지치는 일은?",
+        "hint": "PART 2에서 정리한 주요 업무를 떠올려보세요. 끌리는 일 vs 피하고 싶은 일을 구분",
+        "rows": 3
+      },
+      {
+        "key": "mismatch_reasons",
+        "label": "솔직히, 이 직무가 나와 안 맞을 수도 있는 이유 3가지는?",
+        "hint": "좋은 점 말고 '걸리는 점'만. 합격해도 힘들 수 있는 지점을 미리 알아두는 단계",
+        "rows": 3
+      },
+      {
+        "key": "no_performance",
+        "label": "내가 이 직무에서 성과를 내기 어려운 환경·조건은?",
+        "hint": "어떤 상황이면 내가 힘을 못 쓸까? 예: 혼자 묵묵히 처리해야 할 때 / 부서 협조가 안 될 때 / 정답 없이 모호할 때. → 입사 후 미리 대비할 지점",
+        "rows": 3
+      },
+      {
+        "key": "5year_view",
+        "label": "이 직무를 5년 한 나의 모습은 내가 원하는 삶에 가까운가, 먼가? (이유와 함께)",
+        "hint": "5년 뒤에도 이 일을 하는 나를 상상 → 가까워지면 지원 신호, 멀어지면 재검토 신호",
+        "rows": 3
+      },
+      {
+        "key": "quit_reasons",
+        "label": "이 직무를 그만두는 사람들의 흔한 이유 3가지와, 그 중 나에게도 해당될 것 같은 것은?",
+        "hint": "AI에게 'OO 직무 퇴사 사유'를 묻고, 그 중 내게도 해당될 위험을 표시. 모르면 입사 후 후회한다",
+        "rows": 3
+      }
+    ],
+    "prompt": {
+      "title": "GenAI 적합성 판단 프롬프트",
+      "body": "이 직무를 그만두는 사람들의 가장 흔한 이유 3가지는 무엇이야? 이 직무의 힘든 점과 번아웃 위험이 있는 상황을 솔직하게 알려줘"
+    }
+  },
+  {
+    "id": "form_06",
+    "title": "지원 전략 수립",
+    "subtitle": "PART 6 — 지원 직전 체크",
+    "type": "structured",
+    "required_for": [
+      "A",
+      "B",
+      "C",
+      "E",
+      "F",
+      "G",
+      "I",
+      "J"
+    ],
+    "desc": "이력서·자소서에 반드시 들어갈 키워드와 배치 전략을 정리합니다. PART 3/4 워크북으로 넘기기 직전의 다리.",
+    "completion_criteria": "이력서 키워드 5개 + 역질문 3개 준비",
+    "references": [
+      {
+        "formId": "form_02",
+        "label": "직무 용어 분석",
+        "showField": "keywords"
+      },
+      {
+        "formId": "form_03",
+        "label": "자격 요건과 역량",
+        "showField": "my_match_must"
+      },
+      {
+        "formId": "form_04",
+        "label": "기업 심층 조사",
+        "showField": "recent_investment"
+      }
+    ],
+    "fields": [
+      {
+        "key": "resume_keywords",
+        "label": "이력서 필수 키워드 5개 + 배치 섹션",
+        "hint": "ATS 통과 + 사람 눈에 띄게",
+        "rows": 5
+      },
+      {
+        "key": "essay_angle",
+        "label": "자소서 차별화 앵글",
+        "hint": "같은 회사 지원자들과 내가 다른 점 한 가지",
+        "rows": 3
+      },
+      {
+        "key": "interview_reverse_q",
+        "label": "면접 역질문 3개",
+        "hint": "공고의 모호했던 부분 기반",
+        "rows": 3
+      },
+      {
+        "key": "submit_date",
+        "label": "지원 예정일",
+        "placeholder": "YYYY-MM-DD"
+      }
+    ],
+    "prompt": {
+      "title": "GenAI 지원 전략 프롬프트",
+      "body": "위 공고 기반으로 이력서에 반드시 포함해야 할 키워드 5개와, 각 키워드를 이력서 어떤 섹션에 어떻게 배치해야 서류를 검토하는 사람이든 시스템이든 눈에 띄도록 알려줘"
+    }
+  },
+  {
+    "id": "form_07",
+    "title": "포트폴리오 연결표",
+    "subtitle": "PART 7 — 포트폴리오 중심 직군 전용",
+    "type": "structured",
+    "required_for": [
+      "I"
+    ],
+    "desc": "개발·디자인·마케팅·기획 등 포트폴리오가 중요한 직군용. 직무상세내용 키워드와 내 포폴 작업을 매핑합니다.",
+    "completion_criteria": "직무상세내용 요구사항 ↔ 내 작업 매핑 완료",
+    "references": [
+      {
+        "formId": "form_02",
+        "label": "직무 용어 분석",
+        "showField": "keywords"
+      },
+      {
+        "formId": "form_03",
+        "label": "자격 요건과 역량",
+        "showField": "required_must"
+      }
+    ],
+    "fields": [
+      {
+        "key": "portfolio_format",
+        "label": "포트폴리오 형식",
+        "hint": "GitHub / Notion / Behance / 개인 사이트 등",
+        "rows": 2
+      },
+      {
+        "key": "jd_skills",
+        "label": "직무상세내용에서 요구하는 기술·도구 리스트",
+        "rows": 3
+      },
+      {
+        "key": "portfolio_works",
+        "label": "내 포폴 주요 작업 3~5개 (제목 + 한줄 설명)",
+        "rows": 5
+      },
+      {
+        "key": "mapping",
+        "label": "직무상세내용 요구사항 ↔ 내 작업 매핑",
+        "hint": "요구사항 A → 작업 1·2가 해당, 요구사항 B → 작업 3",
+        "rows": 5
+      },
+      {
+        "key": "gaps",
+        "label": "직무상세내용 요구사항 중 내 포폴에 없는 것",
+        "rows": 3
+      },
+      {
+        "key": "showcase_plan",
+        "label": "상위 3개 작업 심층 설명 계획",
+        "hint": "과정·문제 해결·성과 중심",
+        "rows": 4
+      }
+    ],
+    "prompt": null
+  }
+];
+
+export const PERSONAS = {
+  "A": {
+    "title": "문과/비전공 전환자",
+    "desc": "전공과 다른 직무 지원 — 공고 용어를 빠르게 익히고 전이 가능한 역량 정리하기",
+    "flow": "공고 수집 → 용어 분석 → 역량 비교 → 적합성 평가",
+    "step0_warning": false
+  },
+  "B": {
+    "title": "이공계 신입 (전공 일치)",
+    "desc": "전공 일치 — 보유 역량과 채용 요구사항을 정밀 매칭해 지원 전략 정립하기",
+    "flow": "공고 수집 → 용어 분석 → 역량 비교 → 지원 전략",
+    "step0_warning": false
+  },
+  "C": {
+    "title": "경력 전환자",
+    "desc": "경력 전환 — 기존 경험을 새 직무 언어로 번역하고 전이 가능 역량 강조하기",
+    "flow": "공고 수집 → 역량 비교 → 적합성 평가 → 지원 전략",
+    "step0_warning": false
+  },
+  "D": {
+    "title": "직무 미정자",
+    "desc": "직무 미정 — 채용공고 분석으로 가능성 있는 직무 후보를 좁히고 방향 잡기",
+    "flow": "STEP 0 (취업준비 진단) + 직무탐색 자료 먼저 완료 → 공고 수집 → 용어 분석",
+    "step0_warning": true
+  },
+  "E": {
+    "title": "다수 동시 지원자",
+    "desc": "다수 동시 지원 — 공고별 차이를 빠르게 비교하고 효율적인 지원 전략 만들기",
+    "flow": "공고 수집(핵심만) → 역량 비교 → 지원 전략",
+    "step0_warning": false
+  },
+  "F": {
+    "title": "스타트업/외국계",
+    "desc": "스타트업·외국계 — 공고 외 회사 정보(IR, 블로그, 직원 후기 등) 종합 조사하기",
+    "flow": "기업 심층 조사 → 공고 수집 → 용어 분석",
+    "step0_warning": false
+  },
+  "G": {
+    "title": "서류 합격, 면접 준비",
+    "desc": "서류 합격 후 면접 준비 — 직무 이해도를 면접관 언어로 정리하기",
+    "flow": "용어 분석 재검토 → 역량 비교 재점검 → 적합성 평가",
+    "step0_warning": false
+  },
+  "H": {
+    "title": "공공기관/공기업 (NCS)",
+    "desc": "NCS 기반 공고 분석 — NCS 직무기술서를 채용공고와 매칭해 핵심 역량 정리하기",
+    "flow": "공고 수집 → 용어 분석 → 역량 비교(NCS 특화)",
+    "step0_warning": false
+  },
+  "I": {
+    "title": "포트폴리오 중심 직군",
+    "desc": "포트폴리오 중심 직군 — 채용공고 요구 역량을 포트폴리오 콘셉트로 연결하기",
+    "flow": "공고 수집 → 역량 비교 → 포트폴리오 연결표",
+    "step0_warning": false
+  },
+  "J": {
+    "title": "저학년/비취준생",
+    "desc": "취업 준비 시작 — 채용공고 읽는 법부터 익히고 직무에 대한 감 잡기",
+    "flow": "STEP 0 (취업준비 진단) 먼저 완료 → 채용담당자 시각 이해 → 공고 수집",
+    "step0_warning": true
+  }
+};
+
+export const COMPLETION_CHECKLIST = ["지원할 회사·직무의 '주요 업무(직무상세내용)'를 항목별로 분해했는가?", "각 직무상세내용 항목을 STEP 2 경험정리에서 내 경험과 매핑할 수 있는가?", "이 직무의 핵심 역량 3가지를 한 문장으로 말할 수 있는가?", "내가 가진 것 vs 부족한 것을 구분했는가?", "이 직무가 나에게 맞는지 스스로 판단했는가?", "이력서·자소서에 넣을 키워드가 정리되었는가?", "면접 역질문 3개가 준비되었는가?"];
