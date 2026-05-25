@@ -241,8 +241,8 @@ const RelatedWorkbookList = ({ items, title = '함께 보면 좋은 워크북' }
 const FORMS = [
   {
     "id": "form_01",
-    "title": "공고 기본 정보 파악",
-    "subtitle": "PART 1 — 공고의 뼈대 수집",
+    "title": "지원할 회사·직무 기본 정보",
+    "subtitle": "PART 1 — 지원하는 한 회사·직무 정리",
     "type": "repeat",
     "required_for": [
       "A",
@@ -256,8 +256,8 @@ const FORMS = [
       "I",
       "J"
     ],
-    "desc": "지원하려는 채용공고의 기본 정보를 공고별로 입력하세요. 10개 이상 입력하면 패턴이 보입니다.",
-    "completion_criteria": "공고 10개 이상 입력",
+    "desc": "이번에 지원하려는 한 회사의 채용공고를 기준으로 입력하세요. 여러 회사를 늘어놓기보다 지원하는 한 회사·한 직무에 집중해 깊이 분석하는 것이 합격에 훨씬 효과적입니다. (정말 비교가 필요할 때만 아래 [비교할 공고 추가]로 덧붙이세요.)",
+    "completion_criteria": "지원할 회사·직무 기본 정보 입력",
     "references": [],
     "fields": [
       {
@@ -315,8 +315,8 @@ const FORMS = [
       "I",
       "J"
     ],
-    "desc": "공고에서 반복되거나 낯선 용어를 AI와 함께 분석합니다. 용어의 실무적 의미를 파악하는 단계입니다.",
-    "completion_criteria": "핵심 키워드 3~5개 + 용어 의미 + 주요 업무 흐름 정리",
+    "desc": "지원하려는 이 회사 공고의 '주요 업무(직무상세내용)'를 항목별로 분해하고, 낯선 용어를 AI와 함께 분석합니다. 분해한 직무상세내용 항목은 STEP 2 경험정리에서 내 경험과 1:1로 매핑됩니다.",
+    "completion_criteria": "주요 업무(직무상세내용) 항목별 분해 + 용어 의미 + 업무 흐름 정리",
     "references": [
       {
         "formId": "form_01",
@@ -326,9 +326,15 @@ const FORMS = [
     ],
     "fields": [
       {
+        "key": "jd_duties",
+        "label": "이 회사 공고의 '주요 업무(직무상세내용)'를 한 줄에 하나씩 적어주세요",
+        "hint": "공고의 '담당업무 / 주요업무 / Responsibilities' 항목을 한 줄에 하나씩 분해하세요. 이 한 줄 한 줄이 STEP 2 경험정리에서 '내 어떤 경험이 이 일을 해봤는가'와 1:1로 매핑됩니다. 한 회사·한 직무 기준으로 구체적으로.",
+        "rows": 6
+      },
+      {
         "key": "keywords",
-        "label": "여러 공고에서 반복 등장하는 핵심 키워드 3~5개는?",
-        "hint": "여러 공고에서 3회 이상 반복된 단어. 반복 = 이 직무의 핵심 역량 신호 (이력서·자소서에 그대로 쓸 단어)",
+        "label": "(여러 공고를 봤다면) 반복 등장하는 핵심 키워드 3~5개 — 선택",
+        "hint": "여러 공고를 비교했을 때 3회 이상 반복된 단어. 반복 = 이 직무의 핵심 역량 신호 (이력서·자소서에 그대로 쓸 단어). 한 회사만 분석한다면 비워둬도 됩니다.",
         "rows": 2
       },
       {
@@ -684,7 +690,8 @@ const FORMS = [
 // 각 분석 항목별 "작성 예시" — 지원자가 막힐 때 참고용 (품질관리 엔지니어 예시 기준).
 // 채용공고의 실제 용어로 바꿔 적는 것이 핵심.
 const FIELD_EXAMPLES = {
-  keywords: '예: "공정능력(Cpk)", "4M 변경관리", "IATF 16949", "고객 클레임 대응", "양산 품질" — 10개 공고에서 3회 이상 반복된 단어를 고른다.',
+  jd_duties: '예: (현대모비스 품질관리 엔지니어 공고의 담당업무를 항목별로 분해)\n- 협력사 부품 수입검사 및 합부 판정\n- 양산 라인 순회하며 SPC 데이터 모니터링·이상 대응\n- 고객 클레임 발생 시 8D 보고서 작성 및 재발방지 대책 수립\n- 4M 변경 시 초도품 검증 및 품질 영향 분석\n- 분기별 공정능력(Cpk) 분석 및 품질지표 리포트 작성\n→ 공고의 \'담당업무\'를 그대로 한 줄씩 옮긴 뒤, STEP 2 경험정리에서 각 줄에 내 경험을 연결한다.',
+  keywords: '예: "공정능력(Cpk)", "4M 변경관리", "IATF 16949", "고객 클레임 대응", "양산 품질" — 여러 공고를 비교했다면 3회 이상 반복된 단어를 고른다. (한 회사만 본다면 비워둬도 됨)',
   term_meaning: '예: APQP = 양산 전 품질을 미리 계획·검증하는 절차. PPAP = 양산 승인용 제출 서류. → 공고 용어를 모르면 그 직무를 모르는 것. AI에게 "OO 직무에서 OO 용어의 실무적 의미"를 물어 정리한다.',
   work_flow: '예: (입고검사) 협력사 부품 수입검사 → (공정검사) 라인 순회·SPC 모니터링 → (출하검사) 최종 샘플링 → 협업: 생산/구매/개발팀, 산출물: 검사성적서·부적합보고서(8D).',
   daily_vs_periodic: '예: [매일] 라인 순회점검·불량 데이터 입력 / [주간] 부적합 회의 / [분기] 공정능력 재평가·내부심사 / [연간] IATF 갱신심사 대응.',
@@ -867,14 +874,14 @@ const DIAGNOSIS = [
       },
       {
         "v": "many",
-        "l": "여러 곳 동시 지원",
-        "d": "10개+ 회사 지원 예정"
+        "l": "여러 곳 비교 중",
+        "d": "지원할 회사를 아직 좁히는 중"
       }
     ]
   }
 ];
 
-const COMPLETION_CHECKLIST = ["공고 10개 이상 분석했는가?", "이 직무의 핵심 역량 3가지를 한 문장으로 말할 수 있는가?", "내가 가진 것 vs 부족한 것을 구분했는가?", "이 직무가 나에게 맞는지 스스로 판단했는가?", "이력서·자소서에 넣을 키워드가 정리되었는가?", "면접 역질문 3개가 준비되었는가?"];
+const COMPLETION_CHECKLIST = ["지원할 회사·직무의 '주요 업무(직무상세내용)'를 항목별로 분해했는가?", "각 직무상세내용 항목을 STEP 2 경험정리에서 내 경험과 매핑할 수 있는가?", "이 직무의 핵심 역량 3가지를 한 문장으로 말할 수 있는가?", "내가 가진 것 vs 부족한 것을 구분했는가?", "이 직무가 나에게 맞는지 스스로 판단했는가?", "이력서·자소서에 넣을 키워드가 정리되었는가?", "면접 역질문 3개가 준비되었는가?"];
   const FirstVisitModal = ({ open, onClose, title, steps }) => {
     if (!open) return null;
     return (
@@ -2133,7 +2140,7 @@ const JobAnalysisWorkbook = () => {
                 {jobPostings.map((job, idx) => (
                   <div key={job.id} style={{ background: COLORS.bgAlt, borderRadius: RADIUS.base, padding: SPACING.md, borderLeft: `3px solid ${COLORS.accent2}` }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: SPACING.sm }}>
-                      <p style={{ fontSize: FONT.size.md, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0 }}>공고 {idx+1}</p>
+                      <p style={{ fontSize: FONT.size.md, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0 }}>{idx === 0 ? '지원하려는 회사 공고' : `비교 공고 ${idx}`}</p>
                       {jobPostings.length > 1 && (
                         <button onClick={() => removeJobPosting(job.id)} style={{ ...S.btnText, color: COLORS.red }}>
                           삭제
@@ -2155,11 +2162,11 @@ const JobAnalysisWorkbook = () => {
                   </div>
                 ))}
                 <button onClick={addJobPosting} style={{ ...S.btnSecondary, justifyContent: 'center', borderStyle: 'dashed' }} className="ce-btn">
-                  공고 추가
+                  비교할 공고 추가 (선택)
                 </button>
                 <div style={S.boxInfo}>
                   <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>
-                    <strong>Tip:</strong> 최소 10개 공고를 입력하면 반복되는 키워드 패턴이 보입니다. 이것이 이 직무의 핵심 역량입니다.
+                    <strong>Tip:</strong> 지원하려는 <strong>한 회사·한 직무</strong>에 집중해 공고를 깊이 분석하세요. 다음 단계에서 이 공고의 '주요 업무(직무상세내용)'를 항목별로 나누고, STEP 2 경험정리에서 내 경험과 하나씩 연결합니다. 같은 직무의 다른 공고는 비교가 필요할 때만 추가하세요.
                   </p>
                 </div>
               </div>
@@ -2258,9 +2265,9 @@ const JobAnalysisWorkbook = () => {
                 </div>
               <h1 style={S.h1Center}>작성 완료</h1>
               <p style={{ ...S.subtitle, textAlign: 'center' }}>
-                수집 공고 {jobCount}개 · 양식 완료 {completedCount}/7
+                분석 공고 {jobCount}개 · 양식 완료 {completedCount}/7
               </p>
-              {p && <p style={{ ...S.subtitle, textAlign: 'center', marginTop: 4 }}>페르소나: <strong>{persona}. {p.title}</strong></p>}
+              {p && <p style={{ ...S.subtitle, textAlign: 'center', marginTop: 4 }}>분석 유형: <strong>{p.title}</strong></p>}
             </div>
 
             {/* ── 완성 기준 체크리스트 (PART 6-4 필수) ── */}
