@@ -1268,7 +1268,7 @@ const _INTRO_INK = '#0E2750';
 const _INTRO_INK2 = '#1B3A6B';
 const _INTRO_PAPER = '#F2F1EC';
 const _INTRO_GOLD = '#C9A86A';
-const _INTRO_MUTE = '#6E7A8F';
+const _INTRO_MUTE = '#565F72';
 
 const BrandHero = () => (
   <div style={{ textAlign: 'center', marginBottom: 24, paddingTop: 12 }}>

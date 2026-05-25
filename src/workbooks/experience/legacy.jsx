@@ -75,7 +75,7 @@ const _INTRO_INK = '#0E2750';
 const _INTRO_INK2 = '#1B3A6B';
 const _INTRO_PAPER = '#F2F1EC';
 const _INTRO_GOLD = '#C9A86A';
-const _INTRO_MUTE = '#6E7A8F';
+const _INTRO_MUTE = '#565F72';
 const BrandHero = () => (
   <div style={{ textAlign: 'center', marginBottom: 24, paddingTop: 12 }}>
     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}>
@@ -1746,11 +1746,16 @@ const ExperienceWorkbook = () => {
                 "열심히 했다", "많이 배웠다"는 막연한 표현은 피하세요. <strong>"구체적으로 어떤 통찰을 얻었는지"</strong>, <strong>"이후 어떤 상황에 적용하게 되었는지"</strong>를 쓰면 성찰이 드러납니다.
               </Hint>
               <div style={{ marginTop: SPACING.md }}>
-                <ExpField label="배운 점 / 느낀 점" hint="이 경험에서 얻은 구체적 통찰과, 이후 적용한 방식.">
+                <ExpField label="배운 점 / 느낀 점 — 이 경험의 의미·가치" hint='이 경험이 "사소해 보여도" 무엇을 보여주는지 찾아보세요. ① 어떤 역량·태도가 드러났는가 ② 그래서 지원 직무에 어떤 가치로 연결되는가까지 한 줄씩 적으면, 작은 경험도 강력한 소재가 됩니다.'>
                   <textarea className="ce-textarea" value={e.learning} onChange={ev => upd('learning', ev.target.value)} rows={4}
-                    placeholder="예: 단순히 콘텐츠를 많이 올리는 것보다 타겟을 명확히 하고 일관된 브랜드 메시지를 전달하는 것이 중요함을 깨달음. 이후 개인 블로그 운영에도 동일한 원칙을 적용함."
+                    placeholder='예: 콘텐츠 양보다 "타겟을 명확히 하고 일관된 메시지를 전달하는 것"이 중요함을 깨달음(통찰). → 데이터로 타겟을 정의하는 분석력을 보여줌(역량). → 지원 직무의 "고객 세그먼트 기반 마케팅"과 직접 연결됨(직무 가치).'
                     style={textareaStyle} />
                 </ExpField>
+                <div style={{ ...BOX.tip, padding: SPACING.sm, borderRadius: RADIUS.base, marginTop: SPACING.sm }}>
+                  <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>
+                    <strong>작은 경험에서 가치를 찾는 3단계</strong> — ① 무엇을 했나(사실) → ② 그게 어떤 역량·태도를 증명하나(의미) → ③ 그 역량이 지원 직무의 어떤 업무·요건과 연결되나(가치). 경험의 "크기"가 아니라 이 연결의 "선명함"이 합격을 가릅니다.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
