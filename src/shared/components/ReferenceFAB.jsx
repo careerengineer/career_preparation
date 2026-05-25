@@ -135,10 +135,12 @@ export function ReferenceFAB({ currentWorkbookKey }) {
 
   return (
     <>
-      {/* FAB 버튼 - 텍스트 입력 중일 때 자동 흐리게 + hover 시 진하게 */}
+      <style>{`@keyframes ceFabAttn{0%{box-shadow:0 6px 18px rgba(14,39,80,0.28),0 0 0 0 rgba(201,168,106,0.55);}70%{box-shadow:0 6px 18px rgba(14,39,80,0.28),0 0 0 14px rgba(201,168,106,0);}100%{box-shadow:0 6px 18px rgba(14,39,80,0.28),0 0 0 0 rgba(201,168,106,0);}} .ce-fab-attn{animation:ceFabAttn 1.8s ease-out 4;}`}</style>
+      {/* FAB 버튼 - 콘텐츠가 있으면 처음에 펄스로 주의 환기, hover 시 진하게 */}
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label="참고 자료 열기"
+        className={hasAny && !open ? 'ce-fab-attn' : undefined}
         style={{
           position: 'fixed', right: SPACING.lg, bottom: SPACING.lg, zIndex: 90,
           background: COLORS.accent, color: COLORS.white,
@@ -149,13 +151,13 @@ export function ReferenceFAB({ currentWorkbookKey }) {
           cursor: 'pointer',
           boxShadow: '0 6px 18px rgba(14,39,80,0.28)',
           display: 'flex', alignItems: 'center', gap: 8,
-          opacity: 0.55,
+          opacity: 0.92,
           transition: 'opacity 0.2s ease',
         }}
         onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
-        onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.55'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.92'; }}
         onFocus={(e) => { e.currentTarget.style.opacity = '1'; }}
-        onBlur={(e) => { e.currentTarget.style.opacity = '0.55'; }}
+        onBlur={(e) => { e.currentTarget.style.opacity = '0.92'; }}
       >
         참고 자료
         {hasAny && (
