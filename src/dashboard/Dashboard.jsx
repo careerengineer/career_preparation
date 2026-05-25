@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
 import { WORKBOOKS, ALL_WORKBOOKS, VARIANT, VARIANT_LABEL, VARIANT_NOTICE } from '../store/schema.js';
 import { getWorkbookProgress } from '../store/selectors.js';
@@ -7,6 +8,17 @@ import { CELockupA, CEMark } from '../shared/components/CELogo.jsx';
 import ProfilePanel from './ProfilePanel.jsx';
 import StepCard from './StepCard.jsx';
 import CompanySlots from './CompanySlots.jsx';
+
+// 변형별 브라우저 탭 제목 (신입=멘토링 / 경력=컨설팅)
+const VARIANT_TITLE = {
+  new_grad: 'CareerEngineer | 최종합격 멘토링',
+  experienced: 'CareerEngineer | 최종합격 컨설팅',
+  documents_new_grad: 'CareerEngineer | 서류합격 멘토링',
+  documents_experienced: 'CareerEngineer | 서류합격 컨설팅',
+  interview_new_grad: 'CareerEngineer | 면접합격 멘토링',
+  interview_experienced: 'CareerEngineer | 면접합격 컨설팅',
+};
+const PAGE_TITLE = VARIANT_TITLE[VARIANT] || 'CareerEngineer';
 
 const ALL_STEPS = [
   { n: 0, name: '방향 설정' },
@@ -43,6 +55,9 @@ function coveredStepProgress(master, step) {
 
 export default function Dashboard() {
   const { master } = useDataStore();
+
+  // 변형별 브라우저 탭 제목 설정 (다른 워크북 방문 후 대시보드로 돌아와도 복원)
+  useEffect(() => { document.title = PAGE_TITLE; }, []);
 
   return (
     <div style={{
