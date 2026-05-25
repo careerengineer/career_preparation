@@ -104,13 +104,13 @@ export const ALL_WORKBOOKS = [
 // 값이 없거나 모르는 값이면 전체(ALL_WORKBOOKS) 노출.
 export const VARIANTS = {
   new_grad: {
-    label: '신입 전용',
+    label: '신입 지원자 전용',
     keys: ['career_roadmap', 'job_analysis', 'experience', 'resume',
       'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement',
       'self_introduction', 'interview_new'],
   },
   experienced: {
-    label: '경력 전용',
+    label: '경력 지원자 전용',
     keys: ['career_roadmap', 'job_analysis', 'experience', 'resume', 'career_description',
       'self_introduction', 'interview_career'],
   },
