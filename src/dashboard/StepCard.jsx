@@ -13,7 +13,7 @@ const STEP_HINT = {
   careergoal: '회사의 방향과 내 성장 경로가 만나는 지점을 구체적으로 보여주세요.',
   personality: '범용 표현 말고, 경험으로 증명되는 장점 한 가지에 집중하세요.',
   goalachievement: '목표를 수치로 정의하고 달성 과정을 단계로 보여주세요.',
-  self_introduction: '첫 문장에 직무 핵심 키워드 + 나만의 한 줄 정체성을 던지세요.',
+  self_introduction: '첫 문장에서 이 직무에서 가장 잘 할 수 있는 것을 한 줄로 어필하세요.',
   interview_new: '각 답변을 "두괄식 → 경험 → 수치" 구조로 30초 안에 끝내세요.',
   interview_career: '퇴사 사유는 짧고 긍정적으로, 성과는 수치로 분리해 말하세요.',
 };
