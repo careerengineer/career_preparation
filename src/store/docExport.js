@@ -1,4 +1,4 @@
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, PageBreak } from 'docx';
+import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, PageBreak, BorderStyle, ExternalHyperlink } from 'docx';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import JSZip from 'jszip';
@@ -9,6 +9,10 @@ import { LEGACY_KEYS } from './legacySync.js';
 import { QUESTION_LABELS } from './questionLabels.js';
 import { decodeAnswer } from './answerLabels.js';
 import { experienceXlsxBlob } from './experienceXlsx.js';
+import { WORKBOOK_DOCX_BUILDERS } from './workbookDocx.js';
+
+// 전체 백업에서 워크북별 전용 docx 빌더에 넘길 docx 클래스 묶음
+const DX = { Paragraph, TextRun, AlignmentType, BorderStyle, ExternalHyperlink };
 
 // 본문 끝 부록 영역에 base64로 백업 JSON을 임베드.
 // docx 표준 구조 그대로 유지 → Word/한글 정상 표시 + import 시 추출 가능.
@@ -401,7 +405,11 @@ export async function buildFullDocxBlob(master, options = {}) {
 
   for (const w of WORKBOOKS) {
     if (excludeExperiences && w.key === 'experience') continue;
-    const blocks = workbookBlocks(master, w.key, true);
+    // 워크북 전용 docx 디자인이 있으면 그대로 사용(워크북 자체 저장과 동일), 없으면 일반 레이아웃
+    const dedicated = WORKBOOK_DOCX_BUILDERS[w.key];
+    const blocks = dedicated
+      ? [H1(`${w.stepLabel} · ${w.title}`), ...dedicated(master, DX, { includeMentoring: false })]
+      : workbookBlocks(master, w.key, true);
     // 각 워크북 섹션을 새 페이지에서 시작 (가독성)
     children.push(new Paragraph({ children: [new PageBreak()] }));
     children.push(...blocks);
