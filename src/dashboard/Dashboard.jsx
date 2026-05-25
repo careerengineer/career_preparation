@@ -1,12 +1,11 @@
 import { useDataStore } from '../store/DataContext.jsx';
-import { WORKBOOKS, VARIANT_LABEL, VARIANT_NOTICE } from '../store/schema.js';
-import { getWorkbookProgress, getStepProgress } from '../store/selectors.js';
+import { WORKBOOKS, ALL_WORKBOOKS, VARIANT, VARIANT_LABEL, VARIANT_NOTICE } from '../store/schema.js';
+import { getWorkbookProgress } from '../store/selectors.js';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS, RULE } from '../shared/design/tokens.js';
 import { ExportImportBar } from '../shared/components/ExportImportBar.jsx';
 import { CELockupA, CEMark } from '../shared/components/CELogo.jsx';
 import ProfilePanel from './ProfilePanel.jsx';
 import StepCard from './StepCard.jsx';
-import NextActionCard from './NextActionCard.jsx';
 import CompanySlots from './CompanySlots.jsx';
 
 const ALL_STEPS = [
@@ -17,8 +16,30 @@ const ALL_STEPS = [
   { n: 4, name: '자소서 작성' },
   { n: 5, name: '면접 준비' },
 ];
-// variant에 포함된 워크북이 있는 STEP만 노출
+// variant에 포함된 워크북이 있는 STEP만 노출 (카드 섹션용)
 const STEPS = ALL_STEPS.filter((s) => WORKBOOKS.some((w) => w.step === s.n));
+
+// 각 상품(variant)이 커버하는 STEP 영역. 정의가 없으면 변형의 워크북이 있는 STEP을 커버로 간주.
+const COVERAGE = {
+  documents_new_grad: [0, 1, 2, 3, 4],   // 신입 서류: 방향설정·채용공고분석·경험소재발굴·서류작성·자소서작성
+  documents_experienced: [0, 1, 2, 3],   // 경력 서류: 방향설정·채용공고분석·경험소재발굴·서류작성(경력기술서)
+  interview_new_grad: [0, 2, 5],         // 신입 면접: 방향설정·경험소재발굴·면접준비
+  interview_experienced: [0, 2, 5],      // 경력 면접: 방향설정·경험소재발굴·면접준비
+};
+const COVERED_STEPS = COVERAGE[VARIANT] || ALL_STEPS.filter((s) => WORKBOOKS.some((w) => w.step === s.n)).map((s) => s.n);
+
+// 진행률용 STEP 라벨(1~5) — 처음 사용 가이드 흐름 문구 생성에 사용
+const STEP_FLOW_LABELS = { 1: '채용공고·직무 분석', 2: '경험 정리', 3: '이력서·경력기술서', 4: '자소서', 5: '면접' };
+const STEP_FLOW = COVERED_STEPS.filter((n) => n >= 1)
+  .map((n, i) => `${['①', '②', '③', '④', '⑤'][i] || '·'} ${STEP_FLOW_LABELS[n]}`)
+  .join(' → ');
+
+// 커버 영역의 STEP 진행률 — variant 필터와 무관하게 전체 워크북 기준으로 계산
+function coveredStepProgress(master, step) {
+  const wbs = ALL_WORKBOOKS.filter((w) => w.step === step);
+  if (wbs.length === 0) return 0;
+  return Math.round(wbs.reduce((sum, w) => sum + getWorkbookProgress(master, w.key), 0) / wbs.length);
+}
 
 export default function Dashboard() {
   const { master } = useDataStore();
@@ -92,7 +113,7 @@ export default function Dashboard() {
         </header>
 
         {/* 프로필 패널 */}
-        <ProfilePanel />
+        <ProfilePanel stepFlow={STEP_FLOW} />
 
         {/* 6-STEP 진행률 (PROFILE 바로 아래) */}
         <section style={{
@@ -106,15 +127,21 @@ export default function Dashboard() {
           }}>
             6-STEP 진행률
           </h2>
+          {VARIANT && (
+            <p style={{ margin: `0 0 ${SPACING.md}px`, fontSize: 18, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
+              <strong style={{ color: COLORS.accent }}>{VARIANT_LABEL}</strong>이 다루는 영역만 진도율을 집계합니다. 나머지 단계는 이 과정의 범위가 아닙니다.
+            </p>
+          )}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
             gap: SPACING.sm,
           }}>
-            {STEPS.map((s) => {
-              const pct = getStepProgress(master, s.n);
+            {ALL_STEPS.map((s) => {
+              const covered = COVERED_STEPS.includes(s.n);
+              const pct = covered ? coveredStepProgress(master, s.n) : 0;
               return (
-                <div key={s.n} style={{ textAlign: 'left' }}>
+                <div key={s.n} style={{ textAlign: 'left', opacity: covered ? 1 : 0.45 }}>
                   <p style={{
                     margin: 0, fontSize: 20,
                     color: COLORS.ink, fontWeight: FONT.weight.semibold,
@@ -128,31 +155,33 @@ export default function Dashboard() {
                   }}>
                     {s.name}
                   </p>
-                  <div style={{
-                    marginTop: 8, height: 4, background: COLORS.cream,
-                    overflow: 'hidden',
-                  }}>
-                    <div style={{
-                      height: '100%', width: `${pct}%`,
-                      background: pct === 100 ? COLORS.accent : COLORS.accent2,  // 완료 Navy / 진행 Gold
-                      transition: 'width 0.4s ease',
-                    }} />
-                  </div>
-                  <p style={{
-                    margin: '4px 0 0', fontSize: 20,
-                    color: pct === 100 ? COLORS.accent : COLORS.sub,
-                    fontWeight: FONT.weight.semibold,
-                  }}>
-                    {pct}%
-                  </p>
+                  {covered ? (
+                    <>
+                      <div style={{ marginTop: 8, height: 4, background: COLORS.cream, overflow: 'hidden' }}>
+                        <div style={{
+                          height: '100%', width: `${pct}%`,
+                          background: pct === 100 ? COLORS.accent : COLORS.accent2,
+                          transition: 'width 0.4s ease',
+                        }} />
+                      </div>
+                      <p style={{
+                        margin: '4px 0 0', fontSize: 20,
+                        color: pct === 100 ? COLORS.accent : COLORS.sub,
+                        fontWeight: FONT.weight.semibold,
+                      }}>
+                        {pct}%
+                      </p>
+                    </>
+                  ) : (
+                    <p style={{ margin: '8px 0 0', fontSize: 16, color: COLORS.sub, fontWeight: FONT.weight.medium }}>
+                      이 과정 범위 아님
+                    </p>
+                  )}
                 </div>
               );
             })}
           </div>
         </section>
-
-        {/* 다음 액션 (profile 있을 때만 표시) */}
-        <NextActionCard />
 
         {/* 회사별 슬롯 (여러 회사 지원 관리) */}
         <CompanySlots />
