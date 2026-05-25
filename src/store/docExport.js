@@ -8,6 +8,7 @@ import { buildCopyrightParagraphs, COPYRIGHT_TITLE, COPYRIGHT_TEXT, COPYRIGHT_MA
 import { LEGACY_KEYS } from './legacySync.js';
 import { QUESTION_LABELS } from './questionLabels.js';
 import { decodeAnswer } from './answerLabels.js';
+import { experienceXlsxBlob } from './experienceXlsx.js';
 
 // 본문 끝 부록 영역에 base64로 백업 JSON을 임베드.
 // docx 표준 구조 그대로 유지 → Word/한글 정상 표시 + import 시 추출 가능.
@@ -446,7 +447,8 @@ export async function exportFullBackupFiles(master) {
 // "가져오기 (.zip)"로 docx(전체)+xlsx(경험)를 함께 복원.
 export async function exportFullBackupZip(master) {
   const { blob: docxBlob, name: docxName } = await buildFullDocxBlob(master, { excludeExperiences: true });
-  const { blob: xlsxBlob, name: xlsxName } = buildExperiencesXlsxBlob(master);
+  // 경험정리 xlsx는 워크북 자체 저장과 동일한 "예쁜" 다중시트 빌더를 사용
+  const { blob: xlsxBlob, name: xlsxName } = await experienceXlsxBlob(master);
   const zip = new JSZip();
   zip.file(docxName, docxBlob);
   zip.file(xlsxName, xlsxBlob);
