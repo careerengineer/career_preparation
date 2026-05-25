@@ -1018,7 +1018,9 @@ const IntroPage = ({
         <BrandHero />
         <div style={{ borderTop: `1px solid ${_INTRO_MUTE}33`, margin: '24px 0 32px' }} />
 
-        <p style={{ fontSize: 14, letterSpacing: 4, color: _INTRO_MUTE, textAlign: 'center', margin: 0, marginBottom: 12, fontWeight: 500 }}>{stepLabel}</p>
+        {stepLabel && (
+          <p style={{ fontSize: 14, letterSpacing: 4, color: _INTRO_MUTE, textAlign: 'center', margin: 0, marginBottom: 12, fontWeight: 500 }}>{stepLabel}</p>
+        )}
         <h1 style={{ fontSize: 28, fontWeight: 700, color: _INTRO_INK, textAlign: 'center', margin: 0, marginBottom: 4, lineHeight: 1.35 }}>{title}</h1>
         {subtitle && (
           <p style={{ fontSize: 15, color: _INTRO_MUTE, textAlign: 'center', marginTop: 0, marginBottom: brandTagline ? 24 : 32, lineHeight: 1.6 }}>{subtitle}</p>
@@ -1600,7 +1602,6 @@ export default function App() {
     <IntroPage
       workbookKey='career_roadmap'
       StepNavComponent={StepNavigatorDropdown}
-      stepLabel='STEP 0 · 진단'
       title='취업 준비, 지금 뭘 해야 할까?'
       subtitle='몇 가지 질문에 답하면 지금 당장 해야 할 일을 알려드립니다'
       flow={[
