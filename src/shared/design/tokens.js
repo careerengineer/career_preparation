@@ -8,7 +8,7 @@ export const COLORS = {
   accent2: '#C9A86A',    // Signal Gold (Accent)
   ink: '#0E2750',        // 텍스트 기본
   inkDeep: '#0A1A33',    // 진한 텍스트
-  sub: '#6E7A8F',        // Steel (메타/뮤트)
+  sub: '#565F72',        // Steel Dark (메타/뮤트) — Cream 배경 WCAG AA 충족(~5.5:1)
   // ── SURFACE ────────────────────────────────────
   white: '#FFFFFF',
   bg: '#FBFAF6',         // Paper
