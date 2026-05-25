@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
+import { buildSelfIntroDocxChildren } from '../../store/workbookDocx.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 import { ExampleToggle } from '../../shared/components/ExampleToggle.jsx';
 import { AnswerQualityCheck } from '../../shared/components/AnswerQualityCheck.jsx';
@@ -926,94 +927,7 @@ const SelfIntroWorkbook = () => {
         indent: { left: options.indent || 240 }
       });
       
-      const children = [dateP(), titleP('1 분  자 기 소 개')];
-      
-      // 회사·직무
-      if (basicInfo.company || basicInfo.position) {
-        const sub = (basicInfo.company || '') + 
-          (basicInfo.company && basicInfo.position ? ' · ' : '') +
-          (basicInfo.position ? basicInfo.position + ' 지원' : '');
-        children.push(subtitleP(sub));
-      }
-      
-      // 1분 본 답변
-      children.push(sectionH('1분 자기소개 — 최종 답변'));
-      if (finalAnswer && finalAnswer.trim()) {
-        children.push(highlightP(finalAnswer));
-      } else {
-        children.push(softHighlightP('[1분 자기소개 본 답변이 여기에 들어갑니다.]'));
-      }
-      
-      // 30초 단축 버전
-      children.push(sectionH('30초 단축 버전'));
-      if (shortAnswer && shortAnswer.trim()) {
-        children.push(softHighlightP(shortAnswer));
-      } else {
-        children.push(softHighlightP('[30초 단축 버전이 여기에 들어갑니다.]'));
-      }
-      
-      // 면접 당일 키워드 메모
-      children.push(sectionH('면접 당일 — 키워드 메모'));
-      children.push(labelP('30초 버전 키워드'));
-      if (answers['Q12']) children.push(labelBodyP(answers['Q12']));
-      else children.push(placeholderP('[작성 전]'));
-      children.push(labelP('1분 버전 키워드'));
-      if (answers['Q13']) children.push(labelBodyP(answers['Q13']));
-      else children.push(placeholderP('[작성 전]'));
-      
-      // 자가 점검 체크리스트
-      children.push(sectionH('자가 점검 체크리스트'));
-      CHECKLIST.forEach(c => {
-        children.push(checkP(checks[c.label], c.criteria, c.question));
-      });
-      
-      // 전체 작성 내용
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '', size: 22 })],
-        pageBreakBefore: true
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '전체 작성 내용', bold: true, size: 28, font: '맑은 고딕', color: '0E2750' })],
-        spacing: { before: 0, after: 100 },
-        border: { bottom: { style: BorderStyle.SINGLE, size: 12, color: '0E2750', space: 4 } }
-      }));
-      STEPS.forEach(s => {
-        children.push(subH(`PART ${s.step}. ${s.title}`));
-        s.questions.forEach(q => {
-          children.push(labelP(`${q.label}. ${q.question}`));
-          if (answers[q.label]) children.push(labelBodyP(answers[q.label]));
-          else children.push(placeholderP('[작성 전]'));
-        });
-      });
-      
-            
-      // ═══ CareerEngineer 자료 + 멘토링 안내 (docx 본문 끝) ═══
-      children.push(sectionH('CareerEngineer 자료 — 다음 단계로'));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '이 워크북을 완성한 후 다음 단계로 나아가는 데 도움이 되는 자료들입니다.', italic: true, size: 20, font: '맑은 고딕', color: '6E7A8F' })],
-        spacing: { before: 80, after: 160 }
-      }));
-      children.push(linkP('1분 자기소개 가이드 워크북', 'https://www.latpeed.com/products/LObbV'));
-      children.push(linkP('면접 멘토링 — 모의 면접과 실전 피드백', 'https://www.latpeed.com/products/tZ5xw'));
-      children.push(linkP('신입 면접 준비 가이드북', 'https://www.latpeed.com/products/H7UHo'));
-      children.push(linkP('CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer'));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: '', size: 22, font: '맑은 고딕' })],
-        spacing: { before: 240, after: 60 }
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: 'CareerEngineer 전자책 / 멘토링 전체 안내', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })],
-        spacing: { before: 160, after: 80 },
-        shading: { fill: 'F2F1EC' },
-        border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } },
-        indent: { left: 240 }
-      }));
-      children.push(new Paragraph({
-        children: [new TextRun({ text: 'CareerEngineer는 취업·이직 준비의 모든 단계를 지원하는 전자책과 멘토링을 운영합니다. 자소서 작성, 경력기술서, 면접 답변집 등 단계별 가이드와 1:1 멘토링이 있으며, 모든 자료는 공학박사 멘토의 실제 합격 사례 기반으로 설계되어 있습니다.', size: 20, font: '맑은 고딕', color: '0E2750' })],
-        spacing: { before: 0, after: 120, line: 360 },
-        indent: { left: 240 }
-      }));
-      children.push(linkP('전체 상품 보기 (클릭)', 'https://www.latpeed.com/stores/eqxhZ', { before: 80, after: 160, indent: 240 }));
+      const children = buildSelfIntroDocxChildren({ basicInfo, answers, checks }, docxLib);
 
       try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('self_introduction', '1분 자기소개', 'careerengineer_self_introduction_v1'))); } catch (e) { console.warn('[self_introduction] backup embed skipped:', e); }
       try { children.unshift(...buildCopyrightParagraphs(docxLib)); } catch (e) { console.warn('copyright skip', e); }
