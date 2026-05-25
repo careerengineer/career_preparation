@@ -976,6 +976,10 @@ const ExperienceWorkbook = () => {
   };
   __ceHomeRef.current = goHome; // [CE-HOME] ref 갱신
   const [experiences, setExperiences] = useState([]);
+  // 회사별 직무 연결: { [회사명]: { keywords: '...', links: { [expId]: '연결 메모' } } }
+  const [companyLinks, setCompanyLinks] = useState({});
+  const [activeCompany, setActiveCompany] = useState('');
+  const [newCompanyName, setNewCompanyName] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [detailStep, setDetailStep] = useState(1); // 1~4
   // 사이드 패널
@@ -999,6 +1003,7 @@ const ExperienceWorkbook = () => {
             if (data.personaAnswers) setPersonaAnswers(data.personaAnswers);
             if (data.jdKeywords) setJdKeywords(data.jdKeywords);
             if (data.experiences) setExperiences(data.experiences);
+            if (data.companyLinks) setCompanyLinks(data.companyLinks);
             if (data.phase) setPhase(data.phase);
             setAutoSaveStatus('✓ 이전 작성 내용을 불러왔습니다');
             setTimeout(() => setAutoSaveStatus(''), 5000);
@@ -1015,7 +1020,7 @@ const ExperienceWorkbook = () => {
     const timer = setTimeout(() => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          basicInfo, personaAnswers, jdKeywords, experiences, phase,
+          basicInfo, personaAnswers, jdKeywords, experiences, companyLinks, phase,
           savedAt: new Date().toISOString()
         }));
         setAutoSaveStatus('✓ 자동 저장됨');
@@ -1023,7 +1028,7 @@ const ExperienceWorkbook = () => {
       } catch (e) { setAutoSaveStatus('⚠ 저장 공간 부족'); }
     }, 1000);
     return () => clearTimeout(timer);
-  }, [basicInfo, personaAnswers, jdKeywords, experiences, phase]);
+  }, [basicInfo, personaAnswers, jdKeywords, experiences, companyLinks, phase]);
   const clearSavedData = () => {
     if (confirmingClear) {
       localStorage.removeItem(STORAGE_KEY);
@@ -1106,6 +1111,25 @@ const ExperienceWorkbook = () => {
         : e
     ));
   };
+  // ── 회사별 직무 연결 핸들러 ──
+  const addCompanyLink = () => {
+    const name = (newCompanyName || '').trim();
+    if (!name) return;
+    setCompanyLinks(prev => (prev[name] ? prev : { ...prev, [name]: { keywords: '', links: {} } }));
+    setActiveCompany(name);
+    setNewCompanyName('');
+  };
+  const setCompanyKeywords = (company, val) => {
+    setCompanyLinks(prev => ({ ...prev, [company]: { ...(prev[company] || { links: {} }), keywords: val } }));
+  };
+  const setExpLink = (company, expId, val) => {
+    setCompanyLinks(prev => ({ ...prev, [company]: { ...(prev[company] || { keywords: '' }), links: { ...((prev[company] || {}).links || {}), [expId]: val } } }));
+  };
+  const removeCompanyLink = (company) => {
+    setCompanyLinks(prev => { const n = { ...prev }; delete n[company]; return n; });
+    setActiveCompany('');
+  };
+
   // 역량 사전에서 클릭 시: 현재 편집 중인 경험의 해당 타입에 빈 슬롯 채우기(또는 추가)
   const handleDictPick = (type, name) => {
     if (!editingId) return;
@@ -1807,9 +1831,27 @@ const ExperienceWorkbook = () => {
       ws4['!pageSetup'] = { orientation: 'landscape', fitToWidth: 1, fitToHeight: 0, paperSize: 9 };
       XLSX_S.utils.book_append_sheet(wb, ws4, '직무상세내용 매칭');
     }
+    // 회사별 직무 연결 — 회사마다 시트 하나 (다른 회사 지원 시 회사별로 정리)
+    try {
+      Object.entries(companyLinks || {}).forEach(([company, data], ci) => {
+        const rows = [];
+        rows.push(['회사', company]);
+        rows.push(['채용공고 키워드', (data && data.keywords) || '']);
+        rows.push(['', '']);
+        rows.push(['경험', '연결 (충족하는 키워드·요건)']);
+        experiences.forEach((e, i) => {
+          const note = data && data.links ? data.links[e.id] : '';
+          if (note && String(note).trim()) rows.push([e.org || e.category || `경험 ${i + 1}`, note]);
+        });
+        const cws = XLSX_S.utils.aoa_to_sheet(rows);
+        cws['!cols'] = [{ wch: 30 }, { wch: 70 }];
+        const safe = ('연결·' + company).replace(/[:\\/?*[\]]/g, '_').slice(0, 28) || ('연결' + (ci + 1));
+        XLSX_S.utils.book_append_sheet(wb, cws, safe);
+      });
+    } catch (e) { console.warn('[experience] company link sheets skipped:', e); }
     // 복원용 백업 임베드 — 숨은 시트(_CE_BACKUP)에 전체 경험 JSON(base64) 저장 → 이 파일 그대로 재import 가능
     try {
-      const b64 = utf8ToBase64(JSON.stringify({ format: 'careerengineer-experience-xlsx', version: 1, experiences }));
+      const b64 = utf8ToBase64(JSON.stringify({ format: 'careerengineer-experience-xlsx', version: 1, experiences, companyLinks }));
       const CH = 30000;
       const rows = [['CE_EXPERIENCE_BACKUP']];
       for (let i = 0; i < b64.length; i += CH) rows.push([b64.slice(i, i + CH)]);
@@ -2046,6 +2088,51 @@ const ExperienceWorkbook = () => {
             </div>
           </div>
         )}
+        {/* 회사별 직무 연결 — 회사 채용공고 키워드에 내 경험을 연결 (회사별 따로 관리, 엑셀에 회사별 시트로 저장) */}
+        {experiences.length > 0 && (() => {
+          const companies = Object.keys(companyLinks);
+          const active = (activeCompany && companyLinks[activeCompany]) ? activeCompany : (companies[0] || '');
+          const cur = active ? companyLinks[active] : null;
+          const inStyle = { width: '100%', padding: '8px 10px', border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.sm, fontSize: FONT.size.sm, fontFamily: FONT.family, color: COLORS.accent, outline: 'none', boxSizing: 'border-box', background: COLORS.bg };
+          return (
+            <div style={{ background: COLORS.white, border: `1px solid ${COLORS.accent2}`, borderRadius: RADIUS.md, padding: SPACING.md, marginBottom: SPACING.lg }}>
+              <p style={{ fontSize: FONT.size.md, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0 }}>회사별 직무 연결</p>
+              <p style={{ fontSize: FONT.size.sm, color: COLORS.sub, margin: '4px 0 12px', lineHeight: FONT.lineHeight.base }}>
+                지원할 회사의 채용공고 키워드를 적고, 내 경험 중 맞는 것을 연결하세요. 회사를 추가하면 <strong>회사별로 따로 관리</strong>되고, 엑셀 저장 시 <strong>회사별 시트</strong>로 저장됩니다. (다른 회사 지원 시 기존 경험을 재활용)
+              </p>
+              <div style={{ display: 'flex', gap: SPACING.xs, flexWrap: 'wrap', alignItems: 'center', marginBottom: SPACING.md }}>
+                {companies.map(c => (
+                  <button key={c} onClick={() => setActiveCompany(c)}
+                    style={{ padding: '6px 12px', borderRadius: RADIUS.pill || 999, border: `1px solid ${c === active ? COLORS.accent2 : COLORS.border}`, background: c === active ? COLORS.blueBg : COLORS.white, color: c === active ? COLORS.accent2 : COLORS.sub, fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: 'pointer', fontFamily: FONT.family }}>{c}</button>
+                ))}
+                <input type="text" value={newCompanyName} onChange={ev => setNewCompanyName(ev.target.value)}
+                  placeholder="회사명 입력 (예: 토스)" onKeyDown={ev => { if (ev.key === 'Enter') addCompanyLink(); }}
+                  style={{ ...inStyle, width: 170 }} />
+                <button onClick={addCompanyLink} style={{ background: COLORS.white, color: COLORS.accent2, border: `1px solid ${COLORS.accent2}`, borderRadius: RADIUS.sm, padding: '6px 12px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: 'pointer', fontFamily: FONT.family, whiteSpace: 'nowrap' }} className="ce-btn">회사 추가</button>
+              </div>
+              {!active ? (
+                <p style={{ fontSize: FONT.size.sm, color: COLORS.sub, margin: 0 }}>회사를 추가하면 그 회사 공고 키워드에 경험을 연결할 수 있습니다.</p>
+              ) : (
+                <div>
+                  <label style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent, display: 'block', marginBottom: 4 }}>{active} — 채용공고 핵심 키워드</label>
+                  <textarea value={cur.keywords || ''} onChange={ev => setCompanyKeywords(active, ev.target.value)} rows={2}
+                    style={{ ...inStyle, marginBottom: SPACING.md, resize: 'vertical', lineHeight: 1.6 }} placeholder="예: SQL, 리텐션, A/B 테스트, 코호트 분석" />
+                  <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: '0 0 6px' }}>↓ 위 키워드에 맞는 경험을 골라 연결을 적으세요 (모두 채울 필요 없음)</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.sm }}>
+                    {experiences.map((e, idx) => (
+                      <div key={e.id || idx} style={{ paddingLeft: SPACING.sm, borderLeft: `2px solid ${(cur.links && cur.links[e.id]) ? COLORS.accent2 : COLORS.bgAlt}` }}>
+                        <p style={{ margin: '0 0 2px', fontSize: FONT.size.xs, fontWeight: FONT.weight.semibold, color: COLORS.accent }}>{e.org || e.category || `경험 ${idx + 1}`}{e.summary ? ` — ${e.summary}` : ''}</p>
+                        <input type="text" value={(cur.links && cur.links[e.id]) || ''} onChange={ev => setExpLink(active, e.id, ev.target.value)}
+                          style={inStyle} placeholder="이 경험이 충족하는 키워드·요건 (예: 'SQL' → 인턴에서 직접 추출)" />
+                      </div>
+                    ))}
+                  </div>
+                  <button onClick={() => removeCompanyLink(active)} style={{ background: 'transparent', color: COLORS.red, border: 'none', cursor: 'pointer', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, marginTop: SPACING.sm, fontFamily: FONT.family, padding: 0 }}>이 회사 삭제</button>
+                </div>
+              )}
+            </div>
+          );
+        })()}
         {personaHints.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.sm, marginBottom: SPACING.lg }}>
             {personaHints.map((h, i) => (
