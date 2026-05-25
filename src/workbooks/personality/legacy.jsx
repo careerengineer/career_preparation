@@ -5,6 +5,7 @@ import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightPara
 import { AnswerQualityCheck, JdBridgeGuide } from '../../shared/components/AnswerQualityCheck.jsx';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 import { ExampleToggle } from '../../shared/components/ExampleToggle.jsx';
+import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 // ══════════════════════════════════════════════════════════════
@@ -1861,9 +1862,7 @@ const IntroPage = ({
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: SPACING.base, marginBottom: SPACING.sm }}>
                     <label style={{ ...S.label, marginBottom: 0, flex: 1 }}>{q.label}</label>
                     {q.guide && (
-                      <button onClick={() => toggleGuide(q.id)} style={{ ...S.btnText, whiteSpace: 'nowrap' }}>
-                        {showGuide[q.id] ? '가이드 숨기기' : '가이드 보기'}
-                      </button>
+                      <ToggleLink open={!!showGuide[q.id]} onToggle={() => toggleGuide(q.id)} label="가이드" />
                     )}
                   </div>
 
