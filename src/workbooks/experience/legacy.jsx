@@ -2013,7 +2013,7 @@ const ExperienceWorkbook = () => {
               {coverRate < 70 && (
                 <div style={{ ...BOX.warning, padding: SPACING.sm, borderRadius: RADIUS.base, marginTop: SPACING.md }}>
                   <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>
-                    <strong>{allKw.length - coveredKw.length}개 키워드가 비어있습니다.</strong> 빈 키워드를 커버할 수 있는 경험을 추가하거나, 기존 경험의 STAR/역량/직무상세내용 연결 메모에 해당 키워드를 자연스럽게 포함시키세요.
+                    <strong>{allKw.length - coveredKw.length}개 키워드가 비어있습니다.</strong> 빈 키워드를 커버할 수 있는 경험을 추가하거나, 기존 경험의 STAR/역량/직무상세내용 연결 메모에 해당 키워드를 자연스럽게 포함시키세요. 역량 또는 경험이 없는 경우에는 억지로 연결시키기보다는, 자소서 작성 시 관련 역량을 어떻게 확보할지에 대한 계획으로 작성하시는 것이 좋습니다.
                   </p>
                 </div>
               )}
