@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
+import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 
@@ -2175,13 +2176,7 @@ const JobAnalysisWorkbook = () => {
                       {f.hint && <p style={S.hint}>{f.hint}</p>}
                       {FIELD_EXAMPLES[f.key] && (
                         <div style={{ marginBottom: SPACING.sm }}>
-                          <button
-                            type="button"
-                            onClick={() => setShowExamples(p => ({ ...p, [f.key]: !p[f.key] }))}
-                            style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: COLORS.accent2, fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, fontFamily: 'inherit' }}
-                          >
-                            {showExamples[f.key] ? '예시 숨기기 ▲' : '작성 예시 보기 ▼'}
-                          </button>
+                          <ToggleLink open={!!showExamples[f.key]} onToggle={() => setShowExamples(p => ({ ...p, [f.key]: !p[f.key] }))} label="작성 예시" />
                           {showExamples[f.key] && (
                             <p style={{ margin: '6px 0 0', padding: SPACING.sm, background: COLORS.yellowBg, borderLeft: `3px solid ${COLORS.yellow}`, borderRadius: RADIUS.base, fontSize: FONT.size.sm, color: COLORS.accent, lineHeight: FONT.lineHeight.base, whiteSpace: 'pre-wrap' }}>
                               {FIELD_EXAMPLES[f.key]}

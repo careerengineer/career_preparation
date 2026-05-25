@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
+import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
 
 import { JobSituationGuide } from '../../shared/components/JobSituationGuide.jsx';
 import { AnswerQualityCheck } from '../../shared/components/AnswerQualityCheck.jsx';
@@ -2430,9 +2431,7 @@ const NewInterviewWorkbook = () => {
                 {q.template && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}><strong>템플릿:</strong> {q.template}</p>}
                 {q.example && (
                   <>
-                    <button onClick={() => toggleGuide(q.label + '_ex')} style={{ ...S.btnText, marginTop: 6 }}>
-                      {showGuide[q.label + '_ex'] ? '예시 답변 숨기기' : '예시 답변 보기'}
-                    </button>
+                    <ToggleLink open={!!showGuide[q.label + '_ex']} onToggle={() => toggleGuide(q.label + '_ex')} label="작성 예시" style={{ marginTop: 6 }} />
                     {showGuide[q.label + '_ex'] && (
                       <div style={{ ...S.boxInfo, borderLeft: `3px solid ${COLORS.accent2}`, marginTop: SPACING.sm }}>
                         <p style={{ ...labelStyle(COLORS.accent2), marginBottom: SPACING.sm }}>EXAMPLE · 예시 답변</p>

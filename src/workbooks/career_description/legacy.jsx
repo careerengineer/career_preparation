@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
+import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 // ══════════════════════════════════════════════════════════════
@@ -424,9 +425,7 @@ const GP = ({id, title, children, guides, tog}) => {
     <div style={{ marginBottom: 16 }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8, gap: 12 }}>
         <p style={{ fontSize: 16, fontWeight: 700, color: '#0E2750', margin: 0, lineHeight: 1.4, flex: 1 }}>{cleanTitle}</p>
-        <button onClick={()=>tog(id)} style={{ background: 'transparent', border: 'none', color: '#1B3A6B', fontWeight: 600, fontSize: 16, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>
-          {guides[id] ? '가이드 숨기기' : '가이드 보기'}
-        </button>
+        <ToggleLink open={!!guides[id]} onToggle={()=>tog(id)} label="가이드" style={{ flexShrink: 0 }} />
       </div>
       {guides[id] && <div style={{ background: '#F2F1EC', border: '1px solid #6E7A8F33', borderLeft: '3px solid #C9A86A', borderRadius: 8, padding: 16, fontSize: 16, color: '#1B3A6B' }}>
         <p style={{ fontSize: 16, fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', color: '#C9A86A', margin: 0, marginBottom: 12 }}>GUIDE · 작성 가이드</p>
