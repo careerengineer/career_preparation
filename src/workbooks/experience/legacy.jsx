@@ -1014,13 +1014,13 @@ const ExperienceWorkbook = () => {
       title='경험 정리'
       subtitle='STAR 프레임으로 자소서·면접에 쓸 경험 인벤토리를 만듭니다'
       flow={[
-          { label: '1단계', desc: '기본 정보 + 페르소나 진단 (산업·직무·경험량)' },
-          { label: '2단계', desc: '채용공고 키워드 입력 (선택) — 역량 매칭의 출발점' },
-          { label: '3단계', desc: '경험 인벤토리 — 보유 경험 목록 만들기' },
-          { label: '4단계', desc: 'STAR 상세 작성 — 상황·과제·행동·결과로 경험 정리' },
-          { label: '5단계', desc: '최종 검토 및 역량 태깅' },
+          { label: 'PART 1', desc: '기본 정보 + 페르소나 진단 (산업·직무·경험량)' },
+          { label: 'PART 2', desc: '채용공고 키워드 입력 (선택) — 역량 매칭의 출발점' },
+          { label: 'PART 3', desc: '경험 인벤토리 — 보유 경험 목록 만들기' },
+          { label: 'PART 4', desc: 'STAR 상세 작성 — 상황·과제·행동·결과로 경험 정리' },
+          { label: 'PART 5', desc: '최종 검토 및 역량 태깅' },
         ]}
-      flowTitle={'이 워크북의 진행 단계'}
+      flowTitle={'이 워크북의 진행 순서'}
       prerequisites={[
           {
             text: '지원 산업·직무 (선택, 입력하면 역량 자동 매칭)',
