@@ -321,7 +321,7 @@ const STEPS = [
     intro: '',
     stuckNote: "Q11에 답이 안 된다면 → PART 1의 Q3이 부실한 것입니다. Q3 또는 Q2에서 핵심 키워드를 다시 확인하세요 Q12~Q13에 답이 안 된다면 → PART 2~4의 답변이 부실한 것입니다. 해당 PART로 돌아가 보완하세요",
     questions: [
-      { label: "Q11", question: "첫 문장을 만드세요: [직무상세내용에서 내가 가장 잘할 수 있는 업무의 핵심 키워드] + [그 역량으로 만드는 가치] + [이름]", tip: "Q3의 '결정적 차이'와 직무상세내용 업무 목록을 결합", checkpoint: "채용담당자: \"직무를 알고 강점도 있구나\"", placeholder: '', referenceQuestions: ["Q3", "Q7", "Q8"], relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q11", question: "첫 문장을 만드세요: [직무 관련 경험으로 쌓은 핵심 역량] + [이 직무에 할 수 있는 기여] + [이름]", tip: "Q3의 '결정적 차이'와 직무상세내용 업무 목록을 결합", checkpoint: "채용담당자: \"직무를 알고 강점도 있구나\"", placeholder: '', referenceQuestions: ["Q3", "Q7", "Q8"], relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
       { label: "Q12", question: "30초 버전 키워드 카드 (4~5개) 첫문장 + 핵심경험의미 + 강점발전 + 지원동기", tip: "이 키워드만 보고 30초간 말할 수 있어야 합니다", checkpoint: '', placeholder: "① ② ③ ④", referenceQuestions: ["Q11", "Q4", "Q5-c", "Q8", "Q10"], relatedWorkbooks: ['experience', 'self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
       { label: "Q13", question: "1분 버전 키워드 카드 (8~10개) 30초 + 성과/차별점 + 구체적 기여방향 추가", tip: "면접 당일 출력해서 직전에 확인할 나침반", checkpoint: '', placeholder: "① ② ③ ④ ⑤ ⑥ ⑦ ⑧", referenceQuestions: ["Q12", "Q6"], relatedWorkbooks: ['self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
     ],
@@ -1228,7 +1228,7 @@ const SelfIntroWorkbook = () => {
               </button>
               <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
               <button onClick={downloadFinal} style={{ ...S.btnPrimary, flex: 1, padding: '18px 32px', fontSize: FONT.size.lg }}>
-                최종본 다운로드 (.doc)
+                최종본 다운로드 (.docx)
               </button>
             </div>
 
@@ -1306,17 +1306,17 @@ const SelfIntroWorkbook = () => {
               <div style={{ background: COLORS.cream, borderLeft: `4px solid ${COLORS.accent2}`, borderRadius: RADIUS.sm, padding: SPACING.md, marginTop: SPACING.md }}>
                 <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.goldDeep, margin: 0, marginBottom: SPACING.sm }}>1분 자기소개의 핵심</p>
                 <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.relaxed, marginBottom: SPACING.sm }}>
-                  면접관이 1분 30초 안에 확인하고 싶은 건 단 하나 — <strong>"이 사람은 어떤 패턴의 사람인가"</strong>. 자랑·나열이 아니라 아래 3가지가 한 줄로 정리되어야 합니다.
+                  면접관이 1분 30초 안에 확인하고 싶은 건 — <strong>"이 사람이 이 직무에 어떻게 기여할 사람인가"</strong>. 자랑·나열이 아니라 아래 3가지가 첫 문장 한 줄로 정리되어야 합니다.
                 </p>
                 <ol style={{ fontSize: FONT.size.sm, color: COLORS.accent, paddingLeft: 20, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>
-                  <li><strong>어떤 상황에서도 [어떻게] 행동하는 사람인가</strong> — 행동 패턴</li>
-                  <li><strong>그걸 보여주는 가장 강력한 경험 1개</strong> — 증거</li>
-                  <li><strong>이 패턴이 직무에서 어떻게 발휘될 것인가</strong> — 연결</li>
+                  <li><strong>직무 관련 경험으로 쌓은 핵심 역량 1개</strong> — 경험으로 증명되는 강점</li>
+                  <li><strong>그 역량으로 이 직무에 할 수 있는 기여</strong> — 직무 연결</li>
+                  <li><strong>위 둘을 묶어 이름으로 마무리</strong> — "…할 수 있는 ○○○입니다"</li>
                 </ol>
                 <div style={{ background: COLORS.bg, borderRadius: RADIUS.sm, padding: SPACING.sm, marginTop: SPACING.sm, border: `1px solid ${COLORS.border}` }}>
                   <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: 4 }}>좋은 예시</p>
                   <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base, fontStyle: 'italic' }}>
-                    "낯선 영역에서도 직접 답을 찾는 사람입니다. 자작자동차 동아리에서 SolidWorks를 처음 익혀 3주 만에 서스펜션 브래킷을 설계·도면화했고, 이 학습 속도를 설계자로서 새로운 CAD·해석 도구 습득에 그대로 적용하겠습니다."
+                    "자작자동차 동아리에서 SolidWorks로 서스펜션 브래킷을 설계·도면화하며 공차·구조 검토 역량을 쌓아, 이 직무에서 설계 단계부터 양산성을 확보하는 데 기여할 수 있는 김지원입니다."
                   </p>
                   <p style={{ fontSize: 11, color: COLORS.sub, margin: '6px 0 0' }}>
                     → "낯선 영역에서도 직접 답을 찾는다"가 행동 패턴 · "SolidWorks를 3주 만에"가 증거 · "설계자의 새 도구 습득에 적용"이 연결

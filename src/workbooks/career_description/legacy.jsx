@@ -1900,7 +1900,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
     </div>
     <div style={{ display: 'flex', gap: 12 }}>
       <button onClick={dl} style={{ flex: 1, color: '#1B3A6B', borderRadius: 8, fontWeight: 600, fontSize: 16, background: '#F2F1EC', cursor: 'pointer', border: '1px solid #6E7A8F33', padding: '10px 16px' }}>
-        워드(.doc) 다운로드
+        워드(.docx) 다운로드
       </button>
       <button onClick={dlHtml} style={{ flex: 1, color: '#1B3A6B', borderRadius: 8, fontWeight: 600, fontSize: 16, background: '#F2F1EC', cursor: 'pointer', border: '1px solid #6E7A8F33', padding: '10px 16px' }}>
         HTML 다운로드
@@ -1914,7 +1914,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
       <p style={{ margin: '0 0 4pt 12pt', fontSize: 16 }}>　• <strong>안드로이드</strong>: \"PDF로 저장\" 선택 → 파일 위치 지정</p>
       <p style={{ margin: '0 0 4pt 12pt', fontSize: 16 }}>　• <strong>아이폰</strong>: 공유 버튼 → \"파일에 저장\"</p>
       <p style={{ margin: '0 0 8pt 12pt', fontSize: 16 }}>　• <strong>PC</strong>: 인쇄 → 대상을 \"PDF로 저장\"으로 변경</p>
-      <p style={{ margin: 0, marginBottom: 4 }}>· <strong>워드(.doc) 다운로드</strong>: PC 워드에서 수정하고 싶을 때만. <strong style={{color:'#C9A86A'}}>안드로이드/아이폰에서는 안 열립니다.</strong></p>
+      <p style={{ margin: 0, marginBottom: 4 }}>· <strong>워드(.docx) 다운로드</strong>: PC 워드에서 수정하고 싶을 때만. <strong style={{color:'#C9A86A'}}>안드로이드/아이폰에서는 안 열립니다.</strong></p>
       <p style={{ margin: 0 }}>· <strong>HTML 다운로드</strong>: 브라우저에서 열어 확인 가능 (백업용).</p>
     </div>
 

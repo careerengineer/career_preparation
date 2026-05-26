@@ -1867,7 +1867,7 @@ const ResumeWorkbook = () => {
                 onClick={generateDoc}
                 style={{ flex: 1, paddingTop: 16, paddingBottom: 16, color: '#FFFFFF', borderRadius: 12, fontWeight: 700, fontSize: 18, transition: 'all 150ms', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, background: '#0E2750', cursor: 'pointer', border: 'none' }}
               >
-                워드 파일로 다운로드 (.doc)
+                워드 파일로 다운로드 (.docx)
               </button>
             </div>
 
