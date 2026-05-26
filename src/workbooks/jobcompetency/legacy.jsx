@@ -1,5 +1,6 @@
 // [BUILD v36 20260520 10:30] docx 저장에 CareerEngineer 자료 + 멘토링 안내 섹션 추가 (ExternalHyperlink + linkP)
 import React, { useState, useEffect, useRef } from 'react';
+import { isWorkbookInVariant } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
 import { buildEssayDocxChildren } from '../../store/workbookDocx.js';
@@ -1094,7 +1095,7 @@ const CompetencyWorkbook = () => {
                     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', gap: 8, alignItems: 'center', justifyContent: 'center', columnGap: 8, rowGap: 6, overflowX: 'auto' }}>
                       {g.items.map((it, ii) => {
                         const isCurrentItem = it.key === currentKey;
-                        const link = it.directUrl ? { url: it.directUrl } : WORKBOOK_LINKS[it.key];
+                        const link = it.directUrl ? { url: it.directUrl } : ((it.key && it.key !== currentKey && !isWorkbookInVariant(it.key)) ? null : WORKBOOK_LINKS[it.key]);
                         if (!link) return null;
                         const isMentoring = it.mentoring === true;
                         const showSeparator = ii < g.items.length - 1 && (g.items[ii + 1].mentoring === isMentoring);
@@ -1149,7 +1150,7 @@ const CompetencyWorkbook = () => {
                     </>)}
                     {g.items.map((it, ii) => {
                       const isCurrentItem = it.key === currentKey;
-                      const link = it.directUrl ? { url: it.directUrl } : WORKBOOK_LINKS[it.key];
+                      const link = it.directUrl ? { url: it.directUrl } : ((it.key && it.key !== currentKey && !isWorkbookInVariant(it.key)) ? null : WORKBOOK_LINKS[it.key]);
                       if (!link) return null;
                       return (
                         <span key={it.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
@@ -1174,7 +1175,7 @@ const CompetencyWorkbook = () => {
               
               // 일반 단일 STEP - 라벨 자체가 하이퍼링크
               const isCurrent = g.key === currentKey;
-              const link = g.directUrl ? { url: g.directUrl } : WORKBOOK_LINKS[g.key];
+              const link = g.directUrl ? { url: g.directUrl } : ((g.key && g.key !== currentKey && !isWorkbookInVariant(g.key)) ? null : WORKBOOK_LINKS[g.key]);
               if (!link) return null;
               
               if (isCurrent) {
