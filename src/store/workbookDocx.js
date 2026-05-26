@@ -444,7 +444,7 @@ const INTERVIEW_NEW_LINKS = [
   ['CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer'],
 ];
 
-// 채용공고·직무 분석(job_analysis) docx 본문 children
+// 채용공고 및 직무분석(job_analysis) docx 본문 children
 export function buildJobAnalysisDocxChildren({ basicInfo = {}, persona = '', finalText = '', jobPostings = [], formAnswers = {}, checklistState = {} }, dx, { includeMentoring = true } = {}) {
   const { Paragraph, TextRun, BorderStyle } = dx;
   const h = makeDocxHelpers(dx);
@@ -503,7 +503,7 @@ export function buildJobAnalysisDocxChildren({ basicInfo = {}, persona = '', fin
   if (includeMentoring) {
     children.push(h.sectionH('CareerEngineer 자료 — 다음 단계로'));
     children.push(h.plain('이 워크북을 완성한 후 다음 단계로 나아가는 데 도움이 되는 자료들입니다.', { italic: true, spacing: { before: 80, after: 160 } }));
-    [['채용공고 및 직무 분석 가이드북', 'https://www.latpeed.com/products/-3Wgm'], ['자소서 작성 전자책 시리즈', 'https://www.latpeed.com/products/dfdMW'], ['1:1 취업 컨설팅 — 직무 매칭부터 함께', 'https://www.latpeed.com/products/S92cP'], ['CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer']].forEach(([l, u]) => children.push(h.linkP(l, u)));
+    [['채용공고 및 직무분석 가이드북', 'https://www.latpeed.com/products/-3Wgm'], ['자소서 작성 전자책 시리즈', 'https://www.latpeed.com/products/dfdMW'], ['1:1 취업 컨설팅 — 직무 매칭부터 함께', 'https://www.latpeed.com/products/S92cP'], ['CareerEngineer 카카오톡 상담', 'https://open.kakao.com/me/careerengineer']].forEach(([l, u]) => children.push(h.linkP(l, u)));
     children.push(new Paragraph({ children: [new TextRun({ text: '', size: 22, font: '맑은 고딕' })], spacing: { before: 240, after: 60 } }));
     children.push(new Paragraph({ children: [new TextRun({ text: 'CareerEngineer 전자책 / 멘토링 전체 안내', bold: true, size: 22, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 160, after: 80 }, shading: { fill: 'F2F1EC' }, border: { left: { style: BorderStyle.SINGLE, size: 24, color: '1B3A6B', space: 8 } }, indent: { left: 240 } }));
     children.push(new Paragraph({ children: [new TextRun({ text: 'CareerEngineer는 취업·이직 준비의 모든 단계를 지원하는 전자책과 멘토링을 운영합니다. 자소서 작성, 경력기술서, 면접 답변집 등 단계별 가이드와 1:1 멘토링이 있으며, 모든 자료는 공학박사 멘토의 실제 합격 사례 기반으로 설계되어 있습니다.', size: 20, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 0, after: 120, line: 360 }, indent: { left: 240 } }));

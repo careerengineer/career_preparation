@@ -5,7 +5,7 @@ import { COLORS, FONT, SPACING, RADIUS } from '../shared/design/tokens.js';
 
 const CLEARED = [
   '산업 / 직무 / 회사 (기본정보)',
-  '채용공고·직무 분석',
+  '채용공고 및 직무분석',
   '이력서 / 경력기술서',
   '자소서 5종 (지원동기·직무역량·성격·목표수립달성·입사후 포부)',
   '1분 자기소개',
@@ -55,7 +55,7 @@ export default function ResetCompanyButton() {
         (pendingMode === 'backup' ? '백업이 완료되었고 데이터를 초기화했습니다.\n\n' : '데이터를 초기화했습니다.\n\n') +
         '다음 단계:\n' +
         '1. 상단 "어떤 직무에 지원하나요?"에 새 회사·직무·산업을 입력\n' +
-        '2. STEP 1 채용공고·직무 분석부터 새로 작성\n\n' +
+        '2. STEP 1 채용공고 및 직무분석부터 새로 작성\n\n' +
         '경험·로드맵 진단 결과는 그대로 남아있습니다.'
       );
     }, 300);

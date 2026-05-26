@@ -21,7 +21,7 @@ const IS_EXPERIENCED_VARIANT = VARIANT === 'experienced' || VARIANT === 'documen
 //  CareerEngineer 워크북 라이브러리 (URL은 나중에 일괄 적용)
 // ════════════════════════════════════════════════════════════════
 const WORKBOOK_LINKS = { career_roadmap: { label: 'STEP 0 · 취업준비 진단', url: 'https://www.latpeed.com/products/YPFjD' },
-  job_analysis:       { label: 'STEP 1 · 채용공고 및 직무 분석', url: 'https://www.latpeed.com/products/-3Wgm' },
+  job_analysis:       { label: 'STEP 1 · 채용공고 및 직무분석', url: 'https://www.latpeed.com/products/-3Wgm' },
   experience:         { label: 'STEP 2 · 경험 정리', url: 'https://www.latpeed.com/products/wDSaj' },
   motivation:         { label: 'STEP 4 · 지원동기 작성', url: 'https://www.latpeed.com/products/dfdMW' },
   jobcompetency:      { label: 'STEP 4 · 직무역량 작성', url: 'https://www.latpeed.com/products/dfdMW' },
@@ -765,7 +765,7 @@ const ResumeWorkbook = () => {
             recommend: {
               workbookId: 'job_analysis',
               condition: '분석이 막막하다면',
-              linkLabel: '채용공고 분석 & 직무분석 가이드',
+              linkLabel: '채용공고 및 직무분석 가이드',
             },
           },
           {
@@ -828,7 +828,7 @@ const ResumeWorkbook = () => {
 
             {answers.expType === '신입_경험부족' && (
               <WarningBox title="경험이 부족한 경우 - 솔직한 안내">
-                이력서는 "내가 무엇을 할 수 있는지"를 보여주는 문서입니다. 직무 관련 경험이 없으면 적을 것이 없고, 적을 것이 없는 이력서로는 합격을 기대하기 어렵습니다. 지금 해야 할 일은 경험을 쌓는 것입니다. CareerEngineer의 "채용공고 분석 & 직무분석 가이드"로 필요한 역량을 파악하고, 3~6개월간 개인 프로젝트/부트캠프/공모전/인턴으로 경험을 만든 후 다시 이 워크북으로 돌아오세요. 그래도 지금 시작하고 싶다면 가지고 있는 경험으로 최선을 다해 작성해보세요.
+                이력서는 "내가 무엇을 할 수 있는지"를 보여주는 문서입니다. 직무 관련 경험이 없으면 적을 것이 없고, 적을 것이 없는 이력서로는 합격을 기대하기 어렵습니다. 지금 해야 할 일은 경험을 쌓는 것입니다. CareerEngineer의 "채용공고 및 직무분석 가이드"로 필요한 역량을 파악하고, 3~6개월간 개인 프로젝트/부트캠프/공모전/인턴으로 경험을 만든 후 다시 이 워크북으로 돌아오세요. 그래도 지금 시작하고 싶다면 가지고 있는 경험으로 최선을 다해 작성해보세요.
               </WarningBox>
             )}
           </div>
@@ -842,7 +842,7 @@ const ResumeWorkbook = () => {
             <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 24 }}>채용공고(직무상세내용)를 보면서 핵심 키워드를 뽑아주세요. 이 키워드가 이력서 전체의 뼈대가 됩니다.</p>
 
             <TipBox>
-              채용공고를 열어두고 작성하세요. "채용공고 분석 & 직무분석 가이드"를 이미 분석했다면 그 결과를 여기에 옮겨 적으면 됩니다.
+              채용공고를 열어두고 작성하세요. "채용공고 및 직무분석 가이드"를 이미 분석했다면 그 결과를 여기에 옮겨 적으면 됩니다.
             </TipBox>
 
             <QuestionBlock
@@ -1321,7 +1321,7 @@ const ResumeWorkbook = () => {
               <p style={{ fontSize: 16, fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', color: '#1B3A6B', marginBottom: 4 }}>
                 INFO · 지금까지 작성한 내용 (PART 1~6)
               </p>
-              <p style={{ fontSize: 16, color: '#6E7A8F', margin: '0 0 12px 0' }}>아래 내용이 워드 파일로 출력됩니다. 누락된 항목이 있으면 이전 PART로 돌아가서 작성하세요.</p>
+              <p style={{ fontSize: 16, color: '#6E7A8F', margin: '0 0 12px 0' }}>아래 내용이 .docx 파일로 출력됩니다. 누락된 항목이 있으면 이전 PART로 돌아가서 작성하세요.</p>
 
               {/* 기본 정보 */}
               {(answers.company || answers.position || answers.expType) && (
@@ -1466,18 +1466,18 @@ const ResumeWorkbook = () => {
               <div style={{ width: 64, height: 64, background: '#F2F1EC', borderRadius: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', marginBottom: 16 }}>
                 </div>
               <h2 style={{ fontSize: 20, fontWeight: 900, color: '#0E2750', marginBottom: 8 }}>이력서 워크북 작성 완료!</h2>
-              <p style={{ fontSize: 16, color: '#6E7A8F' }}>아래 내용을 확인하고 워드 파일로 다운로드하세요.</p>
+              <p style={{ fontSize: 16, color: '#6E7A8F' }}>아래 내용을 확인하고 .docx 파일로 다운로드하세요.</p>
             </div>
 
             <div style={{ background: '#FBFAF6', border: '1px solid #6E7A8F33', borderColor: '#A8853F', borderRadius: 12, padding: 16, marginBottom: 24 }}>
               <p style={{ fontSize: 16, fontWeight: 700, color: '#0E2750' }}>완성본은 파일로 받아두세요</p>
-              <p style={{ fontSize: 16, color: '#1B3A6B' }}>작성한 내용은 이 브라우저에 자동 저장됩니다. 다만 캐시를 지우거나 다른 기기에서 열면 사라질 수 있으니, 최종본은 "워드 파일로 다운로드" 버튼으로 받아두면 안전합니다.</p>
+              <p style={{ fontSize: 16, color: '#1B3A6B' }}>작성한 내용은 이 브라우저에 자동 저장됩니다. 다만 캐시를 지우거나 다른 기기에서 열면 사라질 수 있으니, 최종본은 "다운로드 (.docx)" 버튼으로 받아두면 안전합니다.</p>
             </div>
 
             {/* 작성 결과 요약 — 워드 출력에 포함되는 모든 항목 표시 */}
             <div style={{ background: '#F2F1EC', borderRadius: 12, padding: 20, marginBottom: 24 }}>
               <p style={{ fontSize: 18, fontWeight: 900, color: '#0E2750', margin: 0, marginBottom: 16 }}>작성 결과 요약</p>
-              <p style={{ fontSize: 16, color: '#6E7A8F', margin: '0 0 16px 0' }}>아래 내용이 워드 파일로 출력됩니다. 누락된 항목이 있으면 이전 PART로 돌아가서 작성하세요.</p>
+              <p style={{ fontSize: 16, color: '#6E7A8F', margin: '0 0 16px 0' }}>아래 내용이 .docx 파일로 출력됩니다. 누락된 항목이 있으면 이전 PART로 돌아가서 작성하세요.</p>
 
               {/* 기본 정보 */}
               {(answers.company || answers.position || answers.expType) && (
@@ -1603,7 +1603,7 @@ const ResumeWorkbook = () => {
                 onClick={generateDoc}
                 style={{ flex: 1, paddingTop: 16, paddingBottom: 16, color: '#FFFFFF', borderRadius: 12, fontWeight: 700, fontSize: 18, transition: 'all 150ms', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, background: '#0E2750', cursor: 'pointer', border: 'none' }}
               >
-                워드 파일로 다운로드 (.docx)
+                다운로드 (.docx)
               </button>
             </div>
 

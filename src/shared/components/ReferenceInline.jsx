@@ -96,7 +96,7 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
       const rm = master.roadmap;
       const rmRaw = master.workbookRaw?.career_roadmap;
       const STEP_NAMES = {
-        0: 'STEP 0 · 방향 설정', 1: 'STEP 1 · 채용공고 분석', 2: 'STEP 2 · 경험 소재 발굴',
+        0: 'STEP 0 · 방향 설정', 1: 'STEP 1 · 채용공고 및 직무분석', 2: 'STEP 2 · 경험 소재 발굴',
         3: 'STEP 3 · 이력서/경력기술서', 4: 'STEP 4 · 자소서', 5: 'STEP 5 · 면접',
       };
       const lines = [];
