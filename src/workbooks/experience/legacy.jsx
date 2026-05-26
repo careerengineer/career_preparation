@@ -1051,7 +1051,7 @@ const ExperienceWorkbook = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md, marginBottom: SPACING.xl }}>
           {[
             { key: 'industry', label: '지원 산업', placeholder: '예: IT · 커머스 · 금융' },
-            { key: 'position', label: '지원 직무', placeholder: '예: 마케터 · 백엔드 개발자' },
+            { key: 'position', label: '지원 직무', placeholder: '예: 공정엔지니어 · 기구설계 엔지니어' },
             { key: 'target', label: '대상 기업 (선택)', placeholder: '예: 네이버 · 카카오 · 배민' },
           ].map(f => (
             <div key={f.key}>

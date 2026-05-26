@@ -1515,7 +1515,7 @@ const IntroPage = ({
 
           {currentStep === 0 && currentPhase === 'round1' ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md }}>
-              {[["position", "지원하고자 하는 직무", "예: 마케팅, 개발, 기획 등"], ["company", "지원하고자 하는 회사명", "예: 삼성전자, 네이버 등"], ["experience", "목표달성 경험 (간단히)", "예: 기구 설계 프로젝트 3개 완성"]].map(([f, l, p]) => (
+              {[["position", "지원하고자 하는 직무", "예: 공정엔지니어, 기구설계, 회로설계 등"], ["company", "지원하고자 하는 회사명", "예: 삼성전자, LG전자 등"], ["experience", "목표달성 경험 (간단히)", "예: 기구 설계 프로젝트 3개 완성"]].map(([f, l, p]) => (
                 <div key={f}>
                   <label style={S.label}>{l}</label>
                   <input type="text" className="ce-input" value={basicInfo[f]} onChange={e => handleBasicInfoChange(f, e.target.value)} style={S.input} placeholder={p} />

@@ -75,7 +75,6 @@ export default function ResumePage() {
   return (
     <WorkbookShell
       workbookKey="resume"
-      mentoringType="resume"
       topReferenceIds={["experience","job_analysis","career_description"]}
     >
       <Bridge />

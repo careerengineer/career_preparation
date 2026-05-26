@@ -75,7 +75,6 @@ export default function SelfIntroductionPage() {
   return (
     <WorkbookShell
       workbookKey="self_introduction"
-      mentoringType="interview"
       topReferenceIds={["motivation","jobcompetency","personality","goalachievement","careergoal"]}
     >
       <Bridge />
