@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
-import { ALL_WORKBOOKS as WORKBOOKS } from '../../store/schema.js';
+import { ALL_WORKBOOKS as WORKBOOKS, isWorkbookInVariant } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { ImportPreviewModal } from './ImportPreviewModal.jsx';
 
@@ -44,7 +44,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
   }
 
   // career_roadmap
-  if (currentWorkbookKey !== 'career_roadmap') {
+  if (currentWorkbookKey !== 'career_roadmap' && isWorkbookInVariant('career_roadmap')) {
     const rm = master.roadmap;
     if (rm && (rm.completedAt || rm.weakestStep != null)) {
       items.push({
@@ -57,7 +57,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
   }
 
   // experience
-  if (currentWorkbookKey !== 'experience') {
+  if (currentWorkbookKey !== 'experience' && isWorkbookInVariant('experience')) {
     (master.experiences || []).forEach((e) => {
       items.push({
         group: '경험 정리',
@@ -70,7 +70,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
   }
 
   // job_analysis
-  if (currentWorkbookKey !== 'job_analysis') {
+  if (currentWorkbookKey !== 'job_analysis' && isWorkbookInVariant('job_analysis')) {
     const ja = master.jobAnalysis;
     if (ja && (ja.completedAt || ja.success_signals || ja.my_experience_pool)) {
       items.push({
@@ -87,6 +87,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
   const STEP_MAP = Object.fromEntries(WORKBOOKS.map((w) => [w.key, `STEP ${w.step}`]));
   Object.entries(master.workbookRaw || {}).forEach(([key, raw]) => {
     if (!raw || key === currentWorkbookKey || key === 'experience' || key === 'career_roadmap' || key === 'job_analysis' || key === '_docxImport') return;
+    if (!isWorkbookInVariant(key)) return;
     const keys = Object.keys(raw).filter((k) => k !== 'basicInfo' && k !== 'savedAt');
     if (keys.length === 0) return;
     items.push({
@@ -99,7 +100,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
 
   // outputs.finalText
   Object.entries(master.outputs || {}).forEach(([key, out]) => {
-    if (key === currentWorkbookKey) return;
+    if (key === currentWorkbookKey || !isWorkbookInVariant(key)) return;
     if (!out?.finalText) return;
     items.push({
       group: '완성본',
