@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
-import { exportFullBackupZip } from '../store/docExport.js';
+import { exportFullBackupZip, exportAllSlotsZip, extractAllSlots } from '../store/docExport.js';
 import { syncLegacyFromMaster } from '../store/legacySync.js';
 import { COLORS, FONT, SPACING, RULE } from '../shared/design/tokens.js';
 
 export default function CompanySlots() {
   const {
     master, saveCompanySlot, loadCompanySlot, deleteCompanySlot, listCompanySlots,
-    getCompanySlotMaster, exportAllSlotsFile, importAllSlotsFile,
+    getCompanySlotMaster, getAllSlots, importAllSlots,
   } = useDataStore();
   const [slots, setSlots] = useState([]);
   const [toast, setToast] = useState(null);
@@ -58,10 +58,12 @@ export default function CompanySlots() {
     } catch (e) { showToast('오류: ' + e.message); }
   };
 
-  const handleExportAll = () => {
+  const handleExportAll = async () => {
     if (slots.length === 0) { showToast('백업할 저장본이 없습니다.'); return; }
-    const fn = exportAllSlotsFile();
-    showToast(`전체 ${slots.length}개 저장본을 백업했습니다: ${fn}`);
+    try {
+      const { zipName, count } = await exportAllSlotsZip(getAllSlots());
+      showToast(`전체 ${count}개 저장본을 백업했습니다: ${zipName} (워드 1개 + 엑셀 1개)`);
+    } catch (err) { showToast('오류: ' + err.message); }
   };
 
   const handleImportClick = () => importRef.current?.click();
@@ -69,10 +71,15 @@ export default function CompanySlots() {
     const file = e.target.files?.[0];
     e.target.value = '';
     if (!file) return;
-    const mode = window.confirm('전체 저장본 백업을 불러옵니다.\n[확인]: 기존 저장본과 병합 (같은 이름은 새 것으로 덮어쓰기)\n[취소]: 기존 저장본 완전 교체') ? 'merge' : 'replace';
-    if (mode === 'replace' && !window.confirm('기존 저장본이 모두 삭제됩니다. 정말 진행할까요?')) return;
     try {
-      const { count, total } = await importAllSlotsFile(file, mode);
+      const incomingSlots = await extractAllSlots(file);
+      if (!incomingSlots || Object.keys(incomingSlots).length === 0) {
+        showToast('이 파일에서 전체 저장본 백업을 찾지 못했습니다. (.zip/.docx/.xlsx/.json)');
+        return;
+      }
+      const mode = window.confirm('전체 저장본 백업을 불러옵니다.\n[확인]: 기존 저장본과 병합 (같은 이름은 새 것으로 덮어쓰기)\n[취소]: 기존 저장본 완전 교체') ? 'merge' : 'replace';
+      if (mode === 'replace' && !window.confirm('기존 저장본이 모두 삭제됩니다. 정말 진행할까요?')) return;
+      const { count, total } = importAllSlots(incomingSlots, mode);
       refresh();
       showToast(`저장본 ${count}개를 ${mode === 'merge' ? '병합' : '교체'}했습니다 (총 ${total}개).`);
     } catch (err) { showToast('오류: ' + err.message); }
@@ -141,8 +148,8 @@ export default function CompanySlots() {
           lineHeight: FONT.lineHeight.base,
         }}>
           저장본은 <strong>이 브라우저에만</strong> 저장됩니다.
-          다른 기기에서 열거나 캐시 삭제를 대비하여 <strong>[전체 저장본 백업]</strong>으로 파일을 다운로드할 수 있습니다.
-          다운로드한 파일을 [저장본 백업 불러오기]에 올리면 그대로 복원됩니다.
+          다른 기기에서 열거나 캐시 삭제를 대비하여 <strong>[전체 저장본 백업]</strong>으로 <strong>모든 회사를 담은 워드 1개 + 엑셀 1개(.zip)</strong>를 다운로드하세요.
+          그 .zip을 [저장본 백업 불러오기]에 올리면 모든 회사 저장본이 그대로 복원됩니다.
         </p>
         <p style={{ margin: '8px 0 0', fontSize: 16, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
           · <strong>[불러오기]</strong>: 이 저장본을 지금 바로 작업 화면에 적용합니다(가장 간편).<br />
@@ -170,13 +177,14 @@ export default function CompanySlots() {
       {/* 백업/복원 영역 */}
       <div style={{ display: 'flex', gap: SPACING.sm, marginBottom: SPACING.md, flexWrap: 'wrap' }}>
         <button onClick={handleExportAll} style={btnSecondary} disabled={slots.length === 0}>
-          전체 저장본 백업 (.json)
+          전체 저장본 백업 (.zip)
         </button>
         <button onClick={handleImportClick} style={btnSecondary}>
           저장본 백업 불러오기
         </button>
         <input
-          ref={importRef} type="file" accept=".json,application/json"
+          ref={importRef} type="file"
+          accept=".zip,.docx,.xlsx,.json,application/zip,application/json,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           onChange={handleImportFile} style={{ display: 'none' }}
         />
       </div>
