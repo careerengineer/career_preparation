@@ -43,6 +43,8 @@ const COVERED_STEPS = COVERAGE[VARIANT] || ALL_STEPS.filter((s) => WORKBOOKS.som
 const HAS_EXCLUDED_STEPS = COVERED_STEPS.length < ALL_STEPS.length;
 // 신입=멘토링 / 경력=컨설팅 (변형 키에 'experienced' 포함 여부로 판별)
 const COACHING_WORD = (VARIANT && VARIANT.includes('experienced')) ? '컨설팅' : '멘토링';
+// 서류·면접 전용(부분 과정)은 제외 STEP을 흐리게+신청 안내로 노출(업셀), 종합 과정(신입 멘토링·경력 컨설팅)은 다루는 STEP만 표시.
+const STEPS_TO_RENDER = COVERAGE[VARIANT] ? ALL_STEPS : ALL_STEPS.filter((s) => COVERED_STEPS.includes(s.n));
 
 // 진행률용 STEP 라벨(1~5) — 처음 사용 가이드 흐름 문구 생성에 사용
 const STEP_FLOW_LABELS = { 1: '채용공고·직무 분석', 2: '경험 정리', 3: '이력서·경력기술서', 4: '자소서', 5: '면접' };
@@ -150,7 +152,7 @@ export default function Dashboard() {
             <p style={{ margin: `0 0 ${SPACING.md}px`, fontSize: 18, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
               {HAS_EXCLUDED_STEPS ? (
                 <>
-                  <strong style={{ color: COLORS.accent }}>{VARIANT_LABEL}</strong>이 다루는 영역만 진도율을 집계합니다. 나머지 단계는 이 과정의 범위가 아닙니다.
+                  <strong style={{ color: COLORS.accent }}>{VARIANT_LABEL}</strong>이 다루는 영역만 진도율을 집계합니다.
                 </>
               ) : (
                 <>
@@ -164,7 +166,7 @@ export default function Dashboard() {
             gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
             gap: SPACING.sm,
           }}>
-            {ALL_STEPS.map((s) => {
+            {STEPS_TO_RENDER.map((s) => {
               const covered = COVERED_STEPS.includes(s.n);
               const pct = covered ? coveredStepProgress(master, s.n) : 0;
               return (
