@@ -655,7 +655,7 @@ const PersonalityWorkbook = () => {
     },
     {
       id: 'connect_dis_recognition',
-      label: '연결 ⑦→⑨: 단점 인식 + 고쳐야겠다는 결심을 자연스럽게 전환',
+      label: '연결 ⑧→⑨: 단점 인식 + 고쳐야겠다는 결심을 자연스럽게 전환',
       hint: '"다만 이 장점이 과도해지면 [단점]이 나타납니다. [인식 경험]을 통해 알게 됐고, [결심 계기 경험]을 통해 반드시 고쳐야겠다고 결심했습니다."',
       placeholder: '예: 다만 이 장점이 과도해지면 유연성이 부족해집니다. 인턴십에서 팀 방향이 급변했을 때 기존 계획을 내려놓지 못해 혼자 뒤처졌고, 팀원이 나중에 "그때 좀 답답했어"라고 솔직하게 말해줬습니다. 내 단점이 나만의 문제가 아니라 팀 전체에 영향을 준다는 것을 그때 처음 실감하고, 반드시 고쳐야겠다고 결심했습니다.',
       rows: 4,
@@ -855,7 +855,7 @@ const PersonalityWorkbook = () => {
     return `원본 답변 모음\n\n[기본 정보]\n직무: ${basicInfo.position||'-'}\n회사: ${basicInfo.company||'-'}\n\n` +
     `[Q1 장점]\nQ1-1 (장점): ${answers.q1_1||'-'}\nQ1-2 (형성 계기): ${answers.q1_2||'-'}\nQ1-3 (발전 결심 계기): ${answers.q1_3||'-'}\nQ1-4 (지속성 증명): ${answers.q1_4||'-'}\nQ1-5 (STAR 성과): ${answers.q1_5||'-'}\nQ1-6 (직무 연결): ${answers.q1_6||'-'}\nQ1-7 (기여): ${answers.q1_7||'-'}\n\n` +
     `[Q2 단점]\nQ2-1 (단점+인식): ${answers.q2_1||'-'}\nQ2-2 (결심 계기): ${answers.q2_2||'-'}\nQ2-3 (현재 관리): ${answers.q2_3||'-'}\nQ2-4 (성장 증거): ${answers.q2_4||'-'}\n\n` +
-    `[3라운드 연결]\n①→③ 장점+계기+발전: ${answers.connect_adv_core||'-'}\n④→⑤ 지속성+성과: ${answers.connect_adv_evidence||'-'}\n⑥→⑦ 직무연결+기여: ${answers.connect_adv_contribution||'-'}\n⑦→⑨ 단점+결심: ${answers.connect_dis_recognition||'-'}\n⑩→⑪ 관리+성장: ${answers.connect_dis_growth||'-'}`;
+    `[3라운드 연결]\n①→③ 장점+계기+발전: ${answers.connect_adv_core||'-'}\n④→⑤ 지속성+성과: ${answers.connect_adv_evidence||'-'}\n⑥→⑦ 직무연결+기여: ${answers.connect_adv_contribution||'-'}\n⑧→⑨ 단점+결심: ${answers.connect_dis_recognition||'-'}\n⑩→⑪ 관리+성장: ${answers.connect_dis_growth||'-'}`;
   };
 
   const canGoNext = () => { if (currentPhase === 'evaluation') return selectedSteps.length >= 1; return true; };
@@ -1590,10 +1590,10 @@ const IntroPage = ({
               </div>
 
               <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: SPACING.sm }}>
-                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>단점 — 인식과 결심 (Q7→Q9)</p>
+                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>단점 — 인식과 결심 (Q8→Q9)</p>
                 {answers.connect_dis_recognition && (
                   <div style={{ background: COLORS.blueBg, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: 6 }}>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.blue, fontWeight: FONT.weight.semibold, margin: 0 }}>연결 ⑦→⑨ (권장)</p>
+                    <p style={{ fontSize: FONT.size.xs, color: COLORS.blue, fontWeight: FONT.weight.semibold, margin: 0 }}>연결 ⑧→⑨ (권장)</p>
                     <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_dis_recognition.substring(0,200)}{answers.connect_dis_recognition.length>200?'...':''}</p>
                   </div>
                 )}

@@ -364,7 +364,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '초급/중급/고급으로 구분해보세요. 신입이라면 초급~중급이 정상입니다.',
             ifStillDifficult: '"이 작업은 혼자 할 수 있다, 이 작업은 아직 도움이 필요하다"로 나눠보세요.'
           },
-          placeholder: '예: SolidWorks 기구 설계와 도면화는 독립적으로 수행 가능한 중급 수준입니다. 공차 분석은 기초 수준으로 누적 공차 계산과 간섭 검토가 가능하지만, FEA 구조해석 실무 경험은 아직 없어 개인 프로젝트로 실습 중입니다.',
+          placeholder: '예: SolidWorks 기구 설계와 도면화는 독립적으로 수행 가능한 중급 수준입니다. 공차 분석은 기초 수준으로 누적 공차 계산과 간섭 검토가 가능합니다. FEA 구조해석은 캡스톤에서 정적해석까지는 해봤지만 양산 실무에 필요한 피로·진동 해석은 아직 경험이 없어 개인 프로젝트로 실습 중입니다.',
           rows: 4, relatedWorkbooks: ['experience', 'interview_new', 'motivation', 'personality', 'goalachievement', 'careergoal']
         }
       ]
@@ -425,7 +425,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '신입사원의 일반적인 성장 단계를 참고하세요: 적응 → 실무 참여 → 독립적 수행',
             ifStillDifficult: 'Q3-3에서 쓴 현재 수준을 출발점으로 "3개월 뒤에 이 수준이 되겠다"로 연결하면 자연스럽습니다.'
           },
-          placeholder: '예: 3개월(지금 역량으로 바로 기여): 브래킷 단독 설계 경험을 그대로 적용해 부품 모델링·도면화를 독립 수행하고 조립 공차 검토 결과를 정리합니다. 6개월(부족한 역량을 채우며 기여 확대): 아직 경험이 없는 FEA 구조해석을 선임과 함께 간단한 부품부터 직접 수행하며 익혀, 소규모 기구 모듈을 설계부터 검증까지 독립적으로 맡아 양산 설계에 기여합니다.',
+          placeholder: '예: 3개월(지금 역량으로 바로 기여): 브래킷 단독 설계 경험을 그대로 적용해 부품 모델링·도면화를 독립 수행하고 조립 공차 검토 결과를 정리합니다. 6개월(부족한 역량을 채우며 기여 확대): 아직 경험이 없는 양산용 FEA 구조해석(피로·진동)을 선임과 함께 간단한 부품부터 직접 수행하며 익혀, 소규모 기구 모듈을 설계부터 검증까지 독립적으로 맡아 양산 설계에 기여합니다.',
           rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
         }
       ]
