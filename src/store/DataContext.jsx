@@ -1,26 +1,32 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { DEFAULT_MASTER, MASTER_KEY } from './schema';
+import { LEGACY_KEYS } from './legacySync.js';
 
 const DataContext = createContext(null);
+
+// 구버전/부분 저장본·슬롯에 슬라이스가 없어도 selectors가 크래시하지 않도록
+// DEFAULT_MASTER와 슬라이스별로 머지한다. (cold load + 슬롯 복원 공용)
+function mergeWithDefaults(p) {
+  p = p || {};
+  return {
+    ...DEFAULT_MASTER,
+    ...p,
+    profile: { ...DEFAULT_MASTER.profile, ...(p.profile || {}) },
+    roadmap: { ...DEFAULT_MASTER.roadmap, ...(p.roadmap || {}) },
+    careergoal: { ...DEFAULT_MASTER.careergoal, ...(p.careergoal || {}) },
+    jobAnalysis: { ...DEFAULT_MASTER.jobAnalysis, ...(p.jobAnalysis || {}) },
+    workbookRaw: { ...DEFAULT_MASTER.workbookRaw, ...(p.workbookRaw || {}) },
+    outputs: { ...DEFAULT_MASTER.outputs, ...(p.outputs || {}) },
+    experiences: Array.isArray(p.experiences) ? p.experiences : DEFAULT_MASTER.experiences,
+  };
+}
 
 export function DataProvider({ children }) {
   const [master, setMaster] = useState(() => {
     try {
       const saved = localStorage.getItem(MASTER_KEY);
       if (saved) {
-        const p = JSON.parse(saved) || {};
-        // 구버전/부분 저장본에 슬라이스가 없어도 selectors가 크래시하지 않도록 DEFAULT_MASTER와 슬라이스별 머지
-        return {
-          ...DEFAULT_MASTER,
-          ...p,
-          profile: { ...DEFAULT_MASTER.profile, ...(p.profile || {}) },
-          roadmap: { ...DEFAULT_MASTER.roadmap, ...(p.roadmap || {}) },
-          careergoal: { ...DEFAULT_MASTER.careergoal, ...(p.careergoal || {}) },
-          jobAnalysis: { ...DEFAULT_MASTER.jobAnalysis, ...(p.jobAnalysis || {}) },
-          workbookRaw: { ...DEFAULT_MASTER.workbookRaw, ...(p.workbookRaw || {}) },
-          outputs: { ...DEFAULT_MASTER.outputs, ...(p.outputs || {}) },
-          experiences: Array.isArray(p.experiences) ? p.experiences : DEFAULT_MASTER.experiences,
-        };
+        return mergeWithDefaults(JSON.parse(saved));
       }
     } catch (e) {
       console.warn('load failed:', e);
@@ -71,21 +77,6 @@ export function DataProvider({ children }) {
       return next;
     });
     // 워크북 자체 localStorage 키 삭제
-    const LEGACY_KEYS = {
-      career_roadmap: 'careerengineer_career_roadmap_v1',
-      job_analysis: 'careerengineer_job_analysis_v1',
-      experience: 'careerengineer_experience_v1',
-      resume: 'careerengineer_resume_v1',
-      career_description: 'careerengineer_career_description_v1',
-      motivation: 'careerengineer_motivation_v1',
-      jobcompetency: 'careerengineer_jobcompetency_v1',
-      personality: 'careerengineer_personality_v1',
-      goalachievement: 'careerengineer_goalachievement_v1',
-      careergoal: 'careerengineer_careergoal_v1',
-      self_introduction: 'careerengineer_self_introduction_v1',
-      interview_new: 'careerengineer_interview_new_v1',
-      interview_career: 'careerengineer_interview_career_v1',
-    };
     try { if (LEGACY_KEYS[workbookKey]) localStorage.removeItem(LEGACY_KEYS[workbookKey]); } catch {}
   }, []);
 
@@ -170,7 +161,7 @@ export function DataProvider({ children }) {
     const slots = readSlots();
     const slot = slots[slotName];
     if (!slot?.master) throw new Error('해당 슬롯이 없습니다.');
-    setMaster({ ...slot.master, updatedAt: new Date().toISOString() });
+    setMaster({ ...mergeWithDefaults(slot.master), updatedAt: new Date().toISOString() });
   }, [readSlots]);
 
   const deleteCompanySlot = useCallback((slotName) => {
