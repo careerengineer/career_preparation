@@ -11,6 +11,7 @@ import {
   extractBackupFromDocx,
 } from '../../store/docExport.js';
 import { WORKBOOKS } from '../../store/schema.js';
+import { LEGACY_KEYS } from '../../store/legacySync.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 
 export function WorkbookShell({
@@ -46,21 +47,6 @@ export function WorkbookShell({
 
   // localStorage 변경 감지 → "저장 중 → 저장됨" 상태 표시 (3초마다 체크)
   useEffect(() => {
-    const LEGACY_KEYS = {
-      career_roadmap: 'careerengineer_career_roadmap_v1',
-      job_analysis: 'careerengineer_job_analysis_v1',
-      experience: 'careerengineer_experience_v1',
-      resume: 'careerengineer_resume_v1',
-      career_description: 'careerengineer_career_description_v1',
-      motivation: 'careerengineer_motivation_v1',
-      jobcompetency: 'careerengineer_jobcompetency_v1',
-      personality: 'careerengineer_personality_v1',
-      goalachievement: 'careerengineer_goalachievement_v1',
-      careergoal: 'careerengineer_careergoal_v1',
-      self_introduction: 'careerengineer_self_introduction_v1',
-      interview_new: 'careerengineer_interview_new_v1',
-      interview_career: 'careerengineer_interview_career_v1',
-    };
     const key = LEGACY_KEYS[workbookKey];
     if (!key) return;
     let last = localStorage.getItem(key);
@@ -135,23 +121,8 @@ export function WorkbookShell({
     }
     replaceMaster(next);
     // 워크북 내부 legacy localStorage 동기화 (Bridge가 priming 단계에서 master.workbookRaw 우선 사용)
-    const LEGACY = {
-      career_roadmap: 'careerengineer_career_roadmap_v1',
-      job_analysis: 'careerengineer_job_analysis_v1',
-      experience: 'careerengineer_experience_v1',
-      resume: 'careerengineer_resume_v1',
-      career_description: 'careerengineer_career_description_v1',
-      motivation: 'careerengineer_motivation_v1',
-      jobcompetency: 'careerengineer_jobcompetency_v1',
-      personality: 'careerengineer_personality_v1',
-      goalachievement: 'careerengineer_goalachievement_v1',
-      careergoal: 'careerengineer_careergoal_v1',
-      self_introduction: 'careerengineer_self_introduction_v1',
-      interview_new: 'careerengineer_interview_new_v1',
-      interview_career: 'careerengineer_interview_career_v1',
-    };
     try {
-      const legacyKey = LEGACY[workbookKey];
+      const legacyKey = LEGACY_KEYS[workbookKey];
       const raw = next.workbookRaw?.[workbookKey];
       if (legacyKey) {
         if (raw && Object.keys(raw).length > 0) localStorage.setItem(legacyKey, JSON.stringify(raw));
