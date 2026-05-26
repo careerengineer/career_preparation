@@ -22,11 +22,11 @@ const PAGE_TITLE = VARIANT_TITLE[VARIANT] || 'CareerEngineer';
 
 const ALL_STEPS = [
   { n: 0, name: '방향 설정' },
-  { n: 1, name: '채용공고 분석' },
-  { n: 2, name: '경험 소재 발굴' },
-  { n: 3, name: '서류 작성' },
-  { n: 4, name: '자소서 작성' },
-  { n: 5, name: '면접 준비' },
+  { n: 1, name: '채용공고·직무 분석' },
+  { n: 2, name: '경험 정리' },
+  { n: 3, name: '이력서·경력기술서' },
+  { n: 4, name: '자소서' },
+  { n: 5, name: '면접' },
 ];
 // variant에 포함된 워크북이 있는 STEP만 노출 (카드 섹션용)
 const STEPS = ALL_STEPS.filter((s) => WORKBOOKS.some((w) => w.step === s.n));

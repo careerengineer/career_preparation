@@ -4,6 +4,10 @@ import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/desi
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
 import { buildResumeDocxChildren } from '../../store/workbookDocx.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
+import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
+import { VARIANT } from '../../store/schema.js';
+
+const IS_EXPERIENCED_VARIANT = VARIANT === 'experienced' || VARIANT === 'documents_experienced';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 // ══════════════════════════════════════════════════════════════
@@ -151,7 +155,7 @@ const IntroPrerequisites = ({ items }) => {
 const IntroCopyright = () => (
   <div style={{ background: _INTRO_PAPER, border: `1px solid ${_INTRO_INK}33`, color: _INTRO_INK, padding: 16, borderRadius: 10, marginBottom: 16 }}>
     <p style={{ fontSize: 16, color: _INTRO_INK, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>
-      작성 내용은 이 브라우저에서만 자동 저장됩니다. 백업을 원하시거나 다른 기기에서 계속 작성을 원하시는 경우에는 '저장하기' 버튼을 통해 파일을 다운로드하실 수 있습니다. 저장한 파일은 불러오기를 통해 파일을 읽어올 수 있습니다.
+      작성 내용은 이 브라우저에서만 자동 저장됩니다. 백업하거나 다른 기기에서 이어 쓰려면 상단의 '저장 (.docx)' 버튼으로 파일을 내려받고, '불러오기' 버튼으로 복원할 수 있습니다.
     </p>
   </div>
 );
@@ -414,9 +418,7 @@ const QuestionBlock = ({ id, label, hint, placeholder, rows, guide, answers, han
     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
       <label style={{ fontSize: 16, fontWeight: 700, color: '#0E2750', lineHeight: 1.375, flex: 1 }}>{label}</label>
       {guide && (
-        <button onClick={() => toggleGuide(id)} style={{ color: '#1B3A6B', flexShrink: 0 }}>
-          <span style={{ fontSize: 16, display: 'block' }}>가이드 보기</span>
-        </button>
+        <ToggleLink open={!!showGuide[id]} onToggle={() => toggleGuide(id)} label="가이드" style={{ flexShrink: 0 }} />
       )}
     </div>
     {hint && <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 8 }}>{hint}</p>}
@@ -1042,7 +1044,6 @@ const ResumeWorkbook = () => {
         ]}
       helpModal={<FirstVisitModal open={showHelp} onClose={() => setShowHelp(false)} title='이력서 워크북 사용 안내' steps={[
           '순서대로 <strong>PART 1부터 PART 7까지</strong> 진행하세요. 각 PART의 질문에 답하면서 이력서 뼈대가 만들어집니다.',
-          '본인 유형(신입·경력·전환)에 따라 <strong>일부 PART는 자동으로 생략</strong>됩니다.',
           '작성 중 상단의 <strong>저장 (.docx)</strong> 버튼을 눌러 수시로 다운로드하세요. 새로고침 시 모든 내용이 삭제됩니다.',
           '마지막 PART에서 <strong>최종 다운로드</strong>하여 Word에서 자유롭게 편집하세요.',
         ]} />}
@@ -1878,7 +1879,7 @@ const ResumeWorkbook = () => {
               <div style={{ fontSize: 16, color: '#0E2750', gap: 4 }}>
                 <p>1. 이 워크북 결과를 바탕으로 실제 이력서 양식에 내용을 옮기세요</p>
                 <p>2. 자소서 작성이 필요하면 "질문에 답하며 완성하는 자소서 5대 항목 작성 가이드"를 활용하세요</p>
-                <p>3. 면접 준비는 "신입 면접 가이드 & 워크북"를 참고하세요</p>
+                <p>3. 면접 준비는 "{IS_EXPERIENCED_VARIANT ? '경력' : '신입'} 면접 가이드 & 워크북"를 참고하세요</p>
                 <p>4. 회사별로 이력서를 커스터마이즈하세요 (한줄 소개, 경험 강조점, 스킬 배치 순서 조정)</p>
               </div>
             </div>

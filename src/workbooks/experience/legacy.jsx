@@ -163,7 +163,7 @@ const IntroPrerequisites = ({ items }) => {
 const IntroCopyright = () => (
   <div style={{ background: _INTRO_PAPER, border: `1px solid ${_INTRO_INK}33`, color: _INTRO_INK, padding: 16, borderRadius: 10, marginBottom: 16 }}>
     <p style={{ fontSize: 16, color: _INTRO_INK, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>
-      작성 내용은 이 브라우저에서만 자동 저장됩니다. 백업을 원하시거나 다른 기기에서 계속 작성을 원하시는 경우에는 '저장하기' 버튼을 통해 파일을 다운로드하실 수 있습니다. 저장한 파일은 불러오기를 통해 파일을 읽어올 수 있습니다.
+      작성 내용은 이 브라우저에서만 자동 저장됩니다. 백업하거나 다른 기기에서 이어 쓰려면 상단의 '저장 (.docx)' 버튼으로 파일을 내려받고, '불러오기' 버튼으로 복원할 수 있습니다.
     </p>
   </div>
 );

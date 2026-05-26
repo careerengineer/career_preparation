@@ -149,7 +149,7 @@ export function buildResumeDocxChildren({ answers = {}, expCount = 3, projCount 
   const { Paragraph, TextRun, BorderStyle } = dx;
   const h = makeDocxHelpers(dx);
   const a = (k) => (answers[k] || '').toString();
-  const has = () => true;
+  const has = (k) => (answers[k] || '').toString().trim() !== '';
   const expH = (name, role, period) => {
     const runs = [new TextRun({ text: name, bold: true, size: 24, font: '맑은 고딕', color: '0E2750' })];
     if (role) { runs.push(new TextRun({ text: '   |   ', size: 22, font: '맑은 고딕', color: '6E7A8F' })); runs.push(new TextRun({ text: role, bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' })); }
@@ -225,7 +225,7 @@ export function buildCareerDescDocxChildren({ ans = {}, companyCount = 2, perfCo
   const { Paragraph, TextRun, AlignmentType, BorderStyle } = dx;
   const today = new Date().toISOString().slice(0, 10);
   const v = (k) => (ans[k] || '').toString();
-  const has = () => true;
+  const has = (k) => (ans[k] || '').toString().trim() !== '';
   const titleP = (t) => new Paragraph({ children: [new TextRun({ text: t, bold: true, size: 44, font: '맑은 고딕', color: '0E2750', characterSpacing: 200 })], alignment: AlignmentType.CENTER, spacing: { before: 200, after: 240 }, border: { bottom: { style: BorderStyle.SINGLE, size: 24, color: '0E2750', space: 6 } } });
   const sectionH = (t) => new Paragraph({ children: [new TextRun({ text: t, bold: true, size: 28, font: '맑은 고딕', color: '0E2750' })], spacing: { before: 480, after: 200 }, border: { bottom: { style: BorderStyle.SINGLE, size: 12, color: '0E2750', space: 4 } } });
   const companyH = (company, period) => new Paragraph({ children: [new TextRun({ text: company, bold: true, size: 24, font: '맑은 고딕', color: '0E2750' }), ...(period ? [new TextRun({ text: '   ' + period, size: 20, font: '맑은 고딕', color: '6E7A8F' })] : [])], spacing: { before: 360, after: 120 }, border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: '1B3A6B', space: 4 } } });
