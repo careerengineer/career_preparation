@@ -438,18 +438,6 @@ export async function exportFullDocx(master, options = {}) {
   return name;
 }
 
-// ─── 전체 백업(.docx + .xlsx) 한 번에 ──────────────────────
-// 전체내용(.docx, 경험 제외) + 경험정리(.xlsx)를 연속 다운로드.
-// 두 파일 모두 "가져오기"로 복원 가능. 브라우저 다중 다운로드 차단을
-// 피하기 위해 두 번째 파일은 짧은 간격 후 저장.
-export async function exportFullBackupFiles(master) {
-  const docxName = await exportFullDocx(master, { excludeExperiences: true });
-  // 경험이 없어도 빈 양식 .xlsx를 함께 저장 (항상 2종 파일로 일관)
-  await new Promise((r) => setTimeout(r, 700));
-  const xlsxName = exportExperiencesXlsx(master);
-  return { docxName, xlsxName };
-}
-
 // ─── 전체 백업을 단일 .zip으로 (.docx + .xlsx 한 파일) ──────
 // 브라우저의 다중 다운로드 차단 없이 한 번에 안정적으로 저장된다.
 // "가져오기 (.zip)"로 docx(전체)+xlsx(경험)를 함께 복원.

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
-import { exportFullBackupFiles } from '../store/docExport.js';
+import { exportFullBackupZip } from '../store/docExport.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../shared/design/tokens.js';
 
 const CLEARED = [
@@ -43,7 +43,7 @@ export default function ResetCompanyButton() {
 
   const handleFinalConfirm = async () => {
     if (pendingMode === 'backup') {
-      try { await exportFullBackupFiles(master); }
+      try { await exportFullBackupZip(master); }
       catch (e) { showToast('백업 오류: ' + e.message); return; }
     }
     resetCompanyRelated();

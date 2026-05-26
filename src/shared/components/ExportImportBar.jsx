@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { parseImportFile, detectConflicts } from '../../store/exportImport.js';
-import { exportExperiencesXlsx, exportFullBackupFiles, importExperiencesXlsx, extractBackupFromDocx, extractTextFromDocx, extractBackupFromZip } from '../../store/docExport.js';
+import { exportExperiencesXlsx, exportFullBackupZip, importExperiencesXlsx, extractBackupFromDocx, extractTextFromDocx, extractBackupFromZip } from '../../store/docExport.js';
 import { syncLegacyFromMaster } from '../../store/legacySync.js';
 import { DEFAULT_MASTER } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
@@ -38,11 +38,11 @@ export function ExportImportBar() {
     } catch (e) { showToast('오류: ' + e.message); }
   };
   const handleExportAll = async () => {
-    const msg = '전체내용을 저장합니다. 두 파일이 함께 다운로드됩니다:\n\n1) 전체 내용 (.docx) — 자소서·면접 등\n2) 경험 정리 (.xlsx) — 경험정리 카드 (없으면 빈 양식)\n\n두 파일 모두 나중에 "가져오기"로 복원할 수 있습니다.\n\n계속할까요?';
+    const msg = '전체내용을 .zip 한 파일로 저장합니다.\n\n· 전체 내용(.docx) + 경험 정리(.xlsx)가 한 파일로 묶입니다.\n· 복원할 때는 [가져오기]에 이 .zip을 그대로 올리면 모두 복원됩니다.\n\n계속할까요?';
     if (!window.confirm(msg)) return;
     try {
-      const { docxName, xlsxName } = await exportFullBackupFiles(master);
-      showToast(xlsxName ? `저장 완료: ${docxName} + ${xlsxName}` : `저장 완료: ${docxName}`);
+      const { zipName } = await exportFullBackupZip(master);
+      showToast(`저장 완료: ${zipName} (.docx + .xlsx 포함)`);
     } catch (e) { showToast('오류: ' + e.message); }
   };
 
@@ -208,10 +208,10 @@ export function ExportImportBar() {
 
   const handleBackupAndReplace = async () => {
     if (!conflictState) return;
-    try { await exportFullBackupFiles(master); } catch (e) { showToast('백업 오류: ' + e.message); return; }
+    try { await exportFullBackupZip(master); } catch (e) { showToast('백업 오류: ' + e.message); return; }
     const next = conflictState.incoming;
     setConflictState(null);
-    applyMasterAndReload(next, '현재 데이터를 백업(.docx/.xlsx)하고 교체했습니다. 페이지를 새로고침합니다…');
+    applyMasterAndReload(next, '현재 데이터를 백업(.zip)하고 교체했습니다. 페이지를 새로고침합니다…');
   };
 
   return (
@@ -220,7 +220,7 @@ export function ExportImportBar() {
     <div className="ce-iebar-row" style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap', width: '100%' }}>
       <button onClick={handleImportClick} style={btnStyle}>가져오기 (.docx/.xlsx/.zip)</button>
       <button onClick={handleExportXlsx} style={btnStyle}>경험 정리만 저장 (.xlsx)</button>
-      <button onClick={handleExportAll} style={btnPrimaryStyle}>전체내용 저장 (.docx + .xlsx)</button>
+      <button onClick={handleExportAll} style={btnPrimaryStyle}>전체내용 저장 (.zip)</button>
       {/* 저장 버튼들과 확실히 떨어뜨려 맨 오른쪽에 단독 배치 (오클릭 방지) */}
       <span aria-hidden className="ce-iebar-divider" style={{ alignSelf: 'stretch', width: 1, background: COLORS.line, marginLeft: 'auto', marginRight: SPACING.md }} />
       <button onClick={() => setResetMode('ask')} style={btnDangerStyle}>전체 삭제하고 다시 작성</button>
@@ -258,7 +258,7 @@ export function ExportImportBar() {
       )}
     </div>
     <p style={{ fontSize: 14, color: COLORS.sub, margin: 0, textAlign: 'center', lineHeight: 1.6, width: '100%' }}>
-      <strong>전체내용 저장</strong>을 누르면 <strong>.docx + .xlsx</strong> 두 파일이 함께 저장됩니다. 둘 다 "가져오기"로 복원됩니다. 각 워크북은 그 워크북 화면의 저장 파일로도 복원할 수 있습니다.
+      <strong>전체내용 저장</strong>을 누르면 <strong>.docx(전체 내용) + .xlsx(경험 정리)</strong>가 <strong>.zip 한 파일</strong>로 저장됩니다. 복원은 그 .zip을 "가져오기"에 올리면 됩니다. 각 워크북은 그 워크북 화면의 저장 파일로도 복원할 수 있습니다.
     </p>
 
     {resetMode && (
@@ -267,7 +267,7 @@ export function ExportImportBar() {
           <h2 style={{ margin: 0, fontSize: 24, color: COLORS.ink, fontWeight: FONT.weight.bold }}>전체 내용을 삭제하시겠습니까?</h2>
           <p style={{ color: COLORS.sub, fontSize: 20, marginTop: SPACING.sm, marginBottom: SPACING.md, lineHeight: 1.6 }}>
             모든 워크북·프로필·경험정리 작성 내용이 삭제되고 처음부터 다시 시작합니다.<br />
-            <strong>회사별 저장본(슬롯)은 유지</strong>되며, 미리 받아둔 저장 파일(.docx/.xlsx)로 복원할 수 있습니다.
+            <strong>회사별 저장본(슬롯)은 유지</strong>되며, 미리 받아둔 저장 파일(.zip)로 복원할 수 있습니다.
           </p>
           {resetMode === 'confirm' && (
             <div style={{ background: COLORS.redBg, borderLeft: `3px solid ${COLORS.red}`, padding: SPACING.md, marginBottom: SPACING.md }}>
