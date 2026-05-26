@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
-import { WORKBOOKS, ALL_WORKBOOKS, VARIANT, VARIANT_LABEL, VARIANT_NOTICE } from '../store/schema.js';
+import { WORKBOOKS, VARIANT, VARIANT_LABEL, VARIANT_NOTICE } from '../store/schema.js';
 import { getWorkbookProgress } from '../store/selectors.js';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS, RULE } from '../shared/design/tokens.js';
 import { ExportImportBar } from '../shared/components/ExportImportBar.jsx';
@@ -22,7 +22,7 @@ const PAGE_TITLE = VARIANT_TITLE[VARIANT] || 'CareerEngineer';
 
 const ALL_STEPS = [
   { n: 0, name: '방향 설정' },
-  { n: 1, name: '채용공고·직무 분석' },
+  { n: 1, name: '채용공고 및 직무분석' },
   { n: 2, name: '경험 정리' },
   { n: 3, name: '이력서·경력기술서' },
   { n: 4, name: '자소서' },
@@ -47,14 +47,14 @@ const COACHING_WORD = (VARIANT && VARIANT.includes('experienced')) ? '컨설팅'
 const STEPS_TO_RENDER = COVERAGE[VARIANT] ? ALL_STEPS : ALL_STEPS.filter((s) => COVERED_STEPS.includes(s.n));
 
 // 진행률용 STEP 라벨(1~5) — 처음 사용 가이드 흐름 문구 생성에 사용
-const STEP_FLOW_LABELS = { 1: '채용공고·직무 분석', 2: '경험 정리', 3: '이력서·경력기술서', 4: '자소서', 5: '면접' };
+const STEP_FLOW_LABELS = { 1: '채용공고 및 직무분석', 2: '경험 정리', 3: '이력서·경력기술서', 4: '자소서', 5: '면접' };
 const STEP_FLOW = COVERED_STEPS.filter((n) => n >= 1)
   .map((n, i) => `${['①', '②', '③', '④', '⑤'][i] || '·'} ${STEP_FLOW_LABELS[n]}`)
   .join(' → ');
 
-// 커버 영역의 STEP 진행률 — variant 필터와 무관하게 전체 워크북 기준으로 계산
+// 커버 영역의 STEP 진행률 — 현재 변형에 노출되는 워크북 기준으로 계산
 function coveredStepProgress(master, step) {
-  const wbs = ALL_WORKBOOKS.filter((w) => w.step === step);
+  const wbs = WORKBOOKS.filter((w) => w.step === step);
   if (wbs.length === 0) return 0;
   return Math.round(wbs.reduce((sum, w) => sum + getWorkbookProgress(master, w.key), 0) / wbs.length);
 }

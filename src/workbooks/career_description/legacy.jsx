@@ -17,7 +17,7 @@ import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
 //  CareerEngineer 워크북 라이브러리 (URL은 나중에 일괄 적용)
 // ════════════════════════════════════════════════════════════════
 const WORKBOOK_LINKS = { career_roadmap: { label: 'STEP 0 · 취업준비 진단', url: 'https://www.latpeed.com/products/YPFjD' },
-  job_analysis:       { label: 'STEP 1 · 채용공고 및 직무 분석', url: 'https://www.latpeed.com/products/-3Wgm' },
+  job_analysis:       { label: 'STEP 1 · 채용공고 및 직무분석', url: 'https://www.latpeed.com/products/-3Wgm' },
   experience:         { label: 'STEP 2 · 경험 정리', url: 'https://www.latpeed.com/products/wDSaj' },
   motivation:         { label: 'STEP 4 · 지원동기 작성', url: 'https://www.latpeed.com/products/dfdMW' },
   jobcompetency:      { label: 'STEP 4 · 직무역량 작성', url: 'https://www.latpeed.com/products/dfdMW' },
@@ -1006,7 +1006,7 @@ window.addEventListener('afterprint', function() {
             recommend: {
               workbookId: 'job_analysis',
               condition: '분석이 막막하다면',
-              linkLabel: '채용공고 분석 & 직무분석 가이드',
+              linkLabel: '채용공고 및 직무분석 가이드',
             },
           },
           { text: '본인의 경력 정보 (회사·기간·담당 업무·성과)' },
@@ -1604,7 +1604,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
     <div style={{ marginBottom: 20 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
         <p style={{ fontSize: 18, fontWeight: 900, color: '#0E2750', margin: 0 }}>최종 문서 미리보기</p>
-        <p style={{ fontSize: 16, color: '#6E7A8F', margin: 0 }}>아래 그대로 워드로 다운로드됩니다</p>
+        <p style={{ fontSize: 16, color: '#6E7A8F', margin: 0 }}>아래 그대로 .docx 파일로 다운로드됩니다</p>
       </div>
       <div style={{ background: '#FFFFFF', border: '1px solid #6E7A8F33', borderRadius: 12, overflow: 'hidden', boxShadow: '0 2px 8px rgba(14, 39, 80, 0.06)' }}>
         <iframe
@@ -1629,7 +1629,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
     </div>
     <div style={{ display: 'flex', gap: 12 }}>
       <button onClick={dl} style={{ flex: 1, color: '#1B3A6B', borderRadius: 8, fontWeight: 600, fontSize: 16, background: '#F2F1EC', cursor: 'pointer', border: '1px solid #6E7A8F33', padding: '10px 16px' }}>
-        워드(.docx) 다운로드
+        다운로드 (.docx)
       </button>
       <button onClick={dlHtml} style={{ flex: 1, color: '#1B3A6B', borderRadius: 8, fontWeight: 600, fontSize: 16, background: '#F2F1EC', cursor: 'pointer', border: '1px solid #6E7A8F33', padding: '10px 16px' }}>
         HTML 다운로드
@@ -1643,13 +1643,13 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
       <p style={{ margin: '0 0 4pt 12pt', fontSize: 16 }}>　• <strong>안드로이드</strong>: \"PDF로 저장\" 선택 → 파일 위치 지정</p>
       <p style={{ margin: '0 0 4pt 12pt', fontSize: 16 }}>　• <strong>아이폰</strong>: 공유 버튼 → \"파일에 저장\"</p>
       <p style={{ margin: '0 0 8pt 12pt', fontSize: 16 }}>　• <strong>PC</strong>: 인쇄 → 대상을 \"PDF로 저장\"으로 변경</p>
-      <p style={{ margin: 0, marginBottom: 4 }}>· <strong>워드(.docx) 다운로드</strong>: PC 워드에서 수정하고 싶을 때만. <strong style={{color:'#C9A86A'}}>안드로이드/아이폰에서는 안 열립니다.</strong></p>
+      <p style={{ margin: 0, marginBottom: 4 }}>· <strong>다운로드 (.docx)</strong>: PC에서 수정하고 싶을 때만. <strong style={{color:'#C9A86A'}}>안드로이드/아이폰에서는 안 열립니다.</strong></p>
       <p style={{ margin: 0 }}>· <strong>HTML 다운로드</strong>: 브라우저에서 열어 확인 가능 (백업용).</p>
     </div>
 
     <div style={{ marginTop: 20, background: '#F2F1EC', border: '1px solid #6E7A8F33', borderColor: '#6E7A8F33', borderRadius: 12, padding: 16 }}>
       <p style={{ fontSize: 16, fontWeight: 700, color: '#0E2750', marginBottom: 8 }}>CareerEngineer 연계 자료</p>
-      <p style={{ fontSize: 16, color: '#0E2750' }}>- 경력기술서 전: 이력서 가이드 & 워크북 / 채용공고 분석 & 직무분석 가이드</p>
+      <p style={{ fontSize: 16, color: '#0E2750' }}>- 경력기술서 전: 이력서 가이드 & 워크북 / 채용공고 및 직무분석 가이드</p>
       <p style={{ fontSize: 16, color: '#0E2750' }}>- 경력기술서 후: 자소서 5대항목 가이드 & 워크북 / 경력 면접 가이드 & 워크북</p>
     </div>
   </div>);

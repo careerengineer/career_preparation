@@ -76,7 +76,7 @@ export function ReferenceFAB({ currentWorkbookKey }) {
       items.push({
         group: 'STEP 1',
         kind: 'job_analysis',
-        label: '채용공고·직무 분석 결과',
+        label: '채용공고 및 직무분석 결과',
         data: ja,
       });
     }

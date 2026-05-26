@@ -13,7 +13,7 @@ import { buildJobAnalysisDocxChildren } from '../../store/workbookDocx.js';
 //  CareerEngineer 워크북 라이브러리 (URL은 나중에 일괄 적용)
 // ════════════════════════════════════════════════════════════════
 const WORKBOOK_LINKS = { career_roadmap: { label: 'STEP 0 · 취업준비 진단', url: 'https://www.latpeed.com/products/YPFjD' },
-  job_analysis:       { label: 'STEP 1 · 채용공고 및 직무 분석', url: 'https://www.latpeed.com/products/-3Wgm' },
+  job_analysis:       { label: 'STEP 1 · 채용공고 및 직무분석', url: 'https://www.latpeed.com/products/-3Wgm' },
   experience:         { label: 'STEP 2 · 경험 정리', url: 'https://www.latpeed.com/products/wDSaj' },
   motivation:         { label: 'STEP 4 · 지원동기 작성', url: 'https://www.latpeed.com/products/dfdMW' },
   jobcompetency:      { label: 'STEP 4 · 직무역량 작성', url: 'https://www.latpeed.com/products/dfdMW' },
@@ -654,7 +654,7 @@ const JobAnalysisWorkbook = () => {
 
   const buildTextDump = () => {
     const lines = ['='.repeat(60)];
-    lines.push('CareerEngineer · 채용공고 및 직무 분석 완전 가이드');
+    lines.push('CareerEngineer · 채용공고 및 직무분석 완전 가이드');
     lines.push('='.repeat(60), '');
     lines.push(`산업: ${basicInfo.industry || '-'}`);
     lines.push(`지원 직무: ${basicInfo.position || '-'}`);
@@ -847,11 +847,11 @@ const JobAnalysisWorkbook = () => {
       
       const children = buildJobAnalysisDocxChildren({ basicInfo, persona, finalText, jobPostings, formAnswers, checklistState }, docxLib);
 
-      try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('job_analysis', '채용공고·직무 분석', 'careerengineer_job_analysis_v1'))); } catch (e) { console.warn('[job_analysis] backup embed skipped:', e); }
+      try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('job_analysis', '채용공고 및 직무분석', 'careerengineer_job_analysis_v1'))); } catch (e) { console.warn('[job_analysis] backup embed skipped:', e); }
       try { children.unshift(...buildCopyrightParagraphs(docxLib)); } catch (e) { console.warn('copyright skip', e); }
       const doc = new Document({
         creator: '',
-        title: '채용공고 및 직무 분석',
+        title: '채용공고 및 직무분석',
         sections: [{
           properties: { page: { margin: { top: 1400, right: 1133, bottom: 1400, left: 1133 } } },
           children: children
@@ -908,8 +908,8 @@ const JobAnalysisWorkbook = () => {
       const renderIntro = () => (
     <IntroPage
       workbookKey='job_analysis'
-      stepLabel='STEP 1 · 채용공고 및 직무 분석'
-      title='채용공고 및 직무 분석'
+      stepLabel='STEP 1 · 채용공고 및 직무분석'
+      title='채용공고 및 직무분석'
       subtitle='채용공고에서 핵심 키워드를 추출하고 직무 적합성을 진단합니다'
       flow={[
           { label: '1단계', desc: '페르소나 진단 — 나의 상황 파악 (신입·경력·전환 등)' },
@@ -922,7 +922,7 @@ const JobAnalysisWorkbook = () => {
           { text: '지원할 회사의 채용공고 (직무상세내용)' },
           { text: '본인의 이력서 또는 경험 자료 (선택)' },
         ]}
-      helpModal={<FirstVisitModal open={showHelp} onClose={() => setShowHelp(false)} title='채용공고 및 직무 분석 사용 안내' steps={[
+      helpModal={<FirstVisitModal open={showHelp} onClose={() => setShowHelp(false)} title='채용공고 및 직무분석 사용 안내' steps={[
           '<strong>페르소나 진단</strong>으로 본인의 상황을 먼저 파악합니다.',
           '<strong>분석 양식</strong>을 만든 뒤 채용공고를 붙여넣고 키워드를 추출합니다.',
           '한 사람이 <strong>여러 회사·직무</strong>를 분석할 수 있으니 양식을 추가로 만드세요.',

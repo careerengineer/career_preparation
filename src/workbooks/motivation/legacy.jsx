@@ -28,7 +28,7 @@ import { buildMotivationDocxChildren } from '../../store/workbookDocx.js';
 //  CareerEngineer 워크북 라이브러리 (URL은 나중에 일괄 적용)
 // ════════════════════════════════════════════════════════════════
 const WORKBOOK_LINKS = { career_roadmap: { label: 'STEP 0 · 취업준비 진단', url: 'https://www.latpeed.com/products/YPFjD' },
-  job_analysis:       { label: 'STEP 1 · 채용공고 및 직무 분석', url: 'https://www.latpeed.com/products/-3Wgm' },
+  job_analysis:       { label: 'STEP 1 · 채용공고 및 직무분석', url: 'https://www.latpeed.com/products/-3Wgm' },
   experience:         { label: 'STEP 2 · 경험 정리', url: 'https://www.latpeed.com/products/wDSaj' },
   motivation:         { label: 'STEP 4 · 지원동기 작성', url: 'https://www.latpeed.com/products/dfdMW' },
   jobcompetency:      { label: 'STEP 4 · 직무역량 작성', url: 'https://www.latpeed.com/products/dfdMW' },
@@ -740,7 +740,7 @@ const IntroPage = ({
             recommend: {
               workbookId: 'job_analysis',
               condition: '회사·직무 분석이 필요하다면',
-              linkLabel: '채용공고 분석 & 직무분석 가이드',
+              linkLabel: '채용공고 및 직무분석 가이드',
             },
           },
           {
@@ -867,7 +867,7 @@ const IntroPage = ({
           <div style={S.boxWarning}>
             <p style={{ ...labelStyle(COLORS.red), marginBottom: SPACING.sm }}>WARNING · 반드시 다운로드하세요</p>
             <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base }}>
-              새로고침하면 <strong>모든 내용이 삭제</strong>됩니다. 아래 <strong>"워드 파일로 다운로드"</strong> 버튼을 눌러 저장하세요.
+              새로고침하면 <strong>모든 내용이 삭제</strong>됩니다. 아래 <strong>"다운로드 (.docx)"</strong> 버튼을 눌러 저장하세요.
             </p>
           </div>
 
@@ -984,7 +984,7 @@ const IntroPage = ({
 
 
           <button onClick={downloadFinalText} style={{ ...S.btnPrimary, padding: '18px 32px', fontSize: FONT.size.md, marginTop: SPACING.md }}>
-            워드 파일로 다운로드 (.docx)
+            다운로드 (.docx)
           </button>
 
           {downloadSuccess && <p style={{ fontSize: FONT.size.sm, color: COLORS.green, textAlign: 'center', marginTop: SPACING.md, fontWeight: FONT.weight.semibold }}>✓ 다운로드 완료</p>}

@@ -187,7 +187,7 @@ export function getImportableItems(master, workbookKey) {
     careergoal: '입사후 포부', motivation: '지원동기', jobcompetency: '직무확보역량',
     personality: '성격의 장단점', goalachievement: '목표수립·달성',
     self_introduction: '1분 자기소개', resume: '이력서', career_description: '경력기술서',
-    job_analysis: '채용공고·직무 분석', interview_new: '신입 면접', interview_career: '경력 면접',
+    job_analysis: '채용공고 및 직무분석', interview_new: '신입 면접', interview_career: '경력 면접',
   };
   const raws = master.workbookRaw || {};
   Object.entries(raws).forEach(([k, data]) => {

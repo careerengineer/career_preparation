@@ -9,7 +9,7 @@ import { saveExperienceXlsx } from '../../store/experienceXlsx.js';
 //  CareerEngineer 워크북 라이브러리 (URL은 나중에 일괄 적용)
 // ════════════════════════════════════════════════════════════════
 const WORKBOOK_LINKS = { career_roadmap: { label: 'STEP 0 · 취업준비 진단', url: 'https://www.latpeed.com/products/YPFjD' },
-  job_analysis:       { label: 'STEP 1 · 채용공고 및 직무 분석', url: 'https://www.latpeed.com/products/-3Wgm' },
+  job_analysis:       { label: 'STEP 1 · 채용공고 및 직무분석', url: 'https://www.latpeed.com/products/-3Wgm' },
   experience:         { label: 'STEP 2 · 경험 정리', url: 'https://www.latpeed.com/products/wDSaj' },
   motivation:         { label: 'STEP 4 · 지원동기 작성', url: 'https://www.latpeed.com/products/dfdMW' },
   jobcompetency:      { label: 'STEP 4 · 직무역량 작성', url: 'https://www.latpeed.com/products/dfdMW' },
@@ -868,7 +868,7 @@ const ExperienceWorkbook = () => {
     setActiveCompany('');
   };
 
-  // STEP 1 채용공고·직무분석에서 분석한 내용을 가져온다 (경험과 연결할 키워드 자동 확보)
+  // STEP 1 채용공고 및 직무분석에서 분석한 내용을 가져온다 (경험과 연결할 키워드 자동 확보)
   const getJdFromAnalysis = () => {
     try {
       const d = JSON.parse(localStorage.getItem('careerengineer_job_analysis_v1') || '{}');
@@ -995,7 +995,7 @@ const ExperienceWorkbook = () => {
       });
     } catch (err) {
       console.error('xlsx 생성 실패:', err);
-      alert('엑셀 파일 생성에 실패했습니다.\n' + (err.message || err));
+      alert('.xlsx 파일 생성에 실패했습니다.\n' + (err.message || err));
     } finally {
       setIsSavingXlsx(false);
       setSavedXlsx(true);
@@ -1027,7 +1027,7 @@ const ExperienceWorkbook = () => {
             recommend: {
               workbookId: 'job_analysis',
               condition: '직무 분석이 필요하다면',
-              linkLabel: '채용공고 분석 & 직무분석 가이드',
+              linkLabel: '채용공고 및 직무분석 가이드',
             },
           },
           { text: '지난 5년 이내의 경험 (학교·회사·동아리·아르바이트·프로젝트 등)' },
@@ -1142,19 +1142,19 @@ const ExperienceWorkbook = () => {
           if (jd.has) {
             return (
               <div style={{ background: COLORS.blueBg || COLORS.bgAlt, border: `1px solid ${COLORS.accent2}`, borderRadius: RADIUS.base, padding: SPACING.md }}>
-                <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: 6 }}>STEP 1 채용공고·직무분석에서 가져온 직무상세내용</p>
+                <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: 6 }}>STEP 1 채용공고 및 직무분석에서 가져온 직무상세내용</p>
                 {jd.duties && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px', whiteSpace: 'pre-wrap' }}><strong>주요 업무(직무상세내용):</strong>{'\n'}{jd.duties}</p>}
                 {jd.keywords && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>핵심 키워드:</strong> {jd.keywords}</p>}
                 {jd.must && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>필수 요건:</strong> {jd.must}</p>}
                 {jd.plus && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>우대 사항:</strong> {jd.plus}</p>}
                 {jd.postings.length > 0 && <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: '0 0 8px' }}>분석한 공고: {jd.postings.map(p => `${p.company || ''} ${p.job_title || ''}`.trim()).filter(Boolean).join(' · ')}</p>}
-                <button onClick={importJdFromAnalysis} style={{ background: COLORS.accent2, color: COLORS.white, border: 'none', borderRadius: RADIUS.sm, padding: '6px 12px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: 'pointer', fontFamily: FONT.family }}>직무상세내용을 매핑 대상으로 가져오기</button>
+                <button onClick={importJdFromAnalysis} style={{ background: COLORS.accent2, color: COLORS.white, border: 'none', borderRadius: RADIUS.sm, padding: '6px 12px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: 'pointer', fontFamily: FONT.family }}>직무상세내용을 매핑 대상으로 불러오기</button>
               </div>
             );
           }
           return (
             <Hint type="tip">
-              <strong>STEP 1 채용공고·직무분석을 먼저 진행하면</strong> 여기에서 해당 직무와 자신의 경험을 바로 연결할 수 있습니다.
+              <strong>STEP 1 채용공고 및 직무분석을 먼저 진행하면</strong> 여기에서 해당 직무와 자신의 경험을 바로 연결할 수 있습니다.
             </Hint>
           );
         })()}
@@ -1169,7 +1169,7 @@ const ExperienceWorkbook = () => {
           <DiscoveryPanel />
         </GuideToggle>
       </div>
-      {/* 채용공고·직무 분석 워크북에서 작성한 내용 참고 */}
+      {/* 채용공고 및 직무분석 워크북에서 작성한 내용 참고 */}
       <div style={{ marginTop: SPACING.md }}>
         <ReferenceInline ids={['job_analysis']} />
       </div>
@@ -1616,11 +1616,11 @@ const ExperienceWorkbook = () => {
                       {jd.must && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 4px' }}><strong>필수 요건:</strong> {jd.must}</p>}
                       {jd.plus && <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: '0 0 8px' }}><strong>우대 사항:</strong> {jd.plus}</p>}
                       <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: '0 0 8px' }}>↓ 위 직무상세내용 항목 중 이 경험으로 뒷받침할 수 있는 것을 골라 아래에 연결을 적으세요.</p>
-                      <button onClick={importJdFromAnalysis} style={{ background: COLORS.accent2, color: COLORS.white, border: 'none', borderRadius: RADIUS.sm, padding: '6px 12px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: 'pointer', fontFamily: FONT.family }}>직무상세내용을 매핑 대상으로 가져오기</button>
+                      <button onClick={importJdFromAnalysis} style={{ background: COLORS.accent2, color: COLORS.white, border: 'none', borderRadius: RADIUS.sm, padding: '6px 12px', fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, cursor: 'pointer', fontFamily: FONT.family }}>직무상세내용을 매핑 대상으로 불러오기</button>
                     </div>
                   ) : (
                     <Hint type="tip">
-                      <strong>STEP 1 채용공고·직무분석을 먼저 진행하면</strong> 여기에서 해당 직무와 자신의 경험을 바로 연결할 수 있습니다.
+                      <strong>STEP 1 채용공고 및 직무분석을 먼저 진행하면</strong> 여기에서 해당 직무와 자신의 경험을 바로 연결할 수 있습니다.
                     </Hint>
                   )}
                 </div>
@@ -1867,11 +1867,11 @@ const ExperienceWorkbook = () => {
               <span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid #ffffff', borderTopColor: 'transparent', borderRadius: '50%', animation: 'ce-spin 0.7s linear infinite' }} />
               파일 생성 중…
             </>
-          ) : savedXlsx ? '✓ 저장 완료' : '엑셀로 저장 (.xlsx)'}
+          ) : savedXlsx ? '✓ 저장 완료' : '저장 (.xlsx)'}
         </button>
       </div>
       <div style={{ ...BOX.tip, padding: SPACING.md, borderRadius: RADIUS.base, textAlign: 'left', marginBottom: SPACING.lg }}>
-        <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: 4 }}>엑셀 파일 구조</p>
+        <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent, margin: 0, marginBottom: 4 }}>.xlsx 파일 구조</p>
         <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>
           원본 <strong>경험정리 가이드워크북 xlsx</strong>와 동일한 시트 구조로 저장됩니다. 기본정보·페르소나·직무상세내용 / 경험정리(14컬럼 · 경험당 4행) / 직무상세내용매칭 3개 시트로 구성되어, 원본 파일과 호환되거나 대체해서 사용할 수 있습니다.
         </p>

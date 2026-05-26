@@ -74,7 +74,7 @@ function DynamicTailQuestions({ finalAnswer }) {
 //  CareerEngineer 워크북 라이브러리 (URL은 나중에 일괄 적용)
 // ════════════════════════════════════════════════════════════════
 const WORKBOOK_LINKS = { career_roadmap: { label: 'STEP 0 · 취업준비 진단', url: 'https://www.latpeed.com/products/YPFjD' },
-  job_analysis:       { label: 'STEP 1 · 채용공고 및 직무 분석', url: 'https://www.latpeed.com/products/-3Wgm' },
+  job_analysis:       { label: 'STEP 1 · 채용공고 및 직무분석', url: 'https://www.latpeed.com/products/-3Wgm' },
   experience:         { label: 'STEP 2 · 경험 정리', url: 'https://www.latpeed.com/products/wDSaj' },
   motivation:         { label: 'STEP 4 · 지원동기 작성', url: 'https://www.latpeed.com/products/dfdMW' },
   jobcompetency:      { label: 'STEP 4 · 직무역량 작성', url: 'https://www.latpeed.com/products/dfdMW' },
@@ -690,7 +690,7 @@ const NewInterviewWorkbook = () => {
             recommend: {
               workbookId: 'job_analysis',
               condition: '회사·직무 이해가 부족하다면',
-              linkLabel: '채용공고 분석 & 직무분석 가이드',
+              linkLabel: '채용공고 및 직무분석 가이드',
             },
           },
           {

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
+import { isWorkbookInVariant } from '../store/schema.js';
 import { COLORS, FONT, SPACING, RULE } from '../shared/design/tokens.js';
 import ResetCompanyButton from './ResetCompanyButton.jsx';
 
 export default function ProfilePanel({ stepFlow }) {
   const { master, updateSlice } = useDataStore();
   const [guideOpen, setGuideOpen] = useState(true);
-  const flow = stepFlow || '① 채용공고·직무 분석 → ② 경험 정리 → ③ 이력서·경력기술서 → ④ 자소서 → ⑤ 면접';
+  const flow = stepFlow || '① 채용공고 및 직무분석 → ② 경험 정리 → ③ 이력서·경력기술서 → ④ 자소서 → ⑤ 면접';
   const { industry, position, company } = master.profile;
   const empty = !industry && !position && !company;
 
@@ -59,7 +60,9 @@ export default function ProfilePanel({ stepFlow }) {
               fontSize: 20, color: COLORS.sub, lineHeight: 1.7,
             }}>
               <li><strong>산업·직무·회사 입력</strong> — 위 칸에 입력하면 모든 워크북에 자동으로 채워집니다.</li>
-              <li><strong>STEP 0 취업 로드맵</strong> — 몇 가지 질문으로 내 준비 상태를 진단하고, 가장 보완할 단계를 알려줍니다.</li>
+              {isWorkbookInVariant('career_roadmap') && (
+                <li><strong>STEP 0 취업 로드맵</strong> — 몇 가지 질문으로 내 준비 상태를 진단하고, 가장 보완할 단계를 알려줍니다.</li>
+              )}
               <li><strong>이어지는 단계를 순서대로</strong> — {flow}. 각 워크북은 이전 단계 내용을 참고해 자동으로 이어집니다.</li>
               <li><strong>참고 자료 버튼 활용</strong> — 각 워크북 <strong>오른쪽 아래의 [참고 자료] 버튼</strong>을 누르면, 앞 단계에서 작성한 내용(경험·직무분석·자소서 등)을 바로 보고 답변 칸에 넣을 수 있습니다. 처음부터 다시 쓰지 마세요.</li>
               <li><strong>자동 저장 + 파일 백업</strong> — 작성 내용은 이 브라우저에 자동 저장됩니다. 백업하거나 다른 기기에서 이어 쓰려면 상단 <strong>[전체내용 저장]</strong>으로 파일을 받아 두고, <strong>[기존 내용 불러오기]</strong>로 복원하세요.</li>
