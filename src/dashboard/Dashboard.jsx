@@ -39,6 +39,10 @@ const COVERAGE = {
   interview_experienced: [0, 2, 5],      // 경력 면접: 방향설정·경험소재발굴·면접준비
 };
 const COVERED_STEPS = COVERAGE[VARIANT] || ALL_STEPS.filter((s) => WORKBOOKS.some((w) => w.step === s.n)).map((s) => s.n);
+// 과정에서 제외된 STEP이 하나라도 있으면 "다루는 영역만 집계" 안내를 띄운다(전 단계 커버 시엔 종합 안내).
+const HAS_EXCLUDED_STEPS = COVERED_STEPS.length < ALL_STEPS.length;
+// 신입=멘토링 / 경력=컨설팅 (변형 키에 'experienced' 포함 여부로 판별)
+const COACHING_WORD = (VARIANT && VARIANT.includes('experienced')) ? '컨설팅' : '멘토링';
 
 // 진행률용 STEP 라벨(1~5) — 처음 사용 가이드 흐름 문구 생성에 사용
 const STEP_FLOW_LABELS = { 1: '채용공고·직무 분석', 2: '경험 정리', 3: '이력서·경력기술서', 4: '자소서', 5: '면접' };
@@ -144,7 +148,7 @@ export default function Dashboard() {
           </h2>
           {VARIANT && (
             <p style={{ margin: `0 0 ${SPACING.md}px`, fontSize: 18, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
-              {COVERAGE[VARIANT] ? (
+              {HAS_EXCLUDED_STEPS ? (
                 <>
                   <strong style={{ color: COLORS.accent }}>{VARIANT_LABEL}</strong>이 다루는 영역만 진도율을 집계합니다. 나머지 단계는 이 과정의 범위가 아닙니다.
                 </>
@@ -196,9 +200,14 @@ export default function Dashboard() {
                       </p>
                     </>
                   ) : (
-                    <p style={{ margin: '8px 0 0', fontSize: 16, color: COLORS.sub, fontWeight: FONT.weight.medium }}>
-                      이 과정 범위 아님
-                    </p>
+                    <div style={{ margin: '8px 0 0' }}>
+                      <p style={{ margin: 0, fontSize: 15, color: COLORS.sub, fontWeight: FONT.weight.medium }}>
+                        {COACHING_WORD} 과정 외 STEP
+                      </p>
+                      <p style={{ margin: '2px 0 0', fontSize: 13, color: COLORS.accent2, fontWeight: FONT.weight.semibold }}>
+                        희망 시 {COACHING_WORD} 신청 가능
+                      </p>
+                    </div>
                   )}
                 </div>
               );
