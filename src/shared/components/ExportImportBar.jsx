@@ -38,7 +38,7 @@ export function ExportImportBar() {
     } catch (e) { showToast('오류: ' + e.message); }
   };
   const handleExportAll = async () => {
-    const msg = '전체내용을 .zip 한 파일로 저장합니다.\n\n· 전체 내용(.docx) + 경험 정리(.xlsx)가 한 파일로 묶입니다.\n· 복원할 때는 [가져오기]에 이 .zip을 그대로 올리면 모두 복원됩니다.\n\n계속할까요?';
+    const msg = '전체내용을 .zip 한 파일로 저장합니다.\n\n· 전체 내용(.docx) + 경험 정리(.xlsx)가 한 파일로 묶입니다.\n· 복원할 때는 [기존 내용 불러오기]에 이 .zip을 그대로 올리면 모두 복원됩니다.\n\n계속할까요?';
     if (!window.confirm(msg)) return;
     try {
       const { zipName } = await exportFullBackupZip(master);
@@ -133,7 +133,7 @@ export function ExportImportBar() {
               : (Array.isArray(payload.data?.experiences) ? payload.data.experiences : []),
           };
           const doneMsg = excludesExp
-            ? 'docx에서 전체 내용을 복원했습니다. 경험정리는 .xlsx 파일로 따로 "가져오기" 하세요.'
+            ? 'docx에서 전체 내용을 복원했습니다. 경험정리는 .xlsx 파일로 따로 "기존 내용 불러오기" 하세요.'
             : 'docx에서 전체 데이터를 복원했습니다.';
           const conflicts = detectConflicts(master, incoming);
           if (conflicts.length === 0) {
@@ -218,7 +218,7 @@ export function ExportImportBar() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end', width: '100%' }}>
     <style>{`@media (max-width:640px){ .ce-iebar-row{ gap:8px; } .ce-iebar-row > button{ flex:1 1 100%; } .ce-iebar-divider{ display:none !important; } }`}</style>
     <div className="ce-iebar-row" style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center', flexWrap: 'wrap', width: '100%' }}>
-      <button onClick={handleImportClick} style={btnStyle}>가져오기 (.docx/.xlsx/.zip)</button>
+      <button onClick={handleImportClick} style={btnStyle}>기존 내용 불러오기 (.zip/.docx/.xlsx)</button>
       <button onClick={handleExportXlsx} style={btnStyle}>경험 정리만 저장 (.xlsx)</button>
       <button onClick={handleExportAll} style={btnPrimaryStyle}>전체내용 저장 (.zip)</button>
       {/* 저장 버튼들과 확실히 떨어뜨려 맨 오른쪽에 단독 배치 (오클릭 방지) */}
@@ -258,7 +258,7 @@ export function ExportImportBar() {
       )}
     </div>
     <p style={{ fontSize: 14, color: COLORS.sub, margin: 0, textAlign: 'center', lineHeight: 1.6, width: '100%' }}>
-      <strong>전체내용 저장</strong>을 누르면 <strong>.docx(전체 내용) + .xlsx(경험 정리)</strong>가 <strong>.zip 한 파일</strong>로 저장됩니다. 복원은 그 .zip을 "가져오기"에 올리면 됩니다. 각 워크북은 그 워크북 화면의 저장 파일로도 복원할 수 있습니다.
+      <strong>전체내용 저장</strong>을 누르면 <strong>.docx(전체 내용) + .xlsx(경험 정리)</strong>가 <strong>.zip 한 파일</strong>로 저장됩니다. 복원은 그 .zip을 "기존 내용 불러오기"에 올리면 됩니다. 각 워크북은 그 워크북 화면의 저장 파일로도 복원할 수 있습니다.
     </p>
 
     {resetMode && (

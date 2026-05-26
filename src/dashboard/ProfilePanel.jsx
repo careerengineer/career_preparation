@@ -62,7 +62,7 @@ export default function ProfilePanel({ stepFlow }) {
               <li><strong>STEP 0 취업 로드맵</strong> — 몇 가지 질문으로 내 준비 상태를 진단하고, 가장 보완할 단계를 알려줍니다.</li>
               <li><strong>이어지는 단계를 순서대로</strong> — {flow}. 각 워크북은 이전 단계 내용을 참고해 자동으로 이어집니다.</li>
               <li><strong>참고 자료 버튼 활용</strong> — 각 워크북 <strong>오른쪽 아래의 [참고 자료] 버튼</strong>을 누르면, 앞 단계에서 작성한 내용(경험·직무분석·자소서 등)을 바로 보고 답변 칸에 넣을 수 있습니다. 처음부터 다시 쓰지 마세요.</li>
-              <li><strong>자동 저장 + 파일 백업</strong> — 작성 내용은 이 브라우저에 자동 저장됩니다. 백업하거나 다른 기기에서 이어 쓰려면 상단 <strong>[전체내용 저장]</strong>으로 파일을 받아 두고, <strong>[가져오기]</strong>로 복원하세요.</li>
+              <li><strong>자동 저장 + 파일 백업</strong> — 작성 내용은 이 브라우저에 자동 저장됩니다. 백업하거나 다른 기기에서 이어 쓰려면 상단 <strong>[전체내용 저장]</strong>으로 파일을 받아 두고, <strong>[기존 내용 불러오기]</strong>로 복원하세요.</li>
               <li><strong>여러 회사 지원</strong> — 다른 회사에도 지원한다면 <strong>[회사 변경]</strong>으로 회사 관련 내용만 비우거나(경험·로드맵은 유지), 아래 회사별 저장본에 따로 보관하세요.</li>
             </ol>
           )}
