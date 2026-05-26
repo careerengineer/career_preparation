@@ -39,7 +39,7 @@ function Bridge() {
   });
 
   useEffect(() => {
-    const id = setInterval(() => {
+    const syncNow = () => {
       try {
         const raw = localStorage.getItem(LEGACY_KEY);
         if (!raw || raw === lastRef.current) return;
@@ -70,8 +70,11 @@ function Bridge() {
       } catch (e) {
         console.warn('[' + WORKBOOK_KEY + '] sync back failed:', e);
       }
-    }, 1500);
-    return () => clearInterval(id);
+    };
+    const id = setInterval(syncNow, 1500);
+    const onHide = () => { if (typeof document !== 'undefined' && document.visibilityState === 'hidden') syncNow(); };
+    if (typeof document !== 'undefined') document.addEventListener('visibilitychange', onHide);
+    return () => { clearInterval(id); if (typeof document !== 'undefined') document.removeEventListener('visibilitychange', onHide); syncNow(); };
   }, [master, updateSlice]);
 
   return <LegacyWorkbook />;
