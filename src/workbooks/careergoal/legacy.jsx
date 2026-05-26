@@ -926,7 +926,6 @@ const CareerAspirationWorkbook = () => {
 
   // ══════════ 사용 안내 팝업 (PART 7-8) ══════════
   const [showHelp, setShowHelp] = useState(true);
-  const [showStepNav, setShowStepNav] = useState(false);
 
   // [CE-HOME] WorkbookShell '처음으로' 버튼에서 호출
 
@@ -975,261 +974,6 @@ const CareerAspirationWorkbook = () => {
   // 인라인 참고 워크북 (가이드 PART 7-15)
   const RelatedWorkbookInline = ReferenceInline; // master 기반 inline 참고 패널 (shared)
 
-  // STEP 네비게이터 드롭다운 (가이드 PART 7-6: 헤더 STEP 클릭 시)
-  const StepNavigatorDropdown = ({ open, onClose, currentKey, anchorRef }) => {
-    if (!open) return null;
-    
-    // 7단계 구조 - 자소서 5대 항목만 하위 항목 펼침, 나머지는 단일 링크
-    const stepGroups = [
-      { step: '0', label: '취업준비 진단', key: 'career_roadmap' },
-      { step: '1', label: '채용공고 및 직무 분석', key: 'job_analysis' },
-      { step: '2', label: '경험 정리', key: 'experience' },
-      { step: '3', inline: true, label: '', items: [
-        { key: 'resume', label: '이력서 작성' },
-        { key: 'career_description', label: '경력기술서 작성' },
-        { directUrl: MENTORING_URLS.career_consulting, label: '이직 컨설팅' },
-      ]},
-      { step: '4', label: '', expandable: true, items: [
-        { key: 'motivation', label: '지원동기 작성' },
-        { key: 'jobcompetency', label: '직무역량 작성' },
-        { key: 'personality', label: '성격 장단점 작성' },
-        { key: 'goalachievement', label: '목표수립 및 달성 작성' },
-        { key: 'careergoal', label: '입사후 포부 작성' },
-        { mentoring: true, label: '자소서 멘토링', directUrl: MENTORING_URLS.cover_letter },
-      ]},
-      { step: '5', label: '', expandable: true, items: [
-        { key: 'interview_answer_guide', label: '면접 유형별 답변 전략' },
-        { key: 'self_introduction', label: '1분 자기소개 준비' },
-        { key: 'interview_new', label: '신입 면접 준비' },
-        { key: 'interview_career', label: '경력 면접 준비' },
-        { mentoring: true, label: '면접 멘토링', directUrl: MENTORING_URLS.interview },
-      ]},
-    ];
-    
-    // 추가 서비스 (별도 섹션)
-    const extraServices = [
-      { label: 'CareerEngineer 전자책 / 멘토링', url: 'https://www.latpeed.com/stores/eqxhZ/collections/68459e30db90f1ebed56226f' },
-      { label: 'CareerEngineer 1-Hour 1:1 취업컨설팅', url: MENTORING_URLS.consulting },
-      { label: 'CareerEngineer 카카오톡 상담', url: 'https://open.kakao.com/me/careerengineer' },
-    ];
-    
-    return (
-      <>
-        {/* 외부 클릭 감지용 오버레이 (투명) */}
-        <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 50 }} />
-        
-        {/* 드롭다운 본체 */}
-        <div style={{
-          position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)',
-          marginTop: 4, zIndex: 51,
-          background: COLORS.white,
-          borderRadius: RADIUS.base,
-          border: `1px solid ${COLORS.border}`,
-          boxShadow: '0 12px 32px rgba(14, 39, 80, 0.18)',
-          minWidth: "min(1100px, calc(100vw - 32px))", maxWidth: "min(1330px, calc(100vw - 32px))",
-          maxHeight: '70vh', overflowY: 'auto',
-          padding: SPACING.sm,
-        }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {stepGroups.map((g, gi) => {
-              if (g.expandable) {
-                // 자소서 5대 항목 - 하위 항목 펼침
-                const isCurrent = g.items.some(it => it.key === currentKey);
-                return (
-                  <div key={gi} style={{
-                    position: 'relative',
-                    padding: `10px ${SPACING.base}px`,
-                    paddingLeft: g.label ? SPACING.base : 84,
-                    borderRadius: 6,
-                    border: `1px solid ${isCurrent ? COLORS.accent2 : COLORS.border}`,
-                    background: isCurrent ? '#FBFAF6' : COLORS.white,
-                  }}>
-                    {!g.label && (
-                      <span style={{
-                        position: 'absolute', left: SPACING.base, top: '50%', transform: 'translateY(-50%)',
-                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                        width: 64, height: 24, borderRadius: 4,
-                        background: isCurrent ? COLORS.accent : COLORS.bgAlt,
-                        color: isCurrent ? COLORS.white : COLORS.sub,
-                        fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, fontFamily: FONT.family,
-                      }}>STEP {g.step}</span>
-                    )}
-                    {g.label && (
-                      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8, minHeight: 24 }}>
-                        <span style={{
-                          position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)',
-                          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                          width: 64, height: 24, borderRadius: 4,
-                          background: isCurrent ? COLORS.accent : COLORS.bgAlt,
-                          color: isCurrent ? COLORS.white : COLORS.sub,
-                          fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, fontFamily: FONT.family,
-                        }}>STEP {g.step}</span>
-                        <span style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent }}>{g.label}</span>
-                      </div>
-                    )}
-                    <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', gap: 8, alignItems: 'center', justifyContent: 'center', columnGap: 8, rowGap: 6, overflowX: 'auto' }}>
-                      {g.items.map((it, ii) => {
-                        const isCurrentItem = it.key === currentKey;
-                        const link = it.directUrl ? { url: it.directUrl } : ((it.key && it.key !== currentKey && !isWorkbookInVariant(it.key)) ? null : WORKBOOK_LINKS[it.key]);
-                        if (!link) return null;
-                        const isMentoring = it.mentoring === true;
-                        const showSeparator = ii < g.items.length - 1 && (g.items[ii + 1].mentoring === isMentoring);
-                        return (
-                          <React.Fragment key={it.key || it.label}>
-                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
-                              {isCurrentItem ? (
-                                <span style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent }}>
-                                  {it.label} <span style={{ fontSize: FONT.size.xs, color: COLORS.accent2, fontWeight: FONT.weight.semibold }}>(현재)</span>
-                                </span>
-                              ) : (
-                                <a href={link.url} target="_blank" rel="noopener noreferrer"
-                                  style={{ fontSize: FONT.size.sm, color: COLORS.accent2, textDecoration: 'underline', textUnderlineOffset: 2, fontWeight: isMentoring ? FONT.weight.semibold : FONT.weight.medium }}>
-                                  {it.label}
-                                </a>
-                              )}
-                              {showSeparator && <span style={{ color: COLORS.sub, fontSize: FONT.size.xs }}>/</span>}
-                            </span>
-                          </React.Fragment>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              }
-              
-              if (g.inline) {
-                // 인라인 다중 항목 (STEP 3 서류, STEP 5 면접) - 한 줄에 라벨 여러 개
-                const isCurrent = g.items.some(it => it.key === currentKey);
-                return (
-                  <div key={gi} style={{
-                    position: 'relative',
-                    padding: `10px ${SPACING.base}px`,
-                    borderRadius: 6,
-                    border: `1px solid ${isCurrent ? COLORS.accent2 : COLORS.border}`,
-                    background: isCurrent ? '#FBFAF6' : COLORS.white,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap',
-                    minHeight: 44,
-                  }}>
-                    <span style={{
-                      position: 'absolute', left: SPACING.base, top: '50%', transform: 'translateY(-50%)',
-                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                      width: 64, height: 24, borderRadius: 4,
-                      background: isCurrent ? COLORS.accent : COLORS.bgAlt,
-                      color: isCurrent ? COLORS.white : COLORS.sub,
-                      fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, fontFamily: FONT.family,
-                    }}>STEP {g.step}</span>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent, flexWrap: 'wrap' }}>
-                    {g.label && (<>
-                      <span>{g.label}</span>
-                      <span style={{ color: COLORS.sub, fontSize: FONT.size.sm }}>·</span>
-                    </>)}
-                    {g.items.map((it, ii) => {
-                      const isCurrentItem = it.key === currentKey;
-                      const link = it.directUrl ? { url: it.directUrl } : ((it.key && it.key !== currentKey && !isWorkbookInVariant(it.key)) ? null : WORKBOOK_LINKS[it.key]);
-                      if (!link) return null;
-                      return (
-                        <span key={it.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                          {isCurrentItem ? (
-                            <span style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent }}>
-                              {it.label} <span style={{ fontSize: FONT.size.xs, color: COLORS.accent2, fontWeight: FONT.weight.semibold }}>(현재)</span>
-                            </span>
-                          ) : (
-                            <a href={link.url} target="_blank" rel="noopener noreferrer"
-                              style={{ fontSize: FONT.size.sm, color: COLORS.accent2, textDecoration: 'underline', textUnderlineOffset: 2, fontWeight: FONT.weight.medium }}>
-                              {it.label}
-                            </a>
-                          )}
-                          {ii < g.items.length - 1 && <span style={{ color: COLORS.sub, fontSize: FONT.size.xs }}>/</span>}
-                        </span>
-                      );
-                    })}
-                    </span>
-                  </div>
-                );
-              }
-              
-              // 일반 단일 STEP - 라벨 자체가 하이퍼링크
-              const isCurrent = g.key === currentKey;
-              const link = g.directUrl ? { url: g.directUrl } : ((g.key && g.key !== currentKey && !isWorkbookInVariant(g.key)) ? null : WORKBOOK_LINKS[g.key]);
-              if (!link) return null;
-              
-              if (isCurrent) {
-                return (
-                  <div key={gi} style={{
-                    position: 'relative',
-                    padding: `10px ${SPACING.base}px`,
-                    borderRadius: 6,
-                    border: `1px solid ${COLORS.accent2}`,
-                    background: '#FBFAF6',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    minHeight: 44,
-                  }}>
-                    <span style={{
-                      position: 'absolute', left: SPACING.base, top: '50%', transform: 'translateY(-50%)',
-                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                      width: 64, height: 24, borderRadius: 4,
-                      background: COLORS.accent, color: COLORS.white,
-                      fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, fontFamily: FONT.family,
-                    }}>STEP {g.step}</span>
-                    <span style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent }}>{g.label} <span style={{ fontSize: FONT.size.xs, color: COLORS.accent2, fontWeight: FONT.weight.semibold }}>(현재)</span></span>
-                  </div>
-                );
-              }
-              
-              return (
-                <a key={gi} href={link.url} target="_blank" rel="noopener noreferrer"
-                  style={{
-                    position: 'relative',
-                    padding: `10px ${SPACING.base}px`,
-                    borderRadius: 6,
-                    border: `1px solid ${COLORS.border}`,
-                    background: COLORS.white,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    textDecoration: 'none',
-                    transition: 'all 150ms',
-                    minHeight: 44,
-                  }}
-                  className="ce-step-nav-item">
-                  <span style={{
-                    position: 'absolute', left: SPACING.base, top: '50%', transform: 'translateY(-50%)',
-                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                    width: 64, height: 24, borderRadius: 4,
-                    background: COLORS.bgAlt, color: COLORS.sub,
-                    fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, fontFamily: FONT.family,
-                  }}>STEP {g.step}</span>
-                  <span style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.medium, color: COLORS.accent2, textDecoration: 'underline', textUnderlineOffset: 2 }}>{g.label}</span>
-                </a>
-              );
-            })}
-          </div>
-          
-          {/* 추가 서비스 섹션 */}
-          <div style={{ marginTop: SPACING.md, paddingTop: SPACING.md, borderTop: `1px solid ${COLORS.border}` }}>
-            <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.medium, color: COLORS.sub, padding: `0 ${SPACING.base}px`, margin: 0, marginBottom: SPACING.md, lineHeight: FONT.lineHeight.relaxed, textAlign: 'center' }}>개인적인 경험, 직무, 공백기 등에 대한 고민이 있다면<br/>1:1로 CareerEngineer와 함께 더 깊은 이야기를 나눌 수도 있습니다.</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              {extraServices.map((svc, si) => (
-                <a key={si} href={svc.url} target="_blank" rel="noopener noreferrer"
-                  style={{
-                    padding: `10px ${SPACING.base}px`,
-                    borderRadius: 6,
-                    border: `1px solid ${COLORS.border}`,
-                    background: COLORS.white,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    textDecoration: 'none',
-                    fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold,
-                    color: COLORS.accent,
-                    transition: 'all 150ms',
-                  }}
-                  className="ce-step-nav-item">
-                  {svc.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  };
   // ══════════ 하단 고정 저작권 + 문의 블록 (PART 7-8, 11) ══════════
   const StickyFooter = () => (
     <div style={{ position: 'sticky', bottom: 0, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}`, padding: `${SPACING.sm}px ${SPACING.md}px`, marginTop: SPACING.lg, marginLeft: -SPACING.md, marginRight: -SPACING.md, marginBottom: -SPACING.md, zIndex: 5 }}>
@@ -1384,19 +1128,16 @@ const IntroCopyright = () => (
   </div>
 );
 
-const IntroFooterCopyright = () => null;
 
-const IntroStickyHeader = () => null;
 
 const IntroPage = ({
   workbookKey, stepLabel, title, subtitle,
   flow, flowTitle, prerequisites,
-  onStart, helpModal, extraContent, StepNavComponent,
+  onStart, helpModal, extraContent,
 }) => (
   <div style={{ minHeight: '100vh', background: _INTRO_PAPER, padding: 24, fontFamily: _INTRO_FONT, color: _INTRO_INK }}>
     {helpModal}
     <div style={{ maxWidth: 1350, width: '100%', margin: '0 auto' }}>
-      <IntroStickyHeader workbookKey={workbookKey} stepLabel={stepLabel} StepNavComponent={StepNavComponent} />
 
       <div style={{ background: '#fff', borderRadius: 14, padding: 'clamp(16px, 4vw, 32px)', border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
         <BrandHero />
@@ -1413,7 +1154,6 @@ const IntroPage = ({
         <IntroCTA onClick={onStart} />
       </div>
 
-      <IntroFooterCopyright />
     </div>
   </div>
 );
@@ -1424,7 +1164,6 @@ const IntroPage = ({
       if (showIntro) return (
     <IntroPage
       workbookKey='careergoal'
-      StepNavComponent={StepNavigatorDropdown}
       stepLabel='STEP 4 · 입사후 포부 작성'
       title='입사후 포부'
       subtitle='3라운드 체계적 작성으로 완성하는 입사후 포부 항목'
