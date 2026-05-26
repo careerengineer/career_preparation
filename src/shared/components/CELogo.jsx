@@ -70,15 +70,3 @@ export function CELockupA({ markSize = 32, variant = 'light' }) {
     </div>
   );
 }
-
-// B · STACKED Lockup (좁은 정사각 영역)
-export function CELockupB({ markSize = 48, variant = 'light' }) {
-  const wordSize = Math.round(markSize * 0.45);
-  const gap = Math.round(markSize * 0.24);
-  return (
-    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap }}>
-      <CEMark size={markSize} variant={variant} />
-      <CEWordmark size={wordSize} variant={variant} />
-    </div>
-  );
-}

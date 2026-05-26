@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx';
 import JSZip from 'jszip';
 import { ALL_WORKBOOKS as WORKBOOKS, APP_VERSION } from './schema.js';
 import { formatComps } from './comps.js';
-import { buildCopyrightParagraphs, COPYRIGHT_TITLE, COPYRIGHT_TEXT, COPYRIGHT_MARK } from './docxBackup.js';
+import { buildCopyrightParagraphs, COPYRIGHT_TEXT } from './docxBackup.js';
 import { LEGACY_KEYS } from './legacySync.js';
 import { QUESTION_LABELS } from './questionLabels.js';
 import { decodeAnswer } from './answerLabels.js';
@@ -436,12 +436,6 @@ export async function buildFullDocxBlob(master, options = {}) {
   return { blob, name };
 }
 
-export async function exportFullDocx(master, options = {}) {
-  const { blob, name } = await buildFullDocxBlob(master, options);
-  saveAs(blob, name);
-  return name;
-}
-
 // ─── 전체 백업을 단일 .zip으로 (.docx + .xlsx 한 파일) ──────
 // 브라우저의 다중 다운로드 차단 없이 한 번에 안정적으로 저장된다.
 // "가져오기 (.zip)"로 docx(전체)+xlsx(경험)를 함께 복원.
@@ -727,13 +721,6 @@ export function exportExperiencesXlsx(master) {
   const name = experiencesXlsxName(master);
   XLSX.writeFile(wb, name);
   return name;
-}
-
-export function buildExperiencesXlsxBlob(master) {
-  const wb = buildExperiencesWb(master);
-  const arr = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-  const blob = new Blob([arr], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-  return { blob, name: experiencesXlsxName(master) };
 }
 
 // ─── experience 전용 .xlsx import ─────────────────────────
