@@ -72,7 +72,7 @@ export function ExportImportBar() {
     if (lower.endsWith('.zip')) {
       if (!window.confirm('저장본 백업(.zip)으로 복원합니다. 현재 작업 내용이 덮어쓰기됩니다. 계속할까요?')) return;
       try {
-        const { docxPayload, experiences } = await extractBackupFromZip(file);
+        const { docxPayload, experiences, experienceMeta } = await extractBackupFromZip(file);
         if (!docxPayload && !(experiences && experiences.length)) {
           showToast('이 .zip에서 CareerEngineer 백업 데이터를 찾지 못했습니다.');
           return;
@@ -82,7 +82,8 @@ export function ExportImportBar() {
           ...DEFAULT_MASTER,
           ...data,
           profile: { ...DEFAULT_MASTER.profile, ...(data.profile || {}) },
-          workbookRaw: { ...DEFAULT_MASTER.workbookRaw, ...(data.workbookRaw || {}) },
+          // 경험 워크북 메타(회사별 연결·JD 키워드·페르소나)는 xlsx 백업에서 복원
+          workbookRaw: { ...DEFAULT_MASTER.workbookRaw, ...(data.workbookRaw || {}), ...(experienceMeta ? { experience: { ...(data.workbookRaw?.experience || {}), ...experienceMeta } } : {}) },
           outputs: { ...DEFAULT_MASTER.outputs, ...(data.outputs || {}) },
           roadmap: { ...DEFAULT_MASTER.roadmap, ...(data.roadmap || {}) },
           careergoal: { ...DEFAULT_MASTER.careergoal, ...(data.careergoal || {}) },
@@ -99,8 +100,11 @@ export function ExportImportBar() {
     if (lower.endsWith('.xlsx')) {
       if (!window.confirm('경험 카드를 xlsx 파일로 교체합니다. 기존 경험 데이터가 덮어쓰기됩니다. 계속할까요?')) return;
       try {
-        const { experiences } = await importExperiencesXlsx(file);
-        applyMasterAndReload({ ...master, experiences }, `경험 카드 ${experiences.length}개를 불러왔습니다. 페이지를 새로고침합니다…`);
+        const { experiences, experienceMeta } = await importExperiencesXlsx(file);
+        const nextWbRaw = experienceMeta
+          ? { ...master.workbookRaw, experience: { ...(master.workbookRaw?.experience || {}), ...experienceMeta } }
+          : master.workbookRaw;
+        applyMasterAndReload({ ...master, experiences, workbookRaw: nextWbRaw }, `경험 카드 ${experiences.length}개를 불러왔습니다. 페이지를 새로고침합니다…`);
       } catch (err) { showToast('오류: ' + err.message); }
       return;
     }

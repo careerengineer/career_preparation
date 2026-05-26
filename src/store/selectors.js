@@ -18,8 +18,8 @@ function rawIsCompleted(raw) {
   if (raw.completedAt) return true;
   // motivation/jobcompetency 등 자소서: currentPhase === 'completed'
   if (raw.currentPhase === 'completed' || raw.currentPhase === 'complete') return true;
-  // experience: phase === 'complete'
-  if (raw.phase === 'complete' || raw.phase === 'completed') return true;
+  // experience: phase === 'complete' / job_analysis: phase === 'completion'
+  if (raw.phase === 'complete' || raw.phase === 'completed' || raw.phase === 'completion') return true;
   // interview/self_introduction: isCompleted boolean
   if (raw.isCompleted === true) return true;
   return false;
@@ -95,7 +95,7 @@ export function getWorkbookProgress(master, workbookKey) {
     // master.jobAnalysis는 브리지가 채우지 않으므로 raw 기준으로 진행률을 산정한다.
     const formN = countFilled(raw?.formAnswers);
     const finalLen = bestTextLen(raw?.finalText);
-    const checks = Array.isArray(raw?.checklistState) ? raw.checklistState.filter(Boolean).length : 0;
+    const checks = (raw?.checklistState && typeof raw.checklistState === 'object') ? Object.values(raw.checklistState).filter(Boolean).length : 0;
     const done = master.jobAnalysis.completedAt || completedFlag || finalLen >= 80 || checks >= 4;
     if (formN === 0 && finalLen < 30) return 0;
     if (done && formN >= 4) return 100;

@@ -34,12 +34,13 @@ export function syncLegacyFromMaster(master) {
         localStorage.removeItem(key);
       }
     }
-    // experience: experiences 배열 + raw, 새로고침 후 카드가 보이도록 phase='list'
+    // experience: experiences 배열 + raw. 완료(phase 'complete')는 보존하고, 그 외엔 카드 목록이 보이도록 'list'.
     const expKey = LEGACY_KEYS.experience;
     const expRaw = master.workbookRaw?.experience || {};
     const exps = Array.isArray(master.experiences) ? master.experiences : [];
     if (exps.length > 0 || Object.keys(expRaw).length > 0) {
-      localStorage.setItem(expKey, JSON.stringify({ ...expRaw, experiences: exps, phase: 'list', savedAt: now }));
+      const expPhase = (expRaw.phase === 'complete' || expRaw.phase === 'completed') ? expRaw.phase : 'list';
+      localStorage.setItem(expKey, JSON.stringify({ ...expRaw, experiences: exps, phase: expPhase, savedAt: now }));
     } else {
       localStorage.removeItem(expKey);
     }
