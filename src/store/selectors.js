@@ -86,31 +86,23 @@ export function getWorkbookProgress(master, workbookKey) {
     return 0;
   }
 
-  if (workbookKey === 'careergoal') {
-    const filled = ['year5', 'year3', 'year1', 'rationale']
-      .filter((k) => master.careergoal[k] && String(master.careergoal[k]).trim()).length;
-    const done = master.careergoal.completedAt || completedFlag;
-    if (done && filled >= 3) return 100;                    // 완료 + 핵심 항목 작성
-    if (filled >= 4) return 90;
-    if (filled === 3) return 70;
-    if (filled === 2) return 50;
-    if (filled === 1) return 25;
-    if (rawHasContent(raw)) return scoreByFilled(countFilled(raw.answers));
-    return 0;
-  }
+  // 입사후 포부(careergoal)는 자소서형(answers/finalText/currentPhase)이라
+  // 아래 '일반 자소서·면접' 분기를 그대로 쓴다. (과거 전용 분기가 채워지지 않는
+  // master.careergoal를 보던 탓에 진행률이 100%에 도달하지 못했음)
 
   if (workbookKey === 'job_analysis') {
-    const fields = ['my_experience_pool', 'success_signals', 'connection_sentences', 'experience_translation'];
-    const filled = fields
-      .filter((k) => master.jobAnalysis[k] && String(master.jobAnalysis[k]).trim()).length;
-    const done = master.jobAnalysis.completedAt || completedFlag;
-    if (done && filled >= 3) return 100;                    // 완료 + 핵심 항목 작성
-    if (filled >= 4) return 90;
-    if (filled === 3) return 70;
-    if (filled === 2) return 50;
-    if (filled === 1) return 25;
-    if (rawHasContent(raw)) return scoreByFilled(countFilled(raw.answers));
-    return 0;
+    // 직무분석은 formAnswers·finalText·checklistState를 raw(workbookRaw)에 저장한다.
+    // master.jobAnalysis는 브리지가 채우지 않으므로 raw 기준으로 진행률을 산정한다.
+    const formN = countFilled(raw?.formAnswers);
+    const finalLen = bestTextLen(raw?.finalText);
+    const checks = Array.isArray(raw?.checklistState) ? raw.checklistState.filter(Boolean).length : 0;
+    const done = master.jobAnalysis.completedAt || completedFlag || finalLen >= 80 || checks >= 4;
+    if (formN === 0 && finalLen < 30) return 0;
+    if (done && formN >= 4) return 100;
+    let p = scoreByFilled(formN);
+    if (finalLen >= 100) p = Math.max(p, 85);
+    else if (finalLen >= 30) p = Math.max(p, 40);
+    return p;
   }
 
   // 나머지 워크북 (자소서·면접 등): 답변 개수 + 최종 본문 길이로 판단

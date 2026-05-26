@@ -312,7 +312,7 @@ const STEPS = [
     stuckNote: "Q9에 답이 안 된다면 → 회사 리서치가 부족한 것입니다 → 채용공고 분석 가이드의 기업 분석 파트를 먼저 진행하세요 Q10에 답이 안 된다면 → 직무 이해가 부족한 것입니다 → PART 1으로 돌아가 Q1~Q2를 다시 확인하세요",
     questions: [
       { label: "Q9", question: "이 회사에 지원한 구체적 이유는? (다른 회사에도 쓸 수 있는 말이면 다시 쓰세요)", tip: "회사의 구체적 특징과 나의 연결점", checkpoint: "채용담당자: \"진짜 우리 회사를 알고 온 건가\"", placeholder: '', referenceQuestions: [], relatedWorkbooks: ['experience', 'self_introduction', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
-      { label: "Q10", question: "입사 후 구체적으로 어떤 역량으로 어떤 업무에 기여하고 싶나요?", tip: "'열심히 하겠습니다' 금지. [역량]+[업무] 형식으로", checkpoint: "채용담당자: \"이 사람을 봑으면 이 업무를 맡길 수 있겠다\"", placeholder: '', referenceQuestions: ["Q1", "Q2", "Q3", "Q8"], relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
+      { label: "Q10", question: "입사 후 구체적으로 어떤 역량으로 어떤 업무에 기여하고 싶나요?", tip: "'열심히 하겠습니다' 금지. [역량]+[업무] 형식으로", checkpoint: "채용담당자: \"이 사람을 뽑으면 이 업무를 맡길 수 있겠다\"", placeholder: '', referenceQuestions: ["Q1", "Q2", "Q3", "Q8"], relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal'] },
     ],
   },
   {
@@ -1024,7 +1024,7 @@ const SelfIntroWorkbook = () => {
         ]}
       helpModal={<FirstVisitModal open={showHelp} onClose={() => setShowHelp(false)} title='1분 자기소개 워크북 사용 안내' steps={[
           '<strong>1단계부터 7단계까지</strong> 순서대로 진행하세요. 4단계까지는 답변 재료, 5~7단계는 조립·연결·작성입니다.',
-          '1분 분량은 약 <strong>250~300자</strong>입니다. 너무 길지 않게 다듬으세요.',
+          '1분 분량은 약 <strong>300~350자</strong>(30초는 약 150자)입니다. 너무 길지 않게 다듬으세요.',
           '<strong>키워드 카드 → 연결 → 초안</strong> 순서로 자연스러운 흐름을 만드세요.',
           '마지막에 <strong>녹음하여 직접 들어보고</strong> 다듬으세요.',
         ]} />}
@@ -1319,7 +1319,7 @@ const SelfIntroWorkbook = () => {
                     "자작자동차 동아리에서 SolidWorks로 서스펜션 브래킷을 설계·도면화하며 공차·구조 검토 역량을 쌓아, 이 직무에서 설계 단계부터 양산성을 확보하는 데 기여할 수 있는 김지원입니다."
                   </p>
                   <p style={{ fontSize: 11, color: COLORS.sub, margin: '6px 0 0' }}>
-                    → "낯선 영역에서도 직접 답을 찾는다"가 행동 패턴 · "SolidWorks를 3주 만에"가 증거 · "설계자의 새 도구 습득에 적용"이 연결
+                    → "SolidWorks로 서스펜션 브래킷을 설계한 경험"이 핵심 역량 · "설계 단계부터 양산성 확보에 기여"가 직무 기여 · "…할 수 있는 김지원입니다"가 이름 마무리
                   </p>
                 </div>
               </div>
