@@ -146,7 +146,7 @@ export default function CompanySlots() {
         </p>
         <p style={{ margin: '8px 0 0', fontSize: 16, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
           · <strong>[불러오기]</strong>: 이 저장본을 지금 바로 작업 화면에 적용합니다(가장 간편).<br />
-          · <strong>[이 저장본 저장 (.zip)]</strong>: .docx(전체 내용)와 .xlsx(경험 정리)를 한 파일로 묶은 외부 백업용입니다. 복원할 때는 상단 <strong>[가져오기]</strong>로 그 .zip을 그대로 올리면 됩니다.
+          · <strong>[이 저장본 저장 (.zip)]</strong>: .docx(전체 내용)와 .xlsx(경험 정리)를 한 파일로 묶은 외부 백업용입니다. 복원할 때는 상단 <strong>[기존 내용 불러오기]</strong>로 그 .zip을 그대로 올리면 됩니다.
         </p>
       </div>
 
