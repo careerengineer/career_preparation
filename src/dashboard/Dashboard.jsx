@@ -80,10 +80,10 @@ export default function Dashboard() {
           paddingBottom: SPACING.md, borderBottom: RULE,
         }}>
           <div>
-            {/* H1: A 락업 (마크 + 워드마크 한 줄) */}
+            {/* H1: A 락업 (마크 + 워드마크 + 변형 배지) — 좁은 화면에선 배지가 아래로 줄바꿈 */}
             <div style={{
-              display: 'inline-flex', alignItems: 'center',
-              gap: Math.round(56 * (683/620) * 0.24),
+              display: 'flex', alignItems: 'center', flexWrap: 'wrap',
+              gap: Math.round(56 * (683/620) * 0.24), rowGap: 8, maxWidth: '100%',
             }}>
               <CEMark size={56} />
               <h1 className="ce-h1-display" style={{
