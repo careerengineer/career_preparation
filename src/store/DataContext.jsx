@@ -139,17 +139,17 @@ export function DataProvider({ children }) {
     try { return JSON.parse(localStorage.getItem(SLOTS_KEY) || '{}'); } catch { return {}; }
   }, []);
   const writeSlots = useCallback((slots) => {
-    try { localStorage.setItem(SLOTS_KEY, JSON.stringify(slots)); } catch (e) { console.warn(e); }
+    try { localStorage.setItem(SLOTS_KEY, JSON.stringify(slots)); return true; } catch (e) { console.warn(e); return false; }
   }, []);
 
   const saveCompanySlot = useCallback((slotName) => {
-    if (!slotName || !slotName.trim()) return;
+    if (!slotName || !slotName.trim()) return false;
     const slots = readSlots();
     slots[slotName.trim()] = {
       master,
       savedAt: new Date().toISOString(),
     };
-    writeSlots(slots);
+    return writeSlots(slots);  // 저장 성공 여부 반환(쿼터 초과 시 false)
   }, [master, readSlots, writeSlots]);
 
   const loadCompanySlot = useCallback((slotName) => {

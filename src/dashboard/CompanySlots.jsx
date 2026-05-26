@@ -25,10 +25,12 @@ export default function CompanySlots() {
     if (slots.find((s) => s.name === name)) {
       if (!window.confirm(`'${name}' 저장본이 이미 있습니다. 현재 데이터로 덮어쓸까요?`)) return;
     }
-    saveCompanySlot(name);
+    const ok = saveCompanySlot(name);
     setNewName('');
     refresh();
-    showToast(`'${name}' 저장본에 저장했습니다. 안전을 위해 [전체 저장본 백업]도 받아두세요.`);
+    showToast(ok
+      ? `'${name}' 저장본에 저장했습니다. 안전을 위해 [전체 저장본 백업]도 받아두세요.`
+      : `⚠ 저장 공간이 부족해 '${name}' 저장본을 저장하지 못했습니다. [전체 저장본 백업(.zip)]으로 파일로 받아두세요.`);
   };
 
   const handleLoad = (name) => {

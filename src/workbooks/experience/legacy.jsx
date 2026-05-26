@@ -508,7 +508,7 @@ const GuideToggle = ({ open, onToggle, label, children }) => (
       }}
     >
       <span>{label}</span>
-      <span style={{ fontSize: 16, color: '#C9A86A', flexShrink: 0 }}>{open ? '▲ 닫기' : '▼ 열기'}</span>
+      <span style={{ fontSize: 16, color: '#C9A86A', flexShrink: 0 }}>{open ? '숨기기 ▲' : '보기 ▼'}</span>
     </button>
     {open && (
       <div style={{
