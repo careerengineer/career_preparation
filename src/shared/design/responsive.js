@@ -62,4 +62,12 @@ body { word-break: keep-all; overflow-wrap: break-word; }
 .ce-workbook-body [data-mentoring] {
   display: none !important;
 }
+
+/* 원본 답변 미리보기 등 pre 블록: 긴 URL·토큰이 가로로 넘쳐 모바일에서 잘리지 않도록 */
+.ce-workbook-body pre {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+}
 `;
