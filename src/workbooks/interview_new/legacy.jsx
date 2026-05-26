@@ -666,7 +666,7 @@ const NewInterviewWorkbook = () => {
     copyrightWarn: { fontSize: FONT.size.xs, color: COLORS.red, textAlign: 'center', marginTop: 8, fontWeight: FONT.weight.medium, lineHeight: FONT.lineHeight.base },
   };
   const labelStyle = (color) => ({ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color, margin: 0, letterSpacing: 0.5, textTransform: 'uppercase' });
-  const stepBadge = (n) => ({ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: COLORS.accent2, color: COLORS.white, fontSize: 16, padding: '3px 8px', borderRadius: 4, fontWeight: 700, minWidth: 56, marginRight: 8 });
+  const stepBadge = (n) => ({ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: COLORS.accent2, color: COLORS.white, fontSize: 16, padding: '3px 8px', borderRadius: 4, fontWeight: 700, minWidth: 24, marginRight: 8 });
 
   // ══════════════════ 인트로 ══════════════════
       if (showIntro) return (
@@ -982,7 +982,7 @@ const NewInterviewWorkbook = () => {
           {/* ─── Step 1: 핵심 문장 ─── */}
           <div style={{ marginBottom: SPACING.lg }}>
             <label style={{ ...S.label, display: 'flex', alignItems: 'center' }}>
-              <span style={stepBadge(1)}>PART 1</span>
+              <span style={stepBadge(1)}>1</span>
               핵심 문장 먼저 작성
             </label>
             {/* ═══ 면접관 의도 + 답변 전략 (답변 작성 전 필독) ═══ */}
@@ -1034,7 +1034,7 @@ const NewInterviewWorkbook = () => {
           {q.stages.length > 0 && (
             <div style={{ marginBottom: SPACING.lg }}>
               <label style={{ ...S.label, display: 'flex', alignItems: 'center' }}>
-                <span style={stepBadge(2)}>PART 2</span>
+                <span style={stepBadge(2)}>2</span>
                 답변 완성을 위한 세부 질문
               </label>
               <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: `0 0 ${SPACING.sm}px`, fontStyle: 'italic' }}>
@@ -1068,7 +1068,7 @@ const NewInterviewWorkbook = () => {
           {/* ─── Step 3: 최종 답변 ─── */}
           <div style={{ marginBottom: SPACING.lg }}>
             <label style={{ ...S.label, display: 'flex', alignItems: 'center' }}>
-              <span style={stepBadge(3)}>PART 3</span>
+              <span style={stepBadge(3)}>3</span>
               최종 답변 조합
             </label>
             {q.flow && (
@@ -1111,7 +1111,7 @@ const NewInterviewWorkbook = () => {
           {((q.tails && q.tails.length > 0) || (answers[`${q.label}_final`] || '').length >= 50) && (
             <div style={{ marginBottom: SPACING.lg }}>
               <label style={{ ...S.label, display: 'flex', alignItems: 'center' }}>
-                <span style={stepBadge(4)}>PART 4</span>
+                <span style={stepBadge(4)}>4</span>
                 예상 꼬리질문 대비
               </label>
               <DynamicTailQuestions finalAnswer={answers[`${q.label}_final`]} />
