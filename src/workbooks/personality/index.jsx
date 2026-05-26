@@ -75,7 +75,6 @@ export default function PersonalityPage() {
   return (
     <WorkbookShell
       workbookKey="personality"
-      mentoringType="cover_letter"
       topReferenceIds={["job_analysis","experience","career_roadmap"]}
     >
       <Bridge />

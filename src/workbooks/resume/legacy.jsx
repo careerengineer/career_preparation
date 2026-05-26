@@ -1284,11 +1284,11 @@ const ResumeWorkbook = () => {
               id="edu_extra"
               label="추가 교육 / 부트캠프 (해당자만)"
               hint="비전공자, 직무 전환자는 여기가 중요합니다. 수료 여부와 주요 학습 내용을 적어주세요."
-              placeholder={"해당 없으면 비워두세요.\n예: 구글 데이터 분석 부트캠프 수료 (6주, 2024.07) - Python/SQL 기반 데이터 분석 실습\n예: 패스트캠퍼스 백엔드 개발 과정 수료 (24주, 2024.03~2024.08) - Java/Spring Boot 실무 프로젝트 3건"}
+              placeholder={"해당 없으면 비워두세요.\n예: 유한요소해석(FEA) 실무 교육 수료 (40시간, 2024.07) - ANSYS 기반 구조·열 해석 실습\n예: 6시그마 그린벨트 과정 수료 (2024.03~2024.05) - 공정 데이터 통계 분석/DOE 프로젝트 1건"}
               rows={3}
               guide={{
                 description: '부트캠프/온라인 교육은 "자격증/스킬" 항목 또는 별도 "교육" 항목에 넣습니다. 학력 항목에 넣지 마세요. 수료증이 있으면 함께 표기하세요.',
-                example: '[교육 항목 표기 예시]\n패스트캠퍼스 백엔드 개발 과정 | 2024.03~2024.08 | 수료\n- Java/Spring Boot 기반 풀스택 개발 24주 과정\n- 팀 프로젝트 3건 수행 (GitHub 공개)\n\n구글 데이터 분석 전문가 과정 | 2024.07 | 수료\n- Python, SQL, Tableau 기반 데이터 분석 실습'
+                example: '[교육 항목 표기 예시]\n유한요소해석(FEA) 실무 과정 | 2024.03~2024.05 | 수료\n- ANSYS Mechanical 기반 구조·열 해석 40시간 과정\n- 캡스톤 부품 해석 프로젝트 1건 수행\n\n6시그마 그린벨트 | 2024.07 | 취득\n- 공정 데이터 통계 분석, DOE(실험계획법) 실습'
               }} answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
           </div>
         );

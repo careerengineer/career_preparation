@@ -84,7 +84,6 @@ export default function CareerRoadmapPage() {
   return (
     <WorkbookShell
       workbookKey="career_roadmap"
-      mentoringType="consulting"
       topReferenceIds={[]}
     >
       <Bridge />

@@ -75,7 +75,6 @@ export default function InterviewCareerPage() {
   return (
     <WorkbookShell
       workbookKey="interview_career"
-      mentoringType="interview"
       topReferenceIds={["motivation","jobcompetency","personality","goalachievement","careergoal","self_introduction","experience","career_description"]}
     >
       <Bridge />

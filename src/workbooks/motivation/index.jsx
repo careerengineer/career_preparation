@@ -75,7 +75,6 @@ export default function MotivationPage() {
   return (
     <WorkbookShell
       workbookKey="motivation"
-      mentoringType="cover_letter"
       topReferenceIds={["job_analysis","experience","career_roadmap"]}
     >
       <Bridge />
