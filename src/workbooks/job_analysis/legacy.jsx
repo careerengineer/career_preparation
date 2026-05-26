@@ -440,9 +440,7 @@ const JobAnalysisWorkbook = () => {
   const [checklistState, setChecklistState] = useState({});
   const [downloadSuccess, setDownloadSuccess] = useState(false);
   const [copyMsg, setCopyMsg] = useState('');
-  const [autoSaveStatus, setAutoSaveStatus] = useState('');
   const [confirmingClear, setConfirmingClear] = useState(false);
-  const [clearedFlash, setClearedFlash] = useState(false);
   
   const STORAGE_KEY = 'careerengineer_job_analysis_v1';
   
@@ -465,8 +463,6 @@ const JobAnalysisWorkbook = () => {
             if (data.finalText) setFinalText(data.finalText);
             if (data.checklistState) setChecklistState(data.checklistState);
             if (data.phase) setPhase(data.phase);
-            setAutoSaveStatus('✓ 이전 작성 내용을 불러왔습니다');
-            setTimeout(() => setAutoSaveStatus(''), 5000);
           } else {
             localStorage.removeItem(STORAGE_KEY);
           }
@@ -485,9 +481,7 @@ const JobAnalysisWorkbook = () => {
           finalText, checklistState, phase,
           savedAt: new Date().toISOString()
         }));
-        setAutoSaveStatus('✓ 자동 저장됨');
-        setTimeout(() => setAutoSaveStatus(''), 2000);
-      } catch (e) { setAutoSaveStatus('⚠ 저장 공간 부족'); }
+      } catch (e) {}
     }, 1000);
     return () => clearTimeout(timer);
   }, [basicInfo, diagnosisAnswers, persona, jobPostings, formAnswers, finalText, checklistState, phase]);
@@ -500,10 +494,8 @@ const JobAnalysisWorkbook = () => {
       setFormAnswers({});
       setFinalText('');
       setConfirmingClear(false);
-      setClearedFlash(true);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-      setTimeout(() => setClearedFlash(false), 3000);
     } else {
       setConfirmingClear(true);
       setTimeout(() => setConfirmingClear(false), 5000);

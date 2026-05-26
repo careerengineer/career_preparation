@@ -352,9 +352,7 @@ const NewInterviewWorkbook = () => {
   const [showRawAnswers, setShowRawAnswers] = useState(false);
   const [finalText, setFinalText] = useState('');
   const [downloadSuccess, setDownloadSuccess] = useState(false);
-  const [autoSaveStatus, setAutoSaveStatus] = useState('');
   const [confirmingClear, setConfirmingClear] = useState(false);
-  const [clearedFlash, setClearedFlash] = useState(false);
 
   // [CE-HOME] WorkbookShell '처음으로' 버튼에서 호출
 
@@ -396,8 +394,6 @@ const NewInterviewWorkbook = () => {
             if (typeof data.currentIdx === 'number') setCurrentIdx(data.currentIdx);
             if (typeof data.isCompleted === 'boolean') setIsCompleted(data.isCompleted);
             if (data.showIntro === false) setShowIntro(false);
-            setAutoSaveStatus('✓ 이전 작성 내용을 불러왔습니다');
-            setTimeout(() => setAutoSaveStatus(''), 5000);
           } else {
             localStorage.removeItem(STORAGE_KEY);
           }
@@ -415,9 +411,7 @@ const NewInterviewWorkbook = () => {
           answers, basicInfo, finalText, currentIdx, isCompleted, showIntro,
           savedAt: new Date().toISOString()
         }));
-        setAutoSaveStatus('✓ 자동 저장됨');
-        setTimeout(() => setAutoSaveStatus(''), 2000);
-      } catch (e) { setAutoSaveStatus('⚠ 저장 공간 부족'); }
+      } catch (e) {}
     }, 1000);
     return () => clearTimeout(timer);
   }, [answers, basicInfo, finalText, currentIdx, isCompleted, showIntro]);
@@ -429,10 +423,8 @@ const NewInterviewWorkbook = () => {
       setBasicInfo({ industry: '', position: '', company: '' });
       setFinalText('');
       setConfirmingClear(false);
-      setClearedFlash(true);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-      setTimeout(() => setClearedFlash(false), 3000);
     } else {
       setConfirmingClear(true);
       setTimeout(() => setConfirmingClear(false), 5000);

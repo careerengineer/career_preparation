@@ -732,9 +732,7 @@ const ExperienceWorkbook = () => {
   // 모달
   const [modal, setModal] = useState({ open: false, title: '', message: '', onConfirm: null, variant: 'warning', confirmLabel: '확인' });
   const [showRaw, setShowRaw] = useState({});
-  const [autoSaveStatus, setAutoSaveStatus] = useState('');
   const [confirmingClear, setConfirmingClear] = useState(false);
-  const [clearedFlash, setClearedFlash] = useState(false);
   const STORAGE_KEY = 'careerengineer_experience_v1';
   useEffect(() => {
     try {
@@ -751,8 +749,6 @@ const ExperienceWorkbook = () => {
             if (data.experiences) setExperiences(data.experiences);
             if (data.companyLinks) setCompanyLinks(data.companyLinks);
             if (data.phase) setPhase(data.phase);
-            setAutoSaveStatus('✓ 이전 작성 내용을 불러왔습니다');
-            setTimeout(() => setAutoSaveStatus(''), 5000);
           } else {
             localStorage.removeItem(STORAGE_KEY);
           }
@@ -769,9 +765,7 @@ const ExperienceWorkbook = () => {
           basicInfo, personaAnswers, jdKeywords, experiences, companyLinks, phase,
           savedAt: new Date().toISOString()
         }));
-        setAutoSaveStatus('✓ 자동 저장됨');
-        setTimeout(() => setAutoSaveStatus(''), 2000);
-      } catch (e) { setAutoSaveStatus('⚠ 저장 공간 부족'); }
+      } catch (e) {}
     }, 1000);
     return () => clearTimeout(timer);
   }, [basicInfo, personaAnswers, jdKeywords, experiences, companyLinks, phase]);
@@ -783,10 +777,8 @@ const ExperienceWorkbook = () => {
       setExperiences([]);
       setChecked(new Set());
       setConfirmingClear(false);
-      setClearedFlash(true);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-      setTimeout(() => setClearedFlash(false), 3000);
     } else {
       setConfirmingClear(true);
       setTimeout(() => setConfirmingClear(false), 5000);
