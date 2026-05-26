@@ -1,5 +1,6 @@
 // [BUILD v56 20260520] R&D 관련 메시지 용어 통일 — '연구직(R&D) 트랙' '연구직(R&D)' 'R&D 트랙' '박사·R&D 직무 포함'을 모두 '연구개발 직무(R&D)'로 통일(10곳). 그리고 '논문 수가 핵심'은 부정확한 표현이므로 '연구 역량(방법론·문제 해결 경험)과 직무 적합도가 핵심'으로 교체. 'R&D 우대'는 채용공고의 실제 문구이므로 '연구개발 직무(R&D) 우대'로 다듬어 통일
 import React, { useState, useEffect } from "react";
+import { isWorkbookInVariant } from '../../store/schema.js';
 import { VARIANT_NOTICE } from '../../store/schema.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
 import { analyze } from './analyze.js';
@@ -1464,7 +1465,7 @@ export default function App() {
                     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', gap: 8, alignItems: 'center', justifyContent: 'center', columnGap: 8, rowGap: 6, overflowX: 'auto' }}>
                       {g.items.map((it, ii) => {
                         const isCurrentItem = it.key === currentKey;
-                        const link = it.directUrl ? { url: it.directUrl } : WORKBOOK_LINKS[it.key];
+                        const link = it.directUrl ? { url: it.directUrl } : ((it.key && it.key !== currentKey && !isWorkbookInVariant(it.key)) ? null : WORKBOOK_LINKS[it.key]);
                         if (!link) return null;
                         const isMentoring = it.mentoring === true;
                         const showSeparator = ii < g.items.length - 1 && (g.items[ii + 1].mentoring === isMentoring);
@@ -1517,7 +1518,7 @@ export default function App() {
                     </>)}
                     {g.items.map((it, ii) => {
                       const isCurrentItem = it.key === currentKey;
-                      const link = it.directUrl ? { url: it.directUrl } : WORKBOOK_LINKS[it.key];
+                      const link = it.directUrl ? { url: it.directUrl } : ((it.key && it.key !== currentKey && !isWorkbookInVariant(it.key)) ? null : WORKBOOK_LINKS[it.key]);
                       if (!link) return null;
                       return (
                         <span key={it.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
@@ -1542,7 +1543,7 @@ export default function App() {
               
               // 일반 단일 STEP - 라벨 자체가 하이퍼링크
               const isCurrent = g.key === currentKey;
-              const link = g.directUrl ? { url: g.directUrl } : WORKBOOK_LINKS[g.key];
+              const link = g.directUrl ? { url: g.directUrl } : ((g.key && g.key !== currentKey && !isWorkbookInVariant(g.key)) ? null : WORKBOOK_LINKS[g.key]);
               if (!link) return null;
               
               if (isCurrent) {
