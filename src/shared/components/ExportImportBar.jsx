@@ -84,6 +84,9 @@ export function ExportImportBar() {
           profile: { ...DEFAULT_MASTER.profile, ...(data.profile || {}) },
           workbookRaw: { ...DEFAULT_MASTER.workbookRaw, ...(data.workbookRaw || {}) },
           outputs: { ...DEFAULT_MASTER.outputs, ...(data.outputs || {}) },
+          roadmap: { ...DEFAULT_MASTER.roadmap, ...(data.roadmap || {}) },
+          careergoal: { ...DEFAULT_MASTER.careergoal, ...(data.careergoal || {}) },
+          jobAnalysis: { ...DEFAULT_MASTER.jobAnalysis, ...(data.jobAnalysis || {}) },
           experiences: Array.isArray(experiences) ? experiences
             : (Array.isArray(data.experiences) ? data.experiences : []),
         };
@@ -142,6 +145,9 @@ export function ExportImportBar() {
               ...(excludesExp ? { experience: master.workbookRaw?.experience ?? null } : {}),
             },
             outputs: { ...DEFAULT_MASTER.outputs, ...(payload.data?.outputs || {}) },
+            roadmap: { ...DEFAULT_MASTER.roadmap, ...(payload.data?.roadmap || {}) },
+            careergoal: { ...DEFAULT_MASTER.careergoal, ...(payload.data?.careergoal || {}) },
+            jobAnalysis: { ...DEFAULT_MASTER.jobAnalysis, ...(payload.data?.jobAnalysis || {}) },
             experiences: excludesExp
               ? (master.experiences || [])
               : (Array.isArray(payload.data?.experiences) ? payload.data.experiences : []),
