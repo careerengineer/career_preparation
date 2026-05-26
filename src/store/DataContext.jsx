@@ -95,19 +95,24 @@ export function DataProvider({ children }) {
 
   // 회사·직무 관련 데이터만 리셋 (experience, career_roadmap은 유지)
   const resetCompanyRelated = useCallback(() => {
-    setMaster((m) => ({
-      ...m,
-      profile: { ...DEFAULT_MASTER.profile, userName: m.profile.userName },
-      jobAnalysis: { ...DEFAULT_MASTER.jobAnalysis },
-      careergoal: { ...DEFAULT_MASTER.careergoal },
-      outputs: { ...DEFAULT_MASTER.outputs },
-      workbookRaw: {
-        ...DEFAULT_MASTER.workbookRaw,
-        experience: m.workbookRaw?.experience || null,
-        career_roadmap: m.workbookRaw?.career_roadmap || null,
-      },
-      updatedAt: new Date().toISOString(),
-    }));
+    setMaster((m) => {
+      const next = {
+        ...m,
+        profile: { ...DEFAULT_MASTER.profile, userName: m.profile.userName },
+        jobAnalysis: { ...DEFAULT_MASTER.jobAnalysis },
+        careergoal: { ...DEFAULT_MASTER.careergoal },
+        outputs: { ...DEFAULT_MASTER.outputs },
+        workbookRaw: {
+          ...DEFAULT_MASTER.workbookRaw,
+          experience: m.workbookRaw?.experience || null,
+          career_roadmap: m.workbookRaw?.career_roadmap || null,
+        },
+        updatedAt: new Date().toISOString(),
+      };
+      // debounce 저장 전 reload 되어도 옛 데이터가 돌아오지 않도록 즉시 동기 저장
+      try { localStorage.setItem(MASTER_KEY, JSON.stringify(next)); } catch (e) { console.warn('reset-company save failed:', e); }
+      return next;
+    });
 
     // 워크북별 localStorage도 함께 비움 (경험·로드맵 제외)
     const KEYS_TO_CLEAR = [
