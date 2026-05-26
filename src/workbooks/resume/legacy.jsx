@@ -505,9 +505,7 @@ const ResumeWorkbook = () => {
   const [projCount, setProjCount] = useState(1);  // PART 6: 프로젝트 개수 (기본 1, 최대 5)
   // 입력칸 예시(placeholder)를 사용자가 고른 유형(expType)에 맞춰 신입/경력으로 분기
   const isCareer = ['경력_3년이하', '경력_3_7년', '경력_7년이상', '직무전환'].includes(answers.expType);
-  const [autoSaveStatus, setAutoSaveStatus] = useState('');
   const [confirmingClear, setConfirmingClear] = useState(false);
-  const [clearedFlash, setClearedFlash] = useState(false);
   
   const STORAGE_KEY = 'careerengineer_resume_v1';
   
@@ -525,8 +523,6 @@ const ResumeWorkbook = () => {
             if (typeof data.expCount === 'number') setExpCount(data.expCount);
             if (typeof data.projCount === 'number') setProjCount(data.projCount);
             if (data.showIntro === false) setShowIntro(false);
-            setAutoSaveStatus('✓ 이전 작성 내용을 불러왔습니다');
-            setTimeout(() => setAutoSaveStatus(''), 5000);
           } else {
             localStorage.removeItem(STORAGE_KEY);
           }
@@ -544,9 +540,7 @@ const ResumeWorkbook = () => {
           answers, checks, currentStep, expCount, projCount, showIntro,
           savedAt: new Date().toISOString()
         }));
-        setAutoSaveStatus('✓ 자동 저장됨');
-        setTimeout(() => setAutoSaveStatus(''), 2000);
-      } catch (e) { setAutoSaveStatus('⚠ 저장 공간 부족'); }
+      } catch (e) {}
     }, 1000);
     return () => clearTimeout(timer);
   }, [answers, checks, currentStep, expCount, projCount, showIntro]);
@@ -557,10 +551,8 @@ const ResumeWorkbook = () => {
       setAnswers({});
       setChecks({});
       setConfirmingClear(false);
-      setClearedFlash(true);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-      setTimeout(() => setClearedFlash(false), 3000);
     } else {
       setConfirmingClear(true);
       setTimeout(() => setConfirmingClear(false), 5000);

@@ -440,10 +440,8 @@ const SelfIntroWorkbook = () => {
   const [showStuckHint, setShowStuckHint] = useState({});
   const [checks, setChecks] = useState({});
   const [downloadSuccess, setDownloadSuccess] = useState(false);
-  const [autoSaveStatus, setAutoSaveStatus] = useState('');
   const [resetCounter, setResetCounter] = useState(0);
   const [confirmingClear, setConfirmingClear] = useState(false);
-  const [clearedFlash, setClearedFlash] = useState(false);
 
   // [CE-HOME] WorkbookShell '처음으로' 버튼에서 호출
 
@@ -483,8 +481,6 @@ const SelfIntroWorkbook = () => {
           sessionStorage.removeItem('__si_keep_step__');
           console.log('[v8 load] 단계 복원:', keepStep);
         }
-        setAutoSaveStatus('✓ 기록 삭제됨');
-        setTimeout(() => setAutoSaveStatus(''), 5000);
         return;
       }
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -498,8 +494,6 @@ const SelfIntroWorkbook = () => {
             if (data.checks) setChecks(data.checks);
             if (typeof data.currentStep === 'number') setCurrentStep(data.currentStep);
             if (data.showIntro === false) setShowIntro(false);
-            setAutoSaveStatus('✓ 이전 작성 내용을 불러왔습니다');
-            setTimeout(() => setAutoSaveStatus(''), 5000);
           } else {
             localStorage.removeItem(STORAGE_KEY);
           }
@@ -520,9 +514,7 @@ const SelfIntroWorkbook = () => {
           answers, basicInfo, checks, currentStep, showIntro,
           savedAt: new Date().toISOString()
         }));
-        setAutoSaveStatus('✓ 자동 저장됨');
-        setTimeout(() => setAutoSaveStatus(''), 2000);
-      } catch (e) { setAutoSaveStatus('⚠ 저장 공간 부족'); }
+      } catch (e) {}
     }, 1000);
     return () => clearTimeout(timer);
   }, [answers, basicInfo, checks, currentStep, showIntro]);
@@ -535,10 +527,8 @@ const SelfIntroWorkbook = () => {
       setChecks({});
       setResetCounter(c => c + 1);
       setConfirmingClear(false);
-      setClearedFlash(true);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-      setTimeout(() => setClearedFlash(false), 3000);
     } else {
       setConfirmingClear(true);
       setTimeout(() => setConfirmingClear(false), 5000);

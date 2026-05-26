@@ -1244,9 +1244,7 @@ export default function App() {
   };
 
   const [expandedAction, setExpandedAction] = useState(0);
-  const [autoSaveStatus, setAutoSaveStatus] = useState('');
   const [confirmingClear, setConfirmingClear] = useState(false);
-  const [clearedFlash, setClearedFlash] = useState(false);
 
   const goHome = () => {
     setPage('welcome');
@@ -1272,8 +1270,6 @@ export default function App() {
           if (data.result) setResult(data.result);
           if (typeof data.qi === 'number') setQi(data.qi);
           if (data.page) setPage(data.page);
-          setAutoSaveStatus('✓ 이전 진단 내용을 불러왔습니다');
-          setTimeout(() => setAutoSaveStatus(''), 5000);
         }
       }
     } catch (e) { console.warn(e); }
@@ -1288,9 +1284,7 @@ export default function App() {
           ans, result, qi, page,
           savedAt: new Date().toISOString()
         }));
-        setAutoSaveStatus('✓ 자동 저장됨');
-        setTimeout(() => setAutoSaveStatus(''), 2000);
-      } catch (e) { setAutoSaveStatus('⚠ 저장 공간 부족'); }
+      } catch (e) {}
     }, 1000);
     return () => clearTimeout(timer);
   }, [ans, result, qi, page]);
@@ -1300,10 +1294,8 @@ export default function App() {
       localStorage.removeItem(STORAGE_KEY);
       setAns({});
       setConfirmingClear(false);
-      setClearedFlash(true);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-      setTimeout(() => setClearedFlash(false), 3000);
     } else {
       setConfirmingClear(true);
       setTimeout(() => setConfirmingClear(false), 5000);

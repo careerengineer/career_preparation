@@ -487,10 +487,7 @@ const CareerDescWorkbook = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   __ceHomeRef.current = goHome; // [CE-HOME] ref 갱신
-  const [autoSaveStatus, setAutoSaveStatus] = useState('');
   const [confirmingClear, setConfirmingClear] = useState(false);
-  const [clearedFlash, setClearedFlash] = useState(false);  // 자동 저장 상태 표시
-  const [hasRestored, setHasRestored] = useState(false);  // 복구 안내 표시 여부
 
   // 자동 저장 키 (워크북별 고유)
   const STORAGE_KEY = 'careerengineer_career_description_v1';
@@ -510,9 +507,6 @@ const CareerDescWorkbook = () => {
             setGuides(data.guides || {});
             if (data.companyCount) setCompanyCount(data.companyCount);
             if (data.perfCounts) setPerfCounts(data.perfCounts);
-            setHasRestored(true);
-            setAutoSaveStatus('✓ 이전 작성 내용을 불러왔습니다');
-            setTimeout(() => setAutoSaveStatus(''), 5000);
           } else {
             // 사용자가 거절하면 저장된 데이터 삭제
             localStorage.removeItem(STORAGE_KEY);
@@ -536,11 +530,8 @@ const CareerDescWorkbook = () => {
           ans, chk, guides, companyCount, perfCounts,
           savedAt: new Date().toISOString()
         }));
-        setAutoSaveStatus('✓ 자동 저장됨');
-        setTimeout(() => setAutoSaveStatus(''), 2000);
       } catch (e) {
         console.warn('자동 저장 실패:', e);
-        setAutoSaveStatus('⚠ 저장 공간 부족');
       }
     }, 1000);
     
@@ -553,10 +544,8 @@ const CareerDescWorkbook = () => {
       localStorage.removeItem(STORAGE_KEY);
       setAns({});
       setConfirmingClear(false);
-      setClearedFlash(true);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-      setTimeout(() => setClearedFlash(false), 3000);
     } else {
       setConfirmingClear(true);
       setTimeout(() => setConfirmingClear(false), 5000);
@@ -799,7 +788,6 @@ ${skillRows.length ? `${sectionHeader('핵심 역량')}
   }, []);
   const dl = async () => {
     try {
-      setAutoSaveStatus && setAutoSaveStatus('문서 생성 중...');
       const docxLib = await loadDocxLib();
       const { Document, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle, ExternalHyperlink, Packer } = docxLib;
       

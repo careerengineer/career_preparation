@@ -125,10 +125,7 @@ const MotivationWorkbook = () => {
   const [checklistState, setChecklistState] = useState({});
   const [basicInfo, setBasicInfo] = useState({ industry: '', position: '', company: '' });
   const [answers, setAnswers] = useState({});
-  const [autoSaveStatus, setAutoSaveStatus] = useState('');
   const [confirmingClear, setConfirmingClear] = useState(false);
-  const [clearedFlash, setClearedFlash] = useState(false);
-  const [hasRestored, setHasRestored] = useState(false);
 
   // 자동 저장 키
   const STORAGE_KEY = 'careerengineer_motivation_v1';
@@ -150,9 +147,6 @@ const MotivationWorkbook = () => {
             if (data.currentPhase) setCurrentPhase(data.currentPhase);
             if (typeof data.currentStep === 'number') setCurrentStep(data.currentStep);
             if (data.showIntro === false) setShowIntro(false);
-            setHasRestored(true);
-            setAutoSaveStatus('✓ 이전 작성 내용을 불러왔습니다');
-            setTimeout(() => setAutoSaveStatus(''), 5000);
           } else {
             localStorage.removeItem(STORAGE_KEY);
           }
@@ -175,11 +169,8 @@ const MotivationWorkbook = () => {
           currentPhase, currentStep, showIntro,
           savedAt: new Date().toISOString()
         }));
-        setAutoSaveStatus('✓ 자동 저장됨');
-        setTimeout(() => setAutoSaveStatus(''), 2000);
       } catch (e) {
         console.warn('자동 저장 실패:', e);
-        setAutoSaveStatus('⚠ 저장 공간 부족');
       }
     }, 1000);
     
@@ -194,10 +185,8 @@ const MotivationWorkbook = () => {
       setBasicInfo({ industry: '', position: '', company: '' });
       setFinalText('');
       setConfirmingClear(false);
-      setClearedFlash(true);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-      setTimeout(() => setClearedFlash(false), 3000);
     } else {
       setConfirmingClear(true);
       setTimeout(() => setConfirmingClear(false), 5000);
