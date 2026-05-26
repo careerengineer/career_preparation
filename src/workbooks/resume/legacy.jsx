@@ -1,5 +1,6 @@
 // [BUILD v36 20260520 10:30] docx 저장에 CareerEngineer 자료 + 멘토링 안내 섹션 추가 (ExternalHyperlink + linkP)
 import React, { useState, useEffect, useRef } from 'react';
+import { clickable } from '../../shared/a11y.js';
 import { isWorkbookInVariant } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
@@ -175,7 +176,7 @@ const IntroPage = ({
     <div style={{ maxWidth: 1350, width: '100%', margin: '0 auto' }}>
       <IntroStickyHeader workbookKey={workbookKey} stepLabel={stepLabel} StepNavComponent={StepNavComponent} />
 
-      <div style={{ background: '#fff', borderRadius: 14, padding: 32, border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
+      <div style={{ background: '#fff', borderRadius: 14, padding: 'clamp(16px, 4vw, 32px)', border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
         <BrandHero />
         <div style={{ borderTop: `1px solid ${_INTRO_MUTE}33`, margin: '24px 0 32px' }} />
         <h1 style={{ fontSize: 28, fontWeight: 700, color: _INTRO_INK, textAlign: 'center', margin: 0, marginBottom: 4, lineHeight: 1.35 }}>{title}</h1>
@@ -385,7 +386,7 @@ const FirstVisitModal = ({ open, onClose, title, steps }) => {
   if (!open) return null;
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(14, 39, 80, 0.4)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }} onClick={onClose}>
-      <div style={{ background: '#fff', borderRadius: 14, padding: 32, maxWidth: 480, width: '100%', boxShadow: '0 20px 50px rgba(14, 39, 80,0.2)', fontFamily: '"Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }} onClick={e => e.stopPropagation()}>
+      <div style={{ background: '#fff', borderRadius: 14, padding: 'clamp(16px, 4vw, 32px)', maxWidth: 480, width: '100%', boxShadow: '0 20px 50px rgba(14, 39, 80,0.2)', fontFamily: '"Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }} onClick={e => e.stopPropagation()}>
         <h3 style={{ fontSize: 17, fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 16 }}>{title}</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
           {(steps || []).map((s, i) => (
@@ -1083,7 +1084,7 @@ const ResumeWorkbook = () => {
                 const labelText = sepMatch ? sepMatch[1].trim() : opt.label;
                 const descText = sepMatch ? sepMatch[2].trim() : null;
                 return (
-                  <div key={opt.val} onClick={() => handleAnswer('expType', opt.val)}
+                  <div key={opt.val} {...clickable(() => handleAnswer('expType', opt.val))}
                     style={{ padding: '16px 18px', borderRadius: 14, marginBottom: 8, border: `1.5px solid ${active ? '#C9A86A' : '#6E7A8F33'}`, background: active ? '#F2F1EC' : '#FFFFFF', cursor: 'pointer', transition: 'all 150ms' }}
                     onMouseEnter={e => { if (!active) e.currentTarget.style.borderColor = '#C9A86A60'; }}
                     onMouseLeave={e => { if (!active) e.currentTarget.style.borderColor = '#6E7A8F33'; }}>
@@ -1905,7 +1906,7 @@ const ResumeWorkbook = () => {
 
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F2F1EC', padding: 32, fontFamily: 'Pretendard, -apple-system, BlinkMacSystemFont, sans-serif', color: '#0E2750' }}>
+    <div style={{ minHeight: '100vh', background: '#F2F1EC', padding: 'clamp(16px, 4vw, 32px)', fontFamily: 'Pretendard, -apple-system, BlinkMacSystemFont, sans-serif', color: '#0E2750' }}>
       <BrandOverride />
       <FirstVisitModal open={showHelp} onClose={() => setShowHelp(false)} title="이력서 워크북 사용 안내" steps={[
         '순서대로 <strong>PART 1부터 PART 7까지</strong> 진행하세요.',
@@ -1953,7 +1954,7 @@ const ResumeWorkbook = () => {
         </div>
 
         {/* Content */}
-        <div style={{ background: '#fff', borderRadius: 14, padding: 32, border: '1px solid #6E7A8F33', marginBottom: 24 }}>
+        <div style={{ background: '#fff', borderRadius: 14, padding: 'clamp(16px, 4vw, 32px)', border: '1px solid #6E7A8F33', marginBottom: 24 }}>
           {renderStep()}
 
           {/* Navigation */}

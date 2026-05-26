@@ -206,7 +206,7 @@ export default function Dashboard() {
                       <p style={{ margin: 0, fontSize: 15, color: COLORS.sub, fontWeight: FONT.weight.medium }}>
                         {COACHING_WORD} 과정 외 STEP
                       </p>
-                      <p style={{ margin: '2px 0 0', fontSize: 13, color: COLORS.accent2, fontWeight: FONT.weight.semibold }}>
+                      <p style={{ margin: '2px 0 0', fontSize: 14, color: COLORS.goldText, fontWeight: FONT.weight.semibold }}>
                         희망 시 {COACHING_WORD} 신청 가능
                       </p>
                     </div>

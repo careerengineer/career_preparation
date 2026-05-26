@@ -1,5 +1,6 @@
 // [BUILD v56 20260520] R&D 관련 메시지 용어 통일 — '연구직(R&D) 트랙' '연구직(R&D)' 'R&D 트랙' '박사·R&D 직무 포함'을 모두 '연구개발 직무(R&D)'로 통일(10곳). 그리고 '논문 수가 핵심'은 부정확한 표현이므로 '연구 역량(방법론·문제 해결 경험)과 직무 적합도가 핵심'으로 교체. 'R&D 우대'는 채용공고의 실제 문구이므로 '연구개발 직무(R&D) 우대'로 다듬어 통일
 import React, { useState, useEffect } from "react";
+import { clickable } from '../../shared/a11y.js';
 import { isWorkbookInVariant, VARIANT } from '../../store/schema.js';
 import { VARIANT_NOTICE } from '../../store/schema.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
@@ -19,7 +20,7 @@ const FirstVisitModal = ({ open, onClose, title, steps }) => {
   if (!open) return null;
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(14, 39, 80, 0.4)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }} onClick={onClose}>
-      <div style={{ background: '#fff', borderRadius: 14, padding: 32, maxWidth: 480, width: '100%', boxShadow: '0 20px 50px rgba(14, 39, 80,0.2)', fontFamily: '"Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }} onClick={e => e.stopPropagation()}>
+      <div style={{ background: '#fff', borderRadius: 14, padding: 'clamp(16px, 4vw, 32px)', maxWidth: 480, width: '100%', boxShadow: '0 20px 50px rgba(14, 39, 80,0.2)', fontFamily: '"Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }} onClick={e => e.stopPropagation()}>
         <h3 style={{ fontSize: 17, fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 16 }}>{title}</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
           {(steps || []).map((s, i) => (
@@ -1019,7 +1020,7 @@ const IntroPage = ({
     <div style={{ maxWidth: 1350, width: '100%', margin: '0 auto' }}>
       <IntroStickyHeader workbookKey={workbookKey} stepLabel={stepLabel} StepNavComponent={StepNavComponent} />
 
-      <div style={{ background: '#fff', borderRadius: 14, padding: 32, border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
+      <div style={{ background: '#fff', borderRadius: 14, padding: 'clamp(16px, 4vw, 32px)', border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
         <BrandHero />
         <div style={{ borderTop: `1px solid ${_INTRO_MUTE}33`, margin: '24px 0 32px' }} />
 
@@ -1664,7 +1665,7 @@ export default function App() {
           {visibleOpts.map((opt,i) => {
             const selected = ans[q.id] === opt.v;
             return (
-              <div key={i} onClick={()=>selectOpt(q.id, opt.v)}
+              <div key={i} {...clickable(()=>selectOpt(q.id, opt.v))}
                 style={{padding:"16px 18px",borderRadius:14,marginBottom:8,border:`1.5px solid ${selected?COLORS.accent2:COLORS.border}`,background:selected?COLORS.blueBg:"#fff",cursor:"pointer",transition:"all .15s"}}
                 onMouseEnter={e=>{if(!selected)e.currentTarget.style.borderColor=COLORS.accent2+"60";}}
                 onMouseLeave={e=>{if(!selected)e.currentTarget.style.borderColor=COLORS.border;}}>
@@ -1836,7 +1837,7 @@ export default function App() {
                   const isOpen = expandedAction === actionKey;
                   return (
                     <div key={actionKey} style={{marginBottom:8,marginLeft:8}}>
-                      <div onClick={()=>setExpandedAction(isOpen?-1:actionKey)}
+                      <div {...clickable(()=>setExpandedAction(isOpen?-1:actionKey))}
                         style={{padding:"14px 16px",borderRadius:isOpen?"14px 14px 0 0":"14px",background:"#fff",border:`1px solid ${COLORS.border}`,cursor:"pointer",display:"flex",alignItems:"flex-start",gap:12}}>
                         <div style={{minWidth:28,height:28,borderRadius:8,background:isCurrentStage?COLORS.accent2:COLORS.sub,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize: 14,fontWeight:700,flexShrink:0}}>{ai+1}</div>
                         <div style={{flex:1}}>

@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { clickable } from '../../shared/a11y.js';
 import { isWorkbookInVariant } from '../../store/schema.js';
 import * as XLSX from 'xlsx';
 import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
@@ -50,7 +51,7 @@ const FirstVisitModal = ({ open, onClose, title, steps }) => {
   if (!open) return null;
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(14, 39, 80, 0.4)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }} onClick={onClose}>
-      <div style={{ background: '#fff', borderRadius: 14, padding: 32, maxWidth: 480, width: '100%', boxShadow: '0 20px 50px rgba(14, 39, 80,0.2)', fontFamily: '"Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }} onClick={e => e.stopPropagation()}>
+      <div style={{ background: '#fff', borderRadius: 14, padding: 'clamp(16px, 4vw, 32px)', maxWidth: 480, width: '100%', boxShadow: '0 20px 50px rgba(14, 39, 80,0.2)', fontFamily: '"Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }} onClick={e => e.stopPropagation()}>
         <h3 style={{ fontSize: 17, fontWeight: 700, color: '#0E2750', margin: 0, marginBottom: 16 }}>{title}</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
           {(steps || []).map((s, i) => (
@@ -179,7 +180,7 @@ const IntroPage = ({
     {helpModal}
     <div style={{ maxWidth: 1350, width: '100%', margin: '0 auto' }}>
       <IntroStickyHeader workbookKey={workbookKey} stepLabel={stepLabel} StepNavComponent={StepNavComponent} />
-      <div style={{ background: '#fff', borderRadius: 14, padding: 32, border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
+      <div style={{ background: '#fff', borderRadius: 14, padding: 'clamp(16px, 4vw, 32px)', border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
         <BrandHero />
         <div style={{ borderTop: `1px solid ${_INTRO_MUTE}33`, margin: '24px 0 32px' }} />
         <h1 style={{ fontSize: 28, fontWeight: 700, color: _INTRO_INK, textAlign: 'center', margin: 0, marginBottom: 4, lineHeight: 1.35 }}>{title}</h1>
@@ -1335,7 +1336,7 @@ const ExperienceWorkbook = () => {
                   const labelText = sepMatch ? sepMatch[1].trim() : o.label;
                   const descText = sepMatch ? sepMatch[2].trim() : null;
                   return (
-                    <div key={o.value} onClick={() => setPersonaAnswers(prev => ({ ...prev, [q.id]: o.value }))}
+                    <div key={o.value} {...clickable(() => setPersonaAnswers(prev => ({ ...prev, [q.id]: o.value })))}
                       style={{ padding: '16px 18px', borderRadius: 14, marginBottom: 8, border: `1.5px solid ${active ? COLORS.accent2 : COLORS.border}`, background: active ? COLORS.blueBg : COLORS.white, cursor: 'pointer', transition: 'all 150ms' }}
                       onMouseEnter={e => { if (!active) e.currentTarget.style.borderColor = COLORS.accent2 + '60'; }}
                       onMouseLeave={e => { if (!active) e.currentTarget.style.borderColor = COLORS.border; }}>
