@@ -205,7 +205,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '채용공고의 "주요업무" 섹션을 다시 읽으면서, 각 항목이 왜 필요한지를 생각해보세요.',
             ifStillDifficult: '현직자 인터뷰 영상을 3편 이상 보고 공통으로 나오는 업무를 정리해보세요.'
           },
-          placeholder: '예: 첫 번째는 SNS 콘텐츠 기획·제작입니다. 브랜드 메시지를 타겟에 맞는 형식으로 만들어 주 3회 이상 업로드합니다. 두 번째는 캠페인 성과 분석, 세 번째는 신규 채널 발굴입니다.',
+          placeholder: '예: 첫 번째는 CAD 기구 설계입니다. SolidWorks로 부품 3D 모델링과 도면화를 하고 조립 구조를 설계합니다. 두 번째는 공차 분석과 간섭 검토, 세 번째는 시제품 제작 후 검증·설계 보완입니다.',
           rows: 4, relatedWorkbooks: ['job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
@@ -223,7 +223,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '각 업무를 단계별로 쪼개서 어느 단계에서 이 역량이 필요한지 생각해보세요.',
             ifStillDifficult: '"이 역량이 없었다면 그 업무의 어느 단계에서 막혔을까?"라고 스스로 질문해보세요.'
           },
-          placeholder: '예: 가장 핵심은 콘텐츠 기획력입니다. 트렌드를 읽고 타겟의 언어로 변환하는 능력이 없으면 아무리 디자인이 좋아도 반응이 없습니다. 포토샵 스킬보다 "무엇을 왜 만드는가"를 아는 것이 더 중요합니다.',
+          placeholder: '예: 가장 핵심은 공차 설계 역량입니다. 부품 단품을 그릴 줄 알아도 조립 시 누적 공차와 간섭을 예측하지 못하면 시제품 단계에서 부품이 안 맞습니다. CAD 모델링 속도보다 "이 공차가 조립과 양산에 어떤 영향을 주는가"를 아는 것이 더 중요합니다.',
           rows: 4, relatedWorkbooks: ['career_roadmap', 'job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
@@ -241,7 +241,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '완벽하지 않아도 됩니다. "기초~중급 수준이지만, 이 경험으로 증명 가능하다"도 충분합니다.',
             ifStillDifficult: 'Q1-2에서 파악한 역량 목록을 보면서, 내가 경험을 댈 수 있는 것을 하나 고르세요.'
           },
-          placeholder: '예: 콘텐츠 기획·제작 역량입니다. 대학 축제 홍보 TF에서 2주간 30개 콘텐츠를 단독으로 기획하고 제작한 경험이 있고, SNS 팔로워가 300명 증가한 결과가 있습니다.',
+          placeholder: '예: CAD 기구 설계와 공차 분석 역량입니다. 자작자동차 동아리에서 서스펜션 브래킷을 단독 설계했고, 조립 공차를 재설계해 시제품 불량률을 30% 낮춘 결과가 있습니다.',
           rows: 3, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
         }
       ]
@@ -266,7 +266,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '역량이 필요했던 상황을 먼저 떠올려보세요. "그때 이 역량이 있었다면..."이라고 가정해보세요.',
             ifStillDifficult: '처음 이 역량을 배우거나 익히기 시작했을 때로 돌아가세요. 무엇이 시작의 계기였나요?'
           },
-          placeholder: '예: 대학교 2학년 때 동아리 홍보를 맡았는데, 열심히 만든 포스터가 아무 반응이 없었습니다. 옆 동아리 포스터는 같은 내용인데 "공유하고 싶다"는 말이 나왔고, 그때 "무엇을 왜 만드는가"를 모르면 아무리 잘 만들어도 의미 없다는 것을 깨달았습니다.',
+          placeholder: '예: 대학교 2학년 때 자작자동차 동아리에서 처음 브래킷을 설계했는데, 도면상으로는 완벽했지만 막상 가공품을 조립하니 볼트 구멍이 어긋나 들어가지 않았습니다. 선배가 "단품만 보고 누적 공차를 안 봤구나"라고 했고, 그때 "설계는 도면이 아니라 조립과 가공까지 보는 것"임을 깨달았습니다.',
           rows: 4, relatedWorkbooks: ['career_roadmap', 'experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
@@ -284,7 +284,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '시간 순서대로 "이때 → 이렇게 했고 → 그다음에는"으로 정리해보세요.',
             ifStillDifficult: '규모가 작은 것에서 큰 것으로, 혼자서 팀으로, 이론에서 실전으로 성장한 흐름이 있나요?'
           },
-          placeholder: '예: 그 순간 이후 브랜드 분석 블로그를 시작해 매주 하나씩 광고를 뜯어보며 "왜 이 카피를 썼을까"를 분석했습니다. 이후 동아리에서 실제 캠페인을 맡아 A/B 테스트를 설계했고, 마케팅 수업에서는 실제 스타트업 프로젝트에 참여해 데이터를 보며 전략을 수정하는 경험까지 했습니다.',
+          placeholder: '예: 그 순간 이후 공차 해석 노트를 만들어 부품마다 누적 공차를 직접 계산하며 "왜 이 치수에 이 공차를 줬을까"를 분석했습니다. 이후 동아리에서 실제 섀시 파트를 맡아 공차 스택업을 설계했고, 캡스톤 프로젝트에서는 FEA 구조해석으로 설계를 검증하며 시제품 데이터를 보고 설계를 수정하는 경험까지 했습니다.',
           rows: 5, relatedWorkbooks: ['experience', 'interview_new', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
@@ -302,7 +302,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '같은 역량이 다른 이름으로 불린 경험들을 떠올려보세요.',
             ifStillDifficult: '"이 역량 덕분에 내가 그 팀에서 맡은 역할"이 반복되는 패턴이 있나요?'
           },
-          placeholder: '예: 동아리 홍보, 마케팅 수업 프로젝트, 스타트업 인턴, 개인 블로그까지 맥락은 달랐지만 매번 "타겟의 언어로 메시지를 만드는 역할"을 자연스럽게 맡았습니다. 처음에는 우연이라고 생각했는데, 이 역량이 나의 강점이라는 것을 패턴으로 확인했습니다.',
+          placeholder: '예: 자작자동차 동아리, 캡스톤 프로젝트, 기구 설계 인턴, 개인 모델링 연습까지 맥락은 달랐지만 매번 "조립성과 공차를 끝까지 챙기는 설계 역할"을 자연스럽게 맡았습니다. 처음에는 우연이라고 생각했는데, 이 역량이 나의 강점이라는 것을 패턴으로 확인했습니다.',
           rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
         }
       ]
@@ -320,7 +320,7 @@ const CompetencyWorkbook = () => {
             description: '결과가 꼭 숫자일 필요는 없습니다. 하지만 면접관이 "이 사람의 역량이 어느 수준인지"를 판단할 수 있는 근거가 있어야 합니다.',
             diagnosis: '즉석자가진단: "그때 역량이 없었다면 그 결과가 가능했을까요?"라고 물으면 즉답 가능한가?',
             helpQuestions: [
-              '수치로 표현 가능한 결과가 있나요? (팔로워 수, 달성률, 시간 단축 등)',
+              '수치로 표현 가능한 결과가 있나요? (불량률 감소, 수율, 제작기간 단축 등)',
               '수치가 없다면 — 이전과 비교해 무엇이 달라졌나요?',
               '그 결과를 보고 누가 어떻게 반응했나요? (인정, 요청, 평가)',
               '이 역량이 없었던 상태와 비교하면 어떻게 다른가요?'
@@ -328,7 +328,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '"역량이 없었다면 이 결과가 어떻게 달라졌을까?"라고 가정하면 역량과 결과의 연결이 보입니다.',
             ifStillDifficult: '수치보다 "타인의 인정"도 충분한 근거입니다. 요청받은 것, 다시 맡겨진 것을 찾아보세요.'
           },
-          placeholder: '예: 대학 축제 홍보 TF에서 2주간 30개 콘텐츠를 단독 기획·제작했고, SNS 팔로워 300명 증가(전년 대비 20%)라는 결과를 만들었습니다. 이후 다른 학과 행사에서도 먼저 연락해 작업을 요청받았고, 지도교수님께서 "학부생 중 완성도가 다르다"고 평가하셨습니다.',
+          placeholder: '예: 자작자동차 동아리에서 서스펜션 브래킷의 조립 공차를 재설계해 시제품 불량률을 30% 낮췄습니다. 누적 공차를 다시 배분해 가공·조립 단계의 간섭을 없앤 결과로, 이후 섀시 파트 설계까지 도맡게 됐고, 지도교수님께서 "학부생 중 도면 완성도가 다르다"고 평가하셨습니다.',
           rows: 5, relatedWorkbooks: ['experience', 'interview_new', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
@@ -344,9 +344,9 @@ const CompetencyWorkbook = () => {
               '다른 팀원이나 사람과 비교했을 때 이 역량 때문에 달랐던 부분은?'
             ],
             ifDifficult: '"만약 이 역량이 없는 신입에게 같은 업무를 맡겼다면 어떤 결과가 나왔을까?"라고 생각해보세요.',
-            ifStillDifficult: '아주 단순한 인과관계도 좋습니다. "포토샵이 없었다면 콘텐츠 외주에 의존했을 것이고, 속도와 비용이 달라졌을 것"처럼요.'
+            ifStillDifficult: '아주 단순한 인과관계도 좋습니다. "공차 분석을 못 했다면 시제품을 다시 만들어야 했을 것이고, 제작기간과 비용이 달라졌을 것"처럼요.'
           },
-          placeholder: '예: 포토샵 역량이 없었다면 콘텐츠 수정을 외주에 맡겨야 했고, 트렌드 반응 속도가 3~4일 늦어졌을 것입니다. 즉각 수정이 가능했기 때문에 반응 데이터를 보며 다음 콘텐츠에 바로 반영할 수 있었고, 이것이 팔로워 성장의 핵심 원인이었습니다.',
+          placeholder: '예: 공차 분석 역량이 없었다면 간섭을 시제품 제작 후에야 발견해 재가공에 2주가 더 걸렸을 것입니다. 설계 단계에서 누적 공차를 미리 검토했기 때문에 첫 시제품부터 조립이 됐고, 이것이 불량률 30% 감소의 핵심 원인이었습니다.',
           rows: 4, relatedWorkbooks: ['job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
@@ -364,7 +364,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '초급/중급/고급으로 구분해보세요. 신입이라면 초급~중급이 정상입니다.',
             ifStillDifficult: '"이 작업은 혼자 할 수 있다, 이 작업은 아직 도움이 필요하다"로 나눠보세요.'
           },
-          placeholder: '예: 콘텐츠 기획과 포토샵 제작은 독립적으로 수행 가능한 중급 수준입니다. 광고 데이터 분석은 기초 수준으로 구글 애널리틱스로 트래픽 분석과 간단한 리포트 작성이 가능하지만, 유료 광고 집행 경험은 아직 없어 개인 프로젝트로 실습 중입니다.',
+          placeholder: '예: SolidWorks 기구 설계와 도면화는 독립적으로 수행 가능한 중급 수준입니다. 공차 분석은 기초 수준으로 누적 공차 계산과 간섭 검토가 가능하지만, FEA 구조해석 실무 경험은 아직 없어 개인 프로젝트로 실습 중입니다.',
           rows: 4, relatedWorkbooks: ['experience', 'interview_new', 'motivation', 'personality', 'goalachievement', 'careergoal']
         }
       ]
@@ -389,7 +389,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '채용공고 주요업무를 하나씩 읽으면서 "이건 내가 해봤다"에 해당하는 것부터 시작하세요.',
             ifStillDifficult: '완벽한 연결보다 "가장 강한 연결 하나"가 "약한 연결 열 개"보다 설득력 있습니다.'
           },
-          placeholder: '예: 귀사 채용공고의 "SNS 콘텐츠 기획 및 제작" 업무입니다. Q3에서 서술한 30개 콘텐츠 단독 제작 경험이 이 업무와 직접 연결됩니다. 또한 "채널별 성과 분석" 업무는 구글 애널리틱스 활용 경험으로 연결됩니다.',
+          placeholder: '예: 귀사 채용공고의 "CAD 기구 설계 및 도면화" 업무입니다. Q3에서 서술한 서스펜션 브래킷 단독 설계 경험이 이 업무와 직접 연결됩니다. 또한 "조립성 및 공차 검토" 업무는 누적 공차 분석 경험으로 연결됩니다.',
           rows: 4, relatedWorkbooks: ['job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
@@ -407,7 +407,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '"Q2-Q3의 경험이 이 업무에서 어떻게 다시 작동할까?"라고 생각해보세요.',
             ifStillDifficult: '"열심히 하겠습니다"가 되지 않으려면, 앞에서 서술한 경험과 성취가 이 업무와 연결되는 이유가 있어야 합니다.'
           },
-          placeholder: '예: Q2에서 서술한 것처럼 저는 단순히 콘텐츠를 만드는 것이 아니라 반응 데이터를 보며 다음 콘텐츠를 개선하는 사이클을 익혀왔습니다. Q3에서 이 방식으로 팔로워를 20% 성장시킨 경험이 있기 때문에, 귀사의 SNS 운영 업무에서도 같은 방식이 작동할 것이라고 생각합니다.',
+          placeholder: '예: Q2에서 서술한 것처럼 저는 단순히 부품을 그리는 것이 아니라 시제품 검증 데이터를 보며 다음 설계를 개선하는 사이클을 익혀왔습니다. Q3에서 이 방식으로 시제품 불량률을 30% 낮춘 경험이 있기 때문에, 귀사의 기구 설계 업무에서도 같은 방식이 작동할 것이라고 생각합니다.',
           rows: 5, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
         },
         {
@@ -425,7 +425,7 @@ const CompetencyWorkbook = () => {
             ifDifficult: '신입사원의 일반적인 성장 단계를 참고하세요: 적응 → 실무 참여 → 독립적 수행',
             ifStillDifficult: 'Q3-3에서 쓴 현재 수준을 출발점으로 "3개월 뒤에 이 수준이 되겠다"로 연결하면 자연스럽습니다.'
           },
-          placeholder: '예: 3개월(지금 역량으로 바로 기여): 30개 콘텐츠 단독 제작 경험을 그대로 적용해 SNS 콘텐츠 기획·제작을 독립 수행하고 채널별 성과 리포트를 작성합니다. 6개월(부족한 역량을 채우며 기여 확대): 아직 경험이 없는 유료 광고 집행을 선임과 함께 소액부터 직접 운영하며 익혀, 소규모 캠페인을 기획부터 성과 분석까지 독립적으로 맡아 퍼포먼스 마케팅에 기여합니다.',
+          placeholder: '예: 3개월(지금 역량으로 바로 기여): 브래킷 단독 설계 경험을 그대로 적용해 부품 모델링·도면화를 독립 수행하고 조립 공차 검토 결과를 정리합니다. 6개월(부족한 역량을 채우며 기여 확대): 아직 경험이 없는 FEA 구조해석을 선임과 함께 간단한 부품부터 직접 수행하며 익혀, 소규모 기구 모듈을 설계부터 검증까지 독립적으로 맡아 양산 설계에 기여합니다.',
           rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
         }
       ]
@@ -449,7 +449,7 @@ const CompetencyWorkbook = () => {
           ifDifficult: '유튜브·브런치에서 "[직무명] 현직자 인터뷰"를 3편 보고, 공통으로 강조하는 역량을 정리해보세요.',
           ifStillDifficult: '최소한 이 회사 시니어 채용공고를 찾아보세요. 시니어에게 요구하는 것이 곧 이 직무의 핵심입니다.'
         },
-        placeholder: '예: 현직 마케터 인터뷰 5편을 보니 공통적으로 "데이터 해석보다 타겟 언어 변환 능력이 더 중요하다"고 했습니다. 채용공고의 "자격요건"보다 "우대사항"에서 오히려 진짜 핵심 역량이 보였습니다.',
+        placeholder: '예: 현직 기구 설계 엔지니어 인터뷰 5편을 보니 공통적으로 "CAD 모델링 속도보다 양산성을 고려한 공차 설계 능력이 더 중요하다"고 했습니다. 채용공고의 "자격요건"보다 "우대사항"에서 오히려 진짜 핵심 역량이 보였습니다.',
         rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
@@ -467,7 +467,7 @@ const CompetencyWorkbook = () => {
           ifDifficult: '각 직무의 채용공고를 나란히 놓고 비교해보세요.',
           ifStillDifficult: '"이 역량이 이 직무에서 유독 중요한 상황"을 하나 구체적으로 떠올려보세요.'
         },
-        placeholder: '예: 기획 직무는 전략 설계, 영업은 관계 형성이 핵심이지만 마케팅은 타겟 언어 변환이 핵심입니다. 같은 아이디어라도 누가 어떤 언어로 전달하느냐에 따라 반응이 달라지는 직무이기 때문입니다.',
+        placeholder: '예: 단품 설계는 형상 구현, 해석 직무는 검증이 핵심이지만 기구 설계는 양산을 고려한 공차 설계가 핵심입니다. 같은 형상이라도 공차를 어떻게 배분하느냐에 따라 조립성과 수율이 달라지는 직무이기 때문입니다.',
         rows: 4, relatedWorkbooks: ['career_roadmap', 'job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
@@ -475,7 +475,7 @@ const CompetencyWorkbook = () => {
         label: 'Q1 심화-3. 이 회사가 같은 역량을 다른 회사보다 더 중요하게 여기는 이유가 있나요?',
         hint: '이 회사의 비즈니스 모델·문화·현재 과제에서 이 역량이 특히 필요한 이유',
         guide: {
-          description: '같은 마케터를 뽑더라도 스타트업과 대기업이 원하는 역량의 비중은 다릅니다. 이 회사가 "지금" 특히 이 역량을 원하는 이유가 있어야 합니다.',
+          description: '같은 기구 설계자를 뽑더라도 스타트업과 대기업이 원하는 역량의 비중은 다릅니다. 이 회사가 "지금" 특히 이 역량을 원하는 이유가 있어야 합니다.',
           diagnosis: '즉석자가진단: "다른 회사에도 똑같이 쓸 수 있는 내용 아닌가요?"라고 물으면 이 회사에만 해당하는 내용으로 즉답 가능한가?',
           helpQuestions: [
             '이 회사의 최근 방향성이나 사업 특성과 이 역량이 어떻게 연결되나요?',
@@ -485,7 +485,7 @@ const CompetencyWorkbook = () => {
           ifDifficult: '회사 홈페이지 뉴스룸에서 최근 1년 보도자료를 읽으면 힌트가 있습니다.',
           ifStillDifficult: '"업계 1위", "빠르게 성장 중" 같은 표현은 차별화가 아닙니다. 이 회사에만 해당하는 것을 찾으세요.'
         },
-        placeholder: '예: 이 회사는 최근 MZ세대 신규 고객 확보를 과제로 삼고 있고, 기존 팀에 20~30대가 적습니다. 타겟 언어를 실제로 쓰는 세대로서의 역량이 다른 회사보다 이 회사에서 더 직접적인 기여가 됩니다.',
+        placeholder: '예: 이 회사는 최근 신제품 양산 수율 개선을 과제로 삼고 있고, 기존 팀에 공차 설계 전담 인력이 부족합니다. 설계 단계에서 양산성을 챙기는 역량이 다른 회사보다 이 회사에서 더 직접적인 기여가 됩니다.',
         rows: 4, relatedWorkbooks: ['job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
       }
     ],
@@ -505,7 +505,7 @@ const CompetencyWorkbook = () => {
           ifDifficult: '처음 시작할 때와 지금의 차이를 떠올리면 중간에 넘어선 장벽이 보입니다.',
           ifStillDifficult: '아주 작은 어려움도 괜찮습니다. 중요한 건 어떻게 다음 단계로 나아갔는가입니다.'
         },
-        placeholder: '예: 처음에는 콘텐츠를 많이 만들면 반응이 올 것이라고 생각했습니다. 30개를 올렸는데 반응이 없었고, 이때 "수량이 아닌 타겟 언어의 문제"임을 깨달았습니다. 이후 매번 콘텐츠마다 "이걸 누가 공유하고 싶을까?"를 먼저 물어보는 습관을 만들었습니다.',
+        placeholder: '예: 처음에는 부품을 정밀하게만 그리면 잘 조립될 것이라고 생각했습니다. 도면대로 가공했는데 시제품이 안 맞았고, 이때 "단품 정밀도가 아닌 누적 공차의 문제"임을 깨달았습니다. 이후 매번 설계마다 "이 공차가 조립 시 어떻게 쌓일까?"를 먼저 계산해보는 습관을 만들었습니다.',
         rows: 5, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
@@ -520,10 +520,10 @@ const CompetencyWorkbook = () => {
             '이 역량과 관련 없는 활동보다 관련 있는 활동을 우선한 선택이 있나요?',
             '이 역량을 쌓기 위해 의도적으로 어떤 환경에 자신을 놓았나요?'
           ],
-          ifDifficult: '거창한 선택이 아니어도 됩니다. 매일 30분 블로그 운영, 강의 수강 등 작은 선택도 충분합니다.',
+          ifDifficult: '거창한 선택이 아니어도 됩니다. 매일 30분 CAD 모델링 연습, 강의 수강 등 작은 선택도 충분합니다.',
           ifStillDifficult: '"왜 그 활동을 선택했는가"에서 이 역량과의 연결이 보입니다.'
         },
-        placeholder: '예: 학점 관리 대신 실제 캠페인 경험을 위해 동아리 활동에 더 많은 시간을 썼습니다. 이론 수업보다 실전에서 반응 데이터를 보며 배우는 게 이 역량에 더 효과적이라고 판단했습니다.',
+        placeholder: '예: 학점 관리 대신 실제 설계·제작 경험을 위해 자작자동차 동아리 활동에 더 많은 시간을 썼습니다. 이론 수업보다 실전에서 시제품 검증 데이터를 보며 배우는 게 이 역량에 더 효과적이라고 판단했습니다.',
         rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
@@ -538,10 +538,10 @@ const CompetencyWorkbook = () => {
             '가장 최근에 이 역량을 쓴 것은 언제인가요?',
             '입사 전까지 추가로 쌓으려는 것은?'
           ],
-          ifDifficult: '아주 작은 것도 좋습니다. 매일 관련 콘텐츠를 읽는 것도 진행 중인 활동입니다.',
+          ifDifficult: '아주 작은 것도 좋습니다. 매일 관련 기술 자료를 읽는 것도 진행 중인 활동입니다.',
           ifStillDifficult: '오늘부터라도 시작할 수 있는 것을 실행하고, 그것을 답변에 포함하세요.'
         },
-        placeholder: '예: 현재 개인 브랜드 분석 블로그를 주 1회 발행하고 있고(현재 62편), 구글 애널리틱스 자격증을 이달 내 취득 예정입니다. 또한 소액 광고비로 개인 쇼핑몰 광고를 직접 집행하며 유료 광고 경험을 쌓고 있습니다.',
+        placeholder: '예: 현재 개인 부품 모델링 연습을 주 1회 진행하며 설계 노트에 기록하고 있고(현재 62건), GD&T(기하공차) 관련 자격을 이달 내 취득 예정입니다. 또한 3D 프린터로 직접 시제품을 출력해 조립성을 검증하며 실전 경험을 쌓고 있습니다.',
         rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       }
     ],
@@ -561,7 +561,7 @@ const CompetencyWorkbook = () => {
           ifDifficult: '"부탁받은 것"도 인정입니다. 누군가 도움을 요청해온 경험을 떠올려보세요.',
           ifStillDifficult: '"행동으로 보여준 신뢰"도 인정입니다. 먼저 연락해온 것, 같이 하자고 한 것도 포함됩니다.'
         },
-        placeholder: '예: 지도교수님께서 "학부생 수준을 넘어선 완성도"라고 했고, 다른 학과 행사 담당자가 직접 연락해 작업을 요청했습니다. 또한 팀원들이 "다음에도 같이 하고 싶다"며 다음 행사에 먼저 합류를 제안했습니다.',
+        placeholder: '예: 지도교수님께서 "학부생 수준을 넘어선 도면 완성도"라고 했고, 다른 팀 캡스톤 조에서 직접 연락해 기구 설계 자문을 요청했습니다. 또한 동아리원들이 "다음 차량에도 같이 하고 싶다"며 다음 시즌 설계 파트에 먼저 합류를 제안했습니다.',
         rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
@@ -579,7 +579,7 @@ const CompetencyWorkbook = () => {
           ifDifficult: '필요 역량 목록을 꺼내놓고 "충분함 / 기초 수준 / 부족"으로 분류해보세요.',
           ifStillDifficult: '"열심히 배우겠습니다"는 계획이 아닙니다. 구체적 방법과 기간이 있어야 합니다.'
         },
-        placeholder: '예: 콘텐츠 기획·제작은 중급, 성과 분석은 초급입니다. 유료 광고 집행 경험이 없는 것이 가장 큰 갭으로, 현재 개인 쇼핑몰에 소액 광고를 직접 집행하며 실전 경험을 쌓고 있고 다음 달부터 데이터를 정리할 예정입니다.',
+        placeholder: '예: CAD 모델링·도면화는 중급, 공차 분석은 초급입니다. FEA 구조해석 실무 경험이 없는 것이 가장 큰 갭으로, 현재 개인 부품으로 간단한 정적 해석을 직접 돌려보며 실전 경험을 쌓고 있고 다음 달부터 결과를 정리할 예정입니다.',
         rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
@@ -597,7 +597,7 @@ const CompetencyWorkbook = () => {
           ifDifficult: '지금 당장 준비할 수 있는 것부터 시작하세요. 오늘 노션에 정리해도 됩니다.',
           ifStillDifficult: 'GitHub, 노션, 구글 드라이브 등을 활용해 링크로 제시할 수 있게 준비하세요.'
         },
-        placeholder: '예: 포트폴리오 사이트(www.example.com)에 20개 프로젝트가 정리되어 있습니다. 각 프로젝트마다 "목표·과정·결과·배운 것"으로 구성했고, 브랜드 분석 블로그(blog.example.com)는 현재 62편이 발행되어 있습니다.',
+        placeholder: '예: 포트폴리오 사이트(www.example.com)에 20개 설계 프로젝트가 정리되어 있습니다. 각 프로젝트마다 "목표·과정·결과·배운 것"으로 구성했고, 3D 모델링·도면 작업물 아카이브(drive.example.com)에는 현재 62건이 정리되어 있습니다.',
         rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       }
     ],
@@ -617,7 +617,7 @@ const CompetencyWorkbook = () => {
           ifDifficult: 'Q2 답변과 이 회사 채용공고 주요업무를 나란히 놓고 겹치는 것을 찾아보세요.',
           ifStillDifficult: '가장 직접적으로 연결되는 하나만 찾아도 충분합니다.'
         },
-        placeholder: '예: Q2에서 서술한 "데이터 보며 다음 콘텐츠 개선하는 사이클"이 귀사 채용공고의 "채널별 성과 분석 후 전략 수정" 업무와 정확히 겹칩니다. 같은 방식을 더 큰 규모에서 수행하는 것이 이 업무입니다.',
+        placeholder: '예: Q2에서 서술한 "시제품 검증 데이터를 보며 다음 설계를 개선하는 사이클"이 귀사 채용공고의 "시제품 평가 후 설계 보완" 업무와 정확히 겹칩니다. 같은 방식을 더 큰 규모에서 수행하는 것이 이 업무입니다.',
         rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
@@ -635,7 +635,7 @@ const CompetencyWorkbook = () => {
           ifDifficult: '"Q3에서 성취한 방법"과 "이 회사 업무를 잘하는 방법"이 겹치는 지점을 찾아보세요.',
           ifStillDifficult: '"Q3 경험에서 배운 것"이 이 업무에서 어떻게 쓰일지 구체적으로 상상해보세요.'
         },
-        placeholder: '예: Q3에서 타겟 데이터를 기반으로 콘텐츠를 개선했더니 팔로워가 20% 증가했습니다. 귀사의 SNS 업무도 타겟 분석 → 콘텐츠 제작 → 성과 측정 → 개선의 사이클이기 때문에 같은 방식이 더 큰 규모에서 작동할 수 있다고 생각합니다.',
+        placeholder: '예: Q3에서 누적 공차 데이터를 기반으로 설계를 개선했더니 시제품 불량률이 30% 감소했습니다. 귀사의 기구 설계 업무도 공차 분석 → 설계 → 시제품 검증 → 개선의 사이클이기 때문에 같은 방식이 더 큰 규모에서 작동할 수 있다고 생각합니다.',
         rows: 4, relatedWorkbooks: ['experience', 'motivation', 'personality', 'goalachievement', 'careergoal']
       },
       {
@@ -653,7 +653,7 @@ const CompetencyWorkbook = () => {
           ifDifficult: '이 회사의 최근 방향성이나 과제를 Q1-3에서 파악한 내용과 연결해보세요.',
           ifStillDifficult: '최소한 "이 회사에서 이 역량이 특히 필요한 이유" 하나만 찾아도 충분합니다.'
         },
-        placeholder: '예: 다른 대형 마케팅 대행사에서는 이 역량이 여러 팀 중 하나의 부분이 됩니다. 하지만 귀사처럼 내부 팀이 직접 전략부터 실행까지 담당하는 구조에서는 이 역량이 더 핵심적으로 작동합니다. 이것이 귀사를 선택한 직접적인 이유입니다.',
+        placeholder: '예: 다른 대형 설계 외주 업체에서는 이 역량이 여러 공정 중 하나의 부분이 됩니다. 하지만 귀사처럼 설계팀이 직접 기획부터 양산 검증까지 담당하는 구조에서는 이 역량이 더 핵심적으로 작동합니다. 이것이 귀사를 선택한 직접적인 이유입니다.',
         rows: 4, relatedWorkbooks: ['career_roadmap', 'job_analysis', 'motivation', 'personality', 'goalachievement', 'careergoal']
       }
     ]
@@ -664,7 +664,7 @@ const CompetencyWorkbook = () => {
       id: 'connect_para1',
       label: '연결 질문 1 — 1단락: 역량 선언',
       hint: 'Q1에서 파악한 직무 요구 역량 + Q2·Q3에서 증명한 보유 역량을 연결해, "나는 이 역량을 보유하고 있다"는 선언문을 완성하세요. 면접관이 첫 단락만 읽어도 "이 사람이 무슨 역량을 말하려는구나"를 바로 알 수 있어야 합니다.',
-      placeholder: '예: 이 직무에서 가장 중요한 것은 타겟의 언어로 메시지를 만드는 콘텐츠 기획력입니다. 저는 이 역량을 2년간 반복된 경험으로 쌓아왔고, 30개 콘텐츠 단독 제작·팔로워 300명 성장이라는 결과로 증명했습니다.',
+      placeholder: '예: 이 직무에서 가장 중요한 것은 양산성을 고려해 조립 공차를 설계하는 CAD 기구 설계력입니다. 저는 이 역량을 2년간 반복된 경험으로 쌓아왔고, 서스펜션 브래킷 단독 설계·시제품 불량률 30% 감소라는 결과로 증명했습니다.',
       rows: 5,
       referenceSteps: [1, 2, 3],
       referenceQuestions: ['q1_2', 'q1_3', 'q3_3']
@@ -673,7 +673,7 @@ const CompetencyWorkbook = () => {
       id: 'connect_para2',
       label: '연결 질문 2 — 2단락: 계기와 쌓아온 과정',
       hint: 'Q2-1(계기) + Q2-2(의도적 과정) + Q2-3(반복 패턴)을 하나의 서사로 연결하세요. 면접관이 "이 사람은 이 역량을 우연히 갖게 된 게 아니라 의도적으로 키워왔구나"를 느껴야 합니다.',
-      placeholder: '예: 이 역량의 시작은 동아리 홍보 포스터가 아무 반응이 없었던 순간이었습니다. 그 이후 브랜드 분석 블로그를 시작해 매주 하나씩 광고를 분석했고, 실제 캠페인 경험과 데이터 기반 개선까지 단계적으로 쌓아왔습니다. 지금도 블로그를 발행하며 계속 키우고 있습니다.',
+      placeholder: '예: 이 역량의 시작은 동아리에서 처음 설계한 브래킷이 조립 단계에서 들어가지 않았던 순간이었습니다. 그 이후 공차 해석 노트를 만들어 매주 하나씩 부품의 누적 공차를 분석했고, 실제 섀시 파트 설계와 시제품 기반 개선까지 단계적으로 쌓아왔습니다. 지금도 모델링 연습을 이어가며 계속 키우고 있습니다.',
       rows: 5,
       referenceSteps: [2],
       referenceQuestions: ['q2_1', 'q2_2', 'q2_3']
@@ -682,7 +682,7 @@ const CompetencyWorkbook = () => {
       id: 'connect_para3',
       label: '연결 질문 3 — 3단락: 이 역량으로 해낸 것',
       hint: 'Q3-1(성취) + Q3-2(인과관계) + Q3-3(현재 수준)을 연결해, 역량이 실제로 작동했다는 증거와 지금 이 역량으로 무엇까지 할 수 있는지를 보여주세요. 수치가 없어도 되지만, 역량의 수준이 드러나야 합니다.',
-      placeholder: '예: 이 역량이 가장 잘 드러난 것은 2주간 30개 콘텐츠를 단독 기획·제작해 팔로워를 300명 늘린 경험입니다. 포토샵 없이는 불가능한 속도였고, 덕분에 다른 행사에서도 연락이 왔습니다. 현재 콘텐츠 기획·제작은 독립 수행 가능한 중급, 데이터 분석은 기초 수준입니다.',
+      placeholder: '예: 이 역량이 가장 잘 드러난 것은 서스펜션 브래킷의 조립 공차를 재설계해 시제품 불량률을 30% 낮춘 경험입니다. 누적 공차 분석 없이는 불가능한 결과였고, 덕분에 섀시 파트 설계까지 도맡게 됐습니다. 현재 CAD 모델링·도면화는 독립 수행 가능한 중급, 공차 분석은 기초 수준입니다.',
       rows: 5,
       referenceSteps: [3],
       referenceQuestions: ['q3_1', 'q3_2', 'q3_3']
@@ -691,7 +691,7 @@ const CompetencyWorkbook = () => {
       id: 'connect_para4',
       label: '연결 질문 4 — 4단락: 직무 키워드 연결 + 왜 그렇게 생각하는가',
       hint: 'Q4-1(업무 키워드) + Q4-2(왜 작동하는가)를 연결해 마무리하세요. "기여할 수 있을 것 같다"가 아니라, Q2·Q3의 경험과 성취가 이 업무에서도 재현된다는 논리적 결론이어야 합니다. 이 단락이 1~3단락의 자연스러운 결론처럼 읽혀야 합니다.',
-      placeholder: '예: 귀사 채용공고의 "SNS 콘텐츠 기획·제작"과 "성과 분석 후 전략 수정" 업무가 제 역량과 가장 직접적으로 연결됩니다. 앞서 서술한 것처럼 저는 타겟 분석 → 콘텐츠 제작 → 반응 데이터 기반 개선의 사이클을 이미 경험했습니다. 이 방식이 귀사 규모에서도 작동할 수 있다고 생각하기 때문에 지원했습니다.',
+      placeholder: '예: 귀사 채용공고의 "CAD 기구 설계·도면화"와 "시제품 검증 후 설계 보완" 업무가 제 역량과 가장 직접적으로 연결됩니다. 앞서 서술한 것처럼 저는 공차 분석 → 설계 → 시제품 검증 기반 개선의 사이클을 이미 경험했습니다. 이 방식이 귀사 규모에서도 작동할 수 있다고 생각하기 때문에 지원했습니다.',
       rows: 5,
       referenceSteps: [4],
       referenceQuestions: ['q4_1', 'q4_2']
@@ -1793,7 +1793,7 @@ const IntroPage = ({
 
           {currentStep === 0 && currentPhase === 'round1' ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md }}>
-              {[["position", "지원하고자 하는 직무", "예: 마케팅, 개발, 기획 등"], ["company", "지원하고자 하는 회사명", "예: 삼성전자, 네이버 등"], ["industry", "지원하고자 하는 산업", "예: IT, 금융, 제조 등"]].map(([f, l, p]) => (
+              {[["position", "지원하고자 하는 직무", "예: 기구 설계, 기계 설계, 전자 설계 등"], ["company", "지원하고자 하는 회사명", "예: 삼성전자, 현대자동차 등"], ["industry", "지원하고자 하는 산업", "예: 자동차, 전자, 기계 등"]].map(([f, l, p]) => (
                 <div key={f}>
                   <label style={S.label}>{l}</label>
                   <input type="text" className="ce-input" value={basicInfo[f]} onChange={e => handleBasicInfoChange(f, e.target.value)} style={S.input} placeholder={p} />

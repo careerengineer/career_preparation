@@ -196,13 +196,13 @@ const GoalAchievementWorkbook = () => {
           label: 'Q1-1. 달성하려 한 목표를 구체적으로 정의해주세요.',
           hint: '단순한 다짐이 아닌 명확한 목표 — 무엇을, 언제까지, 어느 수준으로',
           guide: {
-            description: '좋은 목표는 달성 여부를 객관적으로 판단할 수 있어야 합니다. "열심히 공부하겠다"가 아닌 "3개월 안에 Python으로 데이터 분석 프로젝트 3개 완성"처럼 수치·기한·기준이 있어야 합니다.',
+            description: '좋은 목표는 달성 여부를 객관적으로 판단할 수 있어야 합니다. "열심히 공부하겠다"가 아닌 "3개월 안에 SolidWorks로 기구 설계 프로젝트 3개 완성"처럼 수치·기한·기준이 있어야 합니다.',
             diagnosis: '즉석자가진단: "목표를 달성했는지 어떻게 판단했나요?"라고 물으면 즉답 가능한가?',
             helpQuestions: ['목표를 숫자나 기준으로 표현한다면?', '언제까지 달성하려 했나요?', '달성 여부를 어떻게 판단했나요?', '중간 목표(마일스톤)가 있었나요?'],
             ifDifficult: '"실력 향상"처럼 막연한 표현은 목표가 아닙니다. "어떤 상태가 되면 목표를 이룬 것인가?"라고 자문하며 기준을 찾아보세요.',
             ifStillDifficult: '목표 = 달성 기준 + 기한 + 수준. 이 세 가지가 모두 포함되면 제대로 정의된 목표입니다.'
           },
-          placeholder: '예: 문과생 배경에서 데이터 분석가로 직무 전환을 위해, 3개월 안에 Python 기초부터 실전까지 독학하여 실제 데이터를 활용한 분석 프로젝트 3개를 GitHub에 완성·업로드하는 것이 목표였습니다. 달성 기준은 "SQL·Pandas·시각화를 독립적으로 활용해 인사이트를 도출할 수 있는가"였습니다.',
+          placeholder: '예: 기계공학 전공이지만 실무 수준의 CAD 설계 경험이 부족했기에, 3개월 안에 SolidWorks 기초부터 실전까지 독학하여 실제 부품을 설계·3D프린팅으로 검증한 기구 설계 프로젝트 3개를 포트폴리오로 완성하는 것이 목표였습니다. 달성 기준은 "조립 공차를 직접 설정하고 간섭을 검토해 조립 가능한 설계를 독립적으로 완성할 수 있는가"였습니다.',
           rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         },
         {
@@ -216,7 +216,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '목표를 세우던 당시로 돌아가서 "이게 되면 뭐가 달라지지?"라고 생각했던 것을 떠올려보세요.',
             ifStillDifficult: '기대효과는 나중에 Q4(결과)와 연결됩니다. "예상했던 것"과 "실제로 된 것"의 비교가 스토리의 핵심입니다.'
           },
-          placeholder: '예: 첫째, 데이터 분석 직무 지원 자격을 갖추는 것(커리어 전환). 둘째, 취업 후 팀에서 데이터를 직접 다룰 수 있어 업무 의존도를 낮추는 것(업무 효율). 셋째, "문과생도 할 수 있다"는 것을 스스로에게 증명하는 것(자기 확신).',
+          placeholder: '예: 첫째, 기구 설계 직무 지원 자격을 갖추는 것(직무 역량 확보). 둘째, 입사 후 선배 도움 없이 CAD로 부품을 직접 설계할 수 있어 업무 의존도를 낮추는 것(업무 효율). 셋째, "혼자서도 설계 프로젝트를 끝까지 완성할 수 있다"는 것을 스스로에게 증명하는 것(자기 확신).',
           rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         },
         {
@@ -230,7 +230,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '도전의 어려움은 크게 세 가지입니다: ① 기초/배경 부족 ② 시간·환경 제약 ③ 불확실한 성공 가능성.',
             ifStillDifficult: '이 목표를 포기하는 것이 더 편한 선택이었다면 왜 그랬는지 생각해보세요.'
           },
-          placeholder: '예: 세 가지 장벽이 있었습니다. ① 기초 없음: 프로그래밍 경험이 전무한 문과생. ② 시간 제약: 학기 중이라 하루 2~3시간만 확보 가능. ③ 불확실성: "문과생이 3개월에 이 수준까지 가능한가?"라는 회의감, 주변의 "너무 이상적"이라는 반응.',
+          placeholder: '예: 세 가지 장벽이 있었습니다. ① 실무 경험 부족: 수업에서 도면은 봤지만 실제 부품을 처음부터 설계해본 적이 없음. ② 시간 제약: 학기 중이라 하루 2~3시간만 확보 가능. ③ 불확실성: "3개월에 조립 가능한 설계 수준까지 갈 수 있는가?"라는 회의감, 주변의 "너무 이상적"이라는 반응.',
           rows: 4, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         }
       ]
@@ -251,7 +251,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '계획을 수립할 때 참고했던 자료(로드맵, 선배 조언 등)를 떠올려보세요.',
             ifStillDifficult: '계획의 핵심은 "논리적 순서"입니다. 왜 A를 먼저 하고 B를 나중에 했는지 인과관계로 설명해보세요.'
           },
-          placeholder: '예: 3단계로 설계했습니다. 1단계(1개월): Python 기초 문법 — 체계적 커리큘럼이 필요하다 판단해 온라인 강의 선택. 2단계(1개월): Pandas·Numpy 실습 — 실제 데이터셋으로 반복 훈련. 3단계(1개월): 실전 프로젝트 3개 완성. 이 순서는 현직 데이터 분석가 선배 3명에게 물어 수렴된 방식이었습니다.',
+          placeholder: '예: 3단계로 설계했습니다. 1단계(1개월): SolidWorks 기초 모델링 — 체계적 커리큘럼이 필요하다 판단해 온라인 강의 선택. 2단계(1개월): 공차·조립 구속 실습 — 실제 부품 도면으로 반복 훈련. 3단계(1개월): 실전 기구 설계 프로젝트 3개 완성. 이 순서는 현직 기구 설계 엔지니어 선배 3명에게 물어 수렴된 방식이었습니다.',
           rows: 5, relatedWorkbooks: ['career_roadmap', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         },
         {
@@ -265,7 +265,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '계획을 처음 세울 때의 기대감을 떠올려보세요.',
             ifStillDifficult: '"이 방법으로 이 기간 동안 하면 이 수준에 도달할 것"이라는 형식으로 적어보세요.'
           },
-          placeholder: '예: 1단계 완료 시 기본 코드 작성·수정 가능, 2단계 완료 시 실제 데이터에서 패턴 발견 가능, 3단계 완료 시 포트폴리오 3개 완성을 기대했습니다. 가장 어려울 것이라 예상한 구간은 1→2단계 전환 시점이었고, 이 구간에 시간을 더 배분했습니다.',
+          placeholder: '예: 1단계 완료 시 기본 부품 모델링·수정 가능, 2단계 완료 시 조립 공차를 직접 설정하고 간섭을 검토 가능, 3단계 완료 시 포트폴리오 3개 완성을 기대했습니다. 가장 어려울 것이라 예상한 구간은 1→2단계 전환 시점(단품 모델링에서 조립·공차로 넘어가는 지점)이었고, 이 구간에 시간을 더 배분했습니다.',
           rows: 4, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         }
       ]
@@ -286,7 +286,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '"계획에 있었던 것"과 "실제 한 것"을 나란히 비교해보세요.',
             ifStillDifficult: '가장 힘들었던 순간이 언제였는지 떠올려보세요. 그 순간이 계획과 현실의 가장 큰 갭입니다.'
           },
-          placeholder: '예: 두 가지 큰 차이가 있었습니다. ① 속도 차이: 1단계를 1개월에 끝낼 계획이었지만 6주가 걸렸습니다. "클래스와 객체" 개념에서 일주일이 통째로 막혔기 때문입니다. ② 방법 차이: 혼자 강의를 따라가는 방식이 막힌 개념 앞에서 완전히 정체됐습니다. 계획에 없던 "질문할 사람"이 필요해졌습니다.',
+          placeholder: '예: 두 가지 큰 차이가 있었습니다. ① 속도 차이: 1단계를 1개월에 끝낼 계획이었지만 6주가 걸렸습니다. "조립 구속(Mate)과 공차 누적" 개념에서 일주일이 통째로 막혔기 때문입니다. ② 방법 차이: 혼자 강의를 따라가는 방식이 막힌 개념 앞에서 완전히 정체됐습니다. 계획에 없던 "질문할 사람"이 필요해졌습니다.',
           rows: 4, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         },
         {
@@ -300,7 +300,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '"이 방법이 한계가 있어서 저 방법으로 전환했다"는 것도 훌륭한 극복입니다.',
             ifStillDifficult: '"처음 시도 → 실패 또는 한계 → 다른 방법 → 결과"의 흐름으로 적어보세요.'
           },
-          placeholder: '예: 방법 문제는 세 단계로 해결했습니다. ① Stack Overflow 검색 → 내 상황과 딱 맞는 답변 없음. ② 유튜브 다른 강사 영상 → 부분적 해결. ③ 온라인 Python 스터디 가입 → 실시간 질문·답변으로 막힌 개념을 3시간 만에 해결. 이후 스터디가 이 프로젝트 전체에서 가장 중요한 자원이 됐습니다.',
+          placeholder: '예: 방법 문제는 세 단계로 해결했습니다. ① 캐드 사용자 커뮤니티 검색 → 내 상황과 딱 맞는 답변 없음. ② 유튜브 다른 강사 영상 → 부분적 해결. ③ 자작자동차 동아리 선배에게 도면 리뷰 요청 → 공차 설정 기준을 실물 사례로 설명받아 막힌 개념을 3시간 만에 해결. 이후 선배 리뷰가 이 프로젝트 전체에서 가장 중요한 자원이 됐습니다.',
           rows: 5, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         }
       ]
@@ -321,7 +321,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '"100% 달성"하지 못했더라도 괜찮습니다. "80% 달성, 미달된 부분은 이런 이유"처럼 솔직하게 서술하는 것이 오히려 신뢰를 줍니다.',
             ifStillDifficult: '"처음 상태"와 "지금 상태"를 비교하면 결과가 보입니다.'
           },
-          placeholder: '예: 목표 대비 실제 결과: GitHub 프로젝트 3개 완성(목표 달성), Kaggle 대회 상위 15% 진입(목표 초과). 처음에는 "Hello World"도 몰랐던 상태에서 실제 기업 데이터를 SQL로 추출하고 Pandas로 분석해 인사이트를 도출하는 수준이 됐습니다.',
+          placeholder: '예: 목표 대비 실제 결과: 기구 설계 프로젝트 3개 완성(목표 달성), 그중 1개는 교내 캡스톤 경진대회 우수상 수상(목표 초과). 처음에는 단품 모델링도 버벅이던 상태에서, 실제 부품을 공차까지 설정해 설계하고 3D프린팅으로 조립 검증까지 하는 수준이 됐습니다.',
           rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         },
         {
@@ -335,7 +335,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '"이 목표를 왜 세웠는지" 처음으로 돌아가서 그 이유가 지금 해결됐는지 확인해보세요.',
             ifStillDifficult: '기대효과를 100% 달성하지 못했더라도 좋습니다. 왜 일부는 충족됐고 일부는 안 됐는지 분석하는 것이 오히려 더 깊은 이야기입니다.'
           },
-          placeholder: '예: Q1에서 세운 세 가지 기대효과를 점검하면 — ① 직무 전환 자격 확보: 충족. ② 업무 의존도 감소: 충족. 인턴 시작 후 첫 주부터 직접 쿼리를 작성했습니다. ③ 자기 확신: 충족 이상. "문과생도 된다"를 넘어 더 큰 자신감이 생겼습니다.',
+          placeholder: '예: Q1에서 세운 세 가지 기대효과를 점검하면 — ① 직무 역량 확보: 충족. ② 업무 의존도 감소: 충족. 기구 설계 인턴 시작 후 첫 주부터 직접 부품 도면을 수정했습니다. ③ 자기 확신: 충족 이상. "혼자서도 끝까지 설계한다"를 넘어 더 큰 자신감이 생겼습니다.',
           rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         },
         {
@@ -349,7 +349,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '임팩트가 크게 느껴지지 않아도 괜찮습니다. 작은 변화라도 구체적이고 사실적으로 서술하면 됩니다.',
             ifStillDifficult: '"이 달성이 없었다면 일어나지 않았을 일"들을 나열해보세요. 그것이 임팩트입니다.'
           },
-          placeholder: '예: 세 차원의 임팩트가 있었습니다. ① 개인: "새로운 기술을 혼자 익힐 수 있다"는 학습 자기효능감 확립 — 이후 SQL을 2주 만에 실무 수준으로 독학했습니다. ② 주변: 스터디원 2명이 제 방법론을 채택해 함께 목표를 달성했습니다. ③ 조직: 인턴십에서 팀의 수작업 리포트를 Python 자동화로 전환해 주간 4시간 절약 효과를 냈습니다.',
+          placeholder: '예: 세 차원의 임팩트가 있었습니다. ① 개인: "새로운 설계 툴을 혼자 익힐 수 있다"는 학습 자기효능감 확립 — 이후 공차 분석 기법을 2주 만에 실무 수준으로 독학했습니다. ② 주변: 동아리 후배 2명이 제 설계 체크리스트를 채택해 함께 프로젝트를 완성했습니다. ③ 조직: 인턴십에서 팀이 수기로 관리하던 부품 공차 검토를 표준 양식으로 정리해 검토 시간을 주간 4시간 절약하는 효과를 냈습니다.',
           rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         }
       ]
@@ -370,7 +370,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '일주일 중 가장 대표적인 하루를 아침부터 밤까지 묘사해보세요.',
             ifStillDifficult: '"이 정도면 충분히 열심히 했다"고 느꼈던 순간을 중심으로 쓰세요.'
           },
-          placeholder: '예: 평일은 저녁 9시~자정까지 3시간, 주말은 오전 9시~오후 6시까지 9시간 집중했습니다. 스스로 세운 규칙은 "오늘 이해 안 된 채로 자지 않기"였고, 이 규칙 덕분에 다음 날로 넘기는 습관을 막을 수 있었습니다.',
+          placeholder: '예: 평일은 저녁 9시~자정까지 3시간, 주말은 오전 9시~오후 6시까지 9시간 집중했습니다. 스스로 세운 규칙은 "오늘 막힌 설계 문제를 이해 안 된 채로 자지 않기"였고, 이 규칙 덕분에 다음 날로 넘기는 습관을 막을 수 있었습니다.',
           rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         },
         {
@@ -384,7 +384,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '"이 방법을 남들보다 더 체계적으로 사용했다"는 것도 차별화입니다.',
             ifStillDifficult: '없어도 됩니다. Q5-1의 노력 과정이 충분히 구체적이라면 이 질문은 보조적입니다.'
           },
-          placeholder: '예: 저는 코딩 학습에 "교사 효과"를 적용했습니다. 매일 배운 내용을 "초등학생도 이해할 수 있게" 노션에 정리하는 습관을 만든 것입니다. 설명문 형식으로 쓰다 보니 이해가 안 된 부분이 즉시 드러났고, 그 빈칸을 채우는 방식으로 학습 완성도가 높아졌습니다.',
+          placeholder: '예: 저는 설계 학습에 "교사 효과"를 적용했습니다. 매일 배운 설계 개념을 "후배도 이해할 수 있게" 노션에 정리하는 습관을 만든 것입니다. 설명문 형식으로 쓰다 보니 이해가 안 된 부분이 즉시 드러났고, 그 빈칸을 채우는 방식으로 학습 완성도가 높아졌습니다.',
           rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         }
       ]
@@ -405,7 +405,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '배움을 "기술 + 방법론 + 태도" 세 가지로 나눠서 각각 한 줄씩 써보세요.',
             ifStillDifficult: '"이 경험이 없었다면 몰랐을 것"들을 나열해보세요. 그것이 배움입니다.'
           },
-          placeholder: '예: 세 가지를 배웠습니다. ① 기술: Python·Pandas·SQL 실무 활용 능력. ② 방법론: "큰 문제를 작은 단위로 분해한 뒤 하나씩 해결하는" 문제해결 방식. ③ 태도: 계획은 바뀌는 것이 정상이며, 변화에 맞춰 조정하는 유연성이 포기보다 훨씬 강한 전략입니다.',
+          placeholder: '예: 세 가지를 배웠습니다. ① 기술: SolidWorks 모델링·공차 분석 실무 활용 능력. ② 방법론: "큰 조립체를 단품 단위로 분해한 뒤 하나씩 검증하는" 문제해결 방식. ③ 태도: 설계는 한 번에 완성되지 않고 시제품 검증으로 계속 바뀌는 것이 정상이며, 변화에 맞춰 조정하는 유연성이 포기보다 훨씬 강한 전략입니다.',
           rows: 4, relatedWorkbooks: ['experience', 'self_introduction', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         },
         {
@@ -419,7 +419,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: '지원 직무 채용공고의 "주요 업무" 항목을 열어두고, 각 업무에 내 역량을 1:1로 연결해보세요.',
             ifStillDifficult: '"이 역량이 있어서 이 업무를 할 수 있다" / "없었다면 이 업무를 할 수 없었을 것"이라는 문장으로 연결하세요.'
           },
-          placeholder: '예: 지원 직무(데이터 분석)의 주요 업무와 연결하면 — ① 데이터 수집·전처리: SQL·Python 역량이 직접 연결됩니다. ② 인사이트 도출: "문제 분해 → 탐색 → 패턴 발견"의 방법론이 그대로 쓰입니다. ③ 보고서 작성: 노션 정리 습관으로 키운 "복잡한 것을 단순하게 설명하는 능력"이 리포팅에 연결됩니다.',
+          placeholder: '예: 지원 직무(기구 설계)의 주요 업무와 연결하면 — ① 부품 3D 모델링: SolidWorks 모델링 역량이 직접 연결됩니다. ② 조립 공차 검토: "조립체 분해 → 간섭 검토 → 공차 누적 분석"의 방법론이 그대로 쓰입니다. ③ 설계 문서 작성: 노션 정리 습관으로 키운 "복잡한 구조를 단순하게 설명하는 능력"이 도면·검토서 작성에 연결됩니다.',
           rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         },
         {
@@ -433,7 +433,7 @@ const GoalAchievementWorkbook = () => {
             ifDifficult: 'Q6-2에서 연결한 직무-역량 연결을 다시 보고, "지금 할 수 있는 기여 + 부족한 건 채우며 넓힐 기여"로 이어보세요.',
             ifStillDifficult: '"이 경험 덕분에 이 직무에서 하지 않아도 되는 실수"가 있다면 그것도 기여입니다.'
           },
-          placeholder: '예: "문과생의 데이터 분석 독학" 경험이 세 가지 기여로 이어집니다. ① 지금 할 수 있는 기여: 입사 직후부터 SQL·Python으로 독립적인 데이터 추출·분석이 가능해 선임 의존 없이 주간 리포트를 맡을 수 있습니다. ② 방법론 기여: "계획 → 실행 → 차이 발견 → 조정" 사이클로 처음 맡는 업무도 단계적으로 접근합니다. ③ 부족한 역량을 채우며 넓히는 기여: 아직 약한 통계적 인과 추론은 사내 데이터로 A/B 테스트를 반복하며 6개월 안에 보완해, 단순 집계를 넘어 "왜 그런가"를 규명하는 분석까지 기여 범위를 넓히겠습니다.',
+          placeholder: '예: "CAD 설계 독학으로 기구 프로젝트 3개 완성" 경험이 세 가지 기여로 이어집니다. ① 지금 할 수 있는 기여: 입사 직후부터 SolidWorks로 독립적인 부품 모델링·공차 검토가 가능해 선임 의존 없이 단품 설계를 맡을 수 있습니다. ② 방법론 기여: "설계 → 시제품 검증 → 차이 발견 → 보완" 사이클로 처음 맡는 부품도 단계적으로 접근합니다. ③ 부족한 역량을 채우며 넓히는 기여: 아직 약한 FEA 구조해석은 사내 해석 실무와 강의를 병행하며 6개월 안에 보완해, 단순 형상 설계를 넘어 강성·내구까지 검증하는 설계까지 기여 범위를 넓히겠습니다.',
           rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
         }
       ]
@@ -454,7 +454,7 @@ const GoalAchievementWorkbook = () => {
           ifDifficult: '"이대로는 안 되겠다"는 생각이 든 순간을 떠올려보세요.',
           ifStillDifficult: '정확한 날짜가 기억 안 나도 됩니다. 어떤 상황이었는지 상황을 중심으로 묘사해보세요.'
         },
-        placeholder: '예: 2023년 9월 첫 주 월요일, 전공 수업에서 교수님이 Python 코드를 화면에 띄우셨을 때입니다. 옆자리 친구는 "이거 저번에 해봤는데 쉽던데"라고 속삭였고, 저는 화면에 있는 게 무엇인지조차 몰랐습니다. "이대로 졸업하면 나는 데이터 분석가가 될 수 없겠구나"라는 생각이 들었습니다.',
+        placeholder: '예: 2023년 9월 첫 주 월요일, 전공 수업에서 교수님이 SolidWorks로 조립체를 화면에 띄우셨을 때입니다. 옆자리 친구는 "이거 저번에 해봤는데 쉽던데"라고 속삭였고, 저는 화면에 있는 게 무엇인지조차 몰랐습니다. "이대로 졸업하면 나는 기구 설계 엔지니어가 될 수 없겠구나"라는 생각이 들었습니다.',
         rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
       },
       {
@@ -468,7 +468,7 @@ const GoalAchievementWorkbook = () => {
           ifDifficult: '"안 했다면 후회했을까요?"라고 자문해보세요.',
           ifStillDifficult: '목표 달성 후 "이걸 안 했다면 어떻게 됐을까"를 생각해보고 역으로 서술해보세요.'
         },
-        placeholder: '예: 더 쉬운 선택은 "관련 자격증만 따는 것"이었습니다. 하지만 실제 포트폴리오 없이 자격증만으로는 "할 수 있다"를 증명하기 어렵다는 것을 현직자 인터뷰를 통해 파악했습니다. 더 긴 시간이 걸리더라도 실제 프로젝트 결과물로 증명하는 것이 결국 빠른 길이라고 판단했습니다.',
+        placeholder: '예: 더 쉬운 선택은 "CAD 자격증만 따는 것"이었습니다. 하지만 실제 설계 포트폴리오 없이 자격증만으로는 "할 수 있다"를 증명하기 어렵다는 것을 현직자 인터뷰를 통해 파악했습니다. 더 긴 시간이 걸리더라도 실제 설계 결과물로 증명하는 것이 결국 빠른 길이라고 판단했습니다.',
         rows: 4, relatedWorkbooks: ['career_roadmap', 'job_analysis', 'motivation', 'jobcompetency', 'personality', 'careergoal']
       }
     ],
@@ -484,7 +484,7 @@ const GoalAchievementWorkbook = () => {
           ifDifficult: '계획을 세울 때 "이렇게 할까, 저렇게 할까" 고민했던 것을 떠올려보세요.',
           ifStillDifficult: '오프라인 학원 vs 온라인 독학, 자격증 vs 프로젝트 등 일반적인 선택지와 비교해보세요.'
         },
-        placeholder: '예: ① 오프라인 학원: 학기 중 고정 시간 확보 불가로 제외. ② 부트캠프: 비용 200만원 이상으로 어려움. ③ 유튜브 독학: 체계가 없어 방향을 잃을 가능성. 최종 선택(유료 온라인 강의 + 스터디)은 세 가지 단점을 모두 보완한 방식이었습니다.',
+        placeholder: '예: ① 오프라인 CAD 학원: 학기 중 고정 시간 확보 불가로 제외. ② 설계 부트캠프: 비용 200만원 이상으로 어려움. ③ 유튜브 독학: 체계가 없어 방향을 잃을 가능성. 최종 선택(유료 온라인 강의 + 동아리 선배 도면 리뷰)은 세 가지 단점을 모두 보완한 방식이었습니다.',
         rows: 4, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
       },
       {
@@ -498,7 +498,7 @@ const GoalAchievementWorkbook = () => {
           ifDifficult: '유튜브 추천 영상, 블로그 로드맵, 커뮤니티 글도 모두 참고 자료입니다.',
           ifStillDifficult: '아무런 참고 없이 계획을 세운 사람은 없습니다. 아주 작은 것이라도 참고한 것을 떠올려보세요.'
         },
-        placeholder: '예: ① 현직 데이터 분석가 선배에게 "처음 독학 시 가장 비효율적인 방법이 무엇이었나요?"라고 물었습니다. ② "데이터 분석가 독학 로드맵" 블로그 5개를 비교해 공통 학습 순서를 파악했습니다. ③ 실제 신입 공고 10개의 자격요건을 정리해 "최소 필요 기술 스택"을 목표 수준으로 설정했습니다.',
+        placeholder: '예: ① 현직 기구 설계 엔지니어 선배에게 "처음 CAD 독학 시 가장 비효율적인 방법이 무엇이었나요?"라고 물었습니다. ② "기구 설계 독학 로드맵" 블로그 5개를 비교해 공통 학습 순서를 파악했습니다. ③ 실제 신입 공고 10개의 자격요건을 정리해 "최소 필요 설계 역량"을 목표 수준으로 설정했습니다.',
         rows: 5, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
       }
     ],
@@ -514,7 +514,7 @@ const GoalAchievementWorkbook = () => {
           ifDifficult: '가장 힘들었던 밤을 떠올려보세요.',
           ifStillDifficult: '계획이 예상대로 안 됐을 때 처음 느낀 감정부터 시작해보세요.'
         },
-        placeholder: '예: 3주차 금요일 밤 11시, 같은 에러 메시지를 6시간째 보고 있었습니다. "나는 이 분야에 재능이 없는 게 아닐까"라는 생각이 처음으로 들었습니다.',
+        placeholder: '예: 3주차 금요일 밤 11시, 조립체에서 같은 부품 간섭 오류를 6시간째 잡고 있었습니다. "나는 이 분야에 재능이 없는 게 아닐까"라는 생각이 처음으로 들었습니다.',
         rows: 4, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
       },
       {
@@ -528,7 +528,7 @@ const GoalAchievementWorkbook = () => {
           ifDifficult: '극복에 사용한 방법이 여러 개라면 시간 순서대로 나열해보세요.',
           ifStillDifficult: '"처음 시도 → 결과 → 다음 시도 → 결과"의 반복으로 서술해보세요.'
         },
-        placeholder: '예: ① 혼자 구글링(3시간) → 내 에러와 같은 케이스 없음. ② 공식 문서 탐독(1시간) → 더 혼란스러워짐. ③ 스터디 오픈 채팅방에 질문 게시 → 30분 후 유사 경험자가 원인 설명 → 해결. 결국 "혼자 해결"의 한계를 인정하고 질문하는 것이 최선이었다는 교훈을 얻었습니다.',
+        placeholder: '예: ① 혼자 구글링(3시간) → 내 간섭 오류와 같은 케이스 없음. ② 공식 도움말 탐독(1시간) → 더 혼란스러워짐. ③ 동아리 단체 채팅방에 도면 캡처와 함께 질문 게시 → 30분 후 선배가 조립 구속 설정 오류를 짚어줌 → 해결. 결국 "혼자 해결"의 한계를 인정하고 질문하는 것이 최선이었다는 교훈을 얻었습니다.',
         rows: 4, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
       }
     ],
@@ -544,7 +544,7 @@ const GoalAchievementWorkbook = () => {
           ifDifficult: '모든 기대효과가 달성됐다면 "예상보다 더 큰 효과가 있었던 것"을 서술해보세요.',
           ifStillDifficult: '기대했던 것과 실제 결과 사이의 갭을 솔직하게 비교해보세요.'
         },
-        placeholder: '예: "한 달 만에 취업 가능한 수준 도달"이라는 기대는 미달됐습니다. 현실적으로 3개월이 걸렸고 면접 통과까지 6개월이 필요했습니다. 목표는 달성했지만 타임라인에 대한 기대가 지나치게 낙관적이었다는 것을 배웠습니다.',
+        placeholder: '예: "한 달 만에 실무 설계 가능한 수준 도달"이라는 기대는 미달됐습니다. 현실적으로 3개월이 걸렸고 면접 통과까지 6개월이 필요했습니다. 목표는 달성했지만 타임라인에 대한 기대가 지나치게 낙관적이었다는 것을 배웠습니다.',
         rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
       },
       {
@@ -558,7 +558,7 @@ const GoalAchievementWorkbook = () => {
           ifDifficult: '"이 경험 이후 달라진 행동이나 결정이 있다면 무엇인지 떠올려보세요.',
           ifStillDifficult: '"이 경험 이후 달라진 행동이나 결정이 있다면 무엇인지 떠올려보세요.'
         },
-        placeholder: '예: 이 경험이 두 가지 연쇄 도전을 만들었습니다. ① SQL을 동일한 단계별 방식으로 2주 만에 실무 수준으로 독학했습니다. ② 취업 준비에서도 "포트폴리오 3개 완성"이라는 구체적 목표 설정법을 그대로 적용했습니다.',
+        placeholder: '예: 이 경험이 두 가지 연쇄 도전을 만들었습니다. ① 공차 분석 기법을 동일한 단계별 방식으로 2주 만에 실무 수준으로 독학했습니다. ② 취업 준비에서도 "설계 포트폴리오 3개 완성"이라는 구체적 목표 설정법을 그대로 적용했습니다.',
         rows: 4, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
       }
     ],
@@ -574,7 +574,7 @@ const GoalAchievementWorkbook = () => {
           ifDifficult: '포기하고 싶다는 생각이 구체적으로 든 날이 있었나요?',
           ifStillDifficult: '"계속해야 할 이유"를 스스로에게 말했던 것을 떠올려보세요.'
         },
-        placeholder: '예: 4주차에 진도가 계획보다 2주 밀렸을 때입니다. 실제로 이틀 동안 컴퓨터를 켜지 않았습니다. 돌아온 계기는 "오늘 30분만 하자"고 자신과 타협한 것이었고, 그 30분이 2시간이 됐습니다.',
+        placeholder: '예: 4주차에 진도가 계획보다 2주 밀렸을 때입니다. 실제로 이틀 동안 CAD를 켜지 않았습니다. 돌아온 계기는 "오늘 30분만 하자"고 자신과 타협한 것이었고, 그 30분이 2시간이 됐습니다.',
         rows: 4, relatedWorkbooks: ['career_roadmap', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
       },
       {
@@ -588,7 +588,7 @@ const GoalAchievementWorkbook = () => {
           ifDifficult: '"대단하다", "어떻게 했어?"라는 말도 인정입니다.',
           ifStillDifficult: '주변의 반응이 없었다면 그것도 솔직하게 쓰고, 스스로 느낀 성취감을 서술해도 됩니다.'
         },
-        placeholder: '예: 두 가지 순간이 기억납니다. ① 스터디 그룹장이 "니 설명 방식이 이해하기 제일 쉽다"며 다음 스터디 발표를 맡아달라 요청했습니다. ② 인턴십 면접에서 포트폴리오를 보던 면접관이 "혼자 한 거 맞아요? 코드 품질이 신입치고 이상하게 높네요"라고 했습니다.',
+        placeholder: '예: 두 가지 순간이 기억납니다. ① 동아리 선배가 "니 도면 정리 방식이 이해하기 제일 쉽다"며 다음 설계 리뷰 발표를 맡아달라 요청했습니다. ② 인턴십 면접에서 포트폴리오를 보던 면접관이 "혼자 한 거 맞아요? 공차 설정이 신입치고 이상하게 꼼꼼하네요"라고 했습니다.',
         rows: 4, relatedWorkbooks: ['interview_new', 'interview_career', 'motivation', 'jobcompetency', 'personality', 'careergoal']
       }
     ],
@@ -604,7 +604,7 @@ const GoalAchievementWorkbook = () => {
           ifDifficult: '이 경험 이후에 시도한 다른 도전들을 떠올려보세요.',
           ifStillDifficult: '아직 다른 곳에 적용하지 못했다면, 앞으로 이 직무에서 어떻게 적용할지를 서술해도 됩니다.'
         },
-        placeholder: '예: SQL 학습(2주 완성): Python 때의 "단계별 프로젝트 완성" 방식을 그대로 적용해 2주 만에 실무 수준에 도달했습니다. 취업 준비에서도 "목표 수치화"를 적용해 "서류 합격률 50%"를 목표로 설정하고 주차별 결과를 기록해 전략을 조정했습니다.',
+        placeholder: '예: 공차 분석 학습(2주 완성): CAD 때의 "단계별 프로젝트 완성" 방식을 그대로 적용해 2주 만에 실무 수준에 도달했습니다. 취업 준비에서도 "목표 수치화"를 적용해 "서류 합격률 50%"를 목표로 설정하고 주차별 결과를 기록해 전략을 조정했습니다.',
         rows: 4, relatedWorkbooks: ['job_analysis', 'experience', 'motivation', 'jobcompetency', 'personality', 'careergoal']
       },
       {
@@ -618,7 +618,7 @@ const GoalAchievementWorkbook = () => {
           ifDifficult: '지원 직무의 일상적인 하루 업무를 상상해보고, 내가 바로 할 수 있는 것을 찾아보세요.',
           ifStillDifficult: '"이 역량이 없는 신입과 있는 신입의 첫 3개월 차이"를 상상해보고 그 차이를 서술해보세요.'
         },
-        placeholder: '예: 입사 후 1개월 시나리오: 팀의 주간 데이터 리포트 작성 업무를 맡을 경우, SQL로 원하는 데이터를 직접 추출하고 Python으로 시각화해 독립적으로 완성할 수 있습니다. 3개월 시나리오: 반복되는 리포트 작업이 있다면 Python으로 자동화해 팀 업무 시간을 줄이는 것도 가능합니다.',
+        placeholder: '예: 입사 후 1개월 시나리오: 팀의 단품 부품 설계 업무를 맡을 경우, SolidWorks로 직접 모델링하고 조립 간섭을 검토해 독립적으로 완성할 수 있습니다. 3개월 시나리오: 반복되는 유사 부품 설계가 있다면 표준 템플릿과 공차 체크리스트를 만들어 팀의 검토 시간을 줄이는 것도 가능합니다.',
         rows: 5, relatedWorkbooks: ['job_analysis', 'motivation', 'jobcompetency', 'personality', 'careergoal']
       }
     ]
@@ -630,7 +630,7 @@ const GoalAchievementWorkbook = () => {
       id: 'connect_q1q2',
       label: '연결 Q1→Q2: 목표 정의에서 계획 수립으로',
       hint: 'Q1에서 정의한 목표와 기대효과가 Q2의 계획으로 어떻게 논리적으로 이어지나요? "이 목표였기 때문에 이 계획이었다"는 연결이 드러나야 합니다.',
-      placeholder: '예: "데이터 분석 프로젝트 3개 완성"이라는 수치 목표와 "직무 전환 자격 확보"라는 기대효과가 있었기 때문에, 단순한 강의 수강이 아닌 실제 결과물을 만드는 방향으로 계획을 설계했습니다...',
+      placeholder: '예: "기구 설계 프로젝트 3개 완성"이라는 수치 목표와 "기구 설계 직무 역량 확보"라는 기대효과가 있었기 때문에, 단순한 강의 수강이 아닌 실제 설계 결과물을 만드는 방향으로 계획을 설계했습니다...',
       rows: 4,
       referenceSteps: [1, 2],
       referenceQuestions: ['q1_1_1', 'q1_1_2', 'q1_2_1']
@@ -1786,7 +1786,7 @@ const IntroPage = ({
 
           {currentStep === 0 && currentPhase === 'round1' ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md }}>
-              {[["position", "지원하고자 하는 직무", "예: 마케팅, 개발, 기획 등"], ["company", "지원하고자 하는 회사명", "예: 삼성전자, 네이버 등"], ["experience", "목표달성 경험 (간단히)", "예: 데이터 분석 프로젝트 3개 완성"]].map(([f, l, p]) => (
+              {[["position", "지원하고자 하는 직무", "예: 마케팅, 개발, 기획 등"], ["company", "지원하고자 하는 회사명", "예: 삼성전자, 네이버 등"], ["experience", "목표달성 경험 (간단히)", "예: 기구 설계 프로젝트 3개 완성"]].map(([f, l, p]) => (
                 <div key={f}>
                   <label style={S.label}>{l}</label>
                   <input type="text" className="ce-input" value={basicInfo[f]} onChange={e => handleBasicInfoChange(f, e.target.value)} style={S.input} placeholder={p} />

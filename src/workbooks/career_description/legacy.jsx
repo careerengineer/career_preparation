@@ -1323,7 +1323,7 @@ window.addEventListener('afterprint', function() {
     </GP>
 
     <In id="company" label="지원 회사명" placeholder="예: 삼성전자, 카카오, 현대자동차" ans={ans} set={set} />
-    <In id="position" label="지원 직무" placeholder="예: 퍼포먼스 마케팅, 품질관리, 백엔드 개발" ans={ans} set={set} />
+    <In id="position" label="지원 직무" placeholder="예: 하드웨어 회로설계, 생산기술, 기구 설계" ans={ans} set={set} />
 
     <p style={{ fontSize: 16, fontWeight: 600, color: '#1B3A6B', marginBottom: 8 }}>경력 유형</p>
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1356,16 +1356,16 @@ window.addEventListener('afterprint', function() {
     <GP id="g_storyline" title="가이드 보기: 경력 스토리라인이란?" guides={guides} tog={tog}>
       <p>경력기술서는 회사별 성과를 따로 나열하는 것이 아니라, 전체 경력을 관통하는 성장 스토리가 보여야 합니다.</p>
       <Tbl headers={['유형','예시']} rows={[
-        ['전문성 심화형','"마케팅 실무자 → 퍼포먼스 전문가 → 데이터 기반 마케팅 리더"'],
-        ['역할 확장형','"실무 담당 → 프로젝트 리드 → 팀 관리 → 사업부 전략"'],
-        ['산업 전환형','"제조업 품질 → IT 품질 → 핀테크 QA" (핵심 역량은 유지)'],
+        ['전문성 심화형','"회로 설계 실무자 → 전력 회로 전문가 → 하드웨어 개발 리더"'],
+        ['역할 확장형','"실무 담당 → 프로젝트 리드 → 팀 관리 → 개발본부 전략"'],
+        ['산업 전환형','"가전 기구설계 → 자동차 부품 설계 → 모빌리티 HW" (핵심 역량은 유지)'],
         ['문제 해결형','"어디를 가든 비슷한 유형의 문제를 해결해온 스토리"'],
       ]} />
       <p style={{ fontSize: 16, color: '#0E2750', marginTop: 8 }}>스토리라인은 경력기술서에 명시적으로 쓰는 것이 아니라, 성과의 선택과 배치를 통해 자연스럽게 드러나야 합니다.</p>
     </GP>
 
     <In id="story_one" label='Q2-1. 첫 직장에서 현재까지, 나의 경력을 한 문장으로 요약하면?' placeholder='"OO 분야에서 OO 역할로 시작하여, OO를 거쳐, 현재 OO 수준의 역량을 갖추게 되었다"' rows={3} ans={ans} set={set} />
-    <Ex>{`마케팅 실무자로 시작하여 퍼포먼스 캠페인 최적화 전문성을 쌓고, 현재는 3인 팀을 리드하며 데이터 기반 마케팅 전략을 수립하는 수준으로 성장했다.\n\n자동차 부품 품질 엔지니어로 시작하여 협력사 품질감사와 IATF 인증 경험을 쌓고, 현재는 8명 팀을 관리하며 품질 시스템을 처음부터 구축할 수 있는 수준으로 성장했다.`}</Ex>
+    <Ex>{`회로 설계 실무자로 시작하여 전력 회로 최적화 전문성을 쌓고, 현재는 3인 팀을 리드하며 하드웨어 개발 전략을 수립하는 수준으로 성장했다.\n\n자동차 부품 양산 엔지니어로 시작하여 협력사 공정감사와 IATF 인증 경험을 쌓고, 현재는 8명 팀을 관리하며 생산 시스템을 처음부터 구축할 수 있는 수준으로 성장했다.`}</Ex>
 
     <div style={{ marginBottom: 24 }}>
       <label style={{ display: 'block', fontSize: 16, fontWeight: 700, color: '#0E2750', marginBottom: 8 }}>Q2-2. 나의 경력 스토리라인 유형은?</label>
@@ -1397,11 +1397,11 @@ window.addEventListener('afterprint', function() {
         onChange={e => set('story_type_reason', e.target.value)}
         rows={2}
         style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: '1px solid #6E7A8F33', borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
-        placeholder="예: 같은 마케팅 직무 안에서 실무 → 퍼포먼스 전문가 → 팀 리드로 깊이가 쌓여왔기 때문"
+        placeholder="예: 같은 회로설계 직무 안에서 실무 → 전력 회로 전문가 → 팀 리드로 깊이가 쌓여왔기 때문"
       />
     </div>
     <In id="story_growth" label='Q2-3. 회사를 옮길 때마다 "이것을 얻었다/이것이 달라졌다"고 말할 수 있는 것은?' placeholder="이직마다 성장한 포인트. 회사만 바꿨는데 역할이 같으면 성장 스토리가 없는 것입니다." rows={3} ans={ans} set={set} />
-    <Ex>{`1번째 이직 (A사→B사): 실무 역량을 쌓은 후, 더 큰 규모의 캠페인 운영 기회를 찾아 이동 → 월 예산 3배 규모 캠페인 경험\n2번째 이직 (B사→C사): 실행뿐 아니라 전략 수립과 팀 리딩 역할로 확장 → 3인 파트 리드 시작`}</Ex>
+    <Ex>{`1번째 이직 (A사→B사): 실무 역량을 쌓은 후, 더 큰 규모의 양산 프로젝트 기회를 찾아 이동 → 월 생산 3배 규모 라인 개발 경험\n2번째 이직 (B사→C사): 실행뿐 아니라 설계 주도와 팀 리딩 역할로 확장 → 3인 파트 리드 시작`}</Ex>
   </div>);
 
   // ===== PART 3: 강점 하이라이트 =====
@@ -1447,13 +1447,13 @@ window.addEventListener('afterprint', function() {
     <In id="str1" label="Q3-1. 강점 1: 지원 직무에서 확실히 잘할 수 있는 것 + 근거" placeholder="[강점 한 줄] - [근거가 되는 경험/성과 한 줄]" rows={2} ans={ans} set={set} />
     <In id="str2" label="Q3-2. 강점 2" placeholder="[강점 한 줄] - [근거가 되는 경험/성과 한 줄]" rows={2} ans={ans} set={set} />
     <In id="str3" label="Q3-3. 강점 3" placeholder="[강점 한 줄] - [근거가 되는 경험/성과 한 줄]" rows={2} ans={ans} set={set} />
-    <Ex>{`강점 1: 데이터 기반 캠페인 최적화 - GA4 전환 퍼널 분석으로 CPA 38% 개선, A/B 테스트 프로세스 표준화\n강점 2: 마케팅 성과 자동화 - Looker Studio + BigQuery 기반 대시보드 구축, 리포팅 시간 94% 절감\n강점 3: 퍼포먼스 팀 리딩 - 3인 파트 리드, 팀 교육 체계 구축, 신입 온보딩 2주→1주 단축`}</Ex>
+    <Ex>{`강점 1: 데이터 기반 전력 회로 설계 - 회로 시뮬레이션과 발열 분석으로 변환 효율 5%p 향상, DOE 검증 프로세스 표준화\n강점 2: 신뢰성 시험 자동화 - 측정 장비 + 데이터 로깅 기반 내구 시험 체계 구축, 시험 리포팅 시간 70% 절감\n강점 3: 하드웨어 팀 리딩 - 3인 파트 리드, 팀 교육 체계 구축, 신입 온보딩 2주→1주 단축`}</Ex>
 
     <In id="summary" label="Q3-4. 경력 요약 초안 (3~5줄)" placeholder="[직무명] [총 연수]. [핵심 도구/역량], [대표 성과 수치]. [관리 경험 규모]." rows={4} ans={ans} set={set} />
 
     <GP id="g_summary" title="가이드 보기: 경력 요약 작성 공식" guides={guides} tog={tog}>
       <p style={{ fontWeight: 700 }}>[직무명] [총 경력 연수]. [핵심 역량/도구 3~4개], [대표 성과 2~3개 (수치 포함)]. [관리 경험이 있다면 규모 포함].</p>
-      <Ex>{`B2B SaaS 퍼포먼스 마케팅 5년. Google/Meta 광고 캠페인 운영(월 예산 1억원+), 전환율 최적화(CPA 38% 개선), GA4/SQL 기반 데이터 분석. 3인 팀 리드, 마케팅 성과 대시보드 구축으로 리포팅 자동화.`}</Ex>
+      <Ex>{`전자(하드웨어) 전력 회로 설계 5년. DC-DC 컨버터/전원 모듈 설계(양산 5개 모델+), 변환 효율 최적화(효율 5%p 향상), 회로 시뮬레이션/PCB 설계 기반 검증. 3인 팀 리드, 신뢰성 시험 체계 구축으로 검증 자동화.`}</Ex>
     </GP>
   </div>);
 
@@ -1505,9 +1505,9 @@ window.addEventListener('afterprint', function() {
     </GP>
 
     <GP id="g_perspective" title="가이드 보기: 같은 경험도 지원 직무에 따라 다르게 쓴다" guides={guides} tog={tog}>
-      <Tbl headers={['같은 경험','마케팅 팀장에 지원','마케팅 전략 기획에 지원']} rows={[
-        ['CPA 38% 개선','강조: 3인 팀을 이끌고 프로세스 표준화한 리더십','강조: GA4 퍼널 분석에서 이탈 원인 발견한 분석력'],
-        ['불량률 40% 개선','품질 팀장: 협력사 50개사 감사 체계 구축한 관리 역량','품질 엔지니어: SPC/FMEA로 공정 파라미터 최적화한 기술 역량'],
+      <Tbl headers={['같은 경험','개발팀 팀장에 지원','회로 설계 기획에 지원']} rows={[
+        ['변환 효율 5%p 향상','강조: 3인 팀을 이끌고 설계 프로세스 표준화한 리더십','강조: 회로 시뮬레이션으로 손실 원인 발견한 분석력'],
+        ['불량률 40% 개선','생산기술 팀장: 협력사 50개사 감사 체계 구축한 관리 역량','공정 엔지니어: SPC/FMEA로 공정 파라미터 최적화한 기술 역량'],
       ]} />
       <div style={{ background: '#F2F1EC', borderRadius: 8, padding: 12, marginTop: 8 }}>
         <p style={{ color: '#0E2750', fontSize: 16, fontWeight: 700 }}>관점 전환 질문:</p>
@@ -1577,8 +1577,8 @@ window.addEventListener('afterprint', function() {
             <In id={`c${c}_company`} label="회사명" placeholder={c === 1 ? "예: ABC테크" : "이전 회사명"} ans={ans} set={set} />
             <In id={`c${c}_period`} label="재직 기간" placeholder={c === 1 ? "예: 2021.03~현재" : "예: 2018.01~2021.02"} ans={ans} set={set} />
           </div>
-          <In id={`c${c}_title`} label="직책/직급" placeholder={c === 1 ? "예: 마케팅팀 시니어 매니저" : ""} ans={ans} set={set} />
-          <In id={`c${c}_scope`} label="팀 규모 / 담당 범위" placeholder={c === 1 ? "예: 마케팅팀 8명 중 퍼포먼스 파트 3명 리드, 월 예산 1.2억원" : "이 회사에서의 담당 범위"} ans={ans} set={set} />
+          <In id={`c${c}_title`} label="직책/직급" placeholder={c === 1 ? "예: 하드웨어개발팀 책임연구원" : ""} ans={ans} set={set} />
+          <In id={`c${c}_scope`} label="팀 규모 / 담당 범위" placeholder={c === 1 ? "예: 하드웨어개발팀 8명 중 전원회로 파트 3명 리드, 양산 모델 5종 담당" : "이 회사에서의 담당 범위"} ans={ans} set={set} />
 
           <div style={{ borderTop: '1px solid #6E7A8F33', marginTop: 12, paddingTop: 12 }}>
             <p style={{ fontSize: 15, fontWeight: 700, color: '#1B3A6B', marginTop: 0, marginBottom: 12, letterSpacing: 0.3 }}>이 회사에서의 핵심 성과 (BRIAR)</p>
@@ -1596,12 +1596,12 @@ window.addEventListener('afterprint', function() {
                     </button>
                   )}
                 </div>
-                <In id={`c${c}_s${p}_title`} label={`Q${p}a. 성과 제목 (한 줄)`} placeholder='예: "전환율 최적화 프로젝트", "마케팅 대시보드 구축"' ans={ans} set={set} />
-                <In id={`c${c}_s${p}_bg`} label={`Q${p}b. [B] Background — 이 성과가 나오기 전, 팀/조직이 겪던 문제는?`} placeholder='"CPA가 높았다"가 아니라 "CPA 15,000원으로 목표 대비 50% 초과". 왜 중요했는가?(KPI, 매출 영향 등)' rows={3} ans={ans} set={set} />
+                <In id={`c${c}_s${p}_title`} label={`Q${p}a. 성과 제목 (한 줄)`} placeholder='예: "DC-DC 컨버터 효율 개선 프로젝트", "신뢰성 시험 체계 구축"' ans={ans} set={set} />
+                <In id={`c${c}_s${p}_bg`} label={`Q${p}b. [B] Background — 이 성과가 나오기 전, 팀/조직이 겪던 문제는?`} placeholder='"발열이 심했다"가 아니라 "동작 온도 85℃로 목표 대비 15℃ 초과". 왜 중요했는가?(신뢰성, 수율 영향 등)' rows={3} ans={ans} set={set} />
                 <In id={`c${c}_s${p}_role`} label={`Q${p}c. [R] Role — 이 문제 해결을 위해 당신에게 주어진 역할은?`} placeholder="혼자? 팀 리드? 의사결정 권한 범위? 예산/인력?" rows={2} ans={ans} set={set} />
                 <In id={`c${c}_s${p}_action`} label={`Q${p}d. [I] Initiative — 당신이 주도적으로 한 행동/판단은?`} placeholder='"당신이 없었으면 이 결과가 안 나왔을 것"을 보여주세요. 어떤 분석/판단/방법을 선택했는가?' rows={3} ans={ans} set={set} />
-                <In id={`c${c}_s${p}_result`} label={`Q${p}e. [A] Achievement — 정량적 성과는?`} placeholder='Before→After 형태. 예: "CPA 15,000원→9,200원 (38% 개선, 6개월)"' rows={2} ans={ans} set={set} />
-                <In id={`c${c}_s${p}_ripple`} label={`Q${p}f. [R] Ripple — 이 성과 이후 조직에 어떤 변화가 생겼는가?`} placeholder="프로세스 표준화, 타 팀 확산, 매출 지속 성장 등. 없으면 비워두세요." rows={2} ans={ans} set={set} />
+                <In id={`c${c}_s${p}_result`} label={`Q${p}e. [A] Achievement — 정량적 성과는?`} placeholder='Before→After 형태. 예: "변환 효율 87%→92% (5%p 향상, 6개월)"' rows={2} ans={ans} set={set} />
+                <In id={`c${c}_s${p}_ripple`} label={`Q${p}f. [R] Ripple — 이 성과 이후 조직에 어떤 변화가 생겼는가?`} placeholder="설계 가이드 표준화, 타 모델 확산, 양산 수율 지속 개선 등. 없으면 비워두세요." rows={2} ans={ans} set={set} />
               </div>
             ))}
             
@@ -1632,7 +1632,7 @@ window.addEventListener('afterprint', function() {
   case 5: return (<div>
     <ST title="PART 6. 관리/리더십 경험" sub="팀 리더, 매니저 이상의 경험이 있는 경우 작성합니다." />
     <In id="lead_team" label="Q6-1. 직접 관리한 팀의 규모와 구성은?" placeholder="정규직 몇 명, 파트타임/외주 몇 명, 크로스펑셔널 협업 팀원 몇 명" rows={2} ans={ans} set={set} />
-    <In id="lead_budget" label="Q6-2. 운영한 예산 규모는? (연간/월간)" placeholder="프로젝트 예산, 마케팅 예산, 인건비 등" ans={ans} set={set} />
+    <In id="lead_budget" label="Q6-2. 운영한 예산 규모는? (연간/월간)" placeholder="개발 예산, 설비/시작품 예산, 인건비 등" ans={ans} set={set} />
     <In id="lead_growth" label="Q6-3. 팀원의 성장에 어떻게 기여했는가?" placeholder="교육 프로그램 설계, 1:1 코칭, 목표 설정, 팀원 승진 사례 등" rows={3} ans={ans} set={set} />
     <In id="lead_measure" label="Q6-4. 팀의 성과를 어떻게 측정하고 관리했는가?" placeholder="KPI 설정, 성과 리뷰 주기, 목표 달성률 관리 방법" rows={2} ans={ans} set={set} />
     <In id="lead_challenge" label="Q6-5. 리더로서 가장 어려웠던 상황과 어떻게 해결했는가?" placeholder="갈등 해결, 성과 부진 팀원, 급격한 조직 변화 대응 등" rows={3} ans={ans} set={set} />
@@ -1686,13 +1686,13 @@ window.addEventListener('afterprint', function() {
       
       <p style={{ fontSize: 16, fontWeight: 700, color: '#0E2750', marginTop: 12, marginBottom: 6 }}>1. 하드 스킬 (도구·기술·방법론)</p>
       <ul style={{ fontSize: 15, color: '#1B3A6B', margin: 0, paddingLeft: 18, lineHeight: 1.8 }}>
-        <li><strong>구체적인 도구·기술명으로</strong> 작성하세요. \"마케팅 도구\"가 아니라 \"Google Ads, Meta Ads, GA4, BigQuery, Tableau\".</li>
+        <li><strong>구체적인 도구·기술명으로</strong> 작성하세요. \"설계 도구\"가 아니라 \"SolidWorks, CATIA, Altium, LTspice, ANSYS\".</li>
         <li><strong>직무상세내용 키워드와 매칭</strong>되는 것을 가장 앞에 배치하세요.</li>
         <li><strong>PART 5의 BRIAR 성과에서 사용한 도구</strong>는 모두 포함하세요. (성과로 증명됨)</li>
         <li><strong>능숙도 표현</strong>: \"능숙\"/\"중급\" 같은 추상 표현 대신 \"3년 사용\"/\"실무 프로젝트 5건\" 같은 구체적 경험치로 표현 가능.</li>
       </ul>
       
-      <Ex>{`Google Ads (5년, 월 예산 1억원+ 운영) / Meta Ads (4년) / GA4 (3년, 퍼널 분석·이벤트 추적) / BigQuery + SQL (2년, 마케팅 데이터 ETL) / Tableau (대시보드 5건 구축) / Python (Pandas 기반 데이터 분석)`}</Ex>
+      <Ex>{`회로 설계/PCB (5년, 양산 모델 5종+ 개발) / LTspice 회로 시뮬레이션 (4년) / Altium PCB 설계 (3년, 다층 기판·EMI 대응) / 신뢰성·내구 시험 (2년, 열·진동·수명 평가) / SolidWorks (기구 간섭·방열 구조 5건) / Python (계측 데이터 분석)`}</Ex>
 
       <p style={{ fontSize: 16, fontWeight: 700, color: '#0E2750', marginTop: 16, marginBottom: 6 }}>2. 소프트 스킬 (역량·전문성)</p>
       <ul style={{ fontSize: 15, color: '#1B3A6B', margin: 0, paddingLeft: 18, lineHeight: 1.8 }}>
@@ -1701,7 +1701,7 @@ window.addEventListener('afterprint', function() {
         <li><strong>PART 6 관리/리더십, PART 5 BRIAR에서 등장한 역량</strong>을 그대로 가져오세요. (성과로 증명됨)</li>
       </ul>
       
-      <Ex>{`퍼포먼스 마케팅 전략 수립 (B2B/B2C 모두) / 3인 팀 리드 및 1:1 코칭 / 크로스펑셔널 협업 (영업·개발·CS) / 데이터 기반 가설 검증 및 A/B 테스트 / 마케팅 KPI 설계 및 대시보드 자동화`}</Ex>
+      <Ex>{`전력 회로 설계 전략 수립 (양산/선행 모두) / 3인 팀 리드 및 1:1 코칭 / 크로스펑셔널 협업 (기구·SW·생산기술) / 데이터 기반 가설 검증 및 DOE / 신뢰성 시험 기준 설계 및 검증 자동화`}</Ex>
 
       <p style={{ fontSize: 16, fontWeight: 700, color: '#0E2750', marginTop: 16, marginBottom: 6 }}>3. 자격증 / 인증</p>
       <ul style={{ fontSize: 15, color: '#1B3A6B', margin: 0, paddingLeft: 18, lineHeight: 1.8 }}>
@@ -1710,7 +1710,7 @@ window.addEventListener('afterprint', function() {
         <li><strong>취득일</strong>이 너무 오래된(10년+) 자격증은 \"갱신 여부\"를 표시하거나 빼는 것이 안전.</li>
       </ul>
       
-      <Ex>{`Google Ads 인증 (2024 갱신) / GA4 인증 (2023) / TOEIC 920 (2022) / 컴퓨터활용능력 1급`}</Ex>
+      <Ex>{`전기기사 (2024 갱신) / 품질경영기사 (2023) / TOEIC 920 (2022) / 컴퓨터활용능력 1급`}</Ex>
       
       <Warn title="피해야 할 표현">{`X \"커뮤니케이션 능력 우수\" → 누구나 적는 표현, 변별력 없음
 X \"문제 해결 능력\" → 추상적, 무엇을 해결했는지 구체화 필요
