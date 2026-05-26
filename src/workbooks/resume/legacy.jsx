@@ -1061,7 +1061,7 @@ const ResumeWorkbook = () => {
             <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 24 }}>지원할 회사와 직무, 본인의 유형을 선택하세요</p>
 
             <QuestionBlock id="company" label="지원 회사명" placeholder="예: 삼성전자, 카카오, 현대자동차 등" answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
-            <QuestionBlock id="position" label="지원 직무" placeholder="예: 데이터 분석, 품질관리, 퍼포먼스 마케팅 등" answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
+            <QuestionBlock id="position" label="지원 직무" placeholder="예: 기구 설계, 품질관리, 하드웨어 회로설계 등" answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
 
             <div style={{ marginBottom: 24 }}>
               <label style={{ fontSize: 16, fontWeight: 700, color: '#0E2750', display: 'block', marginBottom: 12 }}>지원자 유형 (해당하는 것을 선택)</label>
@@ -1113,34 +1113,34 @@ const ResumeWorkbook = () => {
               id="jd_core"
               label="Q2-1. 직무상세내용에서 추출한 핵심 업무 키워드 (3~5개)"
               hint="직무상세내용의 '주요업무' 항목에서 반복되는 핵심 단어를 그대로 뽑으세요"
-              placeholder="예: 데이터 시각화, 고객 세그먼테이션, A/B 테스트, 전환 퍼널 분석"
+              placeholder="예: 기구 설계, 공차 분석, FEA 구조해석, 시작품 검증"
               rows={2}
               guide={{
-                description: '직무상세내용의 "주요업무"에 나온 동사+명사 조합을 뽑습니다. "데이터를 활용한 마케팅 성과 분석"이면 키워드는 "데이터 분석", "마케팅 성과 분석"입니다.',
+                description: '직무상세내용의 "주요업무"에 나온 동사+명사 조합을 뽑습니다. "CAD를 활용한 기구 설계 및 공차 검증"이면 키워드는 "기구 설계", "공차 검증"입니다.',
                 helpQuestions: [
                   '직무상세내용에서 가장 먼저 나오는 업무 3개는 무엇인가요?',
                   '여러 채용공고에서 반복되는 키워드는 무엇인가요?',
                   '이 직무가 매일 하는 일의 핵심 동사는 무엇인가요? (분석, 설계, 운영, 기획 등)'
                 ],
-                example: '[퍼포먼스 마케팅] 광고 캠페인 운영, A/B 테스트, 전환 퍼널 분석, 마케팅 성과 대시보드\n[품질관리] SPC, 불량 원인 분석, 파레토 분석, 협력사 품질감사\n[백엔드 개발] REST API, 데이터베이스 설계, 서버 배포, 코드 리뷰'
+                example: '[기구 설계] 3D 모델링, 공차 분석, 사출 금형 설계, 시작품 검증\n[품질관리] SPC, 불량 원인 분석, 파레토 분석, 협력사 품질감사\n[하드웨어 회로설계] 회로 설계, PCB 설계, 회로 시뮬레이션, 신뢰성 시험'
               }} answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
 
             <QuestionBlock
               id="jd_tools"
               label="Q2-2. 직무상세내용에서 요구하는 도구/기술/언어"
               hint="직무상세내용의 '자격요건' 또는 '필수역량'에 나온 도구명을 그대로 옮기세요"
-              placeholder="예: Python, SQL, GA4, Tableau, BigQuery"
+              placeholder="예: SolidWorks, CATIA, AutoCAD, ANSYS, GD&T"
               rows={2}
               guide={{
                 description: '도구명은 직무상세내용에 나온 그대로 적습니다. "Python"이라고 나왔으면 "파이썬"이 아니라 "Python"으로. ATS가 키워드를 스캔하기 때문입니다.',
-                example: '[마케팅] Google Ads, Meta Ads, GA4, SQL, Looker Studio\n[기계설계] CATIA V5, AutoCAD, SolidWorks, GD&T\n[개발] Java, Spring Boot, MySQL, AWS, Docker'
+                example: '[전자설계] Altium, OrCAD, LTspice, MATLAB, 오실로스코프\n[기계설계] CATIA V5, AutoCAD, SolidWorks, GD&T\n[생산기술] Minitab, CATIA, AutoCAD, PLM, SPC'
               }} answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
 
             <QuestionBlock
               id="jd_nice"
               label="Q2-3. 직무상세내용의 우대사항 키워드"
               hint="있으면 가산점이 되는 항목들. 내가 가진 것이 있다면 이력서에 반드시 넣어야 합니다"
-              placeholder="예: SQLD 자격증, 6시그마 벨트, AWS 자격증, 관련 인턴 경험"
+              placeholder="예: 전기기사 자격증, 6시그마 벨트, 품질경영기사, 관련 인턴 경험"
               rows={2} answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
           </div>
         );
@@ -1212,7 +1212,7 @@ const ResumeWorkbook = () => {
                     <label style={{ fontSize: 16, fontWeight: 700, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>활동/경험명</label>
                     <input type="text" value={answers[`exp${n}_name`] || ''} onChange={e => handleAnswer(`exp${n}_name`, e.target.value)}
                       style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: '1px solid #6E7A8F33', borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
-                      placeholder="예: OO기업 마케팅 인턴" />
+                      placeholder="예: OO기업 설계 인턴" />
                   </div>
                   <div>
                     <label style={{ fontSize: 16, fontWeight: 700, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>기간</label>
@@ -1225,7 +1225,7 @@ const ResumeWorkbook = () => {
                   <label style={{ fontSize: 16, fontWeight: 700, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>역할/직책</label>
                   <input type="text" value={answers[`exp${n}_role`] || ''} onChange={e => handleAnswer(`exp${n}_role`, e.target.value)}
                     style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: '1px solid #6E7A8F33', borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
-                    placeholder="예: 품질관리팀 인턴, 콘텐츠 팀장, 백엔드 개발" />
+                    placeholder="예: 품질관리팀 인턴, 설계팀 팀원, 하드웨어 회로설계" />
                 </div>
                 <QuestionBlock
                   id={`exp${n}_detail`}
@@ -1241,17 +1241,17 @@ const ResumeWorkbook = () => {
                       'PART 2에서 뽑은 직무상세내용 키워드 중 이 경험과 연결되는 것은?'
                     ],
                     warning: '"저는 팀 프로젝트에서 리더 역할을 맡아..." 같은 문장은 이력서가 아닙니다. 개조식이 아닌 서술형 문장이 들어가 있다면 반드시 수정하세요.',
-                    example: '서술형(X): 저는 Python과 SQL을 활용하여 데이터 분석 업무를 수행한 경험이 있습니다.\n개조식(O): Python, SQL 기반 데이터 분석 (고객 행동 데이터 50만 건)'
+                    example: '서술형(X): 저는 SolidWorks를 활용하여 기구 설계 업무를 수행한 경험이 있습니다.\n개조식(O): SolidWorks 기반 기구 설계 및 공차 분석 (부품 30종)'
                   }} answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
                 <QuestionBlock
                   id={`exp${n}_result`}
                   label="성과 (가능하면 수치로)"
                   hint="수치가 없다면: 피드백, 변화, 구체적 과정으로 대체"
-                  placeholder="예: 재방문율 12% 향상 / 교수님께 '분석이 체계적이다' 피드백 / 제가 만든 템플릿을 팀원들이 이후에도 사용"
+                  placeholder="예: 조립 불량률 12% 감소 / 교수님께 '설계가 체계적이다' 피드백 / 제가 만든 검증 템플릿을 팀원들이 이후에도 사용"
                   rows={2}
                   guide={{
                     description: '성과 정량화가 어려운 직무(법무, 총무, 인사 등)는 처리 건수, 기간 단축, 오류율 감소, 프로세스 개선 등 간접 지표를 활용하세요.',
-                    example: '정량화 가능: CPA 30% 절감, 재방문율 12% 향상, 불량률 0.5%→0.2%\n정량화 어려울 때: 계약서 검토 소요시간 3일→1일 단축 / 월 20건 보고서 작성, 차오율 0% / 신입 교육 매뉴얼 제작, 이후 5명 활용'
+                    example: '정량화 가능: 원가 12% 절감, 조립 공차 불량률 30% 감소, 불량률 0.5%→0.2%\n정량화 어려울 때: 설계 검토 소요시간 3일→1일 단축 / 월 20건 도면 작성, 오류율 0% / 신입 교육 매뉴얼 제작, 이후 5명 활용'
                   }} answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
               </div>
             ))}
@@ -1269,7 +1269,7 @@ const ResumeWorkbook = () => {
               id="priority_reason"
               label="경험 1을 최상단에 배치한 이유"
               hint="직무상세내용과 가장 매칭되는 이유를 간단히 적어주세요. 이 판단이 이력서 구조를 결정합니다."
-              placeholder="예: 직무상세내용에서 '데이터 분석'과 'Python'이 가장 먼저 나오고, 경험 1에서 Python 기반 분석을 직접 수행했으므로"
+              placeholder="예: 직무상세내용에서 '기구 설계'와 'SolidWorks'가 가장 먼저 나오고, 경험 1에서 SolidWorks 기반 설계를 직접 수행했으므로"
               rows={2} answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
 
             {/* 캡스톤/졸업프로젝트 작성 안내 */}
@@ -1339,22 +1339,22 @@ const ResumeWorkbook = () => {
               id="oneline_kw"
               label="2단계: 내 경험에서 뽑은 핵심 키워드 3개"
               hint="직무상세내용 키워드와 매칭되는 것만 뽑으세요. 직무상세내용에 없는 키워드는 의미가 없습니다."
-              placeholder="예: 퍼포먼스 캠페인 운영, GA4 전환 분석, A/B 테스트"
+              placeholder="예: 기구 설계, 공차 분석, FEA 구조해석"
               rows={2}
               guide={{
                 description: 'PART 2의 직무상세내용 핵심 키워드를 왼쪽에, 내 경험 키워드를 오른쪽에 놓고 겹치는 것을 찾으세요. 겹치는 것이 없다면 내 경험을 직무상세내용 용어로 "번역"해야 합니다.',
-                example: '직무상세내용: 데이터 시각화 / 내 경험: Tableau로 매출 대시보드 구축 → 매칭됨\n직무상세내용: 고객 분석 / 내 경험: 설문조사 결과 정리 → 부분 매칭 (약한 연결)\n직무상세내용: A/B 테스트 / 내 경험: 없음 → 매칭 안 됨 (한줄 소개에서 제외)'
+                example: '직무상세내용: 공차 분석 / 내 경험: SolidWorks로 조립 공차 검증 → 매칭됨\n직무상세내용: 구조 해석 / 내 경험: 재료역학 과제 수행 → 부분 매칭 (약한 연결)\n직무상세내용: FEA 해석 / 내 경험: 없음 → 매칭 안 됨 (한줄 소개에서 제외)'
               }} answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
 
             <QuestionBlock
               id="oneline_draft"
               label="3단계: 한줄 소개 초안"
               hint="[핵심역량/경험] + [도구/방법] + [대표 성과] 순서로 조합"
-              placeholder="예: Python/SQL 기반 데이터 분석 3건, 고객 세그먼테이션 및 이탈 예측 모델 개발 경험"
+              placeholder="예: SolidWorks 기반 기구 설계 3건, 공차 분석 및 방열 구조 개선 경험"
               rows={3}
               guide={{
                 description: '공식: [직무 관련 핵심 경험/역량] + [도구/기술] + [대표 성과 1~2개]',
-                example: '[신입 마케팅] 디지털 마케팅 인턴 경험, 데이터 기반 콘텐츠 전략 수립 및 SNS 참여율 3배 향상, GA4 활용 가능\n[신입 기계설계] CATIA V5 기반 자동차 부품 설계 경험(캡스톤), APQP 프로세스 이해, GD&T 공차 분석 가능\n[경력 3년] B2B SaaS 마케팅 3년, 퍼포먼스 캠페인 운영 및 CPA 30% 개선, GA4/SQL 활용 가능\n[비전공 개발] 부트캠프 수료, Java/Spring Boot 기반 REST API 개발, 팀 프로젝트 3건 (GitHub 공개)\n[직무전환] 대학병원 간호사 3년, 임상 데이터 수집/프로토콜 관리 경험 기반 CRA 직무 전환'
+                example: '[신입 전자설계] 전자회로 설계 인턴 경험, 회로 시뮬레이션 기반 전원 회로 설계 및 발열 10℃ 저감, LTspice 활용 가능\n[신입 기계설계] CATIA V5 기반 자동차 부품 설계 경험(캡스톤), APQP 프로세스 이해, GD&T 공차 분석 가능\n[경력 3년] 전력 회로 설계 3년, DC-DC 컨버터 재설계 및 변환 효율 5%p 향상, Altium/회로 시뮬레이션 활용 가능\n[비전공 개발] 부트캠프 수료, Java/Spring Boot 기반 REST API 개발, 팀 프로젝트 3건 (GitHub 공개)\n[직무전환] 대학병원 간호사 3년, 임상 데이터 수집/프로토콜 관리 경험 기반 CRA 직무 전환'
               }} answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
 
             <QuestionBlock
@@ -1396,7 +1396,7 @@ const ResumeWorkbook = () => {
                         rows={2}
                         className="resize-none"
                         style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 15, outline: 'none', background: '#FFFFFF' }}
-                        placeholder="예: 재방문율 12% 향상" />
+                        placeholder="예: 조립 불량률 12% 감소" />
                     </div>
                   </div>
                 )
@@ -1489,7 +1489,7 @@ const ResumeWorkbook = () => {
                     <label style={{ fontSize: 16, fontWeight: 700, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>프로젝트명</label>
                     <input type="text" value={answers[`proj${p}_name`] || ''} onChange={e => handleAnswer(`proj${p}_name`, e.target.value)}
                       style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: '1px solid #6E7A8F33', borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
-                      placeholder="예: 고객 이탈 예측 모델" />
+                      placeholder="예: 드론 프레임 경량화 설계" />
                   </div>
                   <div>
                     <label style={{ fontSize: 16, fontWeight: 700, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>기간</label>
@@ -1501,25 +1501,25 @@ const ResumeWorkbook = () => {
                     <label style={{ fontSize: 16, fontWeight: 700, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>소속/출처</label>
                     <input type="text" value={answers[`proj${p}_org`] || ''} onChange={e => handleAnswer(`proj${p}_org`, e.target.value)}
                       style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: '1px solid #6E7A8F33', borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
-                      placeholder="예: ABC마케팅 인턴 / 개인 프로젝트 / 캡스톤" />
+                      placeholder="예: ABC전자 인턴 / 개인 프로젝트 / 캡스톤" />
                   </div>
                 </div>
 
                 <QuestionBlock
                   id={`proj${p}_detail`}
                   label="수행 내용 (개조식)"
-                  placeholder={"예:\n- 고객 행동 데이터 50만 건 전처리 및 특성 엔지니어링 (Python, Pandas)\n- XGBoost 기반 이탈 예측 모델 설계 및 학습 (정확도 87%)\n- 본인 역할: 데이터 전처리, 모델 설계, 결과 보고서 작성"}
+                  placeholder={"예:\n- 드론 프레임 3D 모델링 및 FEA 구조해석 (SolidWorks, ANSYS)\n- 토폴로지 최적화 기반 경량화 설계 (무게 18% 절감, 강성 유지)\n- 본인 역할: 모델링, 구조해석, 결과 보고서 작성"}
                   rows={5}
                   guide={p === 1 ? {
                     description: '팀 프로젝트인 경우 반드시 "본인 역할"을 명시하세요. 면접에서 이 부분을 기반으로 질문이 나옵니다.',
-                    example: '[개인 프로젝트 예시]\n쇼핑몰 추천 시스템 개인 프로젝트 | 2024.06~2024.08 | 개인\n- Kaggle 데이터셋 기반 협업 필터링 추천 알고리즘 구현 (Python, Surprise)\n- 추천 정확도 RMSE 0.87 달성, GitHub 공개 (README 포함)\n\n[부트캠프 프로젝트 예시]\n팀 프로젝트: 중고거래 플랫폼 | 2024.09~2024.11 | OO 부트캠프\n- Java/Spring Boot 기반 REST API 설계 및 구현 (CRUD + 검색 기능)\n- MySQL 데이터베이스 설계, AWS EC2 배포\n- 본인 역할: 백엔드 API 전체, DB 설계'
+                    example: '[개인 프로젝트 예시]\n전동 킥보드 거치대 설계 개인 프로젝트 | 2024.06~2024.08 | 개인\n- SolidWorks 기반 3D 모델링 및 사출 성형성 검토\n- 공차 분석으로 조립 간섭 제거, 3D 프린팅 시작품 검증 완료\n\n[캡스톤 프로젝트 예시]\n팀 프로젝트: 소형 풍력 발전기 | 2024.09~2024.11 | OO대학교 캡스톤\n- 블레이드 형상 설계 및 FEA 구조해석 (CATIA, ANSYS)\n- 발전 효율 시험 및 진동 저감 구조 개선\n- 본인 역할: 블레이드 설계 전체, 구조해석'
                   } : null}
                   answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
 
                 <QuestionBlock
                   id={`proj${p}_role`}
                   label="본인 역할 (팀 프로젝트인 경우)"
-                  placeholder="예: 데이터 전처리 및 모델 설계 담당, 최종 보고서 작성"
+                  placeholder="예: 3D 모델링 및 구조해석 담당, 최종 보고서 작성"
                   rows={2} answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
               </div>
             ))}
@@ -1537,7 +1537,7 @@ const ResumeWorkbook = () => {
               id="skills"
               label="직무 관련 자격증 & 스킬"
               hint="직무상세내용에 나온 도구/자격증 중 내가 가진 것만. 직무 연관도 높은 순서로 배치."
-              placeholder={"예:\n자격증: 품질경영기사, SQLD, 6시그마 GB\n스킬: Python | SQL | Tableau | GA4 | CATIA V5\n\n(IT 직무) 기술 스택: Java | Spring Boot | MySQL | AWS EC2 | Docker | Git"}
+              placeholder={"예:\n자격증: 품질경영기사, 전기기사, 6시그마 GB\n스킬: SolidWorks | CATIA V5 | AutoCAD | ANSYS | GD&T\n\n(IT 직무) 기술 스택: Java | Spring Boot | MySQL | AWS EC2 | Docker | Git"}
               rows={4}
               guide={{
                 description: '직무와 무관한 자격증(운전면허, 한자능력검정 등)은 절대 넣지 마세요. 기초 수준의 범용 도구(한글, 파워포인트)도 넣지 마세요. 직무상세내용에 명시된 것만 넣으세요.',

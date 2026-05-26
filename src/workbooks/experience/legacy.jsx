@@ -1434,10 +1434,10 @@ const ExperienceWorkbook = () => {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md, marginTop: SPACING.lg, marginBottom: SPACING.xl }}>
         {[
-          { key: 'core', label: '핵심 직무 키워드', hint: '채용공고에서 가장 자주 등장하는 직무 관련 단어', placeholder: '예: 브랜드 마케팅, 퍼포먼스 마케팅, 콘텐츠 기획' },
-          { key: 'tools', label: '도구·기술 키워드', hint: '특정 툴, 프로그램, 기술 스택', placeholder: '예: GA4, Figma, Python, SQL, Google Ads' },
+          { key: 'core', label: '핵심 직무 키워드', hint: '채용공고에서 가장 자주 등장하는 직무 관련 단어', placeholder: '예: 기구 설계, 공차 분석, 구조해석(FEA)' },
+          { key: 'tools', label: '도구·기술 키워드', hint: '특정 툴, 프로그램, 기술 스택', placeholder: '예: SolidWorks, CATIA, ANSYS, 3D 프린팅' },
           { key: 'soft', label: '소프트스킬 키워드', hint: '협업·커뮤니케이션 관련 요구사항', placeholder: '예: 커뮤니케이션, 주도적 문제해결, 협업 역량' },
-          { key: 'memo', label: '기타 메모 (선택)', hint: '자격요건 중 특이사항, 우대사항 등', placeholder: '예: 우대사항 - 해외 마케팅 경험, B2B 경험' },
+          { key: 'memo', label: '기타 메모 (선택)', hint: '자격요건 중 특이사항, 우대사항 등', placeholder: '예: 우대사항 - 사출/금형 경험, 양산 대응 경험' },
         ].map(f => (
           <div key={f.key}>
             <label style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent, display: 'block', marginBottom: 4 }}>{f.label}</label>
@@ -1524,7 +1524,7 @@ const ExperienceWorkbook = () => {
                 <div>
                   <label style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color: COLORS.accent, display: 'block', marginBottom: 4 }}>{active} — 채용공고 핵심 키워드</label>
                   <textarea value={cur.keywords || ''} onChange={ev => setCompanyKeywords(active, ev.target.value)} rows={2}
-                    style={{ ...inStyle, marginBottom: SPACING.md, resize: 'vertical', lineHeight: 1.6 }} placeholder="예: SQL, 리텐션, A/B 테스트, 코호트 분석" />
+                    style={{ ...inStyle, marginBottom: SPACING.md, resize: 'vertical', lineHeight: 1.6 }} placeholder="예: SolidWorks, 공차 분석, FEA 구조해석, DOE 실험계획" />
                   <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: '0 0 6px' }}>↓ 위 키워드에 맞는 경험을 골라 연결을 적으세요 (모두 채울 필요 없음)</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.sm }}>
                     {experiences.map((e, idx) => (
@@ -1689,16 +1689,16 @@ const ExperienceWorkbook = () => {
                 <input className="ce-input" type="text" value={e.period} onChange={ev => upd('period', ev.target.value)} placeholder="YYYY.MM - YYYY.MM" style={inputStyle} />
               </ExpField>
               <ExpField label="활동 / 단체 / 기관명">
-                <input className="ce-input" type="text" value={e.org} onChange={ev => upd('org', ev.target.value)} placeholder="예: 대학 마케팅 동아리 'Brand Up'" style={inputStyle} />
+                <input className="ce-input" type="text" value={e.org} onChange={ev => upd('org', ev.target.value)} placeholder="예: 대학 자작자동차 동아리 'Racing Lab'" style={inputStyle} />
               </ExpField>
               <ExpField label="역할 / 직책" hint="리더 역할이 아니어도 괜찮습니다. '팀원', '자원봉사자' 등도 가능합니다.">
-                <input className="ce-input" type="text" value={e.role} onChange={ev => upd('role', ev.target.value)} placeholder="예: 콘텐츠 팀장 / 팀원 / 자원봉사자" style={inputStyle} />
+                <input className="ce-input" type="text" value={e.role} onChange={ev => upd('role', ev.target.value)} placeholder="예: 기구 설계 팀장 / 팀원 / 자원봉사자" style={inputStyle} />
               </ExpField>
               <ExpField label="주요 활동 / 업무 내용" hint="2~3줄로 간단히 요약. 상세는 STAR에서 풀어씁니다.">
-                <textarea className="ce-textarea" value={e.summary} onChange={ev => upd('summary', ev.target.value)} rows={3} placeholder="예: SNS 콘텐츠 기획 및 제작, 팀원 관리" style={textareaStyle} />
+                <textarea className="ce-textarea" value={e.summary} onChange={ev => upd('summary', ev.target.value)} rows={3} placeholder="예: 섀시 프레임 CAD 설계 및 시제품 제작, 팀원 관리" style={textareaStyle} />
               </ExpField>
               <ExpField label="하게 된 이유" hint="시작한 동기. 지원동기 자소서와 연결되는 중요한 부분입니다.">
-                <textarea className="ce-textarea" value={e.motivation} onChange={ev => upd('motivation', ev.target.value)} rows={3} placeholder="예: 디지털 마케팅에 관심이 있어 실무 경험을 쌓고 싶었고, 창의적인 콘텐츠 제작을 즐겨서 지원함" style={textareaStyle} />
+                <textarea className="ce-textarea" value={e.motivation} onChange={ev => upd('motivation', ev.target.value)} rows={3} placeholder="예: 기구 설계에 관심이 있어 실무 경험을 쌓고 싶었고, 직접 손으로 구조를 설계하고 만드는 과정을 즐겨서 지원함" style={textareaStyle} />
               </ExpField>
             </div>
           </div>
@@ -1713,16 +1713,16 @@ const ExperienceWorkbook = () => {
             </Hint>
             <div style={{ marginTop: SPACING.md }}>
               <ExpField label="S (Situation) — 상황" hint="언제, 어디서, 어떤 환경, 누구와 함께했는지. 구체적 배경.">
-                <textarea className="ce-textarea" value={e.star_s} onChange={ev => upd('star_s', ev.target.value)} rows={3} placeholder="예: 5명으로 구성된 팀에서 신제품 마케팅 전략 수립 프로젝트 진행" style={textareaStyle} />
+                <textarea className="ce-textarea" value={e.star_s} onChange={ev => upd('star_s', ev.target.value)} rows={3} placeholder="예: 5명으로 구성된 팀에서 소형 구동 모듈 기구 설계 캡스톤 프로젝트 진행" style={textareaStyle} />
               </ExpField>
               <ExpField label="T (Task) — 과제 / 목표" hint="그 상황에서 해결해야 했던 구체적 과제나 목표. 측정 가능한 형태가 이상적.">
-                <textarea className="ce-textarea" value={e.star_t} onChange={ev => upd('star_t', ev.target.value)} rows={3} placeholder="예: 경쟁사 분석, 시장 조사, 타겟 고객 설정, 마케팅 채널 선정 및 예산 배분" style={textareaStyle} />
+                <textarea className="ce-textarea" value={e.star_t} onChange={ev => upd('star_t', ev.target.value)} rows={3} placeholder="예: 요구사양 분석, 부품 레이아웃 설계, 조립 공차 설정, 시제품 제작 방식 선정 및 비용 배분" style={textareaStyle} />
               </ExpField>
               <ExpField label="A (Action) — 행동" hint="내가 구체적으로 무엇을 했는지. 팀 행동이 아닌 개인 행동을 명시.">
-                <textarea className="ce-textarea" value={e.star_a} onChange={ev => upd('star_a', ev.target.value)} rows={4} placeholder="예: 팀장으로서 업무 분담, 일정 관리, 최종 발표 자료 취합. 특히 경쟁사 분석과 디지털 마케팅 채널 선정 담당" style={textareaStyle} />
+                <textarea className="ce-textarea" value={e.star_a} onChange={ev => upd('star_a', ev.target.value)} rows={4} placeholder="예: 팀장으로서 업무 분담, 일정 관리, 최종 발표 자료 취합. 특히 조립 공차 분석과 시제품 제작 방식(3D 프린팅) 선정 담당" style={textareaStyle} />
               </ExpField>
               <ExpField label="R (Result) — 결과" hint="정량적(숫자) + 정성적(영향) 결과 모두 기록. 수치가 없어도 괜찮지만, 가능하면 Before/After 비교.">
-                <textarea className="ce-textarea" value={e.star_r} onChange={ev => upd('star_r', ev.target.value)} rows={3} placeholder="예: A+ 획득. 데이터 기반 의사결정 역량 향상. 팀원 만족도 90% 이상" style={textareaStyle} />
+                <textarea className="ce-textarea" value={e.star_r} onChange={ev => upd('star_r', ev.target.value)} rows={3} placeholder="예: 조립 공차 재설계로 시제품 불량률 30% 감소, A+ 획득. 공차 기반 설계 역량 향상. 팀원 만족도 90% 이상" style={textareaStyle} />
               </ExpField>
             </div>
             <div style={{ marginTop: SPACING.lg, paddingTop: SPACING.md, borderTop: `1px dashed ${COLORS.border}` }}>
@@ -1732,12 +1732,12 @@ const ExperienceWorkbook = () => {
                   ① 왜 힘들었나 ② 누가 들어도 "아 힘들었겠다" 공감하는가 ③ 그런데도 해냈는가. <strong>어려움이 약하면 결과도 약해 보입니다</strong> — 난이도가 명확해야 해결력이 부각됩니다.
                 </p>
                 <p style={{ fontSize: 11, color: COLORS.sub, margin: 0, fontStyle: 'italic' }}>
-                  예: "전공자가 아닌데 3주 만에 SQL을 익혀야 했음" · "팀원 3명이 빠져 혼자 진행" · "참고할 사내 사례가 없어 외부 자료를 직접 발굴"
+                  예: "수업에서 안 배운 FEA 해석을 3주 만에 익혀야 했음" · "팀원 3명이 빠져 혼자 진행" · "참고할 설계 선례가 없어 논문·기술자료를 직접 발굴"
                 </p>
               </div>
               <ExpField label="객관적 어려움 (선택)" hint="이 경험이 왜 어려웠는지 한두 줄. 자소서·면접에서 해결력을 부각하는 핵심 재료가 됩니다.">
                 <textarea className="ce-textarea" value={e.difficulty || ''} onChange={ev => upd('difficulty', ev.target.value)} rows={3}
-                  placeholder="예: 마케팅 전공이라 데이터 분석은 처음이었고, 참고할 선례도 없어 3주 만에 SQL과 GA를 독학하며 진행해야 했다."
+                  placeholder="예: 학부 수업에서 FEA 구조해석은 처음이었고, 참고할 선례도 없어 3주 만에 ANSYS와 공차 분석을 독학하며 진행해야 했다."
                   style={textareaStyle} />
               </ExpField>
             </div>
@@ -1748,7 +1748,7 @@ const ExperienceWorkbook = () => {
               <div style={{ marginTop: SPACING.md }}>
                 <ExpField label="배운 점 / 느낀 점 — 이 경험의 의미·가치" hint='이 경험이 "사소해 보여도" 무엇을 보여주는지 찾아보세요. ① 어떤 역량·태도가 드러났는가 ② 그래서 지원 직무에 어떤 가치로 연결되는가까지 한 줄씩 적으면, 작은 경험도 강력한 소재가 됩니다.'>
                   <textarea className="ce-textarea" value={e.learning} onChange={ev => upd('learning', ev.target.value)} rows={4}
-                    placeholder='예: 콘텐츠 양보다 "타겟을 명확히 하고 일관된 메시지를 전달하는 것"이 중요함을 깨달음(통찰). → 데이터로 타겟을 정의하는 분석력을 보여줌(역량). → 지원 직무의 "고객 세그먼트 기반 마케팅"과 직접 연결됨(직무 가치).'
+                    placeholder='예: 설계 완성도보다 "조립 공차를 정확히 정의하고 부품 간 간섭을 사전에 검증하는 것"이 중요함을 깨달음(통찰). → 공차를 정량적으로 분석하는 설계력을 보여줌(역량). → 지원 직무의 "공차 기반 기구 설계"와 직접 연결됨(직무 가치).'
                     style={textareaStyle} />
                 </ExpField>
                 <div style={{ ...BOX.tip, padding: SPACING.sm, borderRadius: RADIUS.base, marginTop: SPACING.sm }}>
@@ -1807,8 +1807,8 @@ const ExperienceWorkbook = () => {
                   <strong>다음 5가지 질문에 답하면서 역량을 떠올리세요.</strong> 정답은 위 STAR의 A(행동)·R(결과) 안에 이미 있습니다.
                 </p>
                 <ol style={{ margin: 0, paddingLeft: 20, fontSize: FONT.size.sm, color: COLORS.accent, lineHeight: FONT.lineHeight.relaxed, display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <li><strong>행동(A)에서 구체적으로 뭘 했나요?</strong> 그걸 잘하기 위해 필요했던 능력은? <span style={{ color: COLORS.sub }}>(예: "데이터 정리" → 엑셀/SQL, 데이터 분석)</span></li>
-                  <li><strong>결과(R)에 수치가 있다면, 어떤 분석·행동 덕분이었나요?</strong> <span style={{ color: COLORS.sub }}>(예: "참여율 30% 향상" → A/B 테스트 설계, 콘텐츠 기획)</span></li>
+                  <li><strong>행동(A)에서 구체적으로 뭘 했나요?</strong> 그걸 잘하기 위해 필요했던 능력은? <span style={{ color: COLORS.sub }}>(예: "도면 정리" → CAD 모델링, 공차 분석)</span></li>
+                  <li><strong>결과(R)에 수치가 있다면, 어떤 분석·행동 덕분이었나요?</strong> <span style={{ color: COLORS.sub }}>(예: "불량률 30% 감소" → 조립 공차 재설계, FEA 검증)</span></li>
                   <li><strong>이 경험에서 가장 어려웠던 순간은?</strong> 그걸 극복하면서 키워진 역량은? <span style={{ color: COLORS.sub }}>(예: 갈등 → 갈등 관리, 협상)</span></li>
                   <li><strong>팀 안에서 사람들이 나에게 자주 부탁한 일은?</strong> <span style={{ color: COLORS.sub }}>(예: "발표는 ○○이가 잘해" → 프레젠테이션, 설명 능력)</span></li>
                   <li><strong>이 경험을 처음부터 다시 한다면 어떤 능력을 더 키워야 할까요?</strong> <span style={{ color: COLORS.sub }}>(현재 보유 점수가 낮은 것 = 향후 성장 계획 소재)</span></li>
@@ -1826,7 +1826,7 @@ const ExperienceWorkbook = () => {
                 type="job_comps"
                 title="직무역량 (기술 · 분석 능력)"
                 hint="기술적·분석적 능력. 역량 사전에서 직무별 30개 참고 가능."
-                placeholder="예: SNS 마케팅, 콘텐츠 기획" 
+                placeholder="예: CAD 기구 설계, 공차 분석"
                 expId={e.id}
                 list={e.job_comps || []}
                 updateComp={updateComp}
@@ -1887,7 +1887,7 @@ const ExperienceWorkbook = () => {
             })()}
             {personaAnswers.status === 'transfer' && (
               <Hint type="warning">
-                <strong>직무 전환자는 직무상세내용 매칭이 설득력의 핵심입니다.</strong> 이전 직무 경험을 지원 직무의 언어로 번역해서 기록하세요. (예: "영업에서 고객 니즈 분석" → "마케팅의 고객 세그먼테이션 기초 역량")
+                <strong>직무 전환자는 직무상세내용 매칭이 설득력의 핵심입니다.</strong> 이전 직무 경험을 지원 직무의 언어로 번역해서 기록하세요. (예: "품질관리에서 불량 원인 분석" → "기구 설계의 공차 분석 기초 역량")
               </Hint>
             )}
             {(jdKeywords.core || jdKeywords.tools || jdKeywords.soft) ? (
@@ -1905,7 +1905,7 @@ const ExperienceWorkbook = () => {
             <div style={{ marginTop: SPACING.md }}>
               <ExpField label="이 경험이 커버하는 직무상세내용 키워드" hint="위 키워드 중 이 경험으로 뒷받침 가능한 것 + 구체적 연결 방식">
                 <textarea className="ce-textarea" value={e.jd_match} onChange={ev => upd('jd_match', ev.target.value)} rows={4}
-                  placeholder="예: 직무상세내용의 '데이터 기반 마케팅' → 본 경험의 'SNS 참여율 분석 후 콘텐츠 재설계'로 연결. 직무상세내용의 '팀 협업' → '콘텐츠 팀장으로 팀원 5명 관리' 경험과 매칭."
+                  placeholder="예: 직무상세내용의 '공차 분석' → 본 경험의 '조립 공차 재설계 후 시제품 불량률 30% 감소'로 연결. 직무상세내용의 '팀 협업' → '기구 설계 팀장으로 팀원 5명 관리' 경험과 매칭."
                   style={textareaStyle} />
               </ExpField>
             </div>
