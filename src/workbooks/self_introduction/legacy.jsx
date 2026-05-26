@@ -1069,7 +1069,7 @@ const SelfIntroWorkbook = () => {
               <div style={{ background: COLORS.cream, borderLeft: `4px solid ${COLORS.accent2}`, borderRadius: RADIUS.sm, padding: SPACING.md, marginTop: SPACING.md }}>
                 <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.goldDeep, margin: 0, marginBottom: SPACING.sm }}>1분 자기소개의 핵심</p>
                 <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.relaxed, marginBottom: SPACING.sm }}>
-                  면접관이 1분 30초 안에 확인하고 싶은 건 — <strong>"이 사람이 이 직무에 어떻게 기여할 사람인가"</strong>. 자랑·나열이 아니라 아래 3가지가 첫 문장 한 줄로 정리되어야 합니다.
+                  면접관이 1분 안에 확인하고 싶은 건 — <strong>"이 사람이 이 직무에 어떻게 기여할 사람인가"</strong>. 자랑·나열이 아니라 아래 3가지가 첫 문장 한 줄로 정리되어야 합니다.
                 </p>
                 <ol style={{ fontSize: FONT.size.sm, color: COLORS.accent, paddingLeft: 20, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>
                   <li><strong>직무 관련 경험으로 쌓은 핵심 역량 1개</strong> — 경험으로 증명되는 강점</li>
