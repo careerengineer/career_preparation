@@ -104,18 +104,18 @@ export const ALL_WORKBOOKS = [
 // 값이 없거나 모르는 값이면 전체(ALL_WORKBOOKS) 노출.
 export const VARIANTS = {
   new_grad: {
-    label: '신입 지원자 전용',
+    label: '신입 멘토링 전용',
     keys: ['career_roadmap', 'job_analysis', 'experience', 'resume',
       'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement',
       'self_introduction', 'interview_new'],
   },
   experienced: {
-    label: '경력 지원자 전용',
+    label: '경력 컨설팅 전용',
     keys: ['career_roadmap', 'job_analysis', 'experience', 'resume', 'career_description',
       'self_introduction', 'interview_career'],
   },
   documents_new_grad: {
-    label: '신입 서류 전용',
+    label: '신입 서류 멘토링 전용',
     keys: ['career_roadmap', 'job_analysis', 'experience', 'resume',
       'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement'],
     notice: {
@@ -129,7 +129,7 @@ export const VARIANTS = {
     },
   },
   documents_experienced: {
-    label: '경력 서류 전용',
+    label: '경력 서류 컨설팅 전용',
     keys: ['career_roadmap', 'job_analysis', 'experience', 'resume', 'career_description'],
     notice: {
       title: '서류를 마쳤다면, 다음은 경력 면접입니다',
@@ -142,11 +142,11 @@ export const VARIANTS = {
     },
   },
   interview_new_grad: {
-    label: '신입 면접 전용',
+    label: '신입 면접 멘토링 전용',
     keys: ['experience', 'self_introduction', 'interview_new'],
   },
   interview_experienced: {
-    label: '경력 면접 전용',
+    label: '경력 면접 컨설팅 전용',
     keys: ['experience', 'career_description', 'self_introduction', 'interview_career'],
   },
 };
