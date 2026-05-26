@@ -170,30 +170,8 @@ export function DataProvider({ children }) {
     })).sort((a, b) => (b.savedAt || '').localeCompare(a.savedAt || ''));
   }, [readSlots]);
 
-  // 모든 슬롯을 한 .json 파일로 export
-  const exportAllSlotsFile = useCallback(() => {
-    const slots = readSlots();
-    const payload = {
-      format: 'careerengineer-all-slots',
-      version: 1,
-      exportedAt: new Date().toISOString(),
-      slotCount: Object.keys(slots).length,
-      slots,
-    };
-    const json = JSON.stringify(payload, null, 2);
-    const blob = new Blob([json], { type: 'application/json' });
-    const ts = (() => {
-      const d = new Date(); const pad = (n) => String(n).padStart(2, '0');
-      return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}`;
-    })();
-    const filename = `careerengineer_전체슬롯_${ts}.json`;
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    return filename;
-  }, [readSlots]);
+  // 모든 슬롯 객체 반환 (전체 저장본 .zip 백업 빌더에 전달)
+  const getAllSlots = useCallback(() => readSlots(), [readSlots]);
 
   // 단일 슬롯의 master 스냅샷 반환 (docx+xlsx 내보내기에 사용)
   const getCompanySlotMaster = useCallback((slotName) => {
@@ -203,25 +181,13 @@ export function DataProvider({ children }) {
     return slot.master;
   }, [readSlots]);
 
-  // 전체 슬롯 import (병합/덮어쓰기)
-  const importAllSlotsFile = useCallback((file, mode = 'merge') => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const parsed = JSON.parse(reader.result);
-          if (parsed.format !== 'careerengineer-all-slots') {
-            return reject(new Error('전체 슬롯 백업 파일이 아닙니다.'));
-          }
-          const current = mode === 'replace' ? {} : readSlots();
-          const merged = { ...current, ...parsed.slots };
-          writeSlots(merged);
-          resolve({ count: Object.keys(parsed.slots).length, total: Object.keys(merged).length });
-        } catch (e) { reject(new Error('파일 파싱 실패: ' + e.message)); }
-      };
-      reader.onerror = () => reject(new Error('파일을 읽을 수 없습니다.'));
-      reader.readAsText(file);
-    });
+  // 전체 슬롯 import (병합/덮어쓰기) — 파싱된 slots 객체를 받는다
+  const importAllSlots = useCallback((slotsObj, mode = 'merge') => {
+    if (!slotsObj || typeof slotsObj !== 'object') throw new Error('복원할 저장본 데이터가 없습니다.');
+    const current = mode === 'replace' ? {} : readSlots();
+    const merged = { ...current, ...slotsObj };
+    writeSlots(merged);
+    return { count: Object.keys(slotsObj).length, total: Object.keys(merged).length };
   }, [readSlots, writeSlots]);
 
   return (
@@ -238,8 +204,8 @@ export function DataProvider({ children }) {
         deleteCompanySlot,
         listCompanySlots,
         getCompanySlotMaster,
-        exportAllSlotsFile,
-        importAllSlotsFile,
+        getAllSlots,
+        importAllSlots,
       }}
     >
       {children}

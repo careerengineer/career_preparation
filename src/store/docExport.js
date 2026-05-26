@@ -345,6 +345,21 @@ export async function exportWorkbookDocx(master, workbookKey, workbookTitle) {
 }
 
 // ─── 전체 .docx ──────────────────────────────────────────
+// 단일 master의 docx 본문(프로필 + 워크북 섹션) — 전체 백업/전체 슬롯 백업 공용
+function masterDocxSections(master, excludeExperiences) {
+  const children = [...profileBlock(master)];
+  for (const w of WORKBOOKS) {
+    if (excludeExperiences && w.key === 'experience') continue;
+    const dedicated = WORKBOOK_DOCX_BUILDERS[w.key];
+    const blocks = dedicated
+      ? [H1(`${w.stepLabel} · ${w.title}`), ...dedicated(master, DX, { includeMentoring: false })]
+      : workbookBlocks(master, w.key, true);
+    children.push(new Paragraph({ children: [new PageBreak()] }));
+    children.push(...blocks);
+  }
+  return children;
+}
+
 // options.excludeExperiences = true 이면 경험 정리는 본문/임베드 JSON 모두 제외
 //   → 별도 .xlsx와 짝으로 다운로드 후 두 파일로 import 가능
 export async function buildFullDocxBlob(master, options = {}) {
@@ -400,20 +415,9 @@ export async function buildFullDocxBlob(master, options = {}) {
       }),
     ] : []),
     ...(excludeExperiences ? [Sub('경험 정리(STAR 카드)는 별도 .xlsx 파일에 포함됩니다.')] : []),
-    ...profileBlock(master),
   ];
 
-  for (const w of WORKBOOKS) {
-    if (excludeExperiences && w.key === 'experience') continue;
-    // 워크북 전용 docx 디자인이 있으면 그대로 사용(워크북 자체 저장과 동일), 없으면 일반 레이아웃
-    const dedicated = WORKBOOK_DOCX_BUILDERS[w.key];
-    const blocks = dedicated
-      ? [H1(`${w.stepLabel} · ${w.title}`), ...dedicated(master, DX, { includeMentoring: false })]
-      : workbookBlocks(master, w.key, true);
-    // 각 워크북 섹션을 새 페이지에서 시작 (가독성)
-    children.push(new Paragraph({ children: [new PageBreak()] }));
-    children.push(...blocks);
-  }
+  children.push(...masterDocxSections(master, excludeExperiences));
   children.push(...backupBlocks(payload));
 
   const doc = new Document({
@@ -473,6 +477,147 @@ export async function extractBackupFromZip(file) {
     }
   }
   return { docxPayload, experiences };
+}
+
+// ─── 전체 저장본(모든 회사 슬롯) 백업: 워드 1개 + 엑셀 1개를 .zip 한 파일로 ───
+// 워드: 회사별 섹션으로 전부 정리 + 복원용 데이터 내장 / 엑셀: 전 회사 경험정리 표 + 복원용 시트
+// 셋 중 무엇(.zip/.docx/.xlsx)을 올려도 모든 회사 저장본이 복원된다.
+const ALLSLOTS_MARK = 'CE_ALLSLOTS_BACKUP';
+const ALLSLOTS_FORMAT = 'careerengineer-all-slots';
+
+function allSlotsPayload(slots) {
+  return {
+    format: ALLSLOTS_FORMAT,
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    slotCount: Object.keys(slots || {}).length,
+    slots: slots || {},
+  };
+}
+
+export async function buildAllSlotsDocxBlob(slots) {
+  const entries = Object.entries(slots || {});
+  const children = [
+    ...buildCopyrightParagraphs({ Paragraph, TextRun }),
+    new Paragraph({ children: [new TextRun({ text: 'CAREER ENGINEER', size: 22, color: GOLD, bold: true })], alignment: AlignmentType.CENTER }),
+    new Paragraph({ children: [new TextRun({ text: '전체 저장본 백업 (모든 회사)', size: 56, bold: true, color: NAVY })], alignment: AlignmentType.CENTER, spacing: { after: 300 } }),
+    Sub(`회사(저장본) ${entries.length}개 · 내보낸 시각: ${new Date().toLocaleString('ko-KR')}`),
+    Sub('경험 정리(STAR 카드)는 함께 저장된 .xlsx 파일에 모든 회사가 정리돼 있습니다.'),
+    Sub('이 파일(또는 함께 묶인 .zip)을 [저장본 백업 불러오기]에 올리면 모든 회사 저장본이 복원됩니다.'),
+  ];
+  for (const [name, v] of entries) {
+    const m = (v && v.master) || {};
+    children.push(new Paragraph({ children: [new PageBreak()] }));
+    children.push(H1(`■ 저장본: ${name}`));
+    children.push(...masterDocxSections(m, true));
+  }
+  children.push(...backupBlocks(allSlotsPayload(slots)));
+  const doc = new Document({
+    creator: 'CareerEngineer',
+    title: 'CareerEngineer - 전체 저장본 백업',
+    sections: [{ properties: {}, children }],
+  });
+  const blob = await Packer.toBlob(doc);
+  return { blob, name: `careerengineer_전체저장본_${timestampPart()}.docx` };
+}
+
+function buildAllSlotsWb(slots) {
+  const wb = XLSX.utils.book_new();
+  const header = ['회사(저장본)', ...EXP_HEADER.map((k) => EXP_LABEL[k] || k)];
+  const rows = [header];
+  for (const [name, v] of Object.entries(slots || {})) {
+    const exps = Array.isArray(v?.master?.experiences) ? v.master.experiences : [];
+    for (const e of exps) {
+      rows.push([name, ...EXP_HEADER.map((k) => {
+        const val = e[k];
+        return Array.isArray(val) ? val.join(', ') : (val ?? '');
+      })]);
+    }
+  }
+  if (rows.length === 1) rows.push(['(저장된 경험이 없습니다)']);
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  XLSX.utils.book_append_sheet(wb, ws, '경험정리(전회사)');
+  // 복원용 숨은 시트
+  const b64 = utf8ToBase64(JSON.stringify(allSlotsPayload(slots)));
+  const chunks = chunkString(b64, 32000).map((c) => [c]);
+  const bws = XLSX.utils.aoa_to_sheet([[ALLSLOTS_MARK], ...chunks]);
+  XLSX.utils.book_append_sheet(wb, bws, '_CE_BACKUP');
+  const idx = wb.SheetNames.indexOf('_CE_BACKUP');
+  wb.Workbook = { Sheets: wb.SheetNames.map((_, i) => ({ Hidden: i === idx ? 1 : 0 })) };
+  return wb;
+}
+
+export function buildAllSlotsXlsxBlob(slots) {
+  const wb = buildAllSlotsWb(slots);
+  const arr = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([arr], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  return { blob, name: `careerengineer_전체경험정리_${timestampPart()}.xlsx` };
+}
+
+export async function exportAllSlotsZip(slots) {
+  if (!slots || Object.keys(slots).length === 0) throw new Error('백업할 저장본이 없습니다.');
+  const { blob: docxBlob, name: docxName } = await buildAllSlotsDocxBlob(slots);
+  const { blob: xlsxBlob, name: xlsxName } = buildAllSlotsXlsxBlob(slots);
+  const zip = new JSZip();
+  zip.file(docxName, docxBlob);
+  zip.file(xlsxName, xlsxBlob);
+  const zipName = `careerengineer_전체저장본_${timestampPart()}.zip`;
+  const zipBlob = await zip.generateAsync({ type: 'blob' });
+  saveAs(zipBlob, zipName);
+  return { zipName, docxName, xlsxName, count: Object.keys(slots).length };
+}
+
+function slotsFromXlsxWb(wb) {
+  if (!wb.SheetNames.includes('_CE_BACKUP')) return null;
+  try {
+    const aoa = XLSX.utils.sheet_to_json(wb.Sheets['_CE_BACKUP'], { header: 1 });
+    if (!(aoa[0] && String(aoa[0][0]).includes(ALLSLOTS_MARK))) return null;
+    const b64 = aoa.slice(1).map((r) => (r && r[0]) || '').join('');
+    const parsed = JSON.parse(base64ToUtf8(b64));
+    return parsed.format === ALLSLOTS_FORMAT ? parsed.slots : null;
+  } catch { return null; }
+}
+
+// .zip/.docx/.xlsx/.json 중 무엇이든 전체 슬롯 백업이면 slots 객체를, 아니면 null 반환
+export async function extractAllSlots(file) {
+  const lower = file.name.toLowerCase();
+  if (lower.endsWith('.json')) {
+    try {
+      const parsed = JSON.parse(await file.text());
+      return parsed.format === ALLSLOTS_FORMAT ? parsed.slots : null;
+    } catch { return null; }
+  }
+  if (lower.endsWith('.docx')) {
+    try {
+      const payload = await extractBackupFromDocx(file);
+      return payload.format === ALLSLOTS_FORMAT ? payload.slots : null;
+    } catch { return null; }
+  }
+  if (lower.endsWith('.xlsx')) {
+    try {
+      const wb = XLSX.read(new Uint8Array(await file.arrayBuffer()), { type: 'array' });
+      return slotsFromXlsxWb(wb);
+    } catch { return null; }
+  }
+  if (lower.endsWith('.zip')) {
+    const zip = await JSZip.loadAsync(await file.arrayBuffer());
+    for (const entry of Object.values(zip.files)) {
+      if (entry.dir || !entry.name.toLowerCase().endsWith('.docx')) continue;
+      try {
+        const p = await extractBackupFromDocx(new File([await entry.async('blob')], entry.name));
+        if (p.format === ALLSLOTS_FORMAT) return p.slots;
+      } catch { /* 계속 */ }
+    }
+    for (const entry of Object.values(zip.files)) {
+      if (entry.dir || !entry.name.toLowerCase().endsWith('.xlsx')) continue;
+      try {
+        const wb = XLSX.read(await entry.async('uint8array'), { type: 'array' });
+        const s = slotsFromXlsxWb(wb);
+        if (s) return s;
+      } catch { /* 계속 */ }
+    }
+  }
+  return null;
 }
 
 // ─── experience 전용 .xlsx export ─────────────────────────

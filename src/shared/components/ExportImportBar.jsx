@@ -1,14 +1,14 @@
 import { useRef, useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
 import { parseImportFile, detectConflicts } from '../../store/exportImport.js';
-import { exportExperiencesXlsx, exportFullBackupZip, importExperiencesXlsx, extractBackupFromDocx, extractTextFromDocx, extractBackupFromZip } from '../../store/docExport.js';
+import { exportExperiencesXlsx, exportFullBackupZip, importExperiencesXlsx, extractBackupFromDocx, extractTextFromDocx, extractBackupFromZip, extractAllSlots } from '../../store/docExport.js';
 import { syncLegacyFromMaster } from '../../store/legacySync.js';
 import { DEFAULT_MASTER } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { OverwriteModal } from './OverwriteModal.jsx';
 
 export function ExportImportBar() {
-  const { master, replaceMaster, resetAllData } = useDataStore();
+  const { master, replaceMaster, resetAllData, importAllSlots } = useDataStore();
   const fileRef = useRef(null);
   const [toast, setToast] = useState(null);
   const [conflictState, setConflictState] = useState(null);
@@ -53,6 +53,20 @@ export function ExportImportBar() {
     e.target.value = '';
     if (!file) return;
     const lower = file.name.toLowerCase();
+
+    // 전체 저장본 백업(모든 회사)인지 먼저 확인 → 회사별 저장본 복원으로 라우팅
+    let allSlots = null;
+    try { allSlots = await extractAllSlots(file); } catch { allSlots = null; }
+    if (allSlots && Object.keys(allSlots).length) {
+      const mode = window.confirm(`전체 저장본 백업입니다. 저장된 ${Object.keys(allSlots).length}개 회사 저장본을 복원합니다.\n[확인]: 기존 저장본과 병합\n[취소]: 기존 저장본 완전 교체`) ? 'merge' : 'replace';
+      if (mode === 'replace' && !window.confirm('기존 회사별 저장본이 모두 삭제됩니다. 계속할까요?')) return;
+      try {
+        const { count, total } = importAllSlots(allSlots, mode);
+        showToast(`전체 저장본 ${count}개를 복원했습니다 (총 ${total}개). 페이지를 새로고침합니다…`);
+        setTimeout(() => window.location.reload(), 1300);
+      } catch (err) { showToast('오류: ' + err.message); }
+      return;
+    }
 
     // zip → 저장본 백업(.docx 전체 + .xlsx 경험)을 함께 복원
     if (lower.endsWith('.zip')) {
