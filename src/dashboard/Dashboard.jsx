@@ -144,7 +144,15 @@ export default function Dashboard() {
           </h2>
           {VARIANT && (
             <p style={{ margin: `0 0 ${SPACING.md}px`, fontSize: 18, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
-              <strong style={{ color: COLORS.accent }}>{VARIANT_LABEL}</strong>이 다루는 영역만 진도율을 집계합니다. 나머지 단계는 이 과정의 범위가 아닙니다.
+              {COVERAGE[VARIANT] ? (
+                <>
+                  <strong style={{ color: COLORS.accent }}>{VARIANT_LABEL}</strong>이 다루는 영역만 진도율을 집계합니다. 나머지 단계는 이 과정의 범위가 아닙니다.
+                </>
+              ) : (
+                <>
+                  <strong style={{ color: COLORS.accent }}>{VARIANT_LABEL}</strong>은 취업 준비 전 과정을 함께 진행하는 종합 과정입니다. 단계별 진도율을 한눈에 확인하세요.
+                </>
+              )}
             </p>
           )}
           <div style={{
