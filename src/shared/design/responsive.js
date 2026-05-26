@@ -6,6 +6,9 @@ export const RESPONSIVE_CSS = `
   -webkit-text-size-adjust: 100%;
 }
 
+/* 한글이 글자 단위로 어색하게 끊기지 않도록 어절 단위 줄바꿈(긴 토큰은 break-word로 처리) */
+body { word-break: keep-all; overflow-wrap: break-word; }
+
 /* 태블릿 이하 */
 @media (max-width: 768px) {
   /* 대시보드 헤더 액션 줄바꿈 */
