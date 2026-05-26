@@ -1,6 +1,6 @@
 // [BUILD v56 20260520] R&D 관련 메시지 용어 통일 — '연구직(R&D) 트랙' '연구직(R&D)' 'R&D 트랙' '박사·R&D 직무 포함'을 모두 '연구개발 직무(R&D)'로 통일(10곳). 그리고 '논문 수가 핵심'은 부정확한 표현이므로 '연구 역량(방법론·문제 해결 경험)과 직무 적합도가 핵심'으로 교체. 'R&D 우대'는 채용공고의 실제 문구이므로 '연구개발 직무(R&D) 우대'로 다듬어 통일
 import React, { useState, useEffect } from "react";
-import { isWorkbookInVariant } from '../../store/schema.js';
+import { isWorkbookInVariant, VARIANT } from '../../store/schema.js';
 import { VARIANT_NOTICE } from '../../store/schema.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
 import { analyze } from './analyze.js';
@@ -48,10 +48,10 @@ const StickyFooter = () => (
 
 const QS = [
   { id:"who", q:"당신은 어떤 상황인가요?", opts:[
-    {v:"new",l:"첫 취업 준비 중 (학부)",d:"대학생 또는 학부 졸업생"},
-    {v:"grad",l:"첫 취업 준비 중 (대학원)",d:"석사/박사 졸업 또는 졸업예정"},
-    {v:"career",l:"이직 준비 중 (같은 직무)",d:"경력직, 회사만 옮기려는"},
-    {v:"switch",l:"직무를 바꾸려고 해요 (경력직)",d:"재직 중인 회사의 직무를 그만두고 다른 직무로 전환"},
+    {v:"new",l:"첫 취업 준비 중 (학부)",d:"대학생 또는 학부 졸업생",track:"new"},
+    {v:"grad",l:"첫 취업 준비 중 (대학원)",d:"석사/박사 졸업 또는 졸업예정",track:"new"},
+    {v:"career",l:"이직 준비 중 (같은 직무)",d:"경력직, 회사만 옮기려는",track:"career"},
+    {v:"switch",l:"직무를 바꾸려고 해요 (경력직)",d:"재직 중인 회사의 직무를 그만두고 다른 직무로 전환",track:"career"},
   ]},
   { id:"job", q:"지원할 직무가 정해졌나요?", opts:[
     {v:0,l:"아직 안 정함",d:"뭘 해야 할지 모르겠어요"},
@@ -121,7 +121,11 @@ function getVisibleQS(who, ansSnapshot) {
 
 // who에 따라 특정 질문의 옵션 필터링 (whoOnly가 있는 옵션은 해당 페르소나일 때만 포함)
 function getVisibleOpts(q, who) {
+  // 변형(신입/경력)에 맞지 않는 상황(who) 옵션은 숨김 — 표시 전용, 선택은 그대로 사용자 몫
+  const vTrack = (VARIANT && VARIANT.includes('experienced')) ? 'career'
+    : ((VARIANT && VARIANT.includes('new_grad')) ? 'new' : null);
   return q.opts.filter(opt => {
+    if (vTrack && opt.track && opt.track !== vTrack) return false;
     if (!opt.whoOnly) return true;
     if (!who) return false;  // who 미선택이면 조건부 옵션은 숨김
     return opt.whoOnly.includes(who);
