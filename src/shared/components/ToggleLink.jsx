@@ -9,7 +9,7 @@ export function ToggleLink({ open, onToggle, label = '작성 예시', style }) {
       onClick={onToggle}
       style={{
         background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-        color: COLORS.accent2, fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold,
+        color: COLORS.goldText, fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold,
         fontFamily: 'inherit', whiteSpace: 'nowrap',
         ...style,
       }}

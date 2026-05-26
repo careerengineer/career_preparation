@@ -7,7 +7,21 @@ export function DataProvider({ children }) {
   const [master, setMaster] = useState(() => {
     try {
       const saved = localStorage.getItem(MASTER_KEY);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const p = JSON.parse(saved) || {};
+        // 구버전/부분 저장본에 슬라이스가 없어도 selectors가 크래시하지 않도록 DEFAULT_MASTER와 슬라이스별 머지
+        return {
+          ...DEFAULT_MASTER,
+          ...p,
+          profile: { ...DEFAULT_MASTER.profile, ...(p.profile || {}) },
+          roadmap: { ...DEFAULT_MASTER.roadmap, ...(p.roadmap || {}) },
+          careergoal: { ...DEFAULT_MASTER.careergoal, ...(p.careergoal || {}) },
+          jobAnalysis: { ...DEFAULT_MASTER.jobAnalysis, ...(p.jobAnalysis || {}) },
+          workbookRaw: { ...DEFAULT_MASTER.workbookRaw, ...(p.workbookRaw || {}) },
+          outputs: { ...DEFAULT_MASTER.outputs, ...(p.outputs || {}) },
+          experiences: Array.isArray(p.experiences) ? p.experiences : DEFAULT_MASTER.experiences,
+        };
+      }
     } catch (e) {
       console.warn('load failed:', e);
     }

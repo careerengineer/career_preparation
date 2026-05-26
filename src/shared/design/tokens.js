@@ -19,6 +19,7 @@ export const COLORS = {
   navyDeep: '#061328',   // Deep Ink (다크 배경)
   navyMid: '#1B3A6B',    // Mid Navy (서포트)
   goldDeep: '#A8853F',   // Gold Deep (강조 진행)
+  goldText: '#7E5F14',   // 금색 텍스트/링크용 (흰 배경 대비 WCAG AA ~5.9:1)
   // ── 워크북 호환 (legacy.jsx에서 사용) ─────────────
   border: '#6E7A8F33',   // Steel 20% (라인)
   line: '#E5E1D6',       // 옅은 라인
