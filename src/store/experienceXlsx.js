@@ -369,7 +369,7 @@ export async function buildExperienceXlsx({ experiences = [], companyLinks = {},
   } catch (e) { console.warn('[experienceXlsx] company link sheets skipped:', e); }
   // 복원용 백업 (숨김 시트)
   try {
-    const b64 = utf8ToBase64(JSON.stringify({ format: 'careerengineer-experience-xlsx', version: 1, experiences, companyLinks }));
+    const b64 = utf8ToBase64(JSON.stringify({ format: 'careerengineer-experience-xlsx', version: 1, experiences, companyLinks, jdKeywords, personaAnswers }));
     const CH = 30000;
     const rows = [['CE_EXPERIENCE_BACKUP']];
     for (let i = 0; i < b64.length; i += CH) rows.push([b64.slice(i, i + CH)]);

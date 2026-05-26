@@ -465,6 +465,7 @@ export async function extractBackupFromZip(file) {
   const zip = await JSZip.loadAsync(await file.arrayBuffer());
   let docxPayload = null;
   let experiences = null;
+  let experienceMeta = null;
   for (const entry of Object.values(zip.files)) {
     if (entry.dir) continue;
     const n = entry.name.toLowerCase();
@@ -473,10 +474,10 @@ export async function extractBackupFromZip(file) {
       try { docxPayload = await extractBackupFromDocx(new File([b], entry.name)); } catch { /* 백업 없는 docx 무시 */ }
     } else if (n.endsWith('.xlsx')) {
       const b = await entry.async('blob');
-      try { experiences = (await importExperiencesXlsx(new File([b], entry.name))).experiences; } catch { /* 무시 */ }
+      try { const _r = await importExperiencesXlsx(new File([b], entry.name)); experiences = _r.experiences; experienceMeta = _r.experienceMeta || null; } catch { /* 무시 */ }
     }
   }
-  return { docxPayload, experiences };
+  return { docxPayload, experiences, experienceMeta };
 }
 
 // ─── 전체 저장본(모든 회사 슬롯) 백업: 워드 1개 + 엑셀 1개를 .zip 한 파일로 ───
@@ -750,7 +751,7 @@ export function importExperiencesXlsx(file) {
             if (aoa[0] && String(aoa[0][0]).includes('CE_EXPERIENCE_BACKUP')) {
               const b64 = aoa.slice(1).map((r) => (r && r[0]) || '').join('');
               const parsed = JSON.parse(base64ToUtf8(b64));
-              if (Array.isArray(parsed.experiences)) { resolve({ experiences: parsed.experiences }); return; }
+              if (Array.isArray(parsed.experiences)) { resolve({ experiences: parsed.experiences, experienceMeta: { companyLinks: parsed.companyLinks, jdKeywords: parsed.jdKeywords, personaAnswers: parsed.personaAnswers } }); return; }
             }
           } catch (be) { console.warn('백업 시트 복원 실패, 표 파싱으로 폴백:', be); }
         }

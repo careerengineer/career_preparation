@@ -35,8 +35,8 @@ const STEPS = ALL_STEPS.filter((s) => WORKBOOKS.some((w) => w.step === s.n));
 const COVERAGE = {
   documents_new_grad: [0, 1, 2, 3, 4],   // 신입 서류: 방향설정·채용공고분석·경험소재발굴·서류작성·자소서작성
   documents_experienced: [0, 1, 2, 3],   // 경력 서류: 방향설정·채용공고분석·경험소재발굴·서류작성(경력기술서)
-  interview_new_grad: [0, 2, 5],         // 신입 면접: 방향설정·경험소재발굴·면접준비
-  interview_experienced: [0, 2, 5],      // 경력 면접: 방향설정·경험소재발굴·면접준비
+  interview_new_grad: [2, 5],            // 신입 면접: 경험소재발굴·면접준비 (로드맵 워크북 없음)
+  interview_experienced: [2, 3, 5],      // 경력 면접: 경험·경력기술서·면접준비
 };
 const COVERED_STEPS = COVERAGE[VARIANT] || ALL_STEPS.filter((s) => WORKBOOKS.some((w) => w.step === s.n)).map((s) => s.n);
 // 과정에서 제외된 STEP이 하나라도 있으면 "다루는 영역만 집계" 안내를 띄운다(전 단계 커버 시엔 종합 안내).
