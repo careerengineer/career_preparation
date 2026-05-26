@@ -758,13 +758,13 @@ const SelfIntroWorkbook = () => {
       title='1분 자기소개'
       subtitle='면접 첫인상을 결정하는 1분 자기소개를 만듭니다'
       flow={[
-          { label: '1단계', desc: '직무 분석 — 직무 이해도를 보여준다' },
-          { label: '2단계', desc: '경험 연결 — 즉시 전력화 가능성을 보여준다' },
-          { label: '3단계', desc: '강점 도출 — 함께 일하고 싶은 동료인가를 보여준다' },
-          { label: '4단계', desc: '마무리 — 오래 함께할 사람인가를 보여준다' },
-          { label: '5단계', desc: '자기소개 조립 — 키워드 카드 만들기' },
-          { label: '6단계', desc: '연결 — 키워드 사이를 자연스럽게 잇기' },
-          { label: '7단계', desc: '초안 작성 — 키워드를 보고 말한 후, 그대로 적기' },
+          { label: 'PART 1', desc: '직무 분석 — 직무 이해도를 보여준다' },
+          { label: 'PART 2', desc: '경험 연결 — 즉시 전력화 가능성을 보여준다' },
+          { label: 'PART 3', desc: '강점 도출 — 함께 일하고 싶은 동료인가를 보여준다' },
+          { label: 'PART 4', desc: '마무리 — 오래 함께할 사람인가를 보여준다' },
+          { label: 'PART 5', desc: '자기소개 조립 — 키워드 카드 만들기' },
+          { label: 'PART 6', desc: '연결 — 키워드 사이를 자연스럽게 잇기' },
+          { label: 'PART 7', desc: '초안 작성 — 키워드를 보고 말한 후, 그대로 적기' },
         ]}
       flowTitle={'이 워크북의 작성 순서'}
       prerequisites={[
@@ -786,7 +786,7 @@ const SelfIntroWorkbook = () => {
           },
         ]}
       helpModal={<FirstVisitModal open={showHelp} onClose={() => setShowHelp(false)} title='1분 자기소개 워크북 사용 안내' steps={[
-          '<strong>1단계부터 7단계까지</strong> 순서대로 진행하세요. 4단계까지는 답변 재료, 5~7단계는 조립·연결·작성입니다.',
+          '<strong>PART 1부터 PART 7까지</strong> 순서대로 진행하세요. PART 1~4는 답변 재료, PART 5~7은 조립·연결·작성입니다.',
           '1분 분량은 약 <strong>300~350자</strong>(30초는 약 150자)입니다. 너무 길지 않게 다듬으세요.',
           '<strong>키워드 카드 → 연결 → 초안</strong> 순서로 자연스러운 흐름을 만드세요.',
           '마지막에 <strong>녹음하여 직접 들어보고</strong> 다듬으세요.',
