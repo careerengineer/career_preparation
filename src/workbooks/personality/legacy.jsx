@@ -1658,7 +1658,7 @@ const IntroPage = ({
           {downloadSuccess && <p style={{ fontSize: FONT.size.sm, color: COLORS.green, textAlign: 'center', marginTop: SPACING.md, fontWeight: FONT.weight.semibold }}>✓ 다운로드 완료</p>}
 
           <div style={{ ...S.boxInfo, marginTop: SPACING.base, marginBottom: 0, textAlign: 'center' }}>
-            <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0 }}><strong>워드에서 편집 가능:</strong> .doc 파일을 Word에서 열어 자유롭게 편집하세요.</p>
+            <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0 }}><strong>워드에서 편집 가능:</strong> .docx 파일을 Word에서 열어 자유롭게 편집하세요.</p>
           </div>
 
           <div style={{ marginTop: SPACING.md }}>
@@ -1709,7 +1709,7 @@ const IntroPage = ({
         {/* 저장 완료 토스트 (임시저장용) */}
         {downloadSuccess && currentPhase !== 'completed' && (
           <div style={{ ...S.boxSuccess, marginBottom: SPACING.md, textAlign: 'center' }}>
-            <p style={{ fontSize: FONT.size.sm, color: COLORS.green, fontWeight: FONT.weight.semibold, margin: 0 }}>✓ 임시저장 완료 — 다운로드된 .doc 파일을 확인하세요</p>
+            <p style={{ fontSize: FONT.size.sm, color: COLORS.green, fontWeight: FONT.weight.semibold, margin: 0 }}>✓ 백업 .docx 파일을 내려받았습니다</p>
           </div>
         )}
 

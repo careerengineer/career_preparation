@@ -1049,7 +1049,7 @@ const ExperienceWorkbook = () => {
   );
   // ── 경험 CRUD ──────────────────────────────────────────
   const emptyExperience = (category) => ({
-    id: `exp_${Date.now()}`,
+    id: `exp_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
     category: category || '', period: '', org: '', role: '', summary: '', motivation: '',
     star_s: '', star_t: '', star_a: '', star_r: '', difficulty: '', learning: '',
     job_comps: [{ name: '', score: '' }],

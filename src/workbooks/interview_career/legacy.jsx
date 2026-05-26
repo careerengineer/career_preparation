@@ -1202,7 +1202,7 @@ const CareerInterviewWorkbook = () => {
           </div>
         </div>
 
-        {downloadSuccess && <div style={{ ...S.boxSuccess, marginBottom: SPACING.md, textAlign: 'center' }}><p style={{ fontSize: FONT.size.sm, color: COLORS.green, fontWeight: FONT.weight.semibold, margin: 0 }}>✓ 임시저장 완료</p></div>}
+        {downloadSuccess && <div style={{ ...S.boxSuccess, marginBottom: SPACING.md, textAlign: 'center' }}><p style={{ fontSize: FONT.size.sm, color: COLORS.green, fontWeight: FONT.weight.semibold, margin: 0 }}>✓ 백업 .docx 파일을 내려받았습니다</p></div>}
 
         {/* ═══ PART 탭 인디케이터 (가이드 PART 7-6) ═══ */}
         <div style={{ marginBottom: SPACING.md }}>

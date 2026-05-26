@@ -481,7 +481,7 @@ const JobAnalysisWorkbook = () => {
   }, []);
   
   useEffect(() => {
-    if (Object.keys(formAnswers).length === 0 && !persona && !(basicInfo?.industry || basicInfo?.position || basicInfo?.company)) return;
+    if (Object.keys(formAnswers).length === 0 && !persona && !(basicInfo?.industry || basicInfo?.position || basicInfo?.target)) return;
     const timer = setTimeout(() => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
@@ -1321,7 +1321,7 @@ const JobAnalysisWorkbook = () => {
             </div>
           </div>
 
-          {downloadSuccess && <div style={{ ...S.boxSuccess, marginBottom: SPACING.md, textAlign: 'center' }}><p style={{ fontSize: FONT.size.sm, color: COLORS.green, fontWeight: FONT.weight.semibold, margin: 0 }}>✓ 임시저장 완료</p></div>}
+          {downloadSuccess && <div style={{ ...S.boxSuccess, marginBottom: SPACING.md, textAlign: 'center' }}><p style={{ fontSize: FONT.size.sm, color: COLORS.green, fontWeight: FONT.weight.semibold, margin: 0 }}>✓ 백업 .docx 파일을 내려받았습니다</p></div>}
 
           <div style={S.cardLarge}>
             <div style={{ ...S.boxInfo, marginBottom: SPACING.lg }}>
@@ -1418,7 +1418,7 @@ const JobAnalysisWorkbook = () => {
             </div>
           </div>
 
-          {downloadSuccess && <div style={{ ...S.boxSuccess, marginBottom: SPACING.md, textAlign: 'center' }}><p style={{ fontSize: FONT.size.sm, color: COLORS.green, fontWeight: FONT.weight.semibold, margin: 0 }}>✓ 임시저장 완료</p></div>}
+          {downloadSuccess && <div style={{ ...S.boxSuccess, marginBottom: SPACING.md, textAlign: 'center' }}><p style={{ fontSize: FONT.size.sm, color: COLORS.green, fontWeight: FONT.weight.semibold, margin: 0 }}>✓ 백업 .docx 파일을 내려받았습니다</p></div>}
           {copyMsg && <div style={{ ...S.boxSuccess, marginBottom: SPACING.md, textAlign: 'center' }}><p style={{ fontSize: FONT.size.sm, color: COLORS.green, fontWeight: FONT.weight.semibold, margin: 0 }}>{copyMsg}</p></div>}
 
           <div style={S.cardLarge}>

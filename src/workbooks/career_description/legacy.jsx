@@ -1972,7 +1972,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
         {/* 임시저장 토스트 */}
         {downloaded && (
           <div style={{ background: '#FBFAF6', border: '1px solid rgba(201, 168, 106, 0.2)', borderRadius: 10, padding: 12, marginBottom: 16, textAlign: 'center' }}>
-            <p style={{ fontSize: 16, color: '#C9A86A', fontWeight: 600, margin: 0 }}>✓ 임시저장 완료 — 다운로드된 .doc 파일을 확인하세요</p>
+            <p style={{ fontSize: 16, color: '#C9A86A', fontWeight: 600, margin: 0 }}>✓ 백업 .docx 파일을 내려받았습니다</p>
           </div>
         )}
 
