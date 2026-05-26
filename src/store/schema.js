@@ -157,6 +157,11 @@ export const VARIANT = (RAW_VARIANT && VARIANTS[RAW_VARIANT]) ? RAW_VARIANT : nu
 export const VARIANT_LABEL = VARIANT ? VARIANTS[VARIANT].label : null;
 export const VARIANT_NOTICE = (VARIANT && VARIANTS[VARIANT].notice) ? VARIANTS[VARIANT].notice : null;
 
+// 표시(네비게이터·참고 자료)를 변형 범위로 거를 때 쓰는 순수 헬퍼.
+// VARIANT가 없으면(전체 빌드) 항상 true → 기존 동작 그대로. 저장/복원 데이터 경로와는 무관.
+export const VARIANT_KEYS = VARIANT ? VARIANTS[VARIANT].keys : null;
+export function isWorkbookInVariant(key) { return !VARIANT_KEYS || VARIANT_KEYS.includes(key); }
+
 export const WORKBOOKS = VARIANT
   ? ALL_WORKBOOKS.filter((w) => VARIANTS[VARIANT].keys.includes(w.key))
   : ALL_WORKBOOKS;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDataStore } from '../../store/DataContext.jsx';
-import { ALL_WORKBOOKS as WORKBOOKS } from '../../store/schema.js';
+import { ALL_WORKBOOKS as WORKBOOKS, isWorkbookInVariant } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { ImportPreviewModal } from './ImportPreviewModal.jsx';
 import { QUESTION_MAPPING, resolveMappedData } from '../../store/questionMapping.js';
@@ -48,6 +48,7 @@ export function ReferenceInline({ ids = [], questionId, workbookKey }) {
   const items = [];
 
   for (const id of ids) {
+    if (!isWorkbookInVariant(id)) continue;  // 변형에 없는 워크북 참고는 숨김(표시 전용)
     const meta = WORKBOOKS.find((w) => w.key === id);
     const wbTitle = meta?.title || id;
 
