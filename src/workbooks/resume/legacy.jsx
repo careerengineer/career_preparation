@@ -506,6 +506,8 @@ const ResumeWorkbook = () => {
   __ceHomeRef.current = goHome; // [CE-HOME] ref 갱신
   const [expCount, setExpCount] = useState(3);  // PART 3: 경험 개수 (기본 3, 최대 8)
   const [projCount, setProjCount] = useState(1);  // PART 6: 프로젝트 개수 (기본 1, 최대 5)
+  // 입력칸 예시(placeholder)를 사용자가 고른 유형(expType)에 맞춰 신입/경력으로 분기
+  const isCareer = ['경력_3년이하', '경력_3_7년', '경력_7년이상', '직무전환'].includes(answers.expType);
   const [autoSaveStatus, setAutoSaveStatus] = useState('');
   const [confirmingClear, setConfirmingClear] = useState(false);
   const [clearedFlash, setClearedFlash] = useState(false);
@@ -1213,20 +1215,20 @@ const ResumeWorkbook = () => {
                     <label style={{ fontSize: 16, fontWeight: 700, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>활동/경험명</label>
                     <input type="text" value={answers[`exp${n}_name`] || ''} onChange={e => handleAnswer(`exp${n}_name`, e.target.value)}
                       style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: '1px solid #6E7A8F33', borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
-                      placeholder="예: OO기업 설계 인턴" />
+                      placeholder={isCareer ? "예: OO전자 하드웨어 회로설계" : "예: OO기업 설계 인턴"} />
                   </div>
                   <div>
                     <label style={{ fontSize: 16, fontWeight: 700, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>기간</label>
                     <input type="text" value={answers[`exp${n}_period`] || ''} onChange={e => handleAnswer(`exp${n}_period`, e.target.value)}
                       style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: '1px solid #6E7A8F33', borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
-                      placeholder="예: 2025.01~2025.02" />
+                      placeholder={isCareer ? "예: 2020.03~2024.12" : "예: 2025.01~2025.02"} />
                   </div>
                 </div>
                 <div style={{ marginBottom: 12 }}>
                   <label style={{ fontSize: 16, fontWeight: 700, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>역할/직책</label>
                   <input type="text" value={answers[`exp${n}_role`] || ''} onChange={e => handleAnswer(`exp${n}_role`, e.target.value)}
                     style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: '1px solid #6E7A8F33', borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
-                    placeholder="예: 품질관리팀 인턴, 설계팀 팀원, 하드웨어 회로설계" />
+                    placeholder={isCareer ? "예: 회로설계팀 선임, 양산기술팀 파트장" : "예: 품질관리팀 인턴, 설계팀 팀원, 하드웨어 회로설계"} />
                 </div>
                 <QuestionBlock
                   id={`exp${n}_detail`}
@@ -1248,7 +1250,7 @@ const ResumeWorkbook = () => {
                   id={`exp${n}_result`}
                   label="성과 (가능하면 수치로)"
                   hint="수치가 없다면: 피드백, 변화, 구체적 과정으로 대체"
-                  placeholder="예: 조립 불량률 12% 감소 / 교수님께 '설계가 체계적이다' 피드백 / 제가 만든 검증 템플릿을 팀원들이 이후에도 사용"
+                  placeholder={isCareer ? "예: 변환 효율 5%p 향상 / 불량률 0.5%→0.2% / 내가 만든 검증 프로세스를 팀 표준으로 채택" : "예: 조립 불량률 12% 감소 / 교수님께 '설계가 체계적이다' 피드백 / 제가 만든 검증 템플릿을 팀원들이 이후에도 사용"}
                   rows={2}
                   guide={{
                     description: '성과 정량화가 어려운 직무(법무, 총무, 인사 등)는 처리 건수, 기간 단축, 오류율 감소, 프로세스 개선 등 간접 지표를 활용하세요.',
@@ -1502,7 +1504,7 @@ const ResumeWorkbook = () => {
                     <label style={{ fontSize: 16, fontWeight: 700, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>소속/출처</label>
                     <input type="text" value={answers[`proj${p}_org`] || ''} onChange={e => handleAnswer(`proj${p}_org`, e.target.value)}
                       style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: '1px solid #6E7A8F33', borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
-                      placeholder="예: ABC전자 인턴 / 개인 프로젝트 / 캡스톤" />
+                      placeholder={isCareer ? "예: 사내 양산 프로젝트 / 신규 모델 개발 / 개인 사이드 프로젝트" : "예: ABC전자 인턴 / 개인 프로젝트 / 캡스톤"} />
                   </div>
                 </div>
 
