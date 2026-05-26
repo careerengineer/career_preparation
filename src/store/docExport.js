@@ -409,7 +409,7 @@ export async function buildFullDocxBlob(master, options = {}) {
         spacing: { before: 200, after: 100 },
       }),
       new Paragraph({
-        children: [new TextRun({ text: '이 문서를 위 URL에서 [가져오기]하면 작성 내용이 그대로 복원됩니다.', size: 18, color: GOLD, italics: true })],
+        children: [new TextRun({ text: '이 문서를 위 URL에서 [기존 내용 불러오기]하면 작성 내용이 그대로 복원됩니다.', size: 18, color: GOLD, italics: true })],
         alignment: AlignmentType.CENTER,
         spacing: { after: 200 },
       }),

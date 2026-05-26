@@ -96,7 +96,7 @@ export const ALL_WORKBOOKS = [
   { key: 'goalachievement',    step: 4, title: '목표수립·달성',   stepLabel: 'STEP 4 · 자소서: 목표수립·달성' },
   { key: 'self_introduction',  step: 5, title: '1분 자기소개',    stepLabel: 'STEP 5 · 면접: 자기소개' },
   { key: 'interview_new',      step: 5, title: '신입 면접',       stepLabel: 'STEP 5 · 면접: 신입' },
-  { key: 'interview_career',   step: 5, title: '경력직 면접',     stepLabel: 'STEP 5 · 면접: 경력직' },
+  { key: 'interview_career',   step: 5, title: '경력 면접',       stepLabel: 'STEP 5 · 면접: 경력' },
 ];
 
 // 변형(variant)별 노출 워크북 키 + 라벨.
@@ -130,7 +130,7 @@ export const VARIANTS = {
   },
   documents_experienced: {
     label: '경력 서류 컨설팅 전용',
-    keys: ['career_roadmap', 'job_analysis', 'resume', 'career_description'],
+    keys: ['career_roadmap', 'job_analysis', 'experience', 'resume', 'career_description'],
     notice: {
       title: '서류를 마쳤다면, 다음은 경력 면접입니다',
       body: '서류 통과 후에는 면접이 기다립니다. 경력 면접 멘토링과 1:1 컨설팅, 가이드 워크북으로 실전까지 대비하세요.',
@@ -147,7 +147,7 @@ export const VARIANTS = {
   },
   interview_experienced: {
     label: '경력 면접 컨설팅 전용',
-    keys: ['career_description', 'self_introduction', 'interview_career'],
+    keys: ['experience', 'career_description', 'self_introduction', 'interview_career'],
   },
 };
 
