@@ -302,7 +302,7 @@ const CareerAspirationWorkbook = () => {
             ifDifficult: '작은 것이라도 괜찮습니다. 유튜브 강의 1개를 봤어도 "시청 중"이라고 쓰세요.',
             ifStillDifficult: '아무것도 없다면 솔직하게 인정하고, 그 에너지를 Q3 준비 계획을 세우는 데 쓰세요.'
           },
-          placeholder: '예: ① FMEA — 관련 교재 구매 후 1~3장 학습 완료 (현재 진행 중) ② SPC — 코세라 "통계적 공정 관리" 강의 수강 중 (40% 완료) ③ 현장 감각 — 학교 실습실에서 CNC 기초 조작 경험 (올해 3월 완료)',
+          placeholder: '예: ① FMEA — 관련 교재 구매 후 1~3장 학습 완료 (현재 진행 중) ② SPC — 코세라 "통계적 공정 관리" 강의 수강 중 (40% 완료) ③ 현장 감각 — 학교 실습실 CNC 기초 조작 실습 진행 중 (주 1회 참여 중)',
           rows: 3, relatedWorkbooks: ['experience', 'motivation', 'jobcompetency', 'personality', 'goalachievement']
         }
       ]
@@ -621,7 +621,7 @@ const CareerAspirationWorkbook = () => {
       },
       {
         id: 'q2_4_2',
-        label: 'Q4 심화-2. Q1~Q3에서 나온 역량 준비와 성장 경로가 어떻게 하나의 흐름으로 연결되는지 써보세요.',
+        label: 'Q4 심화-2. Q1~Q4에서 나온 역량 준비와 성장 경로가 어떻게 하나의 흐름으로 연결되는지 써보세요.',
         hint: '"직무 이해 → 역량 갭 → 확보 계획 → 범위 확장 → 다음 단계 → 큰 그림"이 하나의 인과 흐름인지 점검',
         guide: {
           description: 'Q1~Q3이 따로 놀면 입사후포부가 아닌 목표 나열이 됩니다. 이 흐름이 자연스럽게 연결될 때, 면접관이 "이 사람은 정말 이 직무를 깊이 이해하고 있구나"라고 느낍니다.',
