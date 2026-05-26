@@ -1575,7 +1575,7 @@ window.addEventListener('afterprint', function() {
             )}
           </div>
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
             <In id={`c${c}_company`} label="회사명" placeholder={c === 1 ? "예: ABC테크" : "이전 회사명"} ans={ans} set={set} />
             <In id={`c${c}_period`} label="재직 기간" placeholder={c === 1 ? "예: 2021.03~현재" : "예: 2018.01~2021.02"} ans={ans} set={set} />
           </div>

@@ -1345,7 +1345,7 @@ const CareerInterviewWorkbook = () => {
               </div>
             )}
             {(q.goodExample || q.badExample) && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: SPACING.sm, marginBottom: SPACING.sm }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: SPACING.sm, marginBottom: SPACING.sm }}>
                 {q.goodExample && (
                   <div style={{ background: COLORS.greenBg, padding: SPACING.sm, borderRadius: RADIUS.sm, borderLeft: `3px solid ${COLORS.green}` }}>
                     <p style={{ ...labelStyle(COLORS.green), fontSize: 16, marginBottom: 4 }}>좋은 예시 ✓</p>

@@ -116,7 +116,7 @@ export default function ResetCompanyButton() {
             </p>
 
             <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: SPACING.md,
+              display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: SPACING.md,
               marginBottom: SPACING.lg,
             }}>
               <div style={{ background: COLORS.bgAlt, padding: SPACING.md, borderLeft: `3px solid ${COLORS.red}` }}>

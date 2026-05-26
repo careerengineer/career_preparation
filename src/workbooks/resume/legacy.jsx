@@ -1212,7 +1212,7 @@ const ResumeWorkbook = () => {
                     </button>
                   )}
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12, marginBottom: 12 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 12 }}>
                   <div>
                     <label style={{ fontSize: 16, fontWeight: 700, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>활동/경험명</label>
                     <input type="text" value={answers[`exp${n}_name`] || ''} onChange={e => handleAnswer(`exp${n}_name`, e.target.value)}
@@ -1489,7 +1489,7 @@ const ResumeWorkbook = () => {
                   )}
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 12 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12, marginBottom: 12 }}>
                   <div>
                     <label style={{ fontSize: 16, fontWeight: 700, color: '#1B3A6B', display: 'block', marginBottom: 4 }}>프로젝트명</label>
                     <input type="text" value={answers[`proj${p}_name`] || ''} onChange={e => handleAnswer(`proj${p}_name`, e.target.value)}
