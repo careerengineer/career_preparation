@@ -859,7 +859,7 @@ const CareerDescWorkbook = () => {
     
     const companyName = v('company');
     const positionName = v('position');
-    const typeName = v('type');
+    const typeName = ({ junior: '경력 3년 이하', mid: '경력 3~7년', senior: '경력 7~12년', exec: '경력 12년 이상', change: '직무 전환' })[v('type')] || v('type');
     
     const hasLead = has('lead_team') || has('decision') || has('cross');
     const hasTrans = has('trans_why') || has('bridge');

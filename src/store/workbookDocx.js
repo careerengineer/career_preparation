@@ -168,7 +168,7 @@ export function buildResumeDocxChildren({ answers = {}, expCount = 3, projCount 
     const sub = (a('company') || '') + (a('company') && a('position') ? ' · ' : '') + (a('position') ? a('position') + ' 지원' : '');
     children.push(h.subtitleP(sub));
   }
-  const oneline = a('oneline_final') || a('oneline_draft');
+  const oneline = (a('oneline_final') || a('oneline_draft')).trim();
   if (oneline) {
     children.push(h.sectionH('한 줄 소개'));
     children.push(highlightP(oneline));
@@ -243,7 +243,7 @@ export function buildCareerDescDocxChildren({ ans = {}, companyCount = 2, perfCo
   if (has('company') || has('position') || has('type')) {
     if (has('company')) children.push(metaP('지원 회사', v('company')));
     if (has('position')) children.push(metaP('지원 직무', v('position')));
-    if (has('type')) children.push(metaP('지원 유형', v('type')));
+    if (has('type')) children.push(metaP('지원 유형', ({ junior: '경력 3년 이하', mid: '경력 3~7년', senior: '경력 7~12년', exec: '경력 12년 이상', change: '직무 전환' })[v('type')] || v('type')));
     children.push(metaP('작성일', today));
   }
   if (has('story_one')) { children.push(sectionH('경력 한 문장')); children.push(highlightP(v('story_one'))); }
