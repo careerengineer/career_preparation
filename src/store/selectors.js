@@ -70,10 +70,13 @@ export function getWorkbookProgress(master, workbookKey) {
   }
 
   if (workbookKey === 'career_roadmap') {
-    const quizN = Object.keys(master.roadmap.quizAnswers || {}).length;
-    const done = master.roadmap.completedAt || completedFlag;
-    const hasContent = quizN > 0 || rawHasContent(raw);
-    if (done && hasContent) return 100;                     // 완료 + 내용 있음
+    // 로드맵은 결과를 workbookRaw.career_roadmap(ans/result/page)에 저장한다.
+    // master.roadmap이 비어 있어도 raw 기준으로 완료/진행을 인식해야 진행률이 잡힌다.
+    const rawAns = (raw && raw.ans && typeof raw.ans === 'object') ? raw.ans : {};
+    const quizN = Object.keys(master.roadmap.quizAnswers || {}).length || Object.keys(rawAns).length;
+    const finished = !!(master.roadmap.completedAt || completedFlag || (raw && (raw.result || raw.page === 'result')));
+    const hasContent = quizN > 0 || rawHasContent(raw) || !!(raw && raw.result);
+    if (finished && hasContent) return 100;                 // 진단 완료
     if (quizN > 0) {
       if (quizN <= 2) return 25;
       if (quizN <= 5) return 55;

@@ -58,6 +58,15 @@ function Bridge() {
 
         // 2) 워크북 raw 전체 sync → master.workbookRaw[key]
         updateSlice('workbookRaw', { [WORKBOOK_KEY]: { ...data, savedAt: new Date().toISOString() } });
+
+        // 3) 진단 결과를 master.roadmap에 반영 (진행률·참고자료 게이트가 master.roadmap을 참조)
+        if (data.result || (data.ans && Object.keys(data.ans).length)) {
+          const rmPatch = {};
+          if (data.ans) rmPatch.quizAnswers = data.ans;
+          if (data.result?.weakest?.step != null) rmPatch.weakestStep = data.result.weakest.step;
+          if (data.result && !master.roadmap?.completedAt) rmPatch.completedAt = new Date().toISOString();
+          if (Object.keys(rmPatch).length) updateSlice('roadmap', rmPatch);
+        }
       } catch (e) {
         console.warn('[' + WORKBOOK_KEY + '] sync back failed:', e);
       }
