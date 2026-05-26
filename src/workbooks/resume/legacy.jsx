@@ -805,7 +805,7 @@ const ResumeWorkbook = () => {
           borderRadius: RADIUS.base,
           border: `1px solid ${COLORS.border}`,
           boxShadow: '0 12px 32px rgba(14, 39, 80, 0.18)',
-          minWidth: 1100, maxWidth: 1330,
+          minWidth: "min(1100px, calc(100vw - 32px))", maxWidth: "min(1330px, calc(100vw - 32px))",
           maxHeight: '70vh', overflowY: 'auto',
           padding: SPACING.sm,
         }}>
