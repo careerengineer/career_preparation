@@ -1008,7 +1008,8 @@ const ResumeWorkbook = () => {
               placeholder="예: 직무상세내용에서 '기구 설계'와 'SolidWorks'가 가장 먼저 나오고, 경험 1에서 SolidWorks 기반 설계를 직접 수행했으므로"
               rows={2} answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
 
-            {/* 캡스톤/졸업프로젝트 작성 안내 */}
+            {/* 캡스톤/졸업프로젝트 작성 안내 (신입 전용) */}
+            {!isCareer && (
             <div style={{ background: COLORS.cream, borderRadius: 12, padding: 20, marginTop: 16 }}>
               <p style={{ fontSize: 16, fontWeight: 900, color: COLORS.ink, marginBottom: 8 }}>캡스톤/졸업 프로젝트는 어떻게 넣나요?</p>
               <div style={{ fontSize: 16, color: COLORS.navyMid, gap: 8 }}>
@@ -1017,6 +1018,23 @@ const ResumeWorkbook = () => {
                 <p><span style={{ fontWeight: 700, color: COLORS.navyMid }}>수업 과제 수준:</span> 기간이 짧고 가상 시나리오 기반이라면 경험 블록에 올리기보다 학력 하위에 한 줄로 언급하는 편이 깔끔합니다.</p>
               </div>
             </div>
+            )}
+            {/* 경력자 경험 선별 안내 (경력·직무전환 전용) */}
+            {isCareer && (
+            <div style={{ background: COLORS.cream, borderRadius: 12, padding: 20, marginTop: 16 }}>
+              <p style={{ fontSize: 16, fontWeight: 900, color: COLORS.ink, marginBottom: 8 }}>경력자는 어떤 경험을 어떻게 선별하나요?</p>
+              <div style={{ fontSize: 16, color: COLORS.navyMid, lineHeight: 1.7 }}>
+                <p style={{ marginBottom: 10 }}>학교 경험이 아니라 <span style={{ fontWeight: 700, color: COLORS.ink }}>회사 프로젝트·업무 단위</span>로 선별하세요. 핵심은 <span style={{ fontWeight: 700, color: COLORS.ink }}>팀 성과가 아닌 "본인 기여"를 숫자로</span> 보여주는 것입니다. 지원 직무 키워드와 가장 가까운 것부터 상단에 배치하고, 직무와 먼 경험은 과감히 줄이세요.</p>
+                <div style={{ background: COLORS.paper, border: `1px solid ${COLORS.accent2}33`, borderRadius: 8, padding: 14 }}>
+                  <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 6 }}>이직 지원자 작성 예시 — 7년차 기구설계 → 전동화 부품 이직</p>
+                  <p style={{ margin: 0 }}><span style={{ fontWeight: 700, color: COLORS.navyMid }}>(1순위)</span> 전동화 부품 신규 모델 기구 설계 — 사출 공차 재설계로 <span style={{ fontWeight: 700 }}>양산 불량률 3.1%→0.8% (개발 6개월)</span> · 지원 직무 키워드 직결</p>
+                  <p style={{ margin: '4px 0 0' }}><span style={{ fontWeight: 700, color: COLORS.navyMid }}>(2순위)</span> 원가절감 TF 리드 — 부품 통합 설계로 <span style={{ fontWeight: 700 }}>모델당 재료비 12% 절감</span></p>
+                  <p style={{ margin: '4px 0 0' }}><span style={{ fontWeight: 700, color: COLORS.navyMid }}>(3순위)</span> 후배 2명 설계검증 코칭 — <span style={{ fontWeight: 700 }}>도면 오류 반려율 절반으로 감소</span></p>
+                  <p style={{ margin: '8px 0 0', color: '#6E7A8F' }}>→ 각 항목에 숫자 1개 이상, "팀이" 대신 "내가 ~해서 ~결과"로.</p>
+                </div>
+              </div>
+            </div>
+            )}
           </div>
         );
 
@@ -1295,7 +1313,7 @@ const ResumeWorkbook = () => {
 
       // ========== PART 6: 최종 점검 ==========
       case 6:
-        const checkItems = [
+        const baseCheckItems = [
           { id: 'c1', text: '회사 지정 양식/파일형식/파일명 규칙을 확인했는가?', action: '채용 공고 재확인' },
           { id: 'c2', text: '이력서에 서술형(문장) 표현이 남아있지 않은가?', action: '개조식으로 전환' },
           { id: 'c3', text: '지원 회사명/직무명이 정확한가? (다른 회사 이름 복붙 실수)', action: '전체 검색으로 확인' },
@@ -1309,6 +1327,20 @@ const ResumeWorkbook = () => {
           { id: 'c11', text: '파일명이 적절한가? (이름_직무_이력서.pdf)', action: '파일명 변경' },
           { id: 'c12', text: '기밀 사항(고객사명, 계약 금액 등)이 포함되지 않았는가?', action: '"A사 대상" 등으로 대체' },
         ];
+        // 경력/직무전환 전용 점검 항목
+        const careerCheckItems = [
+          { id: 'cc1', text: '각 성과가 "팀 성과"가 아니라 "본인 기여"로 분리돼 있는가?', action: '"우리 팀이" → "내가 ~해서 ~결과"로 수정' },
+          { id: 'cc2', text: '핵심 경력마다 정량 지표(%·원·개월·건)가 1개 이상 있는가?', action: 'Before→After 수치 보강' },
+          { id: 'cc3', text: '경력 공백이 있다면 한 줄로 설명할 준비가 됐는가?', action: '공백 기간·사유 정리 (경력기술서와 일치)' },
+          { id: 'cc4', text: '이력서와 경력기술서의 회사·기간·성과 수치가 일치하는가?', action: '두 문서 교차 확인' },
+        ];
+        // 신입 전용 점검 항목
+        const gradCheckItems = [
+          { id: 'cg1', text: '직무 관련 경험을 상단에, 무관한 경험은 정리했는가?', action: '직무 키워드 기준으로 재배치' },
+          { id: 'cg2', text: '경험에 "성장 가능성·학습력"이 드러나는가?', action: '결과 + 배운 점 한 줄 추가' },
+          { id: 'cg3', text: '캡스톤·인턴 경험을 직무 언어로 번역했는가?', action: '"수업 과제" 말투 → 직무 성과 말투' },
+        ];
+        const checkItems = [...baseCheckItems, ...(isCareer ? careerCheckItems : gradCheckItems)];
         const checkedCount = checkItems.filter(c => checks[c.id]).length;
 
         return (

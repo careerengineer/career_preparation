@@ -451,6 +451,27 @@ const Chk = ({id, text, action, chk, togChk}) => {
     </label>
   );
 };
+// 성과 칸 실시간 점검 — 정량 수치/본인 기여 분리를 가볍게 안내 (저장·데이터 무영향)
+const BriarHint = ({ value, kind }) => {
+  const v = String(value || '').trim();
+  if (!v) return null;
+  const msgs = [];
+  if (kind === 'number') {
+    const hasNum = /\d+\s*(%|％|p\b|개|건|명|년|개월|달|주|일|회|배|원|만원|억|천|㎜|mm|℃|점|위|시간|분)/.test(v) || /\d+\s*[→~\-]\s*\d+/.test(v) || /\d+\.\d/.test(v);
+    if (!hasNum) msgs.push('성과에 숫자가 없습니다 — Before→After 수치를 1개 이상 넣어보세요. 예: "불량률 3.1%→0.8%", "납기 4개월→2.5개월".');
+  }
+  if (kind === 'contribution') {
+    const teamish = /(우리\s*팀|팀이|팀에서|회사가|다\s*같이|함께\s|모두\s)/.test(v);
+    const mine = /(제가|본인이|내가|주도|직접|혼자|단독|설계했|분석했|제안했|판단)/.test(v);
+    if (teamish && !mine) msgs.push('"팀/회사"가 주어로 보입니다 — "내가 ~를 판단·실행해서 ~결과"로 본인 기여를 분리하세요.');
+  }
+  if (msgs.length === 0) return <p style={{ margin: '-8px 0 14px', fontSize: 14, color: COLORS.goldDeep }}>✓ 좋습니다</p>;
+  return (
+    <div style={{ margin: '-8px 0 14px', padding: 10, background: COLORS.yellowBg, borderLeft: `3px solid ${COLORS.yellow}`, borderRadius: 6 }}>
+      {msgs.map((m, i) => <p key={i} style={{ margin: i ? '4px 0 0' : 0, fontSize: 14, color: COLORS.ink, lineHeight: 1.6 }}>{m}</p>)}
+    </div>
+  );
+};
 const ST = ({title, sub}) => (<div style={{ marginBottom: 20 }}><div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}><h2 style={{ fontSize: 18, fontWeight: 900, color: COLORS.ink }}>{title}</h2></div>{sub&&<p style={{ fontSize: 16, color: '#6E7A8F' }}>{sub}</p>}</div>);
 
 const StickyFooter = () => (
@@ -741,6 +762,9 @@ ${transHtml}
 
 ${skillRows.length ? `${sectionHeader('핵심 역량')}
 <table border="0" cellspacing="0" cellpadding="0" width="100%">${skillRows.join('')}</table>` : ''}
+
+${has('career_gap') ? `${sectionHeader('경력 공백 · 특이사항')}
+<p style="font-size:11pt;color:#0E2750;line-height:1.8;margin:0;">${br(v('career_gap'))}</p>` : ''}
 
 </div>
 </body>
@@ -1278,6 +1302,13 @@ window.addEventListener('afterprint', function() {
       <p style={{ fontSize: 16, color: COLORS.ink, marginTop: 8 }}>STAR 기법과 유사하지만, 경력기술서에는 "나의 역할 범위"와 "조직 파급효과"가 추가로 필요합니다.</p>
     </GP>
 
+    <Ex>{`[이직 지원자 작성 예시 — 7년차 기구설계, 전동화 부품사로 이직]
+[B] Background: 신규 전동화 부품(구동모터 하우징) 양산 초기, 사출 공차 누적으로 조립 간섭이 생겨 양산 불량률이 3.1%에 달했고 라인 정지가 잦았다.
+[R] Role: 기구설계 책임으로 하우징을 단독 설계 담당(8명 팀 중), 협력사 금형 수정 의사결정 권한 보유.
+[I] Initiative: 내가 GD&T로 데이텀을 재정의하고 공차 누적을 직접 재계산해 간섭 구간을 특정했다. 금형 업체와 공정능력(±0.1mm)을 확인해 현실적 공차로 재설계하고 시작품 3차 검증을 주도했다.
+[A] Achievement: 양산 불량률 3.1%→0.8%(74% 감소), 라인 정지 월 6회→1회, 개발 6개월 내 양산 이관.
+[R] Ripple: 이 공차 재정의 방식이 팀 설계 가이드로 표준화되어 후속 2개 모델에 확산, 동종 불량 재발 0건.`}</Ex>
+
     <Tip>회사별로 입력하세요. 가장 최근 회사부터 시작합니다. 회사가 더 있으면 아래 \"+ 회사 추가하기\" 버튼으로 추가하세요. 각 회사당 핵심 성과는 1~3개 정도가 적절합니다 (최근 회사일수록 많이, 오래된 회사일수록 적게).</Tip>
 
     {Array.from({length: companyCount}, (_, i) => i + 1).map(c => {
@@ -1329,7 +1360,9 @@ window.addEventListener('afterprint', function() {
                 <In id={`c${c}_s${p}_bg`} label={`Q${p}b. [B] Background — 이 성과가 나오기 전, 팀/조직이 겪던 문제는?`} placeholder='"발열이 심했다"가 아니라 "동작 온도 85℃로 목표 대비 15℃ 초과". 왜 중요했는가?(신뢰성, 수율 영향 등)' rows={3} ans={ans} set={set} />
                 <In id={`c${c}_s${p}_role`} label={`Q${p}c. [R] Role — 이 문제 해결을 위해 당신에게 주어진 역할은?`} placeholder="혼자? 팀 리드? 의사결정 권한 범위? 예산/인력?" rows={2} ans={ans} set={set} />
                 <In id={`c${c}_s${p}_action`} label={`Q${p}d. [I] Initiative — 당신이 주도적으로 한 행동/판단은?`} placeholder='"당신이 없었으면 이 결과가 안 나왔을 것"을 보여주세요. 어떤 분석/판단/방법을 선택했는가?' rows={3} ans={ans} set={set} />
+                <BriarHint value={ans[`c${c}_s${p}_action`]} kind="contribution" />
                 <In id={`c${c}_s${p}_result`} label={`Q${p}e. [A] Achievement — 정량적 성과는?`} placeholder='Before→After 형태. 예: "변환 효율 87%→92% (5%p 향상, 6개월)"' rows={2} ans={ans} set={set} />
+                <BriarHint value={ans[`c${c}_s${p}_result`]} kind="number" />
                 <In id={`c${c}_s${p}_ripple`} label={`Q${p}f. [R] Ripple — 이 성과 이후 조직에 어떤 변화가 생겼는가?`} placeholder="설계 가이드 표준화, 타 모델 확산, 양산 수율 지속 개선 등. 없으면 비워두세요." rows={2} ans={ans} set={set} />
               </div>
             ))}
@@ -1450,6 +1483,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
     <In id="hard_skills" label="하드 스킬 (도구, 기술, 방법론)" placeholder="직무상세내용 키워드와 매칭되는 것 우선. PART 5에서 언급한 도구/기술 모두 포함" rows={2} ans={ans} set={set} />
     <In id="soft_skills" label="소프트 스킬 (역량, 전문성)" placeholder="프로젝트 리드, 데이터 기반 의사결정, 크로스펑셔널 협업 등" rows={2} ans={ans} set={set} />
     <In id="certs" label="자격증 / 인증" placeholder="직무 관련만. 연관도 높은 순서로" ans={ans} set={set} />
+    <In id="career_gap" label="경력 공백 / 특이사항 설명 (해당자만 · 선택)" placeholder={'이직·교육·건강 등으로 공백이 있다면 사실+의미로 한 줄. 비워두면 출력되지 않습니다.\n예: "2023.01~2023.04(4개월) — 전동화 설계 직무 전환 준비. 사내 양산 프로젝트 마무리 후 FEA 심화 교육 수료 및 CATIA 전환 학습."'} rows={2} ans={ans} set={set} />
   </div>);
 
   // ===== PART 9: 최종 점검 =====
@@ -1473,6 +1507,28 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
 
     return (<div>
       <ST title="PART 9. 최종 점검" sub={`제출 전 하나씩 점검하세요. (${done}/${items.length} 완료)`} />
+
+    <GP id="g_full_sample" title="완성 예시 펼쳐보기 — 이직 지원자 경력기술서 한 편" guides={guides} tog={tog}>
+      <Ex>{`■ 경력 요약
+자동차 부품 기구설계 7년차. 사출·기구 부품 양산 설계와 공차(GD&T)·양산성 검토가 강점. 양산 불량률·원가·납기에서 정량 성과 다수, 후배 2명 설계검증 코칭. 전동화 부품으로 직무 확장을 준비.
+
+■ 강점 하이라이트
+· 양산성 설계 — 공차 재정의로 양산 불량률 3.1%→0.8%(74%↓), 라인 정지 월 6회→1회
+· 원가 절감 — 부품 통합 설계로 모델당 재료비 12% 절감
+· 검증 리딩 — 해석(구조·열) 기반 설계 검증을 표준화, 후속 모델 동종 불량 재발 0건
+
+■ 경력 사항
+[B부품 · 2021.03~현재] 기구설계팀 책임 / 하우징·브래킷 모듈 단독 설계, 양산 5종
+  - (BRIAR) 구동모터 하우징 사출 공차 누적으로 불량률 3.1% → GD&T 데이텀 재정의·공차 재계산을 내가 주도, 금형 공정능력(±0.1mm) 확인 후 재설계 → 불량률 0.8%(74%↓), 6개월 내 양산 이관 → 팀 설계 가이드로 표준화·2개 모델 확산
+[A전자 · 2018.01~2021.02] 기구설계 선임 / 소형 모듈 방열·구조 설계
+  - (BRIAR) 발열로 보호회로 작동 → ANSYS 열해석으로 병목 특정, 방열 핀 구조 제안 → IC 온도 92℃→82℃, 시작품 통과율 향상
+
+■ 핵심 역량
+하드: SolidWorks(7년)·CATIA(전환 중)·ANSYS 구조/열해석·GD&T 공차분석 / 소프트: 3인 설계검증 코칭·크로스펑셔널 협업(생산기술·품질·구매) / 자격: 일반기계기사
+
+■ 경력 공백 · 특이사항
+2023.01~2023.04(4개월) — 전동화 설계 직무 전환 준비. 양산 프로젝트 마무리 후 FEA 심화 교육 수료 및 CATIA 전환 학습.`}</Ex>
+    </GP>
 
     {/* 작성 내용 직접 수정 영역 - 편집 가능 textarea */}
     <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, borderLeft: `3px solid ${COLORS.navyMid}`, padding: 16, borderRadius: 10, marginBottom: 16 }}>

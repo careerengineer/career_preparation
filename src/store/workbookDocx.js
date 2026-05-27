@@ -306,6 +306,10 @@ export function buildCareerDescDocxChildren({ ans = {}, companyCount = 2, perfCo
     if (has('soft_skills')) children.push(metaP('소프트 스킬', v('soft_skills')));
     if (has('certs')) children.push(metaP('자격증 · 인증', v('certs')));
   }
+  if (has('career_gap')) {
+    children.push(sectionH('경력 공백 · 특이사항'));
+    children.push(bodyP(v('career_gap')));
+  }
   if (includeMentoring) {
     children.push(sectionH('CareerEngineer 자료 — 다음 단계로'));
     children.push(new Paragraph({ children: [new TextRun({ text: '이 워크북을 완성한 후 다음 단계로 나아가는 데 도움이 되는 자료들입니다.', italic: true, size: 20, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 80, after: 160 } }));
