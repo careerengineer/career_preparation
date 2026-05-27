@@ -793,7 +793,7 @@ const ResumeWorkbook = () => {
       case 0:
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 1: 기본 정보 입력</h2>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 1. 기본 정보 입력</h2>
             <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>지원할 회사와 직무, 본인의 유형을 선택하세요</p>
 
             <QuestionBlock id="company" label="지원 회사명" placeholder="예: 삼성전자, 카카오, 현대자동차 등" answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
@@ -838,7 +838,7 @@ const ResumeWorkbook = () => {
       case 1:
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 2: 직무상세내용 키워드 추출</h2>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 2. 직무상세내용 키워드 추출</h2>
             <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>채용공고(직무상세내용)를 보면서 핵심 키워드를 뽑아주세요. 이 키워드가 이력서 전체의 뼈대가 됩니다.</p>
 
             <TipBox>
@@ -847,7 +847,7 @@ const ResumeWorkbook = () => {
 
             <QuestionBlock
               id="jd_core"
-              label="Q2-1. 직무상세내용에서 추출한 핵심 업무 키워드 (3~5개)"
+              label="1. 직무상세내용에서 추출한 핵심 업무 키워드 (3~5개)"
               hint="직무상세내용의 '주요업무' 항목에서 반복되는 핵심 단어를 그대로 뽑으세요"
               placeholder="예: 기구 설계, 공차 분석, FEA 구조해석, 시작품 검증"
               rows={2}
@@ -863,7 +863,7 @@ const ResumeWorkbook = () => {
 
             <QuestionBlock
               id="jd_tools"
-              label="Q2-2. 직무상세내용에서 요구하는 도구/기술/언어"
+              label="2. 직무상세내용에서 요구하는 도구/기술/언어"
               hint="직무상세내용의 '자격요건' 또는 '필수역량'에 나온 도구명을 그대로 옮기세요"
               placeholder="예: SolidWorks, CATIA, AutoCAD, ANSYS, GD&T"
               rows={2}
@@ -874,7 +874,7 @@ const ResumeWorkbook = () => {
 
             <QuestionBlock
               id="jd_nice"
-              label="Q2-3. 직무상세내용의 우대사항 키워드"
+              label="3. 직무상세내용의 우대사항 키워드"
               hint="있으면 가산점이 되는 항목들. 내가 가진 것이 있다면 이력서에 반드시 넣어야 합니다"
               placeholder="예: 전기기사 자격증, 6시그마 벨트, 품질경영기사, 관련 인턴 경험"
               rows={2} answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
@@ -885,7 +885,7 @@ const ResumeWorkbook = () => {
       case 2:
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 3: 경험 선별 및 우선순위 판단</h2>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 3. 경험 선별 및 우선순위 판단</h2>
             <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>경험정리 워크북에서 정리한 경험 중 이력서에 넣을 상위 3개를 선별하고, 순서를 정합니다.</p>
 
             {(answers.jd_core || answers.jd_tools || answers.jd_nice) && (
@@ -1042,7 +1042,7 @@ const ResumeWorkbook = () => {
       case 3:
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 4: 한줄 소개 만들기</h2>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 4. 한줄 소개 만들기</h2>
             <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>채용담당자가 이력서에서 가장 먼저 보는 곳입니다. 단계별로 따라가면 완성됩니다.</p>
 
             {(() => {
@@ -1124,7 +1124,7 @@ const ResumeWorkbook = () => {
       case 4:
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 5: 경력/경험 최종 정리</h2>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 5. 경력/경험 최종 정리</h2>
             <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>PART 3에서 선별한 경험을 이력서 형태로 최종 정리합니다.</p>
 
             <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, borderLeft: `3px solid ${COLORS.navyMid}`, padding: 16, borderRadius: RADIUS.md, marginBottom: 24 }}>
@@ -1217,7 +1217,7 @@ const ResumeWorkbook = () => {
       case 5:
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 6: 프로젝트 & 스킬 작성</h2>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 6. 프로젝트 & 스킬 작성</h2>
             <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>경력/경험 외에 별도로 기재할 프로젝트, 자격증/스킬, 추가 교육을 정리합니다.</p>
 
             {Array.from({length: projCount}, (_, i) => i + 1).map(p => (
@@ -1345,7 +1345,7 @@ const ResumeWorkbook = () => {
 
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 7: 최종 점검 체크리스트</h2>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 7. 최종 점검 체크리스트</h2>
             <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>제출 전 아래 항목을 하나씩 점검하세요. ({checkedCount}/{checkItems.length} 완료)</p>
 
             {/* 지금까지 작성한 내용 — PART 1~6 전체 미리보기 */}
