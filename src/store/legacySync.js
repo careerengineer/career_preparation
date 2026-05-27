@@ -1,23 +1,14 @@
 // master → 각 워크북 legacy localStorage 동기화.
 // 전체/부분 import, 회사 슬롯 불러오기 직후 호출해야 워크북이 새 데이터로 priming된다.
 // (각 워크북 Bridge는 mount 시 legacy storage를 우선으로 읽기 때문)
+import { ALL_WORKBOOKS } from './schema.js';
 
-export const LEGACY_KEYS = {
-  career_roadmap: 'careerengineer_career_roadmap_v1',
-  job_analysis: 'careerengineer_job_analysis_v1',
-  experience: 'careerengineer_experience_v1',
-  resume: 'careerengineer_resume_v1',
-  career_description: 'careerengineer_career_description_v1',
-  motivation: 'careerengineer_motivation_v1',
-  jobcompetency: 'careerengineer_jobcompetency_v1',
-  personality: 'careerengineer_personality_v1',
-  goalachievement: 'careerengineer_goalachievement_v1',
-  formative_experiences: 'careerengineer_formative_experiences_v1',
-  careergoal: 'careerengineer_careergoal_v1',
-  self_introduction: 'careerengineer_self_introduction_v1',
-  interview_new: 'careerengineer_interview_new_v1',
-  interview_career: 'careerengineer_interview_career_v1',
-};
+// 워크북 legacy storage 키는 전부 `careerengineer_<key>_v1` 패턴.
+// ALL_WORKBOOKS(단일 소스)에서 파생 → 새 워크북을 ALL_WORKBOOKS에 추가하면
+// LEGACY_KEYS와 이를 파생하는 초기화/동기화 목록이 자동으로 따라온다.
+export const LEGACY_KEYS = Object.fromEntries(
+  ALL_WORKBOOKS.map((w) => [w.key, `careerengineer_${w.key}_v1`])
+);
 
 // master의 workbookRaw/experiences를 각 워크북 legacy storage에 그대로 기록.
 // raw가 비어 있으면 해당 키 제거(빈 상태로 priming).
