@@ -12,7 +12,7 @@ export const LEGACY_KEYS = {
   jobcompetency: 'careerengineer_jobcompetency_v1',
   personality: 'careerengineer_personality_v1',
   goalachievement: 'careerengineer_goalachievement_v1',
-  growth_process: 'careerengineer_growth_process_v1',
+  formative_experiences: 'careerengineer_formative_experiences_v1',
   careergoal: 'careerengineer_careergoal_v1',
   self_introduction: 'careerengineer_self_introduction_v1',
   interview_new: 'careerengineer_interview_new_v1',

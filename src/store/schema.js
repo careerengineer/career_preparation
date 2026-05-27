@@ -57,7 +57,7 @@ export const DEFAULT_MASTER = {
     jobcompetency: { finalText: '', answers: {}, completedAt: null },
     personality: { finalText: '', answers: {}, completedAt: null },
     goalachievement: { finalText: '', answers: {}, completedAt: null },
-    growth_process: { finalText: '', answers: {}, completedAt: null },
+    formative_experiences: { finalText: '', answers: {}, completedAt: null },
     self_introduction: { finalText: '', keywords: [], answers: {}, completedAt: null },
     interview_new: { answers: {}, completedAt: null },
     interview_career: { answers: {}, completedAt: null },
@@ -76,7 +76,7 @@ export const DEFAULT_MASTER = {
     jobcompetency: null,
     personality: null,
     goalachievement: null,
-    growth_process: null,
+    formative_experiences: null,
     self_introduction: null,
     interview_new: null,
     interview_career: null,
@@ -96,7 +96,7 @@ export const ALL_WORKBOOKS = [
   { key: 'careergoal',         step: 4, title: '입사후 포부',     stepLabel: 'STEP 4 · 자소서: 입사후 포부' },
   { key: 'personality',        step: 4, title: '성격의 장단점',   stepLabel: 'STEP 4 · 자소서: 성격의 장단점' },
   { key: 'goalachievement',    step: 4, title: '목표수립·달성',   stepLabel: 'STEP 4 · 자소서: 목표수립·달성' },
-  { key: 'growth_process',     step: 4, title: '성장과정',       stepLabel: 'STEP 4 · 자소서: 성장과정' },
+  { key: 'formative_experiences',     step: 4, title: '성장과정',       stepLabel: 'STEP 4 · 자소서: 성장과정' },
   { key: 'self_introduction',  step: 5, title: '1분 자기소개',    stepLabel: 'STEP 5 · 면접: 자기소개' },
   { key: 'interview_new',      step: 5, title: '신입 면접',       stepLabel: 'STEP 5 · 면접: 신입' },
   { key: 'interview_career',   step: 5, title: '경력 면접',       stepLabel: 'STEP 5 · 면접: 경력' },
@@ -109,7 +109,7 @@ export const VARIANTS = {
   new_grad: {
     label: '신입 멘토링 전용',
     keys: ['career_roadmap', 'job_analysis', 'experience', 'resume',
-      'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement', 'growth_process',
+      'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement', 'formative_experiences',
       'self_introduction', 'interview_new'],
   },
   experienced: {
@@ -120,7 +120,7 @@ export const VARIANTS = {
   documents_new_grad: {
     label: '신입 서류 멘토링 전용',
     keys: ['career_roadmap', 'job_analysis', 'experience', 'resume',
-      'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement', 'growth_process'],
+      'motivation', 'jobcompetency', 'careergoal', 'personality', 'goalachievement', 'formative_experiences'],
     notice: {
       title: '서류를 마쳤다면, 다음은 신입 면접입니다',
       body: '서류 통과 후에는 면접이 기다립니다. 신입 면접 멘토링과 1:1 컨설팅, 가이드 워크북으로 실전까지 대비하세요.',

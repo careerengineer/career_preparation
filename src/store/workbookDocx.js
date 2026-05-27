@@ -102,7 +102,7 @@ const ESSAY_CONFIGS = {
       { title: '연결 문장', ids: ['connect_q1', 'connect_q2', 'connect_q3', 'connect_q4'] },
     ],
   },
-  growth_process: {
+  formative_experiences: {
     title: '성 장 과 정',
     placeholder: '[성장과정 본문이 여기에 들어갑니다.]',
     sections: [
@@ -617,7 +617,7 @@ export const WORKBOOK_DOCX_BUILDERS = {
   personality: essayFromMaster('personality'),
   goalachievement: essayFromMaster('goalachievement'),
   careergoal: essayFromMaster('careergoal'),
-  growth_process: essayFromMaster('growth_process'),
+  formative_experiences: essayFromMaster('formative_experiences'),
   resume: (master, dx, opts) => buildResumeDocxChildren({
     answers: master?.workbookRaw?.resume?.answers || {},
     expCount: master?.workbookRaw?.resume?.expCount ?? 3,

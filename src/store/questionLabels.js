@@ -327,7 +327,7 @@ export const QUESTION_LABELS = {
     "resume": "이력서가 준비되어 있나요?",
     "interview": "면접 준비는 어느 정도 했나요?"
   },
-  "growth_process": {
+  "formative_experiences": {
     "q1_1": "Q1-1. 나의 핵심 가치관은 무엇인가?",
     "q1_2": "Q1-2. 이 가치관을 형성한 결정적 사건은?",
     "q1_3": "Q1-3. 이 가치관에 영향을 준 사람 또는 환경은?",
