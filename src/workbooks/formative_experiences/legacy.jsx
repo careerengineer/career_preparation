@@ -173,7 +173,7 @@ const FormativeExperiencesWorkbook = () => {
     }
   };
 
-  // ── 1라운드: Q1(장점 7문항) + Q2(단점 4문항) ──────────
+  // ── 1라운드: Q1(가치관 7문항) + Q2(성장 서사 4문항) ──────────
   const round1Steps = [
     { id: 0, title: '기본 정보 입력', subtitle: '지원할 직무와 회사를 입력하세요' },
     {
@@ -622,7 +622,7 @@ const FormativeExperiencesWorkbook = () => {
     ]
   };
 
-  // ── 3라운드: 연결 질문 (장점 흐름 → 단점 흐름) ─────────
+  // ── 3라운드: 연결 질문 (가치관 흐름 → 성장 흐름) ─────────
   const round3Questions = [
     {
       id: 'connect_value_core',
@@ -848,8 +848,8 @@ const FormativeExperiencesWorkbook = () => {
 
   const getRawAnswersText = () => {
     return `원본 답변 모음\n\n[기본 정보]\n직무: ${basicInfo.position||'-'}\n회사: ${basicInfo.company||'-'}\n\n` +
-    `[Q1 장점]\nQ1-1 (장점): ${answers.q1_1||'-'}\nQ1-2 (형성 계기): ${answers.q1_2||'-'}\nQ1-3 (발전 결심 계기): ${answers.q1_3||'-'}\nQ1-4 (지속성 증명): ${answers.q1_4||'-'}\nQ1-5 (STAR 성과): ${answers.q1_5||'-'}\nQ1-6 (직무 연결): ${answers.q1_6||'-'}\nQ1-7 (기여): ${answers.q1_7||'-'}\n\n` +
-    `[Q2 단점]\nQ2-1 (단점+인식): ${answers.q2_1||'-'}\nQ2-2 (결심 계기): ${answers.q2_2||'-'}\nQ2-3 (현재 관리): ${answers.q2_3||'-'}\nQ2-4 (성장 증거): ${answers.q2_4||'-'}\n\n` +
+    `[Q1 가치관 형성]\nQ1-1 (핵심 가치관): ${answers.q1_1||'-'}\nQ1-2 (형성 사건+강점 형성): ${answers.q1_2||'-'}\nQ1-3 (영향 인물·환경): ${answers.q1_3||'-'}\nQ1-4 (결정적 전환점): ${answers.q1_4||'-'}\nQ1-5 (지속성 증거): ${answers.q1_5||'-'}\nQ1-6 (대표 경험): ${answers.q1_6||'-'}\nQ1-7 (옵션 직무 연결): ${answers.q1_7||'-'}\n\n` +
+    `[Q2 성장 서사 — 없었던 것이 만들어진 과정]\nQ2-1 (과거의 부족함): ${answers.q2_1||'-'}\nQ2-2 (결정적 계기): ${answers.q2_2||'-'}\nQ2-3 (자리잡은 증거): ${answers.q2_3||'-'}\nQ2-4 (확장 방향): ${answers.q2_4||'-'}\n\n` +
     `[3라운드 연결]\n①→③ 가치관+형성+영향: ${answers.connect_value_core||'-'}\n④→⑤ 전환점+지속성: ${answers.connect_value_test||'-'}\n⑥→⑦ 대표경험+직무연결: ${answers.connect_value_proof||'-'}\n⑧→⑨ 부족함+계기: ${answers.connect_growth_recognition||'-'}\n⑩→⑪ 자리잡음+확장: ${answers.connect_growth_direction||'-'}`;
   };
 
@@ -1141,22 +1141,22 @@ const IntroPage = ({
       title='성장과정'
       subtitle='3라운드 체계적 작성으로 완성하는 성장과정 항목'
       flow={[
-          { label: '1라운드', desc: '장단점 핵심 — Q1 장점(형성·발전·성과·연결) / Q2 단점(인지·극복·성장)' },
-          { label: '2라운드', desc: '약한 부분 보강 — 부족한 답변을 심화 질문으로 구체화' },
-          { label: '3라운드', desc: '연결 및 완성 — 직무 연결성 확보' },
+          { label: '1라운드', desc: '두 축의 성장 — Q1 가치관 형성(핵심 가치관·형성사건·영향인물·전환점·일관성·대표경험·옵션직무연결) / Q2 없었던 것이 만들어진 과정(과거의 부족함·결정적 계기·자리잡은 증거·확장 방향)' },
+          { label: '2라운드', desc: '약한 부분 보강 — 부족한 답변을 심화 질문으로 구체화 (Q1 5개 + Q2 6개 심화)' },
+          { label: '3라운드', desc: '연결 및 완성 — Q1·Q2 두 축이 한 인격으로 보이도록 연결' },
         ]}
       flowTitle={'3라운드 작성 시스템'}
       prerequisites={[
           {
-            text: '지원할 회사의 채용공고 (직무상세내용)',
+            text: '지원할 회사의 채용공고 (직무상세내용) — 직무 연결을 다루는 경우',
             recommend: {
               workbookId: 'job_analysis',
-              condition: '어떤 장점을 강조할지 막막하다면',
+              condition: '가치관과 직무 연결까지 다루려면',
               linkLabel: '채용공고 및 직무분석 가이드',
             },
           },
           {
-            text: '장단점을 증명할 구체 경험',
+            text: '두 축(가치관 + 새 강점)의 성장 서사를 증명할 구체 경험',
             recommend: {
               workbookId: 'experience',
               condition: '경험을 아직 정리하지 못했다면',
@@ -1166,8 +1166,9 @@ const IntroPage = ({
         ]}
       helpModal={<FirstVisitModal open={showHelp} onClose={() => setShowHelp(false)} title='성장과정 워크북 사용 안내' steps={[
           '<strong>1라운드 → 2라운드 → 3라운드</strong> 순서로 진행하세요.',
-          '장단점은 <strong>구체적 경험</strong>으로 증명하고, <strong>직무와 연결</strong>합니다.',
-          '단점은 <strong>가짜 단점</strong>("너무 열심히 한다")이 아닌 진짜 개선 중인 점이어야 합니다.',
+          '<strong>Q1은 이미 가진 가치관</strong>, <strong>Q2는 과거에 없었다가 새로 만들어진 강점</strong>입니다. 두 축이 함께 있어야 입체적인 성장과정이 됩니다.',
+          '가치관·강점은 <strong>추상적 단어</strong>가 아닌 <strong>행동·기준·선택의 묘사</strong>로 표현하세요.',
+          '직무 연결(Q1-7, Q1-심화5)은 <strong>옵션</strong>입니다 — 다른 자소서 항목이 있다면 가볍게, 없다면 깊게 작성하세요.',
           '3라운드 완료 후 <strong>최종 자소서 형태</strong>로 출력됩니다.',
         ]} />}
       onStart={() => { setShowIntro(false); }}
@@ -1298,7 +1299,7 @@ const IntroPage = ({
                     <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_value_core.substring(0,200)}{answers.connect_value_core.length>200?'...':''}</p>
                   </div>
                 )}
-                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"이 장점이 이런 상황에서 이렇게 발휘됐습니다...\""</p>
+                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"제 핵심 가치관 ○○은 ○○ 사건에서 ○○의 영향으로 형성됐습니다...\""</p>
               </div>
 
               <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: SPACING.sm }}>
@@ -1320,7 +1321,7 @@ const IntroPage = ({
                     <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_value_proof.substring(0,200)}{answers.connect_value_proof.length>200?'...':''}</p>
                   </div>
                 )}
-                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"이 장점이 이 직무에서 이렇게 작용합니다...\""</p>
+                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"이 가치관은 ○○ 경험에서 가장 잘 드러났고, 이 직무에서 이렇게 작동합니다...\""</p>
               </div>
 
               <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: SPACING.sm }}>
@@ -1331,7 +1332,7 @@ const IntroPage = ({
                     <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_growth_recognition.substring(0,200)}{answers.connect_growth_recognition.length>200?'...':''}</p>
                   </div>
                 )}
-                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"이 단점을 인식하고 이렇게 관리합니다...\""</p>
+                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"과거엔 ○○이 부족했지만, ○○ 계기로 만들어지기 시작했습니다...\""</p>
               </div>
 
               <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: SPACING.sm }}>
@@ -1342,7 +1343,7 @@ const IntroPage = ({
                     <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_growth_direction.substring(0,200)}{answers.connect_growth_direction.length>200?'...':''}</p>
                   </div>
                 )}
-                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"지속적으로 관리하며 성장해왔습니다...\""</p>
+                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"이제 ○○이 자리잡았고, 앞으로 ○○로 확장해 가겠습니다...\""</p>
               </div>
             </div>
 
@@ -1351,9 +1352,9 @@ const IntroPage = ({
               <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: `0 0 ${SPACING.sm}px`, lineHeight: FONT.lineHeight.base }}>각 항목을 확인하며 체크하세요. 통과하지 못한 항목이 있다면 해당 Q로 돌아가 보완합니다.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {[
-                  { n: "①", q: "Q1: 장점이 직무와 연결되고 증거가 있는가?", miss: "Q1-1, Q1-2" },
-                { n: "②", q: "Q2: 단점이 치명적이지 않고 극복 노력이 보이는가?", miss: "Q2-1, Q2-2" },
-                { n: "③", q: "Q3: 장단점이 하나의 일관된 인격으로 드러나는가?", miss: "Q3-1" }
+                  { n: "①", q: "Q1: 핵심 가치관이 추상적 단어가 아닌 행동·기준으로 드러나는가? 형성 사건과 강점 형성 과정이 보이는가?", miss: "Q1-1, Q1-2" },
+                { n: "②", q: "Q2: 과거의 부족함 + 결정적 계기 + 자리잡은 증거(반복·확장·자동화)가 모두 있는가?", miss: "Q2-1, Q2-2, Q2-3" },
+                { n: "③", q: "Q3: Q1(이미 가진 가치관) + Q2(새로 만들어진 강점)가 한 인격으로 보이는가?", miss: "Q2-심화4" }
                 ].map((item, i) => {
                   const checked = !!checklistState[i];
                   return (
