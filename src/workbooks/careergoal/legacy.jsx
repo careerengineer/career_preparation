@@ -1399,7 +1399,7 @@ const IntroPage = ({
           {downloadSuccess && <p style={{ fontSize: FONT.size.sm, color: COLORS.green, textAlign: 'center', marginTop: SPACING.md, fontWeight: FONT.weight.semibold }}>✓ 다운로드 완료</p>}
 
           <div style={{ ...S.boxInfo, marginTop: SPACING.base, marginBottom: 0, textAlign: 'center' }}>
-            <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0 }}><strong>워드에서 편집 가능:</strong> .docx 파일을 Word에서 열어 자유롭게 편집하세요.</p>
+            <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0 }}><strong>.docx 편집 가능:</strong> .docx 파일을 Word에서 열어 자유롭게 편집하세요.</p>
           </div>
 
           <div style={{ marginTop: SPACING.md }}>

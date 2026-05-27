@@ -1,4 +1,5 @@
 // 취업 로드맵 진단 엔진 (워크북 UI + docx 백업 공용)
+import { MENTORING_URLS, getStageGuide, getStageNote } from './legacy.jsx';
 export function analyze(ans) {
   const who = ans.who;
   // effectiveWho는 메시지 분기용 (현재는 who와 동일, 향후 페르소나 추가 시 확장 여지)
