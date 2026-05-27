@@ -88,13 +88,8 @@ export function DataProvider({ children }) {
     setMaster(fresh);
     // debounce 저장 전에 reload 되어도 옛 master가 안 돌아오도록 즉시 동기 저장
     try { localStorage.setItem(MASTER_KEY, JSON.stringify(fresh)); } catch (e) { console.warn('reset-all save failed:', e); }
-    const ALL_LEGACY = [
-      'careerengineer_career_roadmap_v1', 'careerengineer_job_analysis_v1', 'careerengineer_experience_v1',
-      'careerengineer_resume_v1', 'careerengineer_career_description_v1', 'careerengineer_motivation_v1',
-      'careerengineer_jobcompetency_v1', 'careerengineer_personality_v1', 'careerengineer_goalachievement_v1',
-      'careerengineer_careergoal_v1', 'careerengineer_self_introduction_v1', 'careerengineer_interview_new_v1',
-      'careerengineer_interview_career_v1',
-    ];
+    // 워크북 legacy 키는 LEGACY_KEYS 단일 소스에서 파생 (새 워크북 자동 포함)
+    const ALL_LEGACY = Object.values(LEGACY_KEYS);
     try { ALL_LEGACY.forEach((k) => localStorage.removeItem(k)); } catch {}
   }, []);
 
@@ -119,20 +114,10 @@ export function DataProvider({ children }) {
       return next;
     });
 
-    // 워크북별 localStorage도 함께 비움 (경험·로드맵 제외)
-    const KEYS_TO_CLEAR = [
-      'careerengineer_job_analysis_v1',
-      'careerengineer_resume_v1',
-      'careerengineer_career_description_v1',
-      'careerengineer_motivation_v1',
-      'careerengineer_jobcompetency_v1',
-      'careerengineer_personality_v1',
-      'careerengineer_goalachievement_v1',
-      'careerengineer_careergoal_v1',
-      'careerengineer_self_introduction_v1',
-      'careerengineer_interview_new_v1',
-      'careerengineer_interview_career_v1',
-    ];
+    // 워크북별 localStorage도 함께 비움 (경험·로드맵 제외) — LEGACY_KEYS에서 파생
+    const KEYS_TO_CLEAR = Object.values(LEGACY_KEYS).filter(
+      (k) => k !== LEGACY_KEYS.experience && k !== LEGACY_KEYS.career_roadmap
+    );
     try { KEYS_TO_CLEAR.forEach((k) => localStorage.removeItem(k)); } catch {}
   }, []);
 
