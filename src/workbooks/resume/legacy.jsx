@@ -89,7 +89,7 @@ const IntroCTA = ({ onClick, children }) => (
     style={{
       width: '100%', padding: '16px 32px',
       background: _INTRO_INK, color: COLORS.white,
-      border: 'none', borderRadius: 4,
+      border: 'none', borderRadius: RADIUS.soft,
       fontSize: 16, fontWeight: 600, cursor: 'pointer',
       fontFamily: _INTRO_FONT, marginTop: 16,
     }}
@@ -101,7 +101,7 @@ const IntroCTA = ({ onClick, children }) => (
 const IntroFlowCard = ({ flow, flowTitle }) => {
   if (!flow || flow.length === 0) return null;
   return (
-    <div style={{ background: _INTRO_PAPER, borderRadius: 12, padding: 20, marginBottom: 24 }}>
+    <div style={{ background: _INTRO_PAPER, borderRadius: RADIUS.lg, padding: 20, marginBottom: 24 }}>
       <p style={{ fontSize: 15, fontWeight: 700, color: _INTRO_INK, margin: 0, marginBottom: 12 }}>
         {flowTitle || '이 워크북의 작성 순서'}
       </p>
@@ -122,7 +122,7 @@ const IntroFlowCard = ({ flow, flowTitle }) => {
 const IntroPrerequisites = ({ items }) => {
   if (!items || items.length === 0) return null;
   return (
-    <div style={{ background: COLORS.paper, border: `1px solid ${_INTRO_GOLD}33`, color: _INTRO_INK, padding: 16, borderRadius: 10, marginBottom: 16 }}>
+    <div style={{ background: COLORS.paper, border: `1px solid ${_INTRO_GOLD}33`, color: _INTRO_INK, padding: 16, borderRadius: RADIUS.md, marginBottom: 16 }}>
       <p style={{ fontSize: 15, fontWeight: 700, color: _INTRO_INK, margin: 0, marginBottom: 10 }}>사전 준비물</p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {items.map((item, i) => {
@@ -155,7 +155,7 @@ const IntroPrerequisites = ({ items }) => {
 };
 
 const IntroCopyright = () => (
-  <div style={{ background: _INTRO_PAPER, border: `1px solid ${_INTRO_INK}33`, color: _INTRO_INK, padding: 16, borderRadius: 10, marginBottom: 16 }}>
+  <div style={{ background: _INTRO_PAPER, border: `1px solid ${_INTRO_INK}33`, color: _INTRO_INK, padding: 16, borderRadius: RADIUS.md, marginBottom: 16 }}>
     <p style={{ fontSize: 16, color: _INTRO_INK, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>
       작성 내용은 이 브라우저에서만 자동 저장됩니다. 백업하거나 다른 기기에서 이어 쓰려면 상단의 '저장 (.docx)' 버튼으로 파일을 내려받고, '불러오기' 버튼으로 복원할 수 있습니다.
     </p>
@@ -173,7 +173,7 @@ const IntroPage = ({
     {helpModal}
     <div style={{ maxWidth: 1350, width: '100%', margin: '0 auto' }}>
 
-      <div style={{ background: '#fff', borderRadius: 14, padding: 'clamp(16px, 4vw, 32px)', border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
+      <div style={{ background: '#fff', borderRadius: RADIUS.lg, padding: 'clamp(16px, 4vw, 32px)', border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
         <BrandHero />
         <div style={{ borderTop: `1px solid ${_INTRO_MUTE}33`, margin: '24px 0 32px' }} />
         <h1 style={{ fontSize: 28, fontWeight: 700, color: _INTRO_INK, textAlign: 'center', margin: 0, marginBottom: 4, lineHeight: 1.35 }}>{title}</h1>
@@ -202,7 +202,7 @@ const RelatedWorkbook = ({ id, hint }) => {
        style={{
          display: 'flex', alignItems: 'flex-start', gap: 8,
          padding: '10px 12px', background: COLORS.cream,
-         border: `1px solid ${COLORS.navyMid}33`, borderRadius: 6,
+         border: `1px solid ${COLORS.navyMid}33`, borderRadius: RADIUS.md,
          textDecoration: 'none', color: COLORS.ink,
          transition: 'opacity 150ms ease',
        }}
@@ -220,7 +220,7 @@ const RelatedWorkbook = ({ id, hint }) => {
 const RelatedWorkbookList = ({ items, title = '함께 보면 좋은 워크북' }) => (
   <div style={{
     background: COLORS.white, border: `1px solid ${COLORS.border}`,
-    borderRadius: 10, padding: 16, marginTop: 12, marginBottom: 12,
+    borderRadius: RADIUS.md, padding: 16, marginTop: 12, marginBottom: 12,
   }}>
     <p style={{
       fontSize: 16, fontWeight: 600, color: COLORS.ink,
@@ -301,21 +301,21 @@ body, * {
 }
 
 /* ── 뉴트럴/그레이 ── */
-.text-[#6E7A8F], .text-[#6E7A8F] { color: #6E7A8F !important; }
+.text-[${COLORS.sub}], .text-[${COLORS.sub}] { color: ${COLORS.sub} !important; }
 .text-[#1B3A6B], .text-[#1B3A6B], .text-[#0E2750], .text-[#0E2750] { color: #0E2750 !important; }
 .bg-gray-50 { background-color: #F2F1EC !important; }
-.bg-gray-100, .bg-gray-200 { background-color: #6E7A8F33 !important; }
-.bg-gray-300 { background-color: #6E7A8F33 !important; }
-.border-gray-200, .border-gray-300 { border-color: #6E7A8F33 !important; }
-.hover\:bg-gray-300:hover { background-color: #6E7A8F33 !important; }
+.bg-gray-100, .bg-gray-200 { background-color: ${COLORS.border} !important; }
+.bg-gray-300 { background-color: ${COLORS.border} !important; }
+.border-gray-200, .border-gray-300 { border-color: ${COLORS.border} !important; }
+.hover\:bg-gray-300:hover { background-color: ${COLORS.border} !important; }
 
 /* ── Slate → neutral ── */
 .bg-slate-50 { background-color: #F2F1EC !important; }
-.bg-slate-100, .bg-slate-200, .bg-slate-300 { background-color: #6E7A8F33 !important; }
+.bg-slate-100, .bg-slate-200, .bg-slate-300 { background-color: ${COLORS.border} !important; }
 .bg-slate-700, .bg-slate-800 { background-color: #0E2750 !important; }
-.text-[#6E7A8F], .text-[#1B3A6B] { color: #6E7A8F !important; }
+.text-[${COLORS.sub}], .text-[#1B3A6B] { color: ${COLORS.sub} !important; }
 .text-[#1B3A6B], .text-[#0E2750], .text-[#0E2750] { color: #0E2750 !important; }
-.border-slate-200, .border-slate-300 { border-color: #6E7A8F33 !important; }
+.border-slate-200, .border-slate-300 { border-color: ${COLORS.border} !important; }
 
 /* ── Sky → 네이비 통일 (경력기술서) ── */
 .bg-sky-50, .bg-sky-100 { background-color: #F2F1EC !important; }
@@ -360,11 +360,11 @@ input:focus, textarea:focus, select:focus {
 .bg-\[\#FBFAF6\] { background-color: #FBFAF6 !important; }
 .text-\[\#0E2750\] { color: #0E2750 !important; }
 .text-\[\#1B3A6B\] { color: #1B3A6B !important; }
-.text-\[\#6E7A8F\] { color: #6E7A8F !important; }
+.text-\[\${COLORS.sub}\] { color: ${COLORS.sub} !important; }
 .text-\[\#C9A86A\] { color: #C9A86A !important; }
 .border-\[\#0E2750\] { border-color: #0E2750 !important; }
 .border-\[\#1B3A6B\] { border-color: #1B3A6B !important; }
-.border-\[\#6E7A8F33\] { border-color: #6E7A8F33 !important; }
+.border-\[\${COLORS.border}\] { border-color: ${COLORS.border} !important; }
 .hover\:bg-\[\#1B3A6B\]:hover { background-color: #1B3A6B !important; }
 .hover\:bg-\[\#0E2750\]:hover { background-color: #0E2750 !important; }
 .hover\:text-\[\#0E2750\]:hover { color: #0E2750 !important; }
@@ -382,7 +382,7 @@ const FirstVisitModal = ({ open, onClose, title, steps }) => {
   if (!open) return null;
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(14, 39, 80, 0.4)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }} onClick={onClose}>
-      <div style={{ background: '#fff', borderRadius: 14, padding: 'clamp(16px, 4vw, 32px)', maxWidth: 480, width: '100%', boxShadow: '0 20px 50px rgba(14, 39, 80,0.2)', fontFamily: '"Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }} onClick={e => e.stopPropagation()}>
+      <div style={{ background: '#fff', borderRadius: RADIUS.lg, padding: 'clamp(16px, 4vw, 32px)', maxWidth: 480, width: '100%', boxShadow: '0 20px 50px rgba(14, 39, 80,0.2)', fontFamily: '"Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }} onClick={e => e.stopPropagation()}>
         <h3 style={{ fontSize: 17, fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 16 }}>{title}</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
           {(steps || []).map((s, i) => (
@@ -392,7 +392,7 @@ const FirstVisitModal = ({ open, onClose, title, steps }) => {
             </div>
           ))}
         </div>
-        <button onClick={onClose} style={{ background: COLORS.ink, color: '#fff', border: 'none', borderRadius: 10, padding: '12px 24px', fontSize: 16, fontWeight: 600, cursor: 'pointer', width: '100%', fontFamily: 'inherit' }}>
+        <button onClick={onClose} style={{ background: COLORS.ink, color: '#fff', border: 'none', borderRadius: RADIUS.md, padding: '12px 24px', fontSize: 16, fontWeight: 600, cursor: 'pointer', width: '100%', fontFamily: 'inherit' }}>
           확인, 시작합니다
         </button>
       </div>
@@ -419,10 +419,10 @@ const QuestionBlock = ({ id, label, hint, placeholder, rows, guide, answers, han
         <ToggleLink open={!!showGuide[id]} onToggle={() => toggleGuide(id)} label="가이드" style={{ flexShrink: 0 }} />
       )}
     </div>
-    {hint && <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 8 }}>{hint}</p>}
+    {hint && <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 8 }}>{hint}</p>}
     <ReferenceInline ids={inferRelated(id)} />
     {guide && showGuide[id] && (
-      <div style={{ borderColor: COLORS.border, background: COLORS.cream, border: `1px solid ${COLORS.border}`, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: 8, padding: 16, marginBottom: 12, gap: 12 }}>
+      <div style={{ borderColor: COLORS.border, background: COLORS.cream, border: `1px solid ${COLORS.border}`, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: RADIUS.md, padding: 16, marginBottom: 12, gap: 12 }}>
         <p style={{ fontSize: 16, fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', color: COLORS.accent2, margin: 0, marginBottom: 8 }}>GUIDE · 작성 가이드</p>
         {guide.description && <p style={{ fontSize: 16, color: COLORS.ink }}>{guide.description}</p>}
         {guide.helpQuestions && (
@@ -434,13 +434,13 @@ const QuestionBlock = ({ id, label, hint, placeholder, rows, guide, answers, han
           </div>
         )}
         {guide.example && (
-          <div style={{ background: COLORS.cream, borderRadius: 4, padding: 12 }}>
+          <div style={{ background: COLORS.cream, borderRadius: RADIUS.soft, padding: 12 }}>
             <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>작성 예시:</p>
             <p className="whitespace-pre-line" style={{ fontSize: 16, color: COLORS.ink, whiteSpace: 'pre-line', lineHeight: 1.7 }}>{guide.example}</p>
           </div>
         )}
         {guide.warning && (
-          <div style={{ borderColor: COLORS.border, display: 'flex', alignItems: 'flex-start', gap: 8, background: COLORS.paper, border: `1px solid ${COLORS.border}`, borderRadius: 4, padding: 12 }}>
+          <div style={{ borderColor: COLORS.border, display: 'flex', alignItems: 'flex-start', gap: 8, background: COLORS.paper, border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.soft, padding: 12 }}>
             <p style={{ fontSize: 16, color: COLORS.ink }}>{guide.warning}</p>
           </div>
         )}
@@ -450,7 +450,7 @@ const QuestionBlock = ({ id, label, hint, placeholder, rows, guide, answers, han
       value={answers[id] || ''}
       onChange={(e) => handleAnswer(id, e.target.value)}
       rows={rows || 3}
-      className="resize-none" style={{ width: '100%', paddingLeft: 16, paddingRight: 16, paddingTop: 12, paddingBottom: 12, border: `1px solid ${COLORS.border}`, borderColor: '#6E7A8F66', borderRadius: 8, outline: 'none', fontSize: 16 }}
+      className="resize-none" style={{ width: '100%', paddingLeft: 16, paddingRight: 16, paddingTop: 12, paddingBottom: 12, border: `1px solid ${COLORS.border}`, borderColor: `${COLORS.border}`, borderRadius: RADIUS.md, outline: 'none', fontSize: 16 }}
       placeholder={placeholder}
     />
   </div>
@@ -463,7 +463,7 @@ const TipBox = ({ children }) => (
 );
 
 const WarningBox = ({ title, children }) => (
-  <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.ink}33`, color: COLORS.ink, padding: 16, borderRadius: 10, marginBottom: 16 }}>
+  <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.ink}33`, color: COLORS.ink, padding: 16, borderRadius: RADIUS.md, marginBottom: 16 }}>
     <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>{title}</p>
     <p style={{ fontSize: 16, color: COLORS.navyMid }}>{children}</p>
   </div>
@@ -472,7 +472,7 @@ const WarningBox = ({ title, children }) => (
 const StickyFooter = () => (
   <div style={{ position: 'sticky', bottom: 0, background: COLORS.paper, borderTop: `1px solid ${COLORS.border}`, padding: '10px 16px', marginTop: 24, zIndex: 5 }}>
     <div style={{ maxWidth: 1350, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-      <p style={{ fontSize: 16, color: '#6E7A8F', margin: 0 }}>
+      <p style={{ fontSize: 16, color: COLORS.sub, margin: 0 }}>
         <a href="https://open.kakao.com/me/careerengineer" target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, textDecoration: 'none' }}>CareerEngineer 카카오톡 상담</a>
       </p>
     </div>
@@ -793,8 +793,8 @@ const ResumeWorkbook = () => {
       case 0:
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 900, color: COLORS.ink, marginBottom: 4 }}>PART 1: 기본 정보 입력</h2>
-            <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 24 }}>지원할 회사와 직무, 본인의 유형을 선택하세요</p>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 1: 기본 정보 입력</h2>
+            <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>지원할 회사와 직무, 본인의 유형을 선택하세요</p>
 
             <QuestionBlock id="company" label="지원 회사명" placeholder="예: 삼성전자, 카카오, 현대자동차 등" answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
             <QuestionBlock id="position" label="지원 직무" placeholder="예: 기구 설계, 품질관리, 하드웨어 회로설계 등" answers={answers} handleAnswer={handleAnswer} showGuide={showGuide} toggleGuide={toggleGuide} />
@@ -816,11 +816,11 @@ const ResumeWorkbook = () => {
                 const descText = sepMatch ? sepMatch[2].trim() : null;
                 return (
                   <div key={opt.val} {...clickable(() => handleAnswer('expType', opt.val))}
-                    style={{ padding: '16px 18px', borderRadius: 14, marginBottom: 8, border: `1.5px solid ${active ? COLORS.accent2 : COLORS.border}`, background: active ? COLORS.cream : COLORS.white, cursor: 'pointer', transition: 'all 150ms' }}
+                    style={{ padding: '16px 18px', borderRadius: RADIUS.lg, marginBottom: 8, border: `1.5px solid ${active ? COLORS.accent2 : COLORS.border}`, background: active ? COLORS.cream : COLORS.white, cursor: 'pointer', transition: 'all 150ms' }}
                     onMouseEnter={e => { if (!active) e.currentTarget.style.borderColor = `${COLORS.accent2}60`; }}
                     onMouseLeave={e => { if (!active) e.currentTarget.style.borderColor = COLORS.border; }}>
                     <div style={{ fontSize: 16, fontWeight: 600, color: active ? COLORS.accent2 : COLORS.ink, marginBottom: descText ? 2 : 0 }}>{labelText}</div>
-                    {descText && <div style={{ fontSize: 16, color: '#6E7A8F' }}>{descText}</div>}
+                    {descText && <div style={{ fontSize: 16, color: COLORS.sub }}>{descText}</div>}
                   </div>
                 );
               })}
@@ -838,8 +838,8 @@ const ResumeWorkbook = () => {
       case 1:
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 900, color: COLORS.ink, marginBottom: 4 }}>PART 2: 직무상세내용 키워드 추출</h2>
-            <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 24 }}>채용공고(직무상세내용)를 보면서 핵심 키워드를 뽑아주세요. 이 키워드가 이력서 전체의 뼈대가 됩니다.</p>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 2: 직무상세내용 키워드 추출</h2>
+            <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>채용공고(직무상세내용)를 보면서 핵심 키워드를 뽑아주세요. 이 키워드가 이력서 전체의 뼈대가 됩니다.</p>
 
             <TipBox>
               채용공고를 열어두고 작성하세요. "채용공고 및 직무분석 가이드"를 이미 분석했다면 그 결과를 여기에 옮겨 적으면 됩니다.
@@ -885,35 +885,35 @@ const ResumeWorkbook = () => {
       case 2:
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 900, color: COLORS.ink, marginBottom: 4 }}>PART 3: 경험 선별 및 우선순위 판단</h2>
-            <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 24 }}>경험정리 워크북에서 정리한 경험 중 이력서에 넣을 상위 3개를 선별하고, 순서를 정합니다.</p>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 3: 경험 선별 및 우선순위 판단</h2>
+            <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>경험정리 워크북에서 정리한 경험 중 이력서에 넣을 상위 3개를 선별하고, 순서를 정합니다.</p>
 
             {(answers.jd_core || answers.jd_tools || answers.jd_nice) && (
-              <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, borderLeft: `3px solid ${COLORS.navyMid}`, padding: 16, borderRadius: 10, marginBottom: 24 }}>
+              <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, borderLeft: `3px solid ${COLORS.navyMid}`, padding: 16, borderRadius: RADIUS.md, marginBottom: 24 }}>
                 <p style={{ fontSize: 16, fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', color: COLORS.navyMid, marginBottom: 12 }}>
                   INFO · 참고: PART 2 직무상세내용 키워드
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {answers.jd_core && (
-                    <div style={{ background: COLORS.paper, padding: 12, borderRadius: 4, fontSize: 16 }}>
+                    <div style={{ background: COLORS.paper, padding: 12, borderRadius: RADIUS.soft, fontSize: 16 }}>
                       <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4 }}>핵심 키워드</p>
-                      <p style={{ color: '#6E7A8F', margin: 0, fontStyle: 'italic', lineHeight: 1.6 }}>
+                      <p style={{ color: COLORS.sub, margin: 0, fontStyle: 'italic', lineHeight: 1.6 }}>
                         {answers.jd_core.length > 200 ? answers.jd_core.substring(0,200) + '...' : answers.jd_core}
                       </p>
                     </div>
                   )}
                   {answers.jd_tools && (
-                    <div style={{ background: COLORS.paper, padding: 12, borderRadius: 4, fontSize: 16 }}>
+                    <div style={{ background: COLORS.paper, padding: 12, borderRadius: RADIUS.soft, fontSize: 16 }}>
                       <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4 }}>도구/기술</p>
-                      <p style={{ color: '#6E7A8F', margin: 0, fontStyle: 'italic', lineHeight: 1.6 }}>
+                      <p style={{ color: COLORS.sub, margin: 0, fontStyle: 'italic', lineHeight: 1.6 }}>
                         {answers.jd_tools.length > 200 ? answers.jd_tools.substring(0,200) + '...' : answers.jd_tools}
                       </p>
                     </div>
                   )}
                   {answers.jd_nice && (
-                    <div style={{ background: COLORS.paper, padding: 12, borderRadius: 4, fontSize: 16 }}>
+                    <div style={{ background: COLORS.paper, padding: 12, borderRadius: RADIUS.soft, fontSize: 16 }}>
                       <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4 }}>우대사항</p>
-                      <p style={{ color: '#6E7A8F', margin: 0, fontStyle: 'italic', lineHeight: 1.6 }}>
+                      <p style={{ color: COLORS.sub, margin: 0, fontStyle: 'italic', lineHeight: 1.6 }}>
                         {answers.jd_nice.length > 200 ? answers.jd_nice.substring(0,200) + '...' : answers.jd_nice}
                       </p>
                     </div>
@@ -927,9 +927,9 @@ const ResumeWorkbook = () => {
             </TipBox>
 
             {Array.from({length: expCount}, (_, i) => i + 1).map(n => (
-              <div key={n} style={{ background: COLORS.cream, borderRadius: 12, padding: 20, marginBottom: 20 }}>
+              <div key={n} style={{ background: COLORS.cream, borderRadius: RADIUS.lg, padding: 20, marginBottom: 20 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                  <p style={{ fontSize: 16, fontWeight: 900, color: COLORS.ink, margin: 0 }}>경험 {n} {n === 1 ? '(가장 강한 경험 = 이력서 최상단)' : n === 2 ? '(두 번째로 강한 경험)' : `(${n === 3 ? '세' : n === 4 ? '네' : n === 5 ? '다섯' : n === 6 ? '여섯' : n === 7 ? '일곱' : '여덟'} 번째 경험)`}</p>
+                  <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, margin: 0 }}>경험 {n} {n === 1 ? '(가장 강한 경험 = 이력서 최상단)' : n === 2 ? '(두 번째로 강한 경험)' : `(${n === 3 ? '세' : n === 4 ? '네' : n === 5 ? '다섯' : n === 6 ? '여섯' : n === 7 ? '일곱' : '여덟'} 번째 경험)`}</p>
                   {expCount > 3 && n === expCount && (
                     <button onClick={() => {
                       handleAnswer(`exp${n}_name`, '');
@@ -938,7 +938,7 @@ const ResumeWorkbook = () => {
                       handleAnswer(`exp${n}_detail`, '');
                       handleAnswer(`exp${n}_result`, '');
                       setExpCount(c => c - 1);
-                    }} style={{ background: 'transparent', border: '1px solid #6E7A8F66', color: '#6E7A8F', padding: '4px 12px', borderRadius: 6, fontSize: 16, cursor: 'pointer' }}>
+                    }} style={{ background: 'transparent', border: `1px solid ${COLORS.border}`, color: COLORS.sub, padding: '4px 12px', borderRadius: RADIUS.md, fontSize: 16, cursor: 'pointer' }}>
                       이 경험 삭제
                     </button>
                   )}
@@ -947,20 +947,20 @@ const ResumeWorkbook = () => {
                   <div>
                     <label style={{ fontSize: 16, fontWeight: 700, color: COLORS.navyMid, display: 'block', marginBottom: 4 }}>활동/경험명</label>
                     <input type="text" value={answers[`exp${n}_name`] || ''} onChange={e => handleAnswer(`exp${n}_name`, e.target.value)}
-                      style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
+                      style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: `${COLORS.border}`, borderRadius: RADIUS.md, fontSize: 16, outline: 'none' }}
                       placeholder={isCareer ? "예: OO전자 하드웨어 회로설계" : "예: OO기업 설계 인턴"} />
                   </div>
                   <div>
                     <label style={{ fontSize: 16, fontWeight: 700, color: COLORS.navyMid, display: 'block', marginBottom: 4 }}>기간</label>
                     <input type="text" value={answers[`exp${n}_period`] || ''} onChange={e => handleAnswer(`exp${n}_period`, e.target.value)}
-                      style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
+                      style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: `${COLORS.border}`, borderRadius: RADIUS.md, fontSize: 16, outline: 'none' }}
                       placeholder={isCareer ? "예: 2020.03~2024.12" : "예: 2025.01~2025.02"} />
                   </div>
                 </div>
                 <div style={{ marginBottom: 12 }}>
                   <label style={{ fontSize: 16, fontWeight: 700, color: COLORS.navyMid, display: 'block', marginBottom: 4 }}>역할/직책</label>
                   <input type="text" value={answers[`exp${n}_role`] || ''} onChange={e => handleAnswer(`exp${n}_role`, e.target.value)}
-                    style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
+                    style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: `${COLORS.border}`, borderRadius: RADIUS.md, fontSize: 16, outline: 'none' }}
                     placeholder={isCareer ? "예: 회로설계팀 선임, 양산기술팀 파트장" : "예: 품질관리팀 인턴, 설계팀 팀원, 하드웨어 회로설계"} />
                 </div>
                 <QuestionBlock
@@ -994,7 +994,7 @@ const ResumeWorkbook = () => {
 
             {expCount < 8 && (
               <button onClick={() => setExpCount(c => c + 1)}
-                style={{ width: '100%', padding: '12px', background: 'transparent', border: '1px dashed #6E7A8F66', color: COLORS.navyMid, borderRadius: 8, fontSize: 16, fontWeight: 600, cursor: 'pointer', marginBottom: 16, transition: 'all 150ms' }}
+                style={{ width: '100%', padding: '12px', background: 'transparent', border: `1px dashed ${COLORS.border}`, color: COLORS.navyMid, borderRadius: RADIUS.md, fontSize: 16, fontWeight: 600, cursor: 'pointer', marginBottom: 16, transition: 'all 150ms' }}
                 onMouseEnter={e => e.currentTarget.style.background = COLORS.paper}
                 onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                 + 경험 추가하기 (현재 {expCount}개, 최대 8개)
@@ -1010,8 +1010,8 @@ const ResumeWorkbook = () => {
 
             {/* 캡스톤/졸업프로젝트 작성 안내 (신입 전용) */}
             {!isCareer && (
-            <div style={{ background: COLORS.cream, borderRadius: 12, padding: 20, marginTop: 16 }}>
-              <p style={{ fontSize: 16, fontWeight: 900, color: COLORS.ink, marginBottom: 8 }}>캡스톤/졸업 프로젝트는 어떻게 넣나요?</p>
+            <div style={{ background: COLORS.cream, borderRadius: RADIUS.lg, padding: 20, marginTop: 16 }}>
+              <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 8 }}>캡스톤/졸업 프로젝트는 어떻게 넣나요?</p>
               <div style={{ fontSize: 16, color: COLORS.navyMid, gap: 8 }}>
                 <p>위 경험 블록에 다른 경험과 동일한 형식으로 작성하되, <span style={{ fontWeight: 700, color: COLORS.ink }}>소속명에 "(캡스톤, 6개월)"처럼 형식·기간을 명시</span>하세요. 예시: 소속 = "OO대학교 캡스톤 프로젝트 (6개월, 3인 팀)"</p>
                 <p><span style={{ fontWeight: 700, color: COLORS.ink }}>어필 우선순위:</span> (1) 외부 기관/기업과 협업한 경우 (2) 실제 데이터/제품을 다룬 경우 (3) 6개월 이상 진행한 경우 — 이런 경우는 인턴십·직무 경험과 동등한 비중으로 상단에 배치하세요.</p>
@@ -1021,16 +1021,16 @@ const ResumeWorkbook = () => {
             )}
             {/* 경력자 경험 선별 안내 (경력·직무전환 전용) */}
             {isCareer && (
-            <div style={{ background: COLORS.cream, borderRadius: 12, padding: 20, marginTop: 16 }}>
-              <p style={{ fontSize: 16, fontWeight: 900, color: COLORS.ink, marginBottom: 8 }}>경력자는 어떤 경험을 어떻게 선별하나요?</p>
+            <div style={{ background: COLORS.cream, borderRadius: RADIUS.lg, padding: 20, marginTop: 16 }}>
+              <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 8 }}>경력자는 어떤 경험을 어떻게 선별하나요?</p>
               <div style={{ fontSize: 16, color: COLORS.navyMid, lineHeight: 1.7 }}>
                 <p style={{ marginBottom: 10 }}>학교 경험이 아니라 <span style={{ fontWeight: 700, color: COLORS.ink }}>회사 프로젝트·업무 단위</span>로 선별하세요. 핵심은 <span style={{ fontWeight: 700, color: COLORS.ink }}>팀 성과가 아닌 "본인 기여"를 숫자로</span> 보여주는 것입니다. 지원 직무 키워드와 가장 가까운 것부터 상단에 배치하고, 직무와 먼 경험은 과감히 줄이세요.</p>
-                <div style={{ background: COLORS.paper, border: `1px solid ${COLORS.accent2}33`, borderRadius: 8, padding: 14 }}>
+                <div style={{ background: COLORS.paper, border: `1px solid ${COLORS.accent2}33`, borderRadius: RADIUS.md, padding: 14 }}>
                   <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 6 }}>이직 지원자 작성 예시 — 7년차 기구설계 → 전동화 부품 이직</p>
                   <p style={{ margin: 0 }}><span style={{ fontWeight: 700, color: COLORS.navyMid }}>(1순위)</span> 전동화 부품 신규 모델 기구 설계 — 사출 공차 재설계로 <span style={{ fontWeight: 700 }}>양산 불량률 3.1%→0.8% (개발 6개월)</span> · 지원 직무 키워드 직결</p>
                   <p style={{ margin: '4px 0 0' }}><span style={{ fontWeight: 700, color: COLORS.navyMid }}>(2순위)</span> 원가절감 TF 리드 — 부품 통합 설계로 <span style={{ fontWeight: 700 }}>모델당 재료비 12% 절감</span></p>
                   <p style={{ margin: '4px 0 0' }}><span style={{ fontWeight: 700, color: COLORS.navyMid }}>(3순위)</span> 후배 2명 설계검증 코칭 — <span style={{ fontWeight: 700 }}>도면 오류 반려율 절반으로 감소</span></p>
-                  <p style={{ margin: '8px 0 0', color: '#6E7A8F' }}>→ 각 항목에 숫자 1개 이상, "팀이" 대신 "내가 ~해서 ~결과"로.</p>
+                  <p style={{ margin: '8px 0 0', color: COLORS.sub }}>→ 각 항목에 숫자 1개 이상, "팀이" 대신 "내가 ~해서 ~결과"로.</p>
                 </div>
               </div>
             </div>
@@ -1042,30 +1042,30 @@ const ResumeWorkbook = () => {
       case 3:
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 900, color: COLORS.ink, marginBottom: 4 }}>PART 4: 한줄 소개 만들기</h2>
-            <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 24 }}>채용담당자가 이력서에서 가장 먼저 보는 곳입니다. 단계별로 따라가면 완성됩니다.</p>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 4: 한줄 소개 만들기</h2>
+            <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>채용담당자가 이력서에서 가장 먼저 보는 곳입니다. 단계별로 따라가면 완성됩니다.</p>
 
             {(() => {
               const expNames = Array.from({length: expCount}, (_, i) => answers[`exp${i+1}_name`]).filter(Boolean);
               if (!answers.jd_core && expNames.length === 0) return null;
               return (
-                <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, borderLeft: `3px solid ${COLORS.navyMid}`, padding: 16, borderRadius: 10, marginBottom: 24 }}>
+                <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, borderLeft: `3px solid ${COLORS.navyMid}`, padding: 16, borderRadius: RADIUS.md, marginBottom: 24 }}>
                   <p style={{ fontSize: 16, fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', color: COLORS.navyMid, marginBottom: 12 }}>
                     INFO · 참고: PART 2 키워드 + PART 3 선별 경험
                   </p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {answers.jd_core && (
-                      <div style={{ background: COLORS.paper, padding: 12, borderRadius: 4, fontSize: 16 }}>
+                      <div style={{ background: COLORS.paper, padding: 12, borderRadius: RADIUS.soft, fontSize: 16 }}>
                         <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4 }}>핵심 키워드 (PART 2)</p>
-                        <p style={{ color: '#6E7A8F', margin: 0, fontStyle: 'italic', lineHeight: 1.6 }}>
+                        <p style={{ color: COLORS.sub, margin: 0, fontStyle: 'italic', lineHeight: 1.6 }}>
                           {answers.jd_core.length > 200 ? answers.jd_core.substring(0,200) + '...' : answers.jd_core}
                         </p>
                       </div>
                     )}
                     {expNames.length > 0 && (
-                      <div style={{ background: COLORS.paper, padding: 12, borderRadius: 4, fontSize: 16 }}>
+                      <div style={{ background: COLORS.paper, padding: 12, borderRadius: RADIUS.soft, fontSize: 16 }}>
                         <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4 }}>선별 경험 (PART 3)</p>
-                        <p style={{ color: '#6E7A8F', margin: 0, fontStyle: 'italic', lineHeight: 1.6 }}>
+                        <p style={{ color: COLORS.sub, margin: 0, fontStyle: 'italic', lineHeight: 1.6 }}>
                           {expNames.join(' / ')}
                         </p>
                       </div>
@@ -1079,8 +1079,8 @@ const ResumeWorkbook = () => {
               "열정적이고 성실한 지원자", "무엇이든 빠르게 배우는 인재", "다양한 경험을 통해 성장" -- 이런 표현은 누구나 쓸 수 있어서 아무도 기억하지 않습니다. 한줄 소개에는 반드시 구체적인 경험/스킬/성과가 들어가야 합니다.
             </WarningBox>
 
-            <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, color: COLORS.ink, padding: 16, borderRadius: 10, marginBottom: 16 }}>
-              <p style={{ fontSize: 16, fontWeight: 900, color: COLORS.ink, marginBottom: 12 }}>한줄 소개 만드는 4단계 프로세스</p>
+            <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, color: COLORS.ink, padding: 16, borderRadius: RADIUS.md, marginBottom: 16 }}>
+              <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 12 }}>한줄 소개 만드는 4단계 프로세스</p>
               <div style={{ gap: 8, fontSize: 16, color: COLORS.ink }}>
                 <p><span style={{ fontWeight: 700 }}>1단계:</span> PART 2에서 뽑은 직무상세내용 핵심 키워드를 다시 보세요</p>
                 <p><span style={{ fontWeight: 700 }}>2단계:</span> 내 경험 중 직무상세내용과 가장 매칭되는 키워드 3개를 뽑으세요</p>
@@ -1124,24 +1124,24 @@ const ResumeWorkbook = () => {
       case 4:
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 900, color: COLORS.ink, marginBottom: 4 }}>PART 5: 경력/경험 최종 정리</h2>
-            <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 24 }}>PART 3에서 선별한 경험을 이력서 형태로 최종 정리합니다.</p>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 5: 경력/경험 최종 정리</h2>
+            <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>PART 3에서 선별한 경험을 이력서 형태로 최종 정리합니다.</p>
 
-            <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, borderLeft: `3px solid ${COLORS.navyMid}`, padding: 16, borderRadius: 10, marginBottom: 24 }}>
+            <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, borderLeft: `3px solid ${COLORS.navyMid}`, padding: 16, borderRadius: RADIUS.md, marginBottom: 24 }}>
               <p style={{ fontSize: 16, fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', color: COLORS.navyMid, marginBottom: 12 }}>
                 EDIT · PART 3 경험 직접 수정
               </p>
-              <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 16 }}>아래에서 PART 3에 작성한 경험을 바로 다듬으세요. 수정한 내용은 PART 3에도 자동으로 반영됩니다.</p>
+              <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 16 }}>아래에서 PART 3에 작성한 경험을 바로 다듬으세요. 수정한 내용은 PART 3에도 자동으로 반영됩니다.</p>
               {Array.from({length: expCount}, (_, i) => i + 1).map(n => (
                 answers[`exp${n}_name`] && (
-                  <div key={n} style={{ background: COLORS.paper, padding: 14, borderRadius: 8, fontSize: 16, marginBottom: 12 }}>
+                  <div key={n} style={{ background: COLORS.paper, padding: 14, borderRadius: RADIUS.md, fontSize: 16, marginBottom: 12 }}>
                     <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 8 }}>경험 {n}: {answers[`exp${n}_name`]} {answers[`exp${n}_period`] ? `| ${answers[`exp${n}_period`]}` : ''} {answers[`exp${n}_role`] ? `| ${answers[`exp${n}_role`]}` : ''}</p>
                     <div style={{ marginBottom: 8 }}>
                       <label style={{ fontSize: 16, fontWeight: 600, color: COLORS.navyMid, display: 'block', marginBottom: 4 }}>수행 내용 (개조식)</label>
                       <textarea value={answers[`exp${n}_detail`] || ''} onChange={e => handleAnswer(`exp${n}_detail`, e.target.value)}
                         rows={4}
                         className="resize-none"
-                        style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 15, outline: 'none', background: COLORS.white }}
+                        style={{ width: '100%', padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.md, fontSize: 15, outline: 'none', background: COLORS.white }}
                         placeholder="예: - 양산 부품 불량 데이터 수집 및 원인 분석" />
                     </div>
                     <div>
@@ -1149,20 +1149,20 @@ const ResumeWorkbook = () => {
                       <textarea value={answers[`exp${n}_result`] || ''} onChange={e => handleAnswer(`exp${n}_result`, e.target.value)}
                         rows={2}
                         className="resize-none"
-                        style={{ width: '100%', padding: '10px 12px', border: '1px solid #6E7A8F66', borderRadius: 6, fontSize: 15, outline: 'none', background: COLORS.white }}
+                        style={{ width: '100%', padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.md, fontSize: 15, outline: 'none', background: COLORS.white }}
                         placeholder="예: 조립 불량률 12% 감소" />
                     </div>
                   </div>
                 )
               ))}
               {!Array.from({length: expCount}, (_, i) => i + 1).some(n => answers[`exp${n}_name`]) && (
-                <p style={{ fontSize: 16, color: '#6E7A8F', fontStyle: 'italic' }}>PART 3에서 경험을 먼저 작성해주세요.</p>
+                <p style={{ fontSize: 16, color: COLORS.sub, fontStyle: 'italic' }}>PART 3에서 경험을 먼저 작성해주세요.</p>
               )}
             </div>
 
             {(answers.expType === '경력_3_7년' || answers.expType === '경력_7년이상' || answers.expType === '경력_3년이하' || answers.expType === '직무전환') && (
-              <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, color: COLORS.ink, padding: 16, borderRadius: 10, marginBottom: 16 }}>
-                <p style={{ fontSize: 16, fontWeight: 900, color: COLORS.ink, marginBottom: 12 }}>경력직/이직자 추가 체크</p>
+              <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, color: COLORS.ink, padding: 16, borderRadius: RADIUS.md, marginBottom: 16 }}>
+                <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 12 }}>경력직/이직자 추가 체크</p>
                 <QuestionBlock
                   id="career_depth"
                   label="경력 깊이 조절: 각 경력의 비중을 어떻게 배분할 계획인가요?"
@@ -1186,10 +1186,10 @@ const ResumeWorkbook = () => {
             )}
 
             {answers.expType === '직무전환' && (
-              <div style={{ background: COLORS.paper, border: `1px solid ${COLORS.accent2}33`, color: COLORS.ink, padding: 16, borderRadius: 10, marginBottom: 16 }}>
-                <p style={{ fontSize: 16, fontWeight: 900, color: COLORS.ink, marginBottom: 12 }}>직무 전환자를 위한 경험 번역 가이드</p>
+              <div style={{ background: COLORS.paper, border: `1px solid ${COLORS.accent2}33`, color: COLORS.ink, padding: 16, borderRadius: RADIUS.md, marginBottom: 16 }}>
+                <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 12 }}>직무 전환자를 위한 경험 번역 가이드</p>
                 <p style={{ fontSize: 16, color: COLORS.ink, marginBottom: 12 }}>현재 직무의 경험을 지원 직무의 언어로 바꿔야 합니다. 아래 공식을 활용하세요:</p>
-                <div style={{ background: COLORS.white, borderRadius: 8, padding: 12, fontSize: 16, color: COLORS.navyMid, gap: 8 }}>
+                <div style={{ background: COLORS.white, borderRadius: RADIUS.md, padding: 12, fontSize: 16, color: COLORS.navyMid, gap: 8 }}>
                   <p><span style={{ fontWeight: 700 }}>[현재 경험]</span> → <span style={{ fontWeight: 700, color: COLORS.ink }}>[지원 직무에서의 의미]</span></p>
                   <p>예: 환자 활력징후 모니터링 → 임상 데이터 수집/관리 역량</p>
                   <p>예: 투약 프로토콜 준수 → GCP 기반 프로토콜 관리 경험</p>
@@ -1205,11 +1205,11 @@ const ResumeWorkbook = () => {
 
             <p style={{ fontSize: 16, color: COLORS.navyMid, marginBottom: 16 }}>위에서 직접 수정한 경험이 이력서 최종 형태로 들어갑니다. 아래 예시 형태와 비교하며 마지막으로 다듬으세요.</p>
 
-            <div className="font-mono whitespace-pre-line" style={{ background: COLORS.cream, borderRadius: 12, padding: 16, marginBottom: 16, fontSize: 16, color: COLORS.navyMid }}>
+            <div className="font-mono whitespace-pre-line" style={{ background: COLORS.cream, borderRadius: RADIUS.lg, padding: 16, marginBottom: 16, fontSize: 16, color: COLORS.navyMid }}>
               {'[이력서 형태 예시]\n\n현대모비스 인턴 | 2025.01~2025.02 | 품질관리팀\n- 양산 부품 불량 데이터 수집 및 원인 분석 (SPC 활용, 월 500건)\n- 불량 유형별 파레토 분석 보고서 작성, 팀 주간 미팅에서 발표\n- 협력사 출하 검사 기준서 개정 보조 (3건)'}
             </div>
 
-            <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 8 }}>위 \"EDIT · PART 3 경험 직접 수정\" 영역에서 바로 다듬을 수 있습니다. 변경사항은 자동으로 PART 3과 최종 출력에도 반영됩니다.</p>
+            <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 8 }}>위 \"EDIT · PART 3 경험 직접 수정\" 영역에서 바로 다듬을 수 있습니다. 변경사항은 자동으로 PART 3과 최종 출력에도 반영됩니다.</p>
           </div>
         );
 
@@ -1217,13 +1217,13 @@ const ResumeWorkbook = () => {
       case 5:
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 900, color: COLORS.ink, marginBottom: 4 }}>PART 6: 프로젝트 & 스킬 작성</h2>
-            <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 24 }}>경력/경험 외에 별도로 기재할 프로젝트, 자격증/스킬, 추가 교육을 정리합니다.</p>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 6: 프로젝트 & 스킬 작성</h2>
+            <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>경력/경험 외에 별도로 기재할 프로젝트, 자격증/스킬, 추가 교육을 정리합니다.</p>
 
             {Array.from({length: projCount}, (_, i) => i + 1).map(p => (
-              <div key={p} style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, color: COLORS.ink, padding: 16, borderRadius: 10, marginBottom: 16 }}>
+              <div key={p} style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, color: COLORS.ink, padding: 16, borderRadius: RADIUS.md, marginBottom: 16 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                  <p style={{ fontSize: 16, fontWeight: 900, color: COLORS.ink, margin: 0 }}>프로젝트 {p} {p === 1 ? '(실무적 성격의 프로젝트)' : ''}</p>
+                  <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, margin: 0 }}>프로젝트 {p} {p === 1 ? '(실무적 성격의 프로젝트)' : ''}</p>
                   {projCount > 1 && p === projCount && (
                     <button onClick={() => {
                       handleAnswer(`proj${p}_name`, '');
@@ -1232,7 +1232,7 @@ const ResumeWorkbook = () => {
                       handleAnswer(`proj${p}_detail`, '');
                       handleAnswer(`proj${p}_role`, '');
                       setProjCount(c => c - 1);
-                    }} style={{ background: 'transparent', border: '1px solid #6E7A8F66', color: '#6E7A8F', padding: '4px 12px', borderRadius: 6, fontSize: 16, cursor: 'pointer' }}>
+                    }} style={{ background: 'transparent', border: `1px solid ${COLORS.border}`, color: COLORS.sub, padding: '4px 12px', borderRadius: RADIUS.md, fontSize: 16, cursor: 'pointer' }}>
                       이 프로젝트 삭제
                     </button>
                   )}
@@ -1242,19 +1242,19 @@ const ResumeWorkbook = () => {
                   <div>
                     <label style={{ fontSize: 16, fontWeight: 700, color: COLORS.navyMid, display: 'block', marginBottom: 4 }}>프로젝트명</label>
                     <input type="text" value={answers[`proj${p}_name`] || ''} onChange={e => handleAnswer(`proj${p}_name`, e.target.value)}
-                      style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
+                      style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: `${COLORS.border}`, borderRadius: RADIUS.md, fontSize: 16, outline: 'none' }}
                       placeholder="예: 드론 프레임 경량화 설계" />
                   </div>
                   <div>
                     <label style={{ fontSize: 16, fontWeight: 700, color: COLORS.navyMid, display: 'block', marginBottom: 4 }}>기간</label>
                     <input type="text" value={answers[`proj${p}_period`] || ''} onChange={e => handleAnswer(`proj${p}_period`, e.target.value)}
-                      style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
+                      style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: `${COLORS.border}`, borderRadius: RADIUS.md, fontSize: 16, outline: 'none' }}
                       placeholder="예: 2024.09~2024.12" />
                   </div>
                   <div>
                     <label style={{ fontSize: 16, fontWeight: 700, color: COLORS.navyMid, display: 'block', marginBottom: 4 }}>소속/출처</label>
                     <input type="text" value={answers[`proj${p}_org`] || ''} onChange={e => handleAnswer(`proj${p}_org`, e.target.value)}
-                      style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: '#6E7A8F66', borderRadius: 8, fontSize: 16, outline: 'none' }}
+                      style={{ width: '100%', paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: `${COLORS.border}`, borderRadius: RADIUS.md, fontSize: 16, outline: 'none' }}
                       placeholder={isCareer ? "예: 사내 양산 프로젝트 / 신규 모델 개발 / 개인 사이드 프로젝트" : "예: ABC전자 인턴 / 개인 프로젝트 / 캡스톤"} />
                   </div>
                 </div>
@@ -1280,7 +1280,7 @@ const ResumeWorkbook = () => {
 
             {projCount < 5 && (
               <button onClick={() => setProjCount(c => c + 1)}
-                style={{ width: '100%', padding: '12px', background: 'transparent', border: '1px dashed #6E7A8F66', color: COLORS.navyMid, borderRadius: 8, fontSize: 16, fontWeight: 600, cursor: 'pointer', marginBottom: 16, transition: 'all 150ms' }}
+                style={{ width: '100%', padding: '12px', background: 'transparent', border: `1px dashed ${COLORS.border}`, color: COLORS.navyMid, borderRadius: RADIUS.md, fontSize: 16, fontWeight: 600, cursor: 'pointer', marginBottom: 16, transition: 'all 150ms' }}
                 onMouseEnter={e => e.currentTarget.style.background = COLORS.paper}
                 onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                 + 프로젝트 추가하기 (현재 {projCount}개, 최대 5개)
@@ -1345,21 +1345,21 @@ const ResumeWorkbook = () => {
 
         return (
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 900, color: COLORS.ink, marginBottom: 4 }}>PART 7: 최종 점검 체크리스트</h2>
-            <p style={{ fontSize: 16, color: '#6E7A8F', marginBottom: 24 }}>제출 전 아래 항목을 하나씩 점검하세요. ({checkedCount}/{checkItems.length} 완료)</p>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 7: 최종 점검 체크리스트</h2>
+            <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>제출 전 아래 항목을 하나씩 점검하세요. ({checkedCount}/{checkItems.length} 완료)</p>
 
             {/* 지금까지 작성한 내용 — PART 1~6 전체 미리보기 */}
-            <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, borderLeft: `3px solid ${COLORS.navyMid}`, padding: 16, borderRadius: 10, marginBottom: 24 }}>
+            <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, borderLeft: `3px solid ${COLORS.navyMid}`, padding: 16, borderRadius: RADIUS.md, marginBottom: 24 }}>
               <p style={{ fontSize: 16, fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', color: COLORS.navyMid, marginBottom: 4 }}>
                 INFO · 지금까지 작성한 내용 (PART 1~6)
               </p>
-              <p style={{ fontSize: 16, color: '#6E7A8F', margin: '0 0 12px 0' }}>아래 내용이 .docx 파일로 출력됩니다. 누락된 항목이 있으면 이전 PART로 돌아가서 작성하세요.</p>
+              <p style={{ fontSize: 16, color: COLORS.sub, margin: '0 0 12px 0' }}>아래 내용이 .docx 파일로 출력됩니다. 누락된 항목이 있으면 이전 PART로 돌아가서 작성하세요.</p>
 
               {/* 기본 정보 */}
               {(answers.company || answers.position || answers.expType) && (
                 <div style={{ marginBottom: 12 }}>
                   <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4, fontSize: 16 }}>기본 정보 (PART 1)</p>
-                  <div style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: 6, padding: 10, lineHeight: 1.7 }}>
+                  <div style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: RADIUS.md, padding: 10, lineHeight: 1.7 }}>
                     {answers.company && <div><strong>회사:</strong> {answers.company}</div>}
                     {answers.position && <div><strong>직무:</strong> {answers.position}</div>}
                     {answers.expType && <div><strong>지원자 유형:</strong> {answers.expType}</div>}
@@ -1371,7 +1371,7 @@ const ResumeWorkbook = () => {
               {(answers.jd_core || answers.jd_tools || answers.jd_nice) && (
                 <div style={{ marginBottom: 12 }}>
                   <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4, fontSize: 16 }}>직무상세내용 분석 (PART 2)</p>
-                  <div style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: 6, padding: 10, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
+                  <div style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: RADIUS.md, padding: 10, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
                     {answers.jd_core && <div style={{ marginBottom: 4 }}><strong>핵심 키워드:</strong>{'\n'}{answers.jd_core}</div>}
                     {answers.jd_tools && <div style={{ marginBottom: 4 }}><strong>도구·스킬:</strong>{'\n'}{answers.jd_tools}</div>}
                     {answers.jd_nice && <div><strong>우대 사항:</strong>{'\n'}{answers.jd_nice}</div>}
@@ -1384,10 +1384,10 @@ const ResumeWorkbook = () => {
                 <div style={{ marginBottom: 12 }}>
                   <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4, fontSize: 16 }}>경력 / 경험 (PART 3)</p>
                   {Array.from({length: expCount}, (_, i) => i + 1).map(n => answers[`exp${n}_name`] && (
-                    <div key={n} style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: 6, padding: 10, marginBottom: 6, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
+                    <div key={n} style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: RADIUS.md, padding: 10, marginBottom: 6, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
                       <strong>경험 {n}: {answers[`exp${n}_name`]}</strong>
                       {answers[`exp${n}_period`] || answers[`exp${n}_role`] ? (
-                        <div style={{ fontSize: 13, color: '#6E7A8F' }}>{[answers[`exp${n}_period`], answers[`exp${n}_role`]].filter(Boolean).join(' | ')}</div>
+                        <div style={{ fontSize: 13, color: COLORS.sub }}>{[answers[`exp${n}_period`], answers[`exp${n}_role`]].filter(Boolean).join(' | ')}</div>
                       ) : null}
                       {answers[`exp${n}_detail`] && <div style={{ marginTop: 4 }}>{answers[`exp${n}_detail`]}</div>}
                       {answers[`exp${n}_result`] && <div style={{ marginTop: 4 }}><strong>성과:</strong> {answers[`exp${n}_result`]}</div>}
@@ -1400,7 +1400,7 @@ const ResumeWorkbook = () => {
               {answers.oneline_final && (
                 <div style={{ marginBottom: 12 }}>
                   <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4, fontSize: 16 }}>한줄 소개 (PART 4)</p>
-                  <p style={{ fontSize: 16, color: COLORS.ink, background: COLORS.paper, borderRadius: 6, padding: 10, margin: 0, whiteSpace: 'pre-line', lineHeight: 1.7 }}>{answers.oneline_final}</p>
+                  <p style={{ fontSize: 16, color: COLORS.ink, background: COLORS.paper, borderRadius: RADIUS.md, padding: 10, margin: 0, whiteSpace: 'pre-line', lineHeight: 1.7 }}>{answers.oneline_final}</p>
                 </div>
               )}
 
@@ -1408,7 +1408,7 @@ const ResumeWorkbook = () => {
               {(answers.career_depth || answers.career_gap) && (
                 <div style={{ marginBottom: 12 }}>
                   <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4, fontSize: 16 }}>경력직 추가 정보 (PART 5)</p>
-                  <div style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: 6, padding: 10, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
+                  <div style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: RADIUS.md, padding: 10, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
                     {answers.career_depth && <div style={{ marginBottom: 4 }}><strong>경력 깊이:</strong>{'\n'}{answers.career_depth}</div>}
                     {answers.career_gap && <div><strong>경력 공백:</strong>{'\n'}{answers.career_gap}</div>}
                   </div>
@@ -1420,10 +1420,10 @@ const ResumeWorkbook = () => {
                 <div style={{ marginBottom: 12 }}>
                   <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4, fontSize: 16 }}>프로젝트 (PART 6)</p>
                   {Array.from({length: projCount}, (_, i) => i + 1).map(p => answers[`proj${p}_name`] && (
-                    <div key={p} style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: 6, padding: 10, marginBottom: 6, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
+                    <div key={p} style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: RADIUS.md, padding: 10, marginBottom: 6, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
                       <strong>프로젝트 {p}: {answers[`proj${p}_name`]}</strong>
                       {answers[`proj${p}_period`] || answers[`proj${p}_org`] ? (
-                        <div style={{ fontSize: 13, color: '#6E7A8F' }}>{[answers[`proj${p}_period`], answers[`proj${p}_org`]].filter(Boolean).join(' | ')}</div>
+                        <div style={{ fontSize: 13, color: COLORS.sub }}>{[answers[`proj${p}_period`], answers[`proj${p}_org`]].filter(Boolean).join(' | ')}</div>
                       ) : null}
                       {answers[`proj${p}_role`] && <div style={{ marginTop: 4 }}><strong>본인 역할:</strong> {answers[`proj${p}_role`]}</div>}
                       {answers[`proj${p}_detail`] && <div style={{ marginTop: 4 }}>{answers[`proj${p}_detail`]}</div>}
@@ -1431,10 +1431,10 @@ const ResumeWorkbook = () => {
                   ))}
                   {/* 옛 단일 키 호환 */}
                   {answers.proj_name && !answers.proj1_name && (
-                    <div style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: 6, padding: 10, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
+                    <div style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: RADIUS.md, padding: 10, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
                       <strong>{answers.proj_name}</strong>
                       {answers.proj_period || answers.proj_org ? (
-                        <div style={{ fontSize: 13, color: '#6E7A8F' }}>{[answers.proj_period, answers.proj_org].filter(Boolean).join(' | ')}</div>
+                        <div style={{ fontSize: 13, color: COLORS.sub }}>{[answers.proj_period, answers.proj_org].filter(Boolean).join(' | ')}</div>
                       ) : null}
                       {answers.proj_role && <div style={{ marginTop: 4 }}><strong>본인 역할:</strong> {answers.proj_role}</div>}
                       {answers.proj_detail && <div style={{ marginTop: 4 }}>{answers.proj_detail}</div>}
@@ -1447,7 +1447,7 @@ const ResumeWorkbook = () => {
               {answers.skills && (
                 <div style={{ marginBottom: 12 }}>
                   <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4, fontSize: 16 }}>스킬 · 자격증 (PART 6)</p>
-                  <p style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: 6, padding: 10, whiteSpace: 'pre-line', lineHeight: 1.7, margin: 0 }}>{answers.skills}</p>
+                  <p style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: RADIUS.md, padding: 10, whiteSpace: 'pre-line', lineHeight: 1.7, margin: 0 }}>{answers.skills}</p>
                 </div>
               )}
 
@@ -1455,26 +1455,26 @@ const ResumeWorkbook = () => {
               {answers.edu_extra && (
                 <div>
                   <p style={{ fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 4, fontSize: 16 }}>교육 · 부트캠프 (PART 6)</p>
-                  <p style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: 6, padding: 10, whiteSpace: 'pre-line', lineHeight: 1.7, margin: 0 }}>{answers.edu_extra}</p>
+                  <p style={{ fontSize: 16, color: COLORS.navyMid, background: COLORS.paper, borderRadius: RADIUS.md, padding: 10, whiteSpace: 'pre-line', lineHeight: 1.7, margin: 0 }}>{answers.edu_extra}</p>
                 </div>
               )}
             </div>
 
-            <div style={{ background: COLORS.border, width: '100%', borderRadius: 9999, height: 8, marginBottom: 24 }}>
-              <div style={{ background: COLORS.goldDeep, height: 8, borderRadius: 9999, transition: 'all 150ms', width: `${(checkedCount / checkItems.length) * 100}%` }} />
+            <div style={{ background: COLORS.border, width: '100%', borderRadius: RADIUS.pill, height: 8, marginBottom: 24 }}>
+              <div style={{ background: COLORS.goldDeep, height: 8, borderRadius: RADIUS.pill, transition: 'all 150ms', width: `${(checkedCount / checkItems.length) * 100}%` }} />
             </div>
 
             <div style={{ gap: 12 }}>
               {checkItems.map(item => {
                 const checked = !!checks[item.id];
                 return (
-                  <label key={item.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: 16, borderRadius: 8, border: `1px solid ${checked ? COLORS.goldDeep : COLORS.border}`, background: checked ? COLORS.paper : COLORS.white, cursor: 'pointer', transition: 'all 150ms', marginBottom: 8 }}
-                    onMouseEnter={e => { if (!checked) e.currentTarget.style.borderColor = '#6E7A8F66'; }}
+                  <label key={item.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: 16, borderRadius: RADIUS.md, border: `1px solid ${checked ? COLORS.goldDeep : COLORS.border}`, background: checked ? COLORS.paper : COLORS.white, cursor: 'pointer', transition: 'all 150ms', marginBottom: 8 }}
+                    onMouseEnter={e => { if (!checked) e.currentTarget.style.borderColor = `${COLORS.border}`; }}
                     onMouseLeave={e => { if (!checked) e.currentTarget.style.borderColor = COLORS.border; }}>
                     <input type="checkbox" checked={checked} onChange={() => toggleCheck(item.id)} style={{ marginTop: 2, cursor: 'pointer', width: 18, height: 18, accentColor: COLORS.goldDeep, flexShrink: 0 }} />
                     <div style={{ flex: 1 }}>
                       <p style={{ fontSize: 16, color: COLORS.ink, margin: 0, textDecoration: checked ? 'line-through' : 'none', opacity: checked ? 0.7 : 1 }}>{item.text}</p>
-                      <p style={{ fontSize: 16, color: '#6E7A8F', margin: '4px 0 0' }}>조치: {item.action}</p>
+                      <p style={{ fontSize: 16, color: COLORS.sub, margin: '4px 0 0' }}>조치: {item.action}</p>
                     </div>
                   </label>
                 );
@@ -1482,8 +1482,8 @@ const ResumeWorkbook = () => {
             </div>
 
             {checkedCount === checkItems.length && (
-              <div style={{ marginTop: 24, background: COLORS.paper, border: `1px solid ${COLORS.border}`, borderColor: COLORS.goldDeep, borderRadius: 12, padding: 20, textAlign: 'center' }}>
-                <p style={{ fontSize: 18, fontWeight: 900, color: COLORS.goldDeep }}>모든 점검 완료!</p>
+              <div style={{ marginTop: 24, background: COLORS.paper, border: `1px solid ${COLORS.border}`, borderColor: COLORS.goldDeep, borderRadius: RADIUS.lg, padding: 20, textAlign: 'center' }}>
+                <p style={{ fontSize: 18, fontWeight: 700, color: COLORS.goldDeep }}>모든 점검 완료!</p>
                 <p style={{ fontSize: 16, color: COLORS.goldDeep, marginTop: 4 }}>다음 단계에서 작성 결과를 다운로드하세요.</p>
               </div>
             )}
@@ -1495,27 +1495,27 @@ const ResumeWorkbook = () => {
         return (
           <div>
             <div style={{ textAlign: 'center', marginBottom: 32 }}>
-              <div style={{ width: 64, height: 64, background: COLORS.cream, borderRadius: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', marginBottom: 16 }}>
+              <div style={{ width: 64, height: 64, background: COLORS.cream, borderRadius: RADIUS.pill, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', marginBottom: 16 }}>
                 </div>
-              <h2 style={{ fontSize: 20, fontWeight: 900, color: COLORS.ink, marginBottom: 8 }}>이력서 워크북 작성 완료!</h2>
-              <p style={{ fontSize: 16, color: '#6E7A8F' }}>아래 내용을 확인하고 .docx 파일로 다운로드하세요.</p>
+              <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 8 }}>이력서 워크북 작성 완료!</h2>
+              <p style={{ fontSize: 16, color: COLORS.sub }}>아래 내용을 확인하고 .docx 파일로 다운로드하세요.</p>
             </div>
 
-            <div style={{ background: COLORS.paper, border: `1px solid ${COLORS.border}`, borderColor: COLORS.goldDeep, borderRadius: 12, padding: 16, marginBottom: 24 }}>
+            <div style={{ background: COLORS.paper, border: `1px solid ${COLORS.border}`, borderColor: COLORS.goldDeep, borderRadius: RADIUS.lg, padding: 16, marginBottom: 24 }}>
               <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink }}>완성본은 파일로 받아두세요</p>
               <p style={{ fontSize: 16, color: COLORS.navyMid }}>작성한 내용은 이 브라우저에 자동 저장됩니다. 다만 캐시를 지우거나 다른 기기에서 열면 사라질 수 있으니, 최종본은 "다운로드 (.docx)" 버튼으로 받아두면 안전합니다.</p>
             </div>
 
             {/* 작성 결과 요약 — 워드 출력에 포함되는 모든 항목 표시 */}
-            <div style={{ background: COLORS.cream, borderRadius: 12, padding: 20, marginBottom: 24 }}>
-              <p style={{ fontSize: 18, fontWeight: 900, color: COLORS.ink, margin: 0, marginBottom: 16 }}>작성 결과 요약</p>
-              <p style={{ fontSize: 16, color: '#6E7A8F', margin: '0 0 16px 0' }}>아래 내용이 .docx 파일로 출력됩니다. 누락된 항목이 있으면 이전 PART로 돌아가서 작성하세요.</p>
+            <div style={{ background: COLORS.cream, borderRadius: RADIUS.lg, padding: 20, marginBottom: 24 }}>
+              <p style={{ fontSize: 18, fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 16 }}>작성 결과 요약</p>
+              <p style={{ fontSize: 16, color: COLORS.sub, margin: '0 0 16px 0' }}>아래 내용이 .docx 파일로 출력됩니다. 누락된 항목이 있으면 이전 PART로 돌아가서 작성하세요.</p>
 
               {/* 기본 정보 */}
               {(answers.company || answers.position || answers.expType) && (
                 <div style={{ marginBottom: 16 }}>
                   <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 6 }}>기본 정보</p>
-                  <div style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: 8, padding: 12, border: `1px solid ${COLORS.border}`, lineHeight: 1.7 }}>
+                  <div style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: RADIUS.md, padding: 12, border: `1px solid ${COLORS.border}`, lineHeight: 1.7 }}>
                     {answers.company && <div><strong>회사:</strong> {answers.company}</div>}
                     {answers.position && <div><strong>직무:</strong> {answers.position}</div>}
                     {answers.expType && <div><strong>지원자 유형:</strong> {answers.expType}</div>}
@@ -1527,7 +1527,7 @@ const ResumeWorkbook = () => {
               {(answers.jd_core || answers.jd_tools || answers.jd_nice) && (
                 <div style={{ marginBottom: 16 }}>
                   <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 6 }}>직무상세내용 분석</p>
-                  <div style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: 8, padding: 12, border: `1px solid ${COLORS.border}`, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
+                  <div style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: RADIUS.md, padding: 12, border: `1px solid ${COLORS.border}`, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
                     {answers.jd_core && <div style={{ marginBottom: 6 }}><strong>핵심 키워드:</strong>{'\n'}{answers.jd_core}</div>}
                     {answers.jd_tools && <div style={{ marginBottom: 6 }}><strong>도구·스킬:</strong>{'\n'}{answers.jd_tools}</div>}
                     {answers.jd_nice && <div><strong>우대 사항:</strong>{'\n'}{answers.jd_nice}</div>}
@@ -1539,7 +1539,7 @@ const ResumeWorkbook = () => {
               {answers.oneline_final && (
                 <div style={{ marginBottom: 16 }}>
                   <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 6 }}>한줄 소개</p>
-                  <p style={{ fontSize: 15, color: COLORS.ink, background: COLORS.white, borderRadius: 8, padding: 12, border: `1px solid ${COLORS.border}`, margin: 0, whiteSpace: 'pre-line', lineHeight: 1.7 }}>{answers.oneline_final}</p>
+                  <p style={{ fontSize: 15, color: COLORS.ink, background: COLORS.white, borderRadius: RADIUS.md, padding: 12, border: `1px solid ${COLORS.border}`, margin: 0, whiteSpace: 'pre-line', lineHeight: 1.7 }}>{answers.oneline_final}</p>
                 </div>
               )}
 
@@ -1549,10 +1549,10 @@ const ResumeWorkbook = () => {
                   <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 6 }}>경력 / 경험</p>
                   {Array.from({length: expCount}, (_, i) => i + 1).map(n => answers[`exp${n}_name`] && (
                     <div key={n} style={{ marginBottom: 8 }}>
-                      <div style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: 8, padding: 12, border: `1px solid ${COLORS.border}`, whiteSpace: 'pre-line', lineHeight: 1.7 }}>
+                      <div style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: RADIUS.md, padding: 12, border: `1px solid ${COLORS.border}`, whiteSpace: 'pre-line', lineHeight: 1.7 }}>
                         <strong>경험 {n}: {answers[`exp${n}_name`]}</strong>
                         {answers[`exp${n}_period`] || answers[`exp${n}_role`] ? (
-                          <div style={{ fontSize: 16, color: '#6E7A8F', marginTop: 2 }}>
+                          <div style={{ fontSize: 16, color: COLORS.sub, marginTop: 2 }}>
                             {[answers[`exp${n}_period`], answers[`exp${n}_role`]].filter(Boolean).join(' | ')}
                           </div>
                         ) : null}
@@ -1568,7 +1568,7 @@ const ResumeWorkbook = () => {
               {(answers.career_depth || answers.career_gap) && (
                 <div style={{ marginBottom: 16 }}>
                   <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 6 }}>경력직 추가 정보</p>
-                  <div style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: 8, padding: 12, border: `1px solid ${COLORS.border}`, whiteSpace: 'pre-line', lineHeight: 1.7 }}>
+                  <div style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: RADIUS.md, padding: 12, border: `1px solid ${COLORS.border}`, whiteSpace: 'pre-line', lineHeight: 1.7 }}>
                     {answers.career_depth && <div style={{ marginBottom: 6 }}><strong>경력 깊이:</strong>{'\n'}{answers.career_depth}</div>}
                     {answers.career_gap && <div><strong>경력 공백:</strong>{'\n'}{answers.career_gap}</div>}
                   </div>
@@ -1581,10 +1581,10 @@ const ResumeWorkbook = () => {
                   <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 6 }}>프로젝트</p>
                   {Array.from({length: projCount}, (_, i) => i + 1).map(p => answers[`proj${p}_name`] && (
                     <div key={p} style={{ marginBottom: 8 }}>
-                      <div style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: 8, padding: 12, border: `1px solid ${COLORS.border}`, whiteSpace: 'pre-line', lineHeight: 1.7 }}>
+                      <div style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: RADIUS.md, padding: 12, border: `1px solid ${COLORS.border}`, whiteSpace: 'pre-line', lineHeight: 1.7 }}>
                         <strong>프로젝트 {p}: {answers[`proj${p}_name`]}</strong>
                         {answers[`proj${p}_period`] || answers[`proj${p}_org`] ? (
-                          <div style={{ fontSize: 16, color: '#6E7A8F', marginTop: 2 }}>
+                          <div style={{ fontSize: 16, color: COLORS.sub, marginTop: 2 }}>
                             {[answers[`proj${p}_period`], answers[`proj${p}_org`]].filter(Boolean).join(' | ')}
                           </div>
                         ) : null}
@@ -1595,10 +1595,10 @@ const ResumeWorkbook = () => {
                   ))}
                   {/* 옛 단일 proj_ 키 호환 */}
                   {answers.proj_name && !answers.proj1_name && (
-                    <div style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: 8, padding: 12, border: `1px solid ${COLORS.border}`, whiteSpace: 'pre-line', lineHeight: 1.7 }}>
+                    <div style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: RADIUS.md, padding: 12, border: `1px solid ${COLORS.border}`, whiteSpace: 'pre-line', lineHeight: 1.7 }}>
                       <strong>{answers.proj_name}</strong>
                       {answers.proj_period || answers.proj_org ? (
-                        <div style={{ fontSize: 16, color: '#6E7A8F', marginTop: 2 }}>
+                        <div style={{ fontSize: 16, color: COLORS.sub, marginTop: 2 }}>
                           {[answers.proj_period, answers.proj_org].filter(Boolean).join(' | ')}
                         </div>
                       ) : null}
@@ -1613,7 +1613,7 @@ const ResumeWorkbook = () => {
               {answers.skills && (
                 <div style={{ marginBottom: 16 }}>
                   <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 6 }}>스킬 · 자격증</p>
-                  <p style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: 8, padding: 12, border: `1px solid ${COLORS.border}`, whiteSpace: 'pre-line', lineHeight: 1.7, margin: 0 }}>{answers.skills}</p>
+                  <p style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: RADIUS.md, padding: 12, border: `1px solid ${COLORS.border}`, whiteSpace: 'pre-line', lineHeight: 1.7, margin: 0 }}>{answers.skills}</p>
                 </div>
               )}
 
@@ -1621,27 +1621,27 @@ const ResumeWorkbook = () => {
               {answers.edu_extra && (
                 <div>
                   <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 6 }}>교육 · 부트캠프</p>
-                  <p style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: 8, padding: 12, border: `1px solid ${COLORS.border}`, whiteSpace: 'pre-line', lineHeight: 1.7, margin: 0 }}>{answers.edu_extra}</p>
+                  <p style={{ fontSize: 15, color: COLORS.navyMid, background: COLORS.white, borderRadius: RADIUS.md, padding: 12, border: `1px solid ${COLORS.border}`, whiteSpace: 'pre-line', lineHeight: 1.7, margin: 0 }}>{answers.edu_extra}</p>
                 </div>
               )}
             </div>
 
 
             <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
-              <button onClick={goPrev} style={{ background: 'transparent', color: COLORS.ink, border: `1px solid ${COLORS.border}`, padding: '12px 24px', borderRadius: 12, fontSize: 16, fontWeight: 500, cursor: 'pointer' }}>
+              <button onClick={goPrev} style={{ background: 'transparent', color: COLORS.ink, border: `1px solid ${COLORS.border}`, padding: '12px 24px', borderRadius: RADIUS.lg, fontSize: 16, fontWeight: 500, cursor: 'pointer' }}>
                 이전
               </button>
               <button
                 onClick={generateDoc}
-                style={{ flex: 1, paddingTop: 16, paddingBottom: 16, color: COLORS.white, borderRadius: 12, fontWeight: 700, fontSize: 18, transition: 'all 150ms', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, background: COLORS.ink, cursor: 'pointer', border: 'none' }}
+                style={{ flex: 1, paddingTop: 16, paddingBottom: 16, color: COLORS.white, borderRadius: RADIUS.lg, fontWeight: 700, fontSize: 18, transition: 'all 150ms', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, background: COLORS.ink, cursor: 'pointer', border: 'none' }}
               >
                 다운로드 (.docx)
               </button>
             </div>
 
-            {downloadDone && <p style={{ fontSize: 16, color: '#1FA47A', textAlign: 'center', marginTop: 16, fontWeight: 600 }}>✓ 다운로드 완료</p>}
+            {downloadDone && <p style={{ fontSize: 16, color: COLORS.green, textAlign: 'center', marginTop: 16, fontWeight: 600 }}>✓ 다운로드 완료</p>}
 
-            <div style={{ borderColor: COLORS.border, marginTop: 24, background: COLORS.cream, border: `1px solid ${COLORS.border}`, borderRadius: 12, padding: 20 }}>
+            <div style={{ borderColor: COLORS.border, marginTop: 24, background: COLORS.cream, border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.lg, padding: 20 }}>
               <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 8 }}>다음 단계 안내</p>
               <div style={{ fontSize: 16, color: COLORS.ink, gap: 4 }}>
                 <p>1. 이 워크북 결과를 바탕으로 실제 이력서 양식에 내용을 옮기세요</p>
@@ -1679,7 +1679,7 @@ const ResumeWorkbook = () => {
       ]} />
       <div style={{ maxWidth: 1350, margin: '0 auto' }}>
         {/* ═══ Sticky Header (PART 7-6) ═══ */}
-        <div style={{ position: 'sticky', top: 16, zIndex: 10, background: COLORS.cream, borderRadius: 14, padding: 16, border: `1px solid ${COLORS.border}`, marginBottom: 16, boxShadow: '0 2px 8px rgba(14, 39, 80, 0.12)' }}>
+        <div style={{ position: 'sticky', top: 16, zIndex: 10, background: COLORS.cream, borderRadius: RADIUS.lg, padding: 16, border: `1px solid ${COLORS.border}`, marginBottom: 16, boxShadow: '0 2px 8px rgba(14, 39, 80, 0.12)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
             <CELockupA height={32} />
             {/* 중: 현재 단계 (클릭 시 7단계 드롭다운) */}
@@ -1687,19 +1687,19 @@ const ResumeWorkbook = () => {
               
               
             </div>
-            <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: '#C53030', border: '1px solid #C5303066', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: '#6E7A8F', border: '1px solid #6E7A8F66', borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
+            <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: COLORS.red, border: `1px solid ${COLORS.red}66`, borderRadius: RADIUS.md, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.md, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ flex: 1, background: COLORS.border, borderRadius: 999, height: 6, overflow: 'hidden' }}>
-              <div style={{ background: COLORS.accent2, height: 6, borderRadius: 999, width: `${progress}%`, transition: 'width 500ms ease' }} />
+            <div style={{ flex: 1, background: COLORS.border, borderRadius: RADIUS.pill, height: 6, overflow: 'hidden' }}>
+              <div style={{ background: COLORS.accent2, height: 6, borderRadius: RADIUS.pill, width: `${progress}%`, transition: 'width 500ms ease' }} />
             </div>
-            <span style={{ fontSize: 16, color: '#6E7A8F', minWidth: 36, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{progress}%</span>
+            <span style={{ fontSize: 16, color: COLORS.sub, minWidth: 36, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{progress}%</span>
           </div>
         </div>
 
         {/* 임시저장 토스트 */}
         {downloadDone && (
-          <div style={{ background: COLORS.paper, border: '1px solid rgba(201, 168, 106, 0.2)', borderRadius: 10, padding: 12, marginBottom: 16, textAlign: 'center' }}>
+          <div style={{ background: COLORS.paper, border: '1px solid rgba(201, 168, 106, 0.2)', borderRadius: RADIUS.md, padding: 12, marginBottom: 16, textAlign: 'center' }}>
             <p style={{ fontSize: 16, color: COLORS.accent2, fontWeight: 600, margin: 0 }}>✓ 백업 .docx 파일을 내려받았습니다</p>
           </div>
         )}
@@ -1709,7 +1709,7 @@ const ResumeWorkbook = () => {
           <div style={{ display: 'flex', justifyContent: 'center', gap: 4, flexWrap: 'nowrap', overflowX: 'auto', paddingBottom: 4 }}>
             {stepTitles.map((t, i) => (
               <button key={i} onClick={() => { setCurrentStep(i); window.scrollTo(0, 0); }}
-                style={{ fontSize: 16, padding: '4px 10px', borderRadius: 999, border: 'none', cursor: 'pointer', fontWeight: i === currentStep ? 700 : 500, background: i === currentStep ? COLORS.ink : i < currentStep ? COLORS.paper : 'transparent', color: i === currentStep ? '#fff' : i < currentStep ? COLORS.accent2 : '#6E7A8F', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                style={{ fontSize: 16, padding: '4px 10px', borderRadius: RADIUS.pill, border: 'none', cursor: 'pointer', fontWeight: i === currentStep ? 700 : 500, background: i === currentStep ? COLORS.ink : i < currentStep ? COLORS.paper : 'transparent', color: i === currentStep ? '#fff' : i < currentStep ? COLORS.accent2 : COLORS.sub, whiteSpace: 'nowrap', flexShrink: 0 }}>
                 {i < currentStep ? '✓ ' : ''}PART {i + 1}. {t}
               </button>
             ))}
@@ -1717,16 +1717,16 @@ const ResumeWorkbook = () => {
         </div>
 
         {/* Content */}
-        <div style={{ background: '#fff', borderRadius: 14, padding: 'clamp(16px, 4vw, 32px)', border: `1px solid ${COLORS.border}`, marginBottom: 24 }}>
+        <div style={{ background: '#fff', borderRadius: RADIUS.lg, padding: 'clamp(16px, 4vw, 32px)', border: `1px solid ${COLORS.border}`, marginBottom: 24 }}>
           {renderStep()}
 
           {/* Navigation */}
           <div className="mt-8" style={{ display: 'flex', gap: 16 }}>
-            <button onClick={() => currentStep === 0 ? setShowIntro(true) : goPrev()} style={{ background: 'transparent', color: COLORS.ink, border: `1px solid ${COLORS.border}`, padding: '12px 24px', borderRadius: 10, fontSize: 16, fontWeight: 500, cursor: 'pointer' }}>
+            <button onClick={() => currentStep === 0 ? setShowIntro(true) : goPrev()} style={{ background: 'transparent', color: COLORS.ink, border: `1px solid ${COLORS.border}`, padding: '12px 24px', borderRadius: RADIUS.md, fontSize: 16, fontWeight: 500, cursor: 'pointer' }}>
               이전
             </button>
             {currentStep < 7 && (
-              <button onClick={goNext} style={{ flex: 1, background: COLORS.ink, color: COLORS.white, border: 'none', padding: '12px 24px', borderRadius: 10, fontSize: 16, fontWeight: 600, cursor: 'pointer' }}>
+              <button onClick={goNext} style={{ flex: 1, background: COLORS.ink, color: COLORS.white, border: 'none', padding: '12px 24px', borderRadius: RADIUS.md, fontSize: 16, fontWeight: 600, cursor: 'pointer' }}>
                 다음 </button>
             )}
           </div>
