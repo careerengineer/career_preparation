@@ -93,10 +93,10 @@ const BUTTON = {
 };
 
 
-const GrowthProcessWorkbook = () => {
+const FormativeExperiencesWorkbook = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [currentPhase, setCurrentPhase] = useState('round1');
-  const [currentStep, setCurrentStep] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_growth_process_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
+  const [currentStep, setCurrentStep] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_formative_experiences_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
   const [selectedSteps, setSelectedSteps] = useState([]);
   const [showGuide, setShowGuide] = useState({});
   const [downloadSuccess, setDownloadSuccess] = useState(false);
@@ -108,7 +108,7 @@ const GrowthProcessWorkbook = () => {
   const [confirmingClear, setConfirmingClear] = useState(false);
 
   // 자동 저장 키
-  const STORAGE_KEY = 'careerengineer_growth_process_v1';
+  const STORAGE_KEY = 'careerengineer_formative_experiences_v1';
 
   // 페이지 로드 시 저장된 데이터 자동 복구
   useEffect(() => {
@@ -738,9 +738,9 @@ const GrowthProcessWorkbook = () => {
 
     if (typeof window === 'undefined') return;
 
-    window.__CE_DOWNLOAD = { fn: () => __ceDlRef.current?.(), key: 'growth_process' };
+    window.__CE_DOWNLOAD = { fn: () => __ceDlRef.current?.(), key: 'formative_experiences' };
 
-    return () => { if (window.__CE_DOWNLOAD?.key === 'growth_process') window.__CE_DOWNLOAD = null; };
+    return () => { if (window.__CE_DOWNLOAD?.key === 'formative_experiences') window.__CE_DOWNLOAD = null; };
 
   }, []);
 
@@ -811,9 +811,9 @@ const GrowthProcessWorkbook = () => {
         indent: { left: 360 }
       });
       
-      const children = buildEssayDocxChildren('growth_process', { basicInfo, finalText, answers }, docxLib);
+      const children = buildEssayDocxChildren('formative_experiences', { basicInfo, finalText, answers }, docxLib);
 
-      try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('growth_process', '성장과정', 'careerengineer_growth_process_v1'))); } catch (e) { console.warn('[growth_process] backup embed skipped:', e); }
+      try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('formative_experiences', '성장과정', 'careerengineer_formative_experiences_v1'))); } catch (e) { console.warn('[formative_experiences] backup embed skipped:', e); }
       try { children.unshift(...buildCopyrightParagraphs(docxLib)); } catch (e) { console.warn('copyright skip', e); }
       const doc = new Document({
         creator: '',
@@ -908,9 +908,9 @@ const GrowthProcessWorkbook = () => {
 
     if (typeof window === 'undefined') return;
 
-    window.__CE_HOME = { fn: () => __ceHomeRef.current?.(), key: 'growth_process' };
+    window.__CE_HOME = { fn: () => __ceHomeRef.current?.(), key: 'formative_experiences' };
 
-    return () => { if (window.__CE_HOME?.key === 'growth_process') window.__CE_HOME = null; };
+    return () => { if (window.__CE_HOME?.key === 'formative_experiences') window.__CE_HOME = null; };
 
   }, []);
 
@@ -1136,7 +1136,7 @@ const IntroPage = ({
   // ══════════════════ 인트로 ══════════════════
       if (showIntro) return (
     <IntroPage
-      workbookKey='growth_process'
+      workbookKey='formative_experiences'
       stepLabel='STEP 4 · 성장과정 작성'
       title='성장과정'
       subtitle='3라운드 체계적 작성으로 완성하는 성장과정 항목'
@@ -1558,7 +1558,7 @@ const IntroPage = ({
                           </div>
                         )}
                         {/* 인라인 참고 워크북 (가이드 PART 7-15) */}
-                        {q.relatedWorkbooks && <RelatedWorkbookInline ids={q.relatedWorkbooks} questionId={q.id || q.label} workbookKey="growth_process" />}
+                        {q.relatedWorkbooks && <RelatedWorkbookInline ids={q.relatedWorkbooks} questionId={q.id || q.label} workbookKey="formative_experiences" />}
                       </div>
                     </div>
                   )}
@@ -1589,4 +1589,4 @@ const IntroPage = ({
   );
 };
 
-export default GrowthProcessWorkbook;
+export default FormativeExperiencesWorkbook;
