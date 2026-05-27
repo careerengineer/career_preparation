@@ -1,6 +1,10 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { DEFAULT_MASTER, MASTER_KEY, mergeWithDefaults } from './schema';
 import { LEGACY_KEYS } from './legacySync.js';
+import { loadSnapshots, pushSnapshot, deleteSnapshot } from './snapshots.js';
+
+// 자동 백업(스냅샷) 적재 주기: 5분에 1개(변경 시) + 페이지 이탈 시 즉시.
+const SNAPSHOT_MIN_GAP = 5 * 60 * 1000;
 
 const DataContext = createContext(null);
 
@@ -31,6 +35,49 @@ export function DataProvider({ children }) {
     }, 1000);
     return () => clearTimeout(timer);
   }, [master]);
+
+  // ─── 자동 백업(롤링 스냅샷) ───────────────────────────────
+  // 최신 master를 ref로 들고 있다가, 5분 주기·변경 시·페이지 이탈 시 적재한다.
+  const masterRef = useRef(master);
+  useEffect(() => { masterRef.current = master; }, [master]);
+  const lastSnapAtRef = useRef(0);
+  const [snapshotsVersion, setSnapshotsVersion] = useState(0);
+
+  const captureSnapshot = useCallback((force = false) => {
+    const now = Date.now();
+    if (!force && now - lastSnapAtRef.current < SNAPSHOT_MIN_GAP) return false;
+    const { added } = pushSnapshot(masterRef.current);
+    if (added) { lastSnapAtRef.current = now; setSnapshotsVersion((v) => v + 1); }
+    return added;
+  }, []);
+
+  // 변경 시: 저장(debounce 1초) 직후 시도 — 단, 5분 스로틀이 걸려 과다 적재를 막는다.
+  useEffect(() => {
+    const t = setTimeout(() => captureSnapshot(false), 1500);
+    return () => clearTimeout(t);
+  }, [master, captureSnapshot]);
+
+  // 5분 주기
+  useEffect(() => {
+    const id = setInterval(() => captureSnapshot(false), SNAPSHOT_MIN_GAP);
+    return () => clearInterval(id);
+  }, [captureSnapshot]);
+
+  // 페이지를 벗어날 때: 5분 스로틀을 무시하고 변경분을 즉시 적재(중복은 자동 스킵)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const onHide = () => { if (document.visibilityState === 'hidden') captureSnapshot(true); };
+    const onUnload = () => captureSnapshot(true);
+    document.addEventListener('visibilitychange', onHide);
+    window.addEventListener('beforeunload', onUnload);
+    return () => {
+      document.removeEventListener('visibilitychange', onHide);
+      window.removeEventListener('beforeunload', onUnload);
+    };
+  }, [captureSnapshot]);
+
+  const getSnapshots = useCallback(() => loadSnapshots(), []);
+  const deleteSnapshotAt = useCallback((at) => { deleteSnapshot(at); setSnapshotsVersion((v) => v + 1); }, []);
 
   const updateSlice = useCallback((slice, patch) => {
     setMaster((m) => ({ ...m, [slice]: { ...m[slice], ...patch } }));
@@ -184,6 +231,10 @@ export function DataProvider({ children }) {
         getCompanySlotMaster,
         getAllSlots,
         importAllSlots,
+        getSnapshots,
+        deleteSnapshotAt,
+        captureSnapshot,
+        snapshotsVersion,
       }}
     >
       {children}
