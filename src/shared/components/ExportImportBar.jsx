@@ -31,9 +31,9 @@ export function ExportImportBar() {
     showToast('전체 내용을 삭제했습니다. 페이지를 새로고침합니다…');
     setTimeout(() => window.location.reload(), 800);
   };
-  const handleExportXlsx = () => {
+  const handleExportXlsx = async () => {
     try {
-      const name = exportExperiencesXlsx(master);
+      const name = await exportExperiencesXlsx(master);
       showToast(`경험 정리: ${name}`);
     } catch (e) { showToast('오류: ' + e.message); }
   };

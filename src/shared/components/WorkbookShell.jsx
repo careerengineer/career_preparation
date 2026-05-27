@@ -70,7 +70,7 @@ export function WorkbookShell({
       // 경험정리도 다중시트 xlsx에 _CE_BACKUP 시트가 들어가 재import 가능
       const dl = (typeof window !== 'undefined') ? window.__CE_DOWNLOAD : null;
       if (isExperience && !(dl?.key === workbookKey && typeof dl.fn === 'function')) {
-        const name = exportExperiencesXlsx(master);
+        const name = await exportExperiencesXlsx(master);
         showToast(`다운로드 완료: ${name}`);
         return;
       }
