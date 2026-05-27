@@ -1136,9 +1136,15 @@ window.addEventListener('afterprint', function() {
               key={opt.v}
               type="button"
               onClick={() => set('story_type', opt.v)}
-              className={`text-left p-3 rounded-lg border-2 transition-all ${selected ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}
+              style={{
+                display: 'block', width: '100%', textAlign: 'left', padding: 14,
+                borderRadius: RADIUS.md, cursor: 'pointer', transition: 'all 150ms',
+                fontFamily: 'inherit',
+                border: `1px solid ${selected ? COLORS.goldDeep : COLORS.border}`,
+                background: selected ? COLORS.paper : COLORS.white,
+              }}
             >
-              <p className={`text-sm font-semibold ${selected ? `text-[${COLORS.ink}]` : `text-[${COLORS.ink}]`}`}>{opt.v}</p>
+              <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, margin: 0 }}>{opt.v}</p>
               <p style={{ fontSize: 16, color: COLORS.sub, marginTop: 4, lineHeight: 1.625 }}>{opt.d}</p>
             </button>
           );
