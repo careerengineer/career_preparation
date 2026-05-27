@@ -70,14 +70,13 @@ export const QUESTION_MAPPING = {
   },
   // ─── careergoal 입사후 포부 ───
   careergoal: {
-    q1_1: [{ type: 'jobAnalysis', field: 'jd.main_tasks', label: '직무 주요 업무' }],
-    q1_2: [{ type: 'jobAnalysis', field: 'keywords.hard_skills', label: '핵심 역량' }],
-    q1_3: [{ type: 'jobAnalysis', field: 'jd.preferred', label: '우대 사항' }],
-    q2_1: [{ type: 'jobAnalysis', field: 'company.vision', label: '회사 비전' }, { type: 'outputs', workbookKey: 'motivation', field: 'finalText', label: '지원동기' }],
-    q3_1: [{ type: 'outputs', workbookKey: 'jobcompetency', field: 'finalText', label: '직무역량 완성본' }],
-    q4_1: [{ type: 'careergoal', field: 'year1', label: '내 1년 목표' }],
-    q4_2: [{ type: 'careergoal', field: 'year3', label: '내 3년 목표' }],
-    q5_1: [{ type: 'careergoal', field: 'year5', label: '내 5년 목표' }, { type: 'outputs', workbookKey: 'goalachievement', field: 'finalText', label: '목표달성 완성본' }],
+    q1_1_1: [{ type: 'jobAnalysis', field: 'jd.main_tasks', label: '직무 주요 업무' }],
+    q1_1_2: [{ type: 'jobAnalysis', field: 'keywords.hard_skills', label: '핵심 역량' }],
+    q1_1_3: [{ type: 'jobAnalysis', field: 'jd.preferred', label: '우대 사항' }],
+    q1_2_1: [{ type: 'jobAnalysis', field: 'company.vision', label: '회사 비전' }, { type: 'outputs', workbookKey: 'motivation', field: 'finalText', label: '지원동기' }],
+    q1_3_1: [{ type: 'outputs', workbookKey: 'jobcompetency', field: 'finalText', label: '직무역량 완성본' }],
+    q1_q4_1: [{ type: 'careergoal', field: 'year1', label: '내 1년 목표' }, { type: 'careergoal', field: 'year3', label: '내 3년 목표' }],
+    q1_q4_2: [{ type: 'careergoal', field: 'year5', label: '내 5년 목표' }, { type: 'outputs', workbookKey: 'goalachievement', field: 'finalText', label: '목표달성 완성본' }],
   },
   // ─── self_introduction 1분 자기소개 ───
   self_introduction: {
