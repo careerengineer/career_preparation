@@ -45,19 +45,28 @@ export const QUESTION_MAPPING = {
     q1_4: [{ type: 'experiences', field: 'star_a', label: '각 경험의 행동' }],
     q1_5: [{ type: 'experiences', field: 'star_r', label: '각 경험의 결과' }],
     q1_6: [{ type: 'jobAnalysis', field: 'jd.main_tasks', label: '직무 주요 업무' }],
-    'q1-7': [{ type: 'jobAnalysis', field: 'success_signals', label: '회사 성공 신호' }, { type: 'outputs', workbookKey: 'jobcompetency', field: 'finalText', label: '직무역량 완성본' }],
+    q1_7: [{ type: 'jobAnalysis', field: 'success_signals', label: '회사 성공 신호' }, { type: 'outputs', workbookKey: 'jobcompetency', field: 'finalText', label: '직무역량 완성본' }],
     q2_1: [{ type: 'experiences', field: 'learning', label: '각 경험의 배운점' }],
     q2_2: [{ type: 'experiences', field: 'star_a', label: '각 경험의 행동' }],
   },
+  // ─── formative_experiences 성장과정 ───
+  formative_experiences: {
+    q1_2: [{ type: 'experiences', field: 'motivation', label: '각 경험의 계기' }],
+    q1_5: [{ type: 'experiences', field: 'star_a', label: '각 경험의 행동' }, { type: 'experiences', field: 'learning', label: '각 경험의 배운점' }],
+    q1_6: [{ type: 'experiences', field: 'star_r', label: '각 경험의 결과' }, { type: 'experiences', field: 'summary', label: '각 경험 요약' }],
+    q1_7: [{ type: 'jobAnalysis', field: 'jd.main_tasks', label: '직무 주요 업무' }, { type: 'jobAnalysis', field: 'keywords.soft_skills', label: '소프트 스킬' }],
+    q2_2: [{ type: 'experiences', field: 'motivation', label: '각 경험의 계기' }],
+    q2_3: [{ type: 'experiences', field: 'star_r', label: '각 경험의 결과' }, { type: 'experiences', field: 'learning', label: '각 경험의 배운점' }],
+  },
   // ─── goalachievement 목표수립·달성 ───
   goalachievement: {
-    q1_1: [{ type: 'experiences', field: 'star_t', label: '각 경험의 과제' }],
-    q1_2: [{ type: 'experiences', field: 'motivation', label: '각 경험의 동기' }],
-    q2_1: [{ type: 'experiences', field: 'star_a', label: '각 경험의 행동' }],
-    q3_1: [{ type: 'experiences', field: 'star_r', label: '각 경험의 결과' }],
-    q4_1: [{ type: 'experiences', field: 'learning', label: '각 경험의 배운점' }],
-    q5_1: [{ type: 'careergoal', field: 'year1', label: '1년 목표' }, { type: 'careergoal', field: 'year3', label: '3년 목표' }],
-    q6_2: [{ type: 'jobAnalysis', field: 'connection_sentences', label: '연결 문장' }],
+    q1_1_1: [{ type: 'experiences', field: 'star_t', label: '각 경험의 과제' }],
+    q1_1_2: [{ type: 'experiences', field: 'motivation', label: '각 경험의 동기' }],
+    q1_2_1: [{ type: 'experiences', field: 'star_a', label: '각 경험의 행동' }],
+    q1_3_1: [{ type: 'experiences', field: 'star_r', label: '각 경험의 결과' }],
+    q1_4_1: [{ type: 'experiences', field: 'learning', label: '각 경험의 배운점' }],
+    q1_5_1: [{ type: 'careergoal', field: 'year1', label: '1년 목표' }, { type: 'careergoal', field: 'year3', label: '3년 목표' }],
+    q1_6_2: [{ type: 'jobAnalysis', field: 'connection_sentences', label: '연결 문장' }],
   },
   // ─── careergoal 입사후 포부 ───
   careergoal: {

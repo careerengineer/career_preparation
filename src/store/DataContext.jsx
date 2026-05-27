@@ -1,25 +1,8 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { DEFAULT_MASTER, MASTER_KEY } from './schema';
+import { DEFAULT_MASTER, MASTER_KEY, mergeWithDefaults } from './schema';
 import { LEGACY_KEYS } from './legacySync.js';
 
 const DataContext = createContext(null);
-
-// 구버전/부분 저장본·슬롯에 슬라이스가 없어도 selectors가 크래시하지 않도록
-// DEFAULT_MASTER와 슬라이스별로 머지한다. (cold load + 슬롯 복원 공용)
-function mergeWithDefaults(p) {
-  p = p || {};
-  return {
-    ...DEFAULT_MASTER,
-    ...p,
-    profile: { ...DEFAULT_MASTER.profile, ...(p.profile || {}) },
-    roadmap: { ...DEFAULT_MASTER.roadmap, ...(p.roadmap || {}) },
-    careergoal: { ...DEFAULT_MASTER.careergoal, ...(p.careergoal || {}) },
-    jobAnalysis: { ...DEFAULT_MASTER.jobAnalysis, ...(p.jobAnalysis || {}) },
-    workbookRaw: { ...DEFAULT_MASTER.workbookRaw, ...(p.workbookRaw || {}) },
-    outputs: { ...DEFAULT_MASTER.outputs, ...(p.outputs || {}) },
-    experiences: Array.isArray(p.experiences) ? p.experiences : DEFAULT_MASTER.experiences,
-  };
-}
 
 export function DataProvider({ children }) {
   const [master, setMaster] = useState(() => {

@@ -1237,7 +1237,7 @@ export default function App() {
         : errMsg.includes('not a constructor') || errMsg.includes('undefined')
         ? '\n\n페이지를 새로고침한 후 다시 시도해주세요.'
         : '';
-      alert('워드 문서 생성에 실패했습니다.\n\n[원인] ' + errMsg + hint);
+      alert('.docx 파일 생성에 실패했습니다.\n\n[원인] ' + errMsg + hint);
     } finally {
       setIsSavingDocx(false);
     }

@@ -1,4 +1,4 @@
-import { DEFAULT_MASTER, APP_VERSION } from './schema';
+import { DEFAULT_MASTER, APP_VERSION, mergeWithDefaults } from './schema';
 
 const FORMAT_TAG = 'careerengineer-export';
 
@@ -102,20 +102,6 @@ export function parseImportFile(file) {
     reader.onerror = () => reject(new Error('파일을 읽을 수 없습니다.'));
     reader.readAsText(file);
   });
-}
-
-function mergeWithDefaults(data) {
-  return {
-    ...DEFAULT_MASTER,
-    ...data,
-    profile: { ...DEFAULT_MASTER.profile, ...(data.profile || {}) },
-    roadmap: { ...DEFAULT_MASTER.roadmap, ...(data.roadmap || {}) },
-    careergoal: { ...DEFAULT_MASTER.careergoal, ...(data.careergoal || {}) },
-    jobAnalysis: { ...DEFAULT_MASTER.jobAnalysis, ...(data.jobAnalysis || {}) },
-    experiences: Array.isArray(data.experiences) ? data.experiences : [],
-    outputs: { ...DEFAULT_MASTER.outputs, ...(data.outputs || {}) },
-    workbookRaw: { ...DEFAULT_MASTER.workbookRaw, ...(data.workbookRaw || {}) },
-  };
 }
 
 export function detectConflicts(currentMaster, incomingMaster) {
