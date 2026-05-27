@@ -924,7 +924,7 @@ ${skillRows.length ? `${sectionHeader('핵심 역량')}
       setDownloaded(true);
     } catch (err) {
       console.error('docx 생성 실패:', err);
-      alert('워드 문서 생성에 실패했습니다. 잠시 후 다시 시도해주세요.\n\n' + (err.message || ''));
+      alert('.docx 파일 생성에 실패했습니다. 잠시 후 다시 시도해주세요.\n\n' + (err.message || ''));
     }
   };
   __ceDlRef.current = dl; // [CE-DL] ref 갱신

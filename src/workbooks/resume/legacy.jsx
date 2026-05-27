@@ -735,7 +735,7 @@ const ResumeWorkbook = () => {
       setDownloadDone(true);
     } catch (err) {
       console.error('docx 생성 실패:', err);
-      alert('워드 문서 생성에 실패했습니다.\n' + (err.message || ''));
+      alert('.docx 파일 생성에 실패했습니다.\n' + (err.message || ''));
     }
   };
 
