@@ -1310,7 +1310,7 @@ const IntroPage = ({
                     <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_value_test.substring(0,200)}{answers.connect_value_test.length>200?'...':''}</p>
                   </div>
                 )}
-                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"꾸준한 성과로 증명되었습니다...\""</p>
+                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"결정적 전환점은 ○○이었고, 그 이후 ○○로 일관되게 이어졌습니다...\""</p>
               </div>
 
               <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: SPACING.sm }}>
@@ -1354,7 +1354,7 @@ const IntroPage = ({
                 {[
                   { n: "①", q: "Q1: 핵심 가치관이 추상적 단어가 아닌 행동·기준으로 드러나는가? 형성 사건과 강점 형성 과정이 보이는가?", miss: "Q1-1, Q1-2" },
                 { n: "②", q: "Q2: 과거의 부족함 + 결정적 계기 + 자리잡은 증거(반복·확장·자동화)가 모두 있는가?", miss: "Q2-1, Q2-2, Q2-3" },
-                { n: "③", q: "Q3: Q1(이미 가진 가치관) + Q2(새로 만들어진 강점)가 한 인격으로 보이는가?", miss: "Q2-심화4" }
+                { n: "③", q: "통합: Q1(이미 가진 가치관) + Q2(새로 만들어진 강점)가 한 인격으로 보이는가?", miss: "Q2-심화4" }
                 ].map((item, i) => {
                   const checked = !!checklistState[i];
                   return (

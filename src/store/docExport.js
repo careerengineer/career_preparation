@@ -697,7 +697,8 @@ function buildExperiencesWb(master) {
 
   // [시트 3] _CE_BACKUP (숨김) — 이 파일을 그대로 다시 가져오면 경험이 완전 복원됨
   try {
-    const b64 = utf8ToBase64(JSON.stringify({ format: 'careerengineer-experience-xlsx', version: 1, experiences: exps }));
+    const _er = master.workbookRaw?.experience || {};
+    const b64 = utf8ToBase64(JSON.stringify({ format: 'careerengineer-experience-xlsx', version: 1, experiences: exps, companyLinks: _er.companyLinks || {}, jdKeywords: _er.jdKeywords || { core: '', tools: '', soft: '', memo: '' }, personaAnswers: _er.personaAnswers || {} }));
     const CH = 30000;
     const brows = [['CE_EXPERIENCE_BACKUP']];
     for (let i = 0; i < b64.length; i += CH) brows.push([b64.slice(i, i + CH)]);
