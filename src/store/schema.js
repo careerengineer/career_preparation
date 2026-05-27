@@ -103,7 +103,7 @@ export function mergeWithDefaults(p) {
 
 // 전체 워크북 (full 대시보드). variant가 없으면 이 전체가 노출됨.
 export const ALL_WORKBOOKS = [
-  { key: 'career_roadmap',     step: 0, title: '취업 로드맵',     stepLabel: 'STEP 0 · 방향 설정' },
+  { key: 'career_roadmap',     step: 0, title: '취업 로드맵 진단',     stepLabel: 'STEP 0 · 취업 로드맵 진단' },
   { key: 'job_analysis',       step: 1, title: '채용공고 및 직무분석', stepLabel: 'STEP 1 · 채용공고 및 직무분석' },
   { key: 'experience',         step: 2, title: '경험 정리',       stepLabel: 'STEP 2 · 경험 소재 발굴' },
   { key: 'resume',             step: 3, title: '이력서',          stepLabel: 'STEP 3 · 이력서' },

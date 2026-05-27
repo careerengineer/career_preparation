@@ -21,7 +21,7 @@ const VARIANT_TITLE = {
 const PAGE_TITLE = VARIANT_TITLE[VARIANT] || 'CareerEngineer';
 
 const ALL_STEPS = [
-  { n: 0, name: '방향 설정' },
+  { n: 0, name: '취업 로드맵 진단' },
   { n: 1, name: '채용공고 및 직무분석' },
   { n: 2, name: '경험 정리' },
   { n: 3, name: '이력서·경력기술서' },
