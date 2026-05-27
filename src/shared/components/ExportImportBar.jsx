@@ -6,6 +6,7 @@ import { syncLegacyFromMaster } from '../../store/legacySync.js';
 import { DEFAULT_MASTER } from '../../store/schema.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
 import { OverwriteModal } from './OverwriteModal.jsx';
+import { SnapshotRecovery } from './SnapshotRecovery.jsx';
 
 export function ExportImportBar() {
   const { master, replaceMaster, resetAllData, importAllSlots } = useDataStore();
@@ -245,6 +246,7 @@ export function ExportImportBar() {
       <button onClick={handleImportClick} style={btnStyle}>기존 내용 불러오기 (.zip/.docx/.xlsx)</button>
       <button onClick={handleExportXlsx} style={btnStyle}>경험 정리만 저장 (.xlsx)</button>
       <button onClick={handleExportAll} style={btnPrimaryStyle}>전체내용 저장 (.zip)</button>
+      <SnapshotRecovery />
       {/* 저장 버튼들과 확실히 떨어뜨려 맨 오른쪽에 단독 배치 (오클릭 방지) */}
       <span aria-hidden className="ce-iebar-divider" style={{ alignSelf: 'stretch', width: 1, background: COLORS.line, marginLeft: 'auto', marginRight: SPACING.md }} />
       <button onClick={() => setResetMode('ask')} style={btnDangerStyle}>전체 삭제하고 다시 작성</button>
