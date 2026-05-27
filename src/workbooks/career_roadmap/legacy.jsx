@@ -9,7 +9,7 @@ import { buildRoadmapDocxChildren } from '../../store/workbookDocx.js';
 
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
-const MENTORING_URLS = {
+export const MENTORING_URLS = {
   consulting:        'https://www.latpeed.com/products/S92cP',  // 1-Hour 1:1 취업컨설팅
   career_consulting: 'https://www.latpeed.com/products/LimF9',  // 이직 컨설팅
   cover_letter:      'https://www.latpeed.com/products/fKnUV',  // 자소서 멘토링
@@ -138,7 +138,7 @@ function getVisibleOpts(q, who) {
 //  목적: 지원자가 "내가 지금 왜 막혀있는지", "어떻게 풀어가야 하는지"를
 //        스스로 이해하고, 혼자서도 한 발씩 나아갈 수 있게 돕기
 // ════════════════════════════════════════════════════════════════
-function getStageGuide(stepKey, stepLevel, who, essayNA) {
+export function getStageGuide(stepKey, stepLevel, who, essayNA) {
   // who: "new" | "career" | "switch" | "grad"
   // stepKey: "job" | "jd" | "exp" | "essay" | "resume" | "interview"
   // essayNA: true if user selected "자소서 미요구" (essay = -1)
@@ -741,7 +741,7 @@ function getStageGuide(stepKey, stepLevel, who, essayNA) {
 //  사용자의 응답 level에 맞춰 "당신은 이 단계에서 무엇을 해야 하는지"
 //  를 한두 문장으로 안내합니다.
 // ════════════════════════════════════════════════════════════════
-function getStageNote(stepKey, level, who, essayNA) {
+export function getStageNote(stepKey, level, who, essayNA) {
   // STEP 0 — 직무 방향 설정
   if (stepKey === "job") {
     if (level === 0) return {

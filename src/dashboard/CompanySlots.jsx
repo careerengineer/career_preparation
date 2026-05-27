@@ -64,7 +64,7 @@ export default function CompanySlots() {
     if (slots.length === 0) { showToast('백업할 저장본이 없습니다.'); return; }
     try {
       const { zipName, count } = await exportAllSlotsZip(getAllSlots());
-      showToast(`전체 ${count}개 저장본을 백업했습니다: ${zipName} (워드 1개 + 엑셀 1개)`);
+      showToast(`전체 ${count}개 저장본을 백업했습니다: ${zipName} (.docx 1개 + .xlsx 1개)`);
     } catch (err) { showToast('오류: ' + err.message); }
   };
 
@@ -150,7 +150,7 @@ export default function CompanySlots() {
           lineHeight: FONT.lineHeight.base,
         }}>
           저장본은 <strong>이 브라우저에만</strong> 저장됩니다.
-          다른 기기에서 열거나 캐시 삭제를 대비하여 <strong>[전체 저장본 백업]</strong>으로 <strong>모든 회사를 담은 워드 1개 + 엑셀 1개(.zip)</strong>를 다운로드하세요.
+          다른 기기에서 열거나 캐시 삭제를 대비하여 <strong>[전체 저장본 백업]</strong>으로 <strong>모든 회사를 담은 .docx 1개 + .xlsx 1개(.zip)</strong>를 다운로드하세요.
           그 .zip을 [저장본 백업 불러오기]에 올리면 모든 회사 저장본이 그대로 복원됩니다.
         </p>
         <p style={{ margin: '8px 0 0', fontSize: 16, color: COLORS.sub, lineHeight: FONT.lineHeight.base }}>
