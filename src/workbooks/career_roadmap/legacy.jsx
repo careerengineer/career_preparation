@@ -1052,7 +1052,7 @@ const IntroPage = ({
 // ════════════════════════════════════════════════════════════════
 //  CareerEngineer 워크북 라이브러리 (URL은 나중에 일괄 적용)
 // ════════════════════════════════════════════════════════════════
-const WORKBOOK_LINKS = { career_roadmap: { label: 'STEP 0 · 취업준비 진단', url: 'https://www.latpeed.com/products/YPFjD' },
+const WORKBOOK_LINKS = { career_roadmap: { label: 'STEP 0 · 취업 로드맵 진단', url: 'https://www.latpeed.com/products/YPFjD' },
   job_analysis:       { label: 'STEP 1 · 채용공고 및 직무분석', url: 'https://www.latpeed.com/products/-3Wgm' },
   experience:         { label: 'STEP 2 · 경험 정리', url: 'https://www.latpeed.com/products/wDSaj' },
   motivation:         { label: 'STEP 4 · 지원동기 작성', url: 'https://www.latpeed.com/products/dfdMW' },
@@ -1215,9 +1215,9 @@ export default function App() {
       
       const children = buildRoadmapDocxChildren({ result }, docxLib);
 
-      try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('career_roadmap', '취업 로드맵', 'careerengineer_career_roadmap_v1'))); } catch (e) { console.warn('[career_roadmap] backup embed skipped:', e); }
+      try { children.push(...buildWorkbookBackupParagraphs(docxLib, buildWorkbookPayload('career_roadmap', '취업 로드맵 진단', 'careerengineer_career_roadmap_v1'))); } catch (e) { console.warn('[career_roadmap] backup embed skipped:', e); }
       try { children.unshift(...buildCopyrightParagraphs(docxLib)); } catch (e) { console.warn('copyright skip', e); }
-      const doc = new Document({ creator: '', title: '취업준비 진단 결과', sections: [{ properties: { page: { margin: { top: 1400, right: 1133, bottom: 1400, left: 1133 } } }, children: children }] });
+      const doc = new Document({ creator: '', title: '취업 로드맵 진단 결과', sections: [{ properties: { page: { margin: { top: 1400, right: 1133, bottom: 1400, left: 1133 } } }, children: children }] });
       const blob = await Packer.toBlob(doc);
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
