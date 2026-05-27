@@ -146,7 +146,7 @@ export function getImportableItems(master, workbookKey) {
 
   const usesExperience = [
     'resume', 'career_description', 'motivation', 'jobcompetency',
-    'personality', 'goalachievement', 'self_introduction',
+    'personality', 'goalachievement', 'growth_process', 'self_introduction',
     'interview_new', 'interview_career', 'job_analysis',
   ];
   if (usesExperience.includes(workbookKey) && master.experiences.length > 0) {
@@ -173,7 +173,7 @@ export function getImportableItems(master, workbookKey) {
   }
 
   if (workbookKey === 'interview_new' || workbookKey === 'interview_career') {
-    ['motivation', 'jobcompetency', 'personality', 'goalachievement', 'careergoal', 'self_introduction'].forEach((k) => {
+    ['motivation', 'jobcompetency', 'personality', 'goalachievement', 'growth_process', 'careergoal', 'self_introduction'].forEach((k) => {
       const out = master.outputs[k];
       if (out?.finalText) {
         items.push({ kind: `output_${k}`, label: `자소서: ${k}`, data: out });
@@ -185,7 +185,7 @@ export function getImportableItems(master, workbookKey) {
   // 자소서/면접/이력서 워크북은 careergoal/jobcompetency/motivation 등 raw도 import 가능
   const TITLES = {
     careergoal: '입사후 포부', motivation: '지원동기', jobcompetency: '직무확보역량',
-    personality: '성격의 장단점', goalachievement: '목표수립·달성',
+    personality: '성격의 장단점', goalachievement: '목표수립·달성', growth_process: '성장과정',
     self_introduction: '1분 자기소개', resume: '이력서', career_description: '경력기술서',
     job_analysis: '채용공고 및 직무분석', interview_new: '신입 면접', interview_career: '경력 면접',
   };

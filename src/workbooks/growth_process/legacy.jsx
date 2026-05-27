@@ -694,11 +694,11 @@ const GrowthProcessWorkbook = () => {
 
   const generateFinalText = () => {
     const parts = [];
-    if (answers.connect_adv_core) parts.push(answers.connect_adv_core);
-    if (answers.connect_adv_evidence) parts.push('\n' + answers.connect_adv_evidence);
-    if (answers.connect_adv_contribution) parts.push('\n' + answers.connect_adv_contribution);
-    if (answers.connect_dis_recognition) parts.push('\n' + answers.connect_dis_recognition);
-    if (answers.connect_dis_growth) parts.push('\n' + answers.connect_dis_growth);
+    if (answers.connect_value_core) parts.push(answers.connect_value_core);
+    if (answers.connect_value_test) parts.push('\n' + answers.connect_value_test);
+    if (answers.connect_value_proof) parts.push('\n' + answers.connect_value_proof);
+    if (answers.connect_growth_recognition) parts.push('\n' + answers.connect_growth_recognition);
+    if (answers.connect_growth_direction) parts.push('\n' + answers.connect_growth_direction);
     return parts.join('\n\n');
   };
 
@@ -850,12 +850,12 @@ const GrowthProcessWorkbook = () => {
     return `원본 답변 모음\n\n[기본 정보]\n직무: ${basicInfo.position||'-'}\n회사: ${basicInfo.company||'-'}\n\n` +
     `[Q1 장점]\nQ1-1 (장점): ${answers.q1_1||'-'}\nQ1-2 (형성 계기): ${answers.q1_2||'-'}\nQ1-3 (발전 결심 계기): ${answers.q1_3||'-'}\nQ1-4 (지속성 증명): ${answers.q1_4||'-'}\nQ1-5 (STAR 성과): ${answers.q1_5||'-'}\nQ1-6 (직무 연결): ${answers.q1_6||'-'}\nQ1-7 (기여): ${answers.q1_7||'-'}\n\n` +
     `[Q2 단점]\nQ2-1 (단점+인식): ${answers.q2_1||'-'}\nQ2-2 (결심 계기): ${answers.q2_2||'-'}\nQ2-3 (현재 관리): ${answers.q2_3||'-'}\nQ2-4 (성장 증거): ${answers.q2_4||'-'}\n\n` +
-    `[3라운드 연결]\n①→③ 장점+계기+발전: ${answers.connect_adv_core||'-'}\n④→⑤ 지속성+성과: ${answers.connect_adv_evidence||'-'}\n⑥→⑦ 직무연결+기여: ${answers.connect_adv_contribution||'-'}\n⑧→⑨ 단점+결심: ${answers.connect_dis_recognition||'-'}\n⑩→⑪ 관리+성장: ${answers.connect_dis_growth||'-'}`;
+    `[3라운드 연결]\n①→③ 가치관+형성+영향: ${answers.connect_value_core||'-'}\n④→⑤ 전환점+지속성: ${answers.connect_value_test||'-'}\n⑥→⑦ 대표경험+직무연결: ${answers.connect_value_proof||'-'}\n⑧→⑨ 부족함+계기: ${answers.connect_growth_recognition||'-'}\n⑩→⑪ 자리잡음+확장: ${answers.connect_growth_direction||'-'}`;
   };
 
   const canGoNext = () => { if (currentPhase === 'evaluation') return selectedSteps.length >= 1; return true; };
   // 진행률은 현재 단계가 아니라 실제 작성한 핵심 답변 기반
-  const ALL_ANS_KEYS = ['q1_1','q1_2','q1_3','q1_4','q1_5','q1_6','q1_7','q2_1','q2_2','q2_3','q2_4','connect_adv_core','connect_adv_evidence','connect_adv_contribution','connect_dis_growth','connect_dis_recognition'];
+  const ALL_ANS_KEYS = ['q1_1','q1_2','q1_3','q1_4','q1_5','q1_6','q1_7','q2_1','q2_2','q2_3','q2_4','connect_value_core','connect_value_test','connect_value_proof','connect_growth_direction','connect_growth_recognition'];
   const progress = Math.round(ALL_ANS_KEYS.filter((k) => (answers[k] || '').trim().length > 1).length / ALL_ANS_KEYS.length * 100);
 
 
@@ -1291,55 +1291,55 @@ const IntroPage = ({
               <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, marginTop: 0, marginBottom: SPACING.md }}>3라운드 연결 답변을 우선 사용. 없으면 각 Q 답변에서 핵심만 골라 연결하세요.</p>
 
               <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: SPACING.sm }}>
-                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>도입부 — 장점 정의 + 증거 (Q1)</p>
-                {answers.connect_adv_core && (
+                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>도입부 — 핵심 가치관 + 형성 (①→③)</p>
+                {answers.connect_value_core && (
                   <div style={{ background: COLORS.blueBg, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: 6 }}>
                     <p style={{ fontSize: FONT.size.xs, color: COLORS.blue, fontWeight: FONT.weight.semibold, margin: 0 }}>연결 ①→③ (권장)</p>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_adv_core.substring(0,200)}{answers.connect_adv_core.length>200?'...':''}</p>
+                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_value_core.substring(0,200)}{answers.connect_value_core.length>200?'...':''}</p>
                   </div>
                 )}
                 <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"이 장점이 이런 상황에서 이렇게 발휘됐습니다...\""</p>
               </div>
 
               <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: SPACING.sm }}>
-                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>중반부 — 지속성과 성과 (Q4·Q5)</p>
-                {answers.connect_adv_evidence && (
+                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>중반부 — 전환점과 지속성 (④→⑤)</p>
+                {answers.connect_value_test && (
                   <div style={{ background: COLORS.blueBg, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: 6 }}>
                     <p style={{ fontSize: FONT.size.xs, color: COLORS.blue, fontWeight: FONT.weight.semibold, margin: 0 }}>연결 ④→⑤ (권장)</p>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_adv_evidence.substring(0,200)}{answers.connect_adv_evidence.length>200?'...':''}</p>
+                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_value_test.substring(0,200)}{answers.connect_value_test.length>200?'...':''}</p>
                   </div>
                 )}
                 <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"꾸준한 성과로 증명되었습니다...\""</p>
               </div>
 
               <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: SPACING.sm }}>
-                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>후반부 — 직무 기여 (Q6·Q7)</p>
-                {answers.connect_adv_contribution && (
+                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>후반부 — 대표 경험 + 직무 연결 (⑥→⑦)</p>
+                {answers.connect_value_proof && (
                   <div style={{ background: COLORS.blueBg, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: 6 }}>
                     <p style={{ fontSize: FONT.size.xs, color: COLORS.blue, fontWeight: FONT.weight.semibold, margin: 0 }}>연결 ⑥→⑦ (권장)</p>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_adv_contribution.substring(0,200)}{answers.connect_adv_contribution.length>200?'...':''}</p>
+                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_value_proof.substring(0,200)}{answers.connect_value_proof.length>200?'...':''}</p>
                   </div>
                 )}
                 <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"이 장점이 이 직무에서 이렇게 작용합니다...\""</p>
               </div>
 
               <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: SPACING.sm }}>
-                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>단점 — 인식과 결심 (Q8→Q9)</p>
-                {answers.connect_dis_recognition && (
+                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>성장 — 부족함 인식과 계기 (⑧→⑨)</p>
+                {answers.connect_growth_recognition && (
                   <div style={{ background: COLORS.blueBg, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: 6 }}>
                     <p style={{ fontSize: FONT.size.xs, color: COLORS.blue, fontWeight: FONT.weight.semibold, margin: 0 }}>연결 ⑧→⑨ (권장)</p>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_dis_recognition.substring(0,200)}{answers.connect_dis_recognition.length>200?'...':''}</p>
+                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_growth_recognition.substring(0,200)}{answers.connect_growth_recognition.length>200?'...':''}</p>
                   </div>
                 )}
                 <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"이 단점을 인식하고 이렇게 관리합니다...\""</p>
               </div>
 
               <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: SPACING.sm }}>
-                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>마무리 — 관리와 성장 (Q10→Q11)</p>
-                {answers.connect_dis_growth && (
+                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>마무리 — 자리잡음과 확장 (⑩→⑪)</p>
+                {answers.connect_growth_direction && (
                   <div style={{ background: COLORS.blueBg, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: 6 }}>
                     <p style={{ fontSize: FONT.size.xs, color: COLORS.blue, fontWeight: FONT.weight.semibold, margin: 0 }}>연결 ⑩→⑪ (권장)</p>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_dis_growth.substring(0,200)}{answers.connect_dis_growth.length>200?'...':''}</p>
+                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_growth_direction.substring(0,200)}{answers.connect_growth_direction.length>200?'...':''}</p>
                   </div>
                 )}
                 <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "\"지속적으로 관리하며 성장해왔습니다...\""</p>

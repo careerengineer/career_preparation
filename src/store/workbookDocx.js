@@ -102,6 +102,15 @@ const ESSAY_CONFIGS = {
       { title: '연결 문장', ids: ['connect_q1', 'connect_q2', 'connect_q3', 'connect_q4'] },
     ],
   },
+  growth_process: {
+    title: '성 장 과 정',
+    placeholder: '[성장과정 본문이 여기에 들어갑니다.]',
+    sections: [
+      { title: 'Q1: 가치관 형성', ids: ['q1_1', 'q1_2', 'q1_3', 'q1_4', 'q1_5', 'q1_6', 'q1_7'] },
+      { title: 'Q2: 성장 서사 — 없던 것이 만들어진 과정', ids: ['q2_1', 'q2_2', 'q2_3', 'q2_4'] },
+      { title: '연결 문장', ids: ['connect_value_core', 'connect_value_test', 'connect_value_proof', 'connect_growth_recognition', 'connect_growth_direction'] },
+    ],
+  },
 };
 
 // 자소서 docx 본문 children (5종 공통)
@@ -608,6 +617,7 @@ export const WORKBOOK_DOCX_BUILDERS = {
   personality: essayFromMaster('personality'),
   goalachievement: essayFromMaster('goalachievement'),
   careergoal: essayFromMaster('careergoal'),
+  growth_process: essayFromMaster('growth_process'),
   resume: (master, dx, opts) => buildResumeDocxChildren({
     answers: master?.workbookRaw?.resume?.answers || {},
     expCount: master?.workbookRaw?.resume?.expCount ?? 3,
