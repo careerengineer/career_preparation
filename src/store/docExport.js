@@ -8,7 +8,7 @@ import { buildCopyrightParagraphs, COPYRIGHT_TEXT } from './docxBackup.js';
 import { LEGACY_KEYS } from './legacySync.js';
 import { QUESTION_LABELS } from './questionLabels.js';
 import { decodeAnswer } from './answerLabels.js';
-import { experienceXlsxBlob } from './experienceXlsx.js';
+import { experienceXlsxBlob, saveExperienceXlsx, experienceXlsxDataFromMaster } from './experienceXlsx.js';
 import { WORKBOOK_DOCX_BUILDERS } from './workbookDocx.js';
 
 // 전체 백업에서 워크북별 전용 docx 빌더에 넘길 docx 클래스 묶음
@@ -635,93 +635,9 @@ const EXP_LABEL = {
   jd_match: 'JD 매칭', usedIn: '사용처',
 };
 
-function buildExperiencesWb(master) {
-  const exps = master.experiences || [];
-  const wb = XLSX.utils.book_new();
-
-  // [시트 1] 경험 정리 — 경험별 카드형 블록 (한눈에 읽기 좋게)
-  const aoa = [];
-  const merges = [];
-  const pushTitle = (text) => {
-    const r = aoa.length;
-    aoa.push([text, '']);
-    merges.push({ s: { r, c: 0 }, e: { r, c: 1 } });
-  };
-  pushTitle('CareerEngineer · 경험 정리');
-  pushTitle(`${[master.profile.industry, master.profile.position, master.profile.company].filter(Boolean).join(' / ') || '프로필 미입력'}`);
-  pushTitle(`총 ${exps.length}개 경험 · 내보낸 시각 ${new Date().toLocaleString('ko-KR')}`);
-  aoa.push([]);
-
-  if (exps.length === 0) {
-    aoa.push(['아직 작성된 경험이 없습니다. 경험 정리 워크북에서 경험 카드를 추가해 보세요.']);
-  }
-  exps.forEach((e, i) => {
-    pushTitle(`■ 경험 ${i + 1}.  ${(e.org || e.category || '경험')}${e.role ? '  ·  ' + e.role : ''}`);
-    const row = (label, val) => { if (val != null && String(val).trim()) aoa.push([label, String(val)]); };
-    row('카테고리', e.category);
-    row('기간', e.period);
-    row('요약', e.summary);
-    row('지원 동기', e.motivation);
-    if (e.star_s || e.star_t || e.star_a || e.star_r) aoa.push(['── STAR ──', '']);
-    row('상황 (S)', e.star_s);
-    row('과제 (T)', e.star_t);
-    row('행동 (A)', e.star_a);
-    row('결과 (R)', e.star_r);
-    row('어려웠던 점', e.difficulty);
-    row('배운 점', e.learning);
-    row('직무 역량', formatComps(e.job_comps));
-    row('소통 역량', formatComps(e.comm_comps));
-    row('태도 역량', formatComps(e.att_comps));
-    row('직무상세내용 매칭', e.jd_match);
-    aoa.push([]); // 경험 사이 빈 줄
-  });
-  const ws = XLSX.utils.aoa_to_sheet(aoa);
-  ws['!cols'] = [{ wch: 18 }, { wch: 95 }];
-  if (merges.length) ws['!merges'] = merges;
-  XLSX.utils.book_append_sheet(wb, ws, '경험 정리');
-
-  // [시트 2] 메타 (저작권 + 프로필)
-  const meta = [
-    ['저작권 안내', COPYRIGHT_TEXT],
-    ['', ''],
-    ['프로필 산업', master.profile.industry || ''],
-    ['프로필 직무', master.profile.position || ''],
-    ['프로필 회사', master.profile.company || ''],
-    ['총 경험', exps.length],
-    ['내보낸 시각', new Date().toLocaleString('ko-KR')],
-    ['포맷', 'careerengineer-experience-xlsx-v1'],
-  ];
-  const metaWs = XLSX.utils.aoa_to_sheet(meta);
-  metaWs['!cols'] = [{ wch: 14 }, { wch: 110 }];
-  XLSX.utils.book_append_sheet(wb, metaWs, '메타');
-
-  // [시트 3] _CE_BACKUP (숨김) — 이 파일을 그대로 다시 가져오면 경험이 완전 복원됨
-  try {
-    const _er = master.workbookRaw?.experience || {};
-    const b64 = utf8ToBase64(JSON.stringify({ format: 'careerengineer-experience-xlsx', version: 1, experiences: exps, companyLinks: _er.companyLinks || {}, jdKeywords: _er.jdKeywords || { core: '', tools: '', soft: '', memo: '' }, personaAnswers: _er.personaAnswers || {} }));
-    const CH = 30000;
-    const brows = [['CE_EXPERIENCE_BACKUP']];
-    for (let i = 0; i < b64.length; i += CH) brows.push([b64.slice(i, i + CH)]);
-    const bws = XLSX.utils.aoa_to_sheet(brows);
-    XLSX.utils.book_append_sheet(wb, bws, '_CE_BACKUP');
-    const bi = wb.SheetNames.indexOf('_CE_BACKUP');
-    if (bi >= 0) { wb.Workbook = wb.Workbook || {}; wb.Workbook.Sheets = wb.Workbook.Sheets || []; wb.Workbook.Sheets[bi] = { Hidden: 1 }; }
-  } catch (err) { console.warn('[xlsx] backup sheet skipped:', err); }
-
-  return wb;
-}
-
-function experiencesXlsxName(master) {
-  const co = safeName(master.profile.company);
-  const ts = timestampPart();
-  return `careerengineer_경험정리_${co ? co + '_' : ''}${ts}.xlsx`;
-}
-
-export function exportExperiencesXlsx(master) {
-  const wb = buildExperiencesWb(master);
-  const name = experiencesXlsxName(master);
-  XLSX.writeFile(wb, name);
-  return name;
+export async function exportExperiencesXlsx(master) {
+  // 경험정리 xlsx는 단일 빌더(experienceXlsx.js)로 일원화 — 워크북 저장·.zip 백업과 동일 파일
+  return saveExperienceXlsx(experienceXlsxDataFromMaster(master));
 }
 
 // ─── experience 전용 .xlsx import ─────────────────────────
