@@ -435,7 +435,20 @@ const GP = ({id, title, children, guides, tog}) => {
 };
 const Tip = ({children}) => (<div style={{ display: 'flex', gap: 12, background: COLORS.paper, borderLeftWidth: 4, borderLeftStyle: 'solid', borderColor: COLORS.accent2, borderTopRightRadius: 8, borderBottomRightRadius: 8, padding: 14, marginBottom: 16 }}><p style={{ fontSize: 16, color: COLORS.ink }}>{children}</p></div>);
 const Warn = ({title, children}) => (<div style={{ background: COLORS.cream, border: `1px solid ${COLORS.ink}33`, color: COLORS.ink, padding: 16, borderRadius: RADIUS.md, marginBottom: 16 }}><div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}><div><p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink }}>{title}</p><p style={{ fontSize: 16, color: COLORS.navyMid, marginTop: 4 }}>{children}</p></div></div></div>);
-const Ex = ({children}) => (<div style={{ background: COLORS.paper, border: `1px solid ${COLORS.accent2}33`, color: COLORS.ink, padding: 16, borderRadius: RADIUS.md, marginBottom: 16 }}><p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>[작성 예시]</p><p className="whitespace-pre-line" style={{ fontSize: 16, color: COLORS.ink, whiteSpace: 'pre-line', lineHeight: 1.7 }}>{children}</p></div>);
+const Ex = ({children}) => {
+  // 다른 워크북과 동일하게 "작성 예시 보기" 버튼 클릭 시 펼쳐지는 토글
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <ToggleLink open={open} onToggle={() => setOpen((o) => !o)} label="작성 예시" />
+      {open && (
+        <div style={{ background: COLORS.paper, border: `1px solid ${COLORS.accent2}33`, color: COLORS.ink, padding: 16, borderRadius: RADIUS.md, marginTop: 6 }}>
+          <p className="whitespace-pre-line" style={{ fontSize: 16, color: COLORS.ink, whiteSpace: 'pre-line', lineHeight: 1.7 }}>{children}</p>
+        </div>
+      )}
+    </div>
+  );
+};
 const Tbl = ({headers, rows}) => (<div style={{ overflowX: 'auto', marginBottom: 16 }}><table style={{ borderCollapse: 'collapse', width: '100%', fontSize: 16 }}><thead><tr>{headers.map((h,i)=><th key={i} style={{ background: COLORS.navyMid, color: COLORS.white, paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, textAlign: 'left', fontWeight: 600, border: `1px solid ${COLORS.border}`, borderColor: COLORS.navyMid }}>{h}</th>)}</tr></thead><tbody>{rows.map((row,i)=><tr key={i} style={{ background: i%2===0 ? COLORS.white : COLORS.cream }}>{row.map((cell,j)=><td key={j} style={{ paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, border: `1px solid ${COLORS.border}`, borderColor: COLORS.border, color: COLORS.navyMid }}>{cell}</td>)}</tr>)}</tbody></table></div>);
 const Chk = ({id, text, action, chk, togChk}) => {
   const checked = !!chk[id];
@@ -1515,7 +1528,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
       <ST title="PART 9. 최종 점검" sub={`제출 전 하나씩 점검하세요. (${done}/${items.length} 완료)`} />
 
     <GP id="g_full_sample" title="완성 예시 펼쳐보기 — 이직 지원자 경력기술서 한 편" guides={guides} tog={tog}>
-      <Ex>{`■ 경력 요약
+      <div className="whitespace-pre-line" style={{ background: COLORS.paper, border: `1px solid ${COLORS.accent2}33`, color: COLORS.ink, padding: 16, borderRadius: RADIUS.md, fontSize: 16, lineHeight: 1.7, whiteSpace: 'pre-line' }}>{`■ 경력 요약
 자동차 부품 기구설계 7년차. 사출·기구 부품 양산 설계와 공차(GD&T)·양산성 검토가 강점. 양산 불량률·원가·납기에서 정량 성과 다수, 후배 2명 설계검증 코칭. 전동화 부품으로 직무 확장을 준비.
 
 ■ 강점 하이라이트
@@ -1533,7 +1546,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
 하드: SolidWorks(7년)·CATIA(전환 중)·ANSYS 구조/열해석·GD&T 공차분석 / 소프트: 3인 설계검증 코칭·크로스펑셔널 협업(생산기술·품질·구매) / 자격: 일반기계기사
 
 ■ 경력 공백 · 특이사항
-2023.01~2023.04(4개월) — 전동화 설계 직무 전환 준비. 양산 프로젝트 마무리 후 FEA 심화 교육 수료 및 CATIA 전환 학습.`}</Ex>
+2023.01~2023.04(4개월) — 전동화 설계 직무 전환 준비. 양산 프로젝트 마무리 후 FEA 심화 교육 수료 및 CATIA 전환 학습.`}</div>
     </GP>
 
     {/* 작성 내용 직접 수정 영역 - 편집 가능 textarea */}
