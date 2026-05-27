@@ -15,14 +15,10 @@ const ROADMAP = {
   interview: { 0: '아직 안 해봄', 1: '예상 질문은 생각해봄', 2: '답변 정리하고 소리 내어 연습함' },
 };
 
-// experience 페르소나 선택지
-const EXPERIENCE = {
-  status: { fresh: '신입 취업 준비 중', experienced: '경력직(같은 직무 이직)', transfer: '직무 전환(다른 직무로)' },
-};
+// experience 페르소나 status는 xlsx(experienceXlsx.js)에서만 표기하므로 여기 맵 불필요.
 
 const MAPS = {
   career_roadmap: ROADMAP,
-  experience: EXPERIENCE,
 };
 
 // (workbookKey, questionId, value) → 사람이 읽을 수 있는 선택 문구.
