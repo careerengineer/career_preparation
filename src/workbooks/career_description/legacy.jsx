@@ -1375,14 +1375,14 @@ window.addEventListener('afterprint', function() {
                     </button>
                   )}
                 </div>
-                <In id={`c${c}_s${p}_title`} label={`Q${p}a. 성과 제목 (한 줄)`} placeholder='예: "DC-DC 컨버터 효율 개선 프로젝트", "신뢰성 시험 체계 구축"' ans={ans} set={set} />
-                <In id={`c${c}_s${p}_bg`} label={`Q${p}b. [B] Background — 이 성과가 나오기 전, 팀/조직이 겪던 문제는?`} placeholder='"발열이 심했다"가 아니라 "동작 온도 85℃로 목표 대비 15℃ 초과". 왜 중요했는가?(신뢰성, 수율 영향 등)' rows={3} ans={ans} set={set} />
-                <In id={`c${c}_s${p}_role`} label={`Q${p}c. [R] Role — 이 문제 해결을 위해 당신에게 주어진 역할은?`} placeholder="혼자? 팀 리드? 의사결정 권한 범위? 예산/인력?" rows={2} ans={ans} set={set} />
-                <In id={`c${c}_s${p}_action`} label={`Q${p}d. [I] Initiative — 당신이 주도적으로 한 행동/판단은?`} placeholder='"당신이 없었으면 이 결과가 안 나왔을 것"을 보여주세요. 어떤 분석/판단/방법을 선택했는가?' rows={3} ans={ans} set={set} />
+                <In id={`c${c}_s${p}_title`} label={`성과 제목 (한 줄)`} placeholder='예: "DC-DC 컨버터 효율 개선 프로젝트", "신뢰성 시험 체계 구축"' ans={ans} set={set} />
+                <In id={`c${c}_s${p}_bg`} label={`[B] Background — 이 성과가 나오기 전, 팀/조직이 겪던 문제는?`} placeholder='"발열이 심했다"가 아니라 "동작 온도 85℃로 목표 대비 15℃ 초과". 왜 중요했는가?(신뢰성, 수율 영향 등)' rows={3} ans={ans} set={set} />
+                <In id={`c${c}_s${p}_role`} label={`[R] Role — 이 문제 해결을 위해 당신에게 주어진 역할은?`} placeholder="혼자? 팀 리드? 의사결정 권한 범위? 예산/인력?" rows={2} ans={ans} set={set} />
+                <In id={`c${c}_s${p}_action`} label={`[I] Initiative — 당신이 주도적으로 한 행동/판단은?`} placeholder='"당신이 없었으면 이 결과가 안 나왔을 것"을 보여주세요. 어떤 분석/판단/방법을 선택했는가?' rows={3} ans={ans} set={set} />
                 <BriarHint value={ans[`c${c}_s${p}_action`]} kind="contribution" />
-                <In id={`c${c}_s${p}_result`} label={`Q${p}e. [A] Achievement — 정량적 성과는?`} placeholder='Before→After 형태. 예: "변환 효율 87%→92% (5%p 향상, 6개월)"' rows={2} ans={ans} set={set} />
+                <In id={`c${c}_s${p}_result`} label={`[A] Achievement — 정량적 성과는?`} placeholder='Before→After 형태. 예: "변환 효율 87%→92% (5%p 향상, 6개월)"' rows={2} ans={ans} set={set} />
                 <BriarHint value={ans[`c${c}_s${p}_result`]} kind="number" />
-                <In id={`c${c}_s${p}_ripple`} label={`Q${p}f. [R] Ripple — 이 성과 이후 조직에 어떤 변화가 생겼는가?`} placeholder="설계 가이드 표준화, 타 모델 확산, 양산 수율 지속 개선 등. 없으면 비워두세요." rows={2} ans={ans} set={set} />
+                <In id={`c${c}_s${p}_ripple`} label={`[R] Ripple — 이 성과 이후 조직에 어떤 변화가 생겼는가?`} placeholder="설계 가이드 표준화, 타 모델 확산, 양산 수율 지속 개선 등. 없으면 비워두세요." rows={2} ans={ans} set={set} />
               </div>
             ))}
             
