@@ -590,7 +590,7 @@ const CareerDescWorkbook = () => {
   const tog = (k) => setGuides(p => ({ ...p, [k]: !p[k] }));
   const togChk = (k) => setChk(p => ({ ...p, [k]: !p[k] }));
 
-  const STEPS = ['직무 분석', '스토리라인', '강점 하이라이트', '성과 선별', '성과 기술', '관리/리더십', '직무 전환', '역량 요약', '최종 점검', '완성'];
+  const PARTS = ['직무 분석', '스토리라인', '강점 하이라이트', '성과 선별', '성과 기술', '관리/리더십', '직무 전환', '역량 요약', '최종 점검', '완성'];
   const isChange = ans.type === 'change';
   const isJunior = ans.type === 'junior';
   // 주니어(3년 이하)는 관리/리더십(5), 직무전환(6) 건너뜀
@@ -601,7 +601,7 @@ const CareerDescWorkbook = () => {
     return false;
   };
 
-  const activeSteps = STEPS.filter((_, i) => !skipStep(i));
+  const activeSteps = PARTS.filter((_, i) => !skipStep(i));
   // 진행률은 현재 단계가 아니라 실제 작성한 내용(채워진 답변 수) 기반.
   // basicInfo(회사/직무)는 자동 채움이라 제외하고, 의미있는 답변만 카운트.
   const SKIP_KEYS = new Set(['company', 'position']);
@@ -1785,7 +1785,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
         {/* 스텝 인디케이터 */}
         <div style={{ marginBottom: 20 }}>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 4, flexWrap: 'nowrap', overflowX: 'auto', paddingBottom: 4 }}>
-            {STEPS.map((t,i) => {
+            {PARTS.map((t,i) => {
               if (skipStep(i)) return null;
               return (<button key={i} onClick={()=>go(i)}
                 style={{ fontSize: 13, padding: '4px 8px', borderRadius: RADIUS.pill, border: 'none', cursor: 'pointer', fontWeight: i === step ? 700 : 500, background: i === step ? COLORS.ink : i < step ? COLORS.paper : 'transparent', color: i === step ? '#fff' : i < step ? COLORS.accent2 : COLORS.sub, whiteSpace: 'nowrap', flexShrink: 0 }}>
