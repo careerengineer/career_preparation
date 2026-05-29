@@ -6,7 +6,7 @@ import { VARIANT_NOTICE } from '../../store/schema.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
 import { analyze } from './analyze.js';
 import { buildRoadmapDocxChildren } from '../../store/workbookDocx.js';
-
+import { QS } from './data.js';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 export const MENTORING_URLS = {
@@ -45,65 +45,6 @@ const StickyFooter = () => (
     </div>
   </div>
 );
-
-
-const QS = [
-  { id:"who", q:"당신은 어떤 상황인가요?", opts:[
-    {v:"new",l:"첫 취업 준비 중 (학부)",d:"대학생 또는 학부 졸업생",track:"new"},
-    {v:"grad",l:"첫 취업 준비 중 (대학원)",d:"석사/박사 졸업 또는 졸업예정",track:"new"},
-    {v:"career",l:"이직 준비 중 (같은 직무)",d:"경력직, 회사만 옮기려는",track:"career"},
-    {v:"switch",l:"직무를 바꾸려고 해요 (경력직)",d:"재직 중인 회사의 직무를 그만두고 다른 직무로 전환",track:"career"},
-  ]},
-  { id:"job", q:"지원할 직무가 정해졌나요?", opts:[
-    {v:0,l:"아직 안 정함",d:"뭘 해야 할지 모르겠어요"},
-    {v:1,l:"대략 정함",d:"1~2개 후보가 있어요"},
-    {v:2,l:"확실히 정함",d:"직무를 명확하게 말할 수 있어요"},
-  ]},
-  { id:"jd", q:"지원 직무가 실제로 무엇을 하는 직무인지 얼마나 이해하고 있나요?", opts:[
-    {v:0,l:"잘 모름 (30% 이하)",d:"직무명은 알지만 실제 업무를 구체적으로 설명 못 함"},
-    {v:1,l:"대략 이해 (30~70%)",d:"주요 업무는 알지만 일상·도구·산출물까지는 자신 없음"},
-    {v:2,l:"충분히 이해 (70% 이상)",d:"하루·일주일을 어떻게 보내는지 + 어떤 산출물을 만드는지 설명 가능"},
-  ]},
-  { id:"exp", q:"내 경험을 정리해봤나요?", opts:[
-    {v:0,l:"안 해봄",d:"어디서부터 정리해야 할지 모르겠어요"},
-    {v:1,l:"머릿속으로만 생각해봄",d:"문서로 쓰진 않았어요"},
-    {v:2,l:"문서로 정리하고 직무와 연결함",d:"경험 목록이 있고 직무상세내용과 매칭함"},
-  ]},
-  { id:"resume", q:"이력서가 준비되어 있나요?", opts:[
-    {v:0,l:"없음",d:"이력서를 아직 안 만들었어요"},
-    {v:1,l:"있지만 범용",d:"지원 직무에 맞게 고치진 않았어요"},
-    {v:2,l:"직무에 맞게 커스터마이즈함",d:"직무상세내용에 맞춰서 정리했어요"},
-  ]},
-  // 경력기술서: 경력 이직(career) + 직무전환 경력직(switch)에게만 표시
-  { id:"career_desc", q:"경력기술서가 준비되어 있나요?", whoOnly:["career","switch"], opts:[
-    {v:0,l:"없음",d:"경력기술서를 아직 안 만들었어요"},
-    {v:1,l:"있지만 미흡",d:"초안 수준이거나 회사·직무별 커스터마이즈 안 됨"},
-    {v:2,l:"잘 정리되어 있음",d:"프로젝트·성과별로 정리되어 면접 베이스로 사용 가능"},
-  ]},
-  { id:"essay", q:"자소서를 써봤나요?", opts:[
-    {v:0,l:"아직 안 써봄",d:"시작을 못 했어요"},
-    {v:1,l:"쓰고 있는 중",d:"초안이 있거나 작성 중이에요"},
-    {v:2,l:"제출했는데 계속 탈락",d:"여러 번 냈지만 서류에서 떨어져요"},
-    {v:3,l:"서류 통과 경험 있음",d:"면접까지 간 적이 있어요"},
-    // 경력 이직(career) + 직무전환 경력직(switch)에게만 표시되는 옵션
-    {v:-1,l:"해당사항 없음 (자소서 미요구)",d:"이직 시 자소서를 요구하지 않는 회사에 지원해요",whoOnly:["career","switch"]},
-  ]},
-  // essay=3 (서류 통과 경험 있음)을 선택한 사용자에게만 노출되는 후속 질문
-  // 통과 비율을 직접 묻는 이유: 통과 경험이 운(낮은 비율)인지 실력(높은 비율)인지 정확히 진단하기 위함
-  { id:"essay_pass_rate", q:"서류 통과율은 어느 정도인가요?",
-    dependsOn: { id: 'essay', value: 3 },
-    opts:[
-      {v:0,l:"통과율 30% 미만",d:"지원한 회사 10곳 중 3곳 미만에서 통과 (예: 10번 지원에 2곳 통과)"},
-      {v:1,l:"통과율 30~70%",d:"지원한 회사 10곳 중 3~7곳에서 통과 (예: 10번 지원에 5곳 통과)"},
-      {v:2,l:"통과율 70% 이상",d:"지원한 회사 10곳 중 7곳 이상에서 통과 (예: 10번 지원에 8곳 이상 통과)"},
-    ]
-  },
-  { id:"interview", q:"면접 준비는 어느 정도 했나요?", opts:[
-    {v:0,l:"아직 안 해봄",d:"면접 준비를 시작하지 않았어요"},
-    {v:1,l:"예상 질문은 생각해봄",d:"답변을 정리하진 않았어요"},
-    {v:2,l:"답변 정리하고 소리 내어 연습함",d:"20개 이상 질문에 답변 준비함"},
-  ]},
-];
 
 // who에 따라 적용 가능한 질문 목록 반환 (whoOnly가 있는 질문은 해당 페르소나일 때만 포함)
 // who와 답변 스냅샷에 따라 적용 가능한 질문 목록 반환
@@ -877,7 +818,6 @@ export function getStageNote(stepKey, level, who, essayNA) {
   return { summary: "", guidance: "" };
 }
 
-
 const COLORS = { accent:"#0E2750", accent2:"#C9A86A", sub:"#6E7A8F", border:"#6E7A8F33", bg:"#ffffff", bgAlt:"#F2F1EC", white: "#ffffff", green: '#C9A86A', greenBg: '#FBFAF6', red: '#0E2750', redBg: '#F2F1EC', yellow: '#C9A86A', yellowBg: '#FBFAF6', blue: '#1B3A6B', blueBg: '#F2F1EC' };
 const SPACING = { xs: 4, sm: 8, base: 12, md: 16, lg: 24, xl: 32, xxl: 48 };
 const RADIUS = { sm: 6, base: 10, md: 14, lg: 20, pill: 999 };
@@ -1007,8 +947,6 @@ const IntroCopyright = () => (
   </div>
 );
 
-
-
 const IntroPage = ({
   workbookKey, stepLabel, title, subtitle, brandTagline,
   flow, flowTitle, prerequisites,
@@ -1047,7 +985,6 @@ const IntroPage = ({
   </div>
 );
 // ════════════════════════════════════════════════════════════
-
 
 // ════════════════════════════════════════════════════════════════
 //  CareerEngineer 워크북 라이브러리 (URL은 나중에 일괄 적용)
@@ -1375,7 +1312,6 @@ export default function App() {
     }
   };
 
-
   const reset = () => { setPage("welcome"); setQi(0); setAns({}); setResult(null); setExpandedAction(0); };
 
   // WELCOME
@@ -1583,7 +1519,6 @@ export default function App() {
           </div>
         )}
 
-
         {/* Immediate Actions - 모든 미완료 단계의 액션을 단계별 그룹화하여 표시 */}
         {/* STEP 0 weakest일 때는 STEP 0 액션만 표시 (시작 단계 사용자가 압도되지 않도록) */}
         <div style={{margin:"20px 0"}}>
@@ -1664,7 +1599,6 @@ export default function App() {
             <p style={{ fontSize: 15, color: COLORS.accent, margin: 0, marginTop: 12, lineHeight: 1.7 }}>이론으로는 알아도 실제로 준비하다 보면 본인이 무엇을 놓치는지·제대로 가고 있는지 스스로 판단하기 어렵습니다. <strong>채용담당자 관점에서 제대로 된 피드백</strong>이 필요한 경우 아래 자료들을 참고하시거나 멘토링을 신청해 보세요.</p>
           </div>
         )}
-
 
         {/* Big Picture - 각 단계별 사용자 답변 맞춤 안내 포함 */}
         <div style={{margin:"20px 0"}}>
