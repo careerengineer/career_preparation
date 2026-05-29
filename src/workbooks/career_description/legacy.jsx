@@ -1463,9 +1463,9 @@ X 도구/기술을 너무 많이 나열 (15개+) → "이거 다 진짜 쓸 수 
     <div style={{ marginTop: 16, background: COLORS.paper, border: `1px solid ${COLORS.accent2}66`, borderRadius: RADIUS.md, padding: 14, fontSize: 13, color: COLORS.sub, lineHeight: 1.6 }}>
       <p style={{ margin: 0, marginBottom: 6, fontWeight: 700, color: COLORS.ink }}>어떤 방식으로 저장할까요?</p>
       <p style={{ margin: 0, marginBottom: 4 }}>· <strong style={{color:COLORS.ink}}>PDF로 저장 (추천 · 모든 환경)</strong>: 새 탭에서 자동으로 인쇄 대화창이 열립니다. <strong>\"PDF로 저장\"</strong> 선택하세요.</p>
-      <p style={{ margin: '0 0 4pt 12pt', fontSize: 16 }}>　• <strong>안드로이드</strong>: \"PDF로 저장\" 선택 → 파일 위치 지정</p>
-      <p style={{ margin: '0 0 4pt 12pt', fontSize: 16 }}>　• <strong>아이폰</strong>: 공유 버튼 → \"파일에 저장\"</p>
-      <p style={{ margin: '0 0 8pt 12pt', fontSize: 16 }}>　• <strong>PC</strong>: 인쇄 → 대상을 \"PDF로 저장\"으로 변경</p>
+      <p style={{ margin: '0 0 4pt 12pt', fontSize: 16 }}>{'\u3000'}• <strong>안드로이드</strong>: \"PDF로 저장\" 선택 → 파일 위치 지정</p>
+      <p style={{ margin: '0 0 4pt 12pt', fontSize: 16 }}>{'\u3000'}• <strong>아이폰</strong>: 공유 버튼 → \"파일에 저장\"</p>
+      <p style={{ margin: '0 0 8pt 12pt', fontSize: 16 }}>{'\u3000'}• <strong>PC</strong>: 인쇄 → 대상을 \"PDF로 저장\"으로 변경</p>
       <p style={{ margin: 0, marginBottom: 4 }}>· <strong>다운로드 (.docx)</strong>: PC에서 수정하고 싶을 때만. <strong style={{color:COLORS.accent2}}>안드로이드/아이폰에서는 안 열립니다.</strong></p>
       <p style={{ margin: 0 }}>· <strong>HTML 다운로드</strong>: 브라우저에서 열어 확인 가능 (백업용).</p>
     </div>

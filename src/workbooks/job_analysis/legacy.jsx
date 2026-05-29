@@ -301,7 +301,7 @@ const JobAnalysisWorkbook = () => {
   const [diagnosisAnswers, setDiagnosisAnswers] = useState({});
   const [persona, setPersona] = useState(null);
 
-  const [jobPostings, setJobPostings] = useState([{ id: Date.now() }]);
+  const [jobPostings, setJobPostings] = useState(() => [{ id: Date.now() }]);
   const [formAnswers, setFormAnswers] = useState({});
   const [showExamples, setShowExamples] = useState({}); // 항목별 "예시 보기" 토글
 
