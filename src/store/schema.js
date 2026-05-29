@@ -102,6 +102,9 @@ export function mergeWithDefaults(p) {
 }
 
 // 전체 워크북 (full 대시보드). variant가 없으면 이 전체가 노출됨.
+// ⚠ 용어 위계: 여기 'step'(0~5)·'stepLabel'은 "상위 6단계 취업 여정(STEP)" = 대시보드 단계.
+//   워크북 "내부"의 소단계는 STEP이 아니라 PART(코드 변수도 currentPart)로 부른다. 혼동 금지.
+//   계층: STEP(여정 0~5) > PART(워크북 내부 섹션) > Q(질문).
 export const ALL_WORKBOOKS = [
   { key: 'career_roadmap',     step: 0, title: '취업 로드맵 진단',     stepLabel: 'STEP 0 · 취업 로드맵 진단' },
   { key: 'job_analysis',       step: 1, title: '채용공고 및 직무분석', stepLabel: 'STEP 1 · 채용공고 및 직무분석' },
