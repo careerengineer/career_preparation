@@ -1366,10 +1366,10 @@ const IntroPage = ({
 
             <JdBridgeGuide />
             <textarea className="ce-textarea" value={finalText} onChange={e => setFinalText(e.target.value)} rows={20} style={{ ...S.textarea, fontFamily: `'Noto Serif KR', '맑은 고딕', 'Malgun Gothic', serif`, lineHeight: 1.8 }} />
-            <AnswerQualityCheck text={finalText} focusArea={['motivation','difficulty','number','autonomy']} />
             <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, textAlign: 'right', margin: '4px 0 0', fontVariantNumeric: 'tabular-nums' }}>
               {(finalText || '').length}자
             </p>
+            <AnswerQualityCheck text={finalText} focusArea={['motivation','difficulty','number','autonomy']} />
           </div>
 
           {showRawAnswers && (
