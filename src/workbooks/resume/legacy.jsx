@@ -831,6 +831,13 @@ const ResumeWorkbook = () => {
                 이력서는 "내가 무엇을 할 수 있는지"를 보여주는 문서입니다. 직무 관련 경험이 없으면 적을 것이 없고, 적을 것이 없는 이력서로는 합격을 기대하기 어렵습니다. 지금 해야 할 일은 경험을 쌓는 것입니다. CareerEngineer의 "채용공고 및 직무분석 가이드"로 필요한 역량을 파악하고, 3~6개월간 개인 프로젝트/부트캠프/공모전/인턴으로 경험을 만든 후 다시 이 워크북으로 돌아오세요. 그래도 지금 시작하고 싶다면 가지고 있는 경험으로 최선을 다해 작성해보세요.
               </WarningBox>
             )}
+            {isCareer && (
+              <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.navyMid}33`, borderLeft: `3px solid ${COLORS.navyMid}`, padding: 16, borderRadius: RADIUS.md, marginTop: 16 }}>
+                <p style={{ fontSize: 16, color: COLORS.navyMid, margin: 0, lineHeight: 1.7 }}>
+                  <span style={{ fontWeight: 700, color: COLORS.ink }}>경력자는 이력서 + 경력기술서를 함께 제출합니다.</span> 이력서엔 <span style={{ fontWeight: 700 }}>핵심 요약·대표 성과</span>만 한 장으로 담고, 프로젝트별 상세(BRIAR)는 <span style={{ fontWeight: 700 }}>경력기술서</span>에 작성하세요. 두 문서의 회사·기간·성과 수치는 일치시켜야 합니다.
+                </p>
+              </div>
+            )}
           </div>
         );
 
@@ -1044,6 +1051,18 @@ const ResumeWorkbook = () => {
           <div>
             <h2 style={{ fontSize: 20, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>PART 4. 한줄 소개 만들기</h2>
             <p style={{ fontSize: 16, color: COLORS.sub, marginBottom: 24 }}>채용담당자가 이력서에서 가장 먼저 보는 곳입니다. 단계별로 따라가면 완성됩니다.</p>
+
+            {isCareer && (
+              <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.accent2}33`, borderLeft: `3px solid ${COLORS.accent2}`, padding: 16, borderRadius: RADIUS.md, marginBottom: 24 }}>
+                <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, margin: 0, marginBottom: 6 }}>경력자 한줄 소개 공식</p>
+                <p style={{ fontSize: 16, color: COLORS.navyMid, margin: 0, marginBottom: 8, lineHeight: 1.7 }}>
+                  <span style={{ fontWeight: 700 }}>[직무] [총 연수] · [대표 성과 수치] · [관리/리드 규모]</span> 순으로, 추상 표현 없이 숫자로 압축하세요.
+                </p>
+                <p style={{ fontSize: 16, color: COLORS.sub, margin: 0, lineHeight: 1.7, background: COLORS.paper, borderRadius: RADIUS.soft, padding: 12 }}>
+                  예: "자동차 부품 기구설계 8년 · 양산 불량률 3.1%→0.8%(74%↓)·재료비 12% 절감 · 3인 설계검증 리드"
+                </p>
+              </div>
+            )}
 
             {(() => {
               const expNames = Array.from({length: expCount}, (_, i) => answers[`exp${i+1}_name`]).filter(Boolean);
