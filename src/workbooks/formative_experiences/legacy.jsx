@@ -1473,7 +1473,7 @@ const IntroPage = ({
                   window.scrollTo(0, 0);
                 }}
                   style={{
-                    fontSize: FONT.size.sm, padding: '6px 14px', borderRadius: 999, border: 'none', cursor: 'pointer',
+                    fontSize: FONT.size.sm, padding: '6px 14px', borderRadius: 999, cursor: 'pointer',
                     fontWeight: isCurrent ? FONT.weight.bold : FONT.weight.medium,
                     background: isCurrent ? COLORS.accent : isPast ? '#FBFAF6' : 'transparent',
                     color: isCurrent ? COLORS.white : isPast ? COLORS.accent2 : COLORS.sub,

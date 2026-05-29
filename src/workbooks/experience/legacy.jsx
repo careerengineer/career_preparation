@@ -775,7 +775,8 @@ const ExperienceWorkbook = () => {
       setBasicInfo({ industry: '', position: '', target: '' });
       setPersonaAnswers({});
       setExperiences([]);
-      setChecked(new Set());
+      // DiscoveryPanel의 checked는 그 컴포넌트의 로컬 상태라 여기(ExperienceWorkbook)서 접근 불가.
+      // 과거 setChecked() 호출은 스코프 밖이라 '전체 삭제' 시 ReferenceError를 일으켰음 → 제거.
       setConfirmingClear(false);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
       setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
