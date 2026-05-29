@@ -136,23 +136,6 @@ const RelatedWorkbook = ({ id, hint }) => {
   );
 };
 
-const RelatedWorkbookList = ({ items, title = '함께 보면 좋은 워크북' }) => (
-  <div style={{
-    background: COLORS.white, border: `1px solid ${COLORS.border}`,
-    borderRadius: RADIUS.md, padding: 16, marginTop: 12, marginBottom: 12,
-  }}>
-    <p style={{
-      fontSize: 16, fontWeight: 600, color: COLORS.ink,
-      margin: 0, marginBottom: 10, letterSpacing: 0.3,
-    }}>{title}</p>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {items.map((item, i) => (
-        <RelatedWorkbook key={i} id={item.id} hint={item.hint} />
-      ))}
-    </div>
-  </div>
-);
-
 const BrandOverride = () => (
   <style>{`
 /* ══════════════════════════════════════════════════════════════
@@ -318,19 +301,6 @@ const ResumeWorkbook = () => {
     return () => clearTimeout(timer);
   }, [answers, checks, currentPart, expCount, projCount, showIntro]);
   
-  const clearSavedData = () => {
-    if (confirmingClear) {
-      localStorage.removeItem(STORAGE_KEY);
-      setAnswers({});
-      setChecks({});
-      setConfirmingClear(false);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-    } else {
-      setConfirmingClear(true);
-      setTimeout(() => setConfirmingClear(false), 5000);
-    }
-  };
 
   const handleAnswer = (id, val) => setAnswers(p => ({ ...p, [id]: val }));
   const toggleGuide = (id) => setShowGuide(p => ({ ...p, [id]: !p[id] }));
@@ -383,21 +353,6 @@ const ResumeWorkbook = () => {
         spacing: { before: 480, after: 200 },
         border: { bottom: { style: BorderStyle.SINGLE, size: 12, color: '0E2750', space: 4 } }
       });
-      const expH = (name, role, period) => {
-        const runs = [new TextRun({ text: name, bold: true, size: 24, font: '맑은 고딕', color: '0E2750' })];
-        if (role) {
-          runs.push(new TextRun({ text: '   |   ', size: 22, font: '맑은 고딕', color: '6E7A8F' }));
-          runs.push(new TextRun({ text: role, bold: true, size: 22, font: '맑은 고딕', color: '1B3A6B' }));
-        }
-        if (period) {
-          runs.push(new TextRun({ text: '   ' + period, size: 20, font: '맑은 고딕', color: '6E7A8F' }));
-        }
-        return new Paragraph({
-          children: runs,
-          spacing: { before: 360, after: 120 },
-          border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: '1B3A6B', space: 4 } }
-        });
-      };
       const bulletP = (t) => new Paragraph({
         children: [
           new TextRun({ text: '▪  ', size: 22, font: '맑은 고딕', color: '1B3A6B' }),
@@ -455,9 +410,6 @@ const ResumeWorkbook = () => {
       });
       
       // 줄바꿈 텍스트를 ▪ 리스트로
-      const renderBullets = (text) => {
-        return text.split('\n').filter(x => x.trim()).map(x => bulletP(x.replace(/^[•\-*·▪]\s*/, '').trim()));
-      };
       
       const children = buildResumeDocxChildren({ answers, expCount, projCount }, docxLib);
 
@@ -1428,9 +1380,6 @@ const ResumeWorkbook = () => {
 
   // 중간 저장 (PART 7-7)
   // 임시저장 — generateDoc과 동일한 디자인의 워드 호환 HTML 사용
-  const savePartial = () => {
-    generateDoc();
-  };
 
   return (
     <div style={{ minHeight: '100vh', background: COLORS.cream, padding: 'clamp(16px, 4vw, 32px)', fontFamily: 'Pretendard, -apple-system, BlinkMacSystemFont, sans-serif', color: COLORS.ink }}>

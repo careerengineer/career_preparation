@@ -185,24 +185,6 @@ const RelatedWorkbook = ({ id, hint }) => {
   );
 };
 
-const RelatedWorkbookList = ({ items, title = '함께 보면 좋은 워크북' }) => (
-  <div style={{
-    background: COLORS.bg, border: `1px solid ${COLORS.border}`,
-    borderRadius: RADIUS.base, padding: 16, marginTop: 12, marginBottom: 12,
-  }}>
-    <p style={{
-      fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold,
-      color: COLORS.accent, margin: 0, marginBottom: 10,
-      letterSpacing: 0.3,
-    }}>{title}</p>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {items.map((item, i) => (
-        <RelatedWorkbook key={i} id={item.id} hint={item.hint} />
-      ))}
-    </div>
-  </div>
-);
-
 // ══════════════════════════════════════════════════════════════
 //  24개 문항 (docx 원본 구조: 4-Step)
 // ══════════════════════════════════════════════════════════════
@@ -284,20 +266,6 @@ export const InterviewWorkbook = ({ config }) => {
     return () => clearTimeout(timer);
   }, [answers, basicInfo, finalText, currentIdx, isCompleted, showIntro]);
   
-  const clearSavedData = () => {
-    if (confirmingClear) {
-      localStorage.removeItem(STORAGE_KEY);
-      setAnswers({});
-      setBasicInfo({ industry: '', position: '', company: '' });
-      setFinalText('');
-      setConfirmingClear(false);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-    } else {
-      setConfirmingClear(true);
-      setTimeout(() => setConfirmingClear(false), 5000);
-    }
-  };
 
   const setAnswer = (id, val) => setAnswers(p => ({ ...p, [id]: val }));
 
@@ -346,11 +314,6 @@ export const InterviewWorkbook = ({ config }) => {
   };
 
   const getRawText = () => '';  // 더 이상 사용 안 함 (savePartial이 downloadFinal로 통합됨)
-
-  const savePartial = () => {
-    // 메인 다운로드와 동일한 디자인 사용 (모든 답변이 포함됨)
-    downloadFinal();
-  };
 
   // docx 라이브러리 동적 로드
   const loadDocxLib = () => Promise.resolve(DOCX);

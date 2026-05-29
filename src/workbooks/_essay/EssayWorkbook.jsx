@@ -65,24 +65,6 @@ const RelatedWorkbook = ({ id, hint }) => {
   );
 };
 
-const RelatedWorkbookList = ({ items, title = '함께 보면 좋은 워크북' }) => (
-  <div style={{
-    background: COLORS.bg, border: `1px solid ${COLORS.border}`,
-    borderRadius: RADIUS.base, padding: 16, marginTop: 12, marginBottom: 12,
-  }}>
-    <p style={{
-      fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold,
-      color: COLORS.accent, margin: 0, marginBottom: 10,
-      letterSpacing: 0.3,
-    }}>{title}</p>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {items.map((item, i) => (
-        <RelatedWorkbook key={i} id={item.id} hint={item.hint} />
-      ))}
-    </div>
-  </div>
-);
-
 const BOX = {
   tip:     { background: COLORS.yellowBg, border: `1px solid ${COLORS.yellow}33`, color: COLORS.accent },
   warning: { background: COLORS.redBg,    border: `1px solid ${COLORS.red}33`,    color: COLORS.accent },
@@ -184,20 +166,6 @@ export const EssayWorkbook = ({ config }) => {
   }, [answers, basicInfo, finalText, checklistState, selectedSteps, currentPhase, currentPart, showIntro]);
 
   // 저장된 데이터 초기화
-  const clearSavedData = () => {
-    if (confirmingClear) {
-      localStorage.removeItem(STORAGE_KEY);
-      setAnswers({});
-      setBasicInfo({ industry: '', position: '', company: '' });
-      setFinalText('');
-      setConfirmingClear(false);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-    } else {
-      setConfirmingClear(true);
-      setTimeout(() => setConfirmingClear(false), 5000);
-    }
-  };
 
   // 인라인 참고 워크북 (가이드 PART 7-15)
   const RelatedWorkbookInline = ReferenceInline; // master 기반 inline 참고 패널 (shared)
@@ -344,10 +312,6 @@ export const EssayWorkbook = ({ config }) => {
   __ceDlRef.current = downloadFinalText; // [CE-DL] ref 갱신
 
   // 임시저장 — 작성 중간 모든 답변을 항목별로 정리 (빈 답변도 항목명은 표시)
-  const savePartial = () => {
-    // 메인 다운로드와 동일한 docx 생성 (모든 답변 포함)
-    downloadFinalText();
-  };
 
   const canGoNext = () => { if (currentPhase === 'evaluation') return selectedSteps.length >= 1; return true; };
   // 진행률은 현재 단계가 아니라 실제 작성한 답변 기반

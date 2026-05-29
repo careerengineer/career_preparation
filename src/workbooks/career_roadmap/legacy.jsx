@@ -919,20 +919,6 @@ const RelatedWorkbook = ({ id, hint }) => {
     </a>
   );
 };
-const RelatedWorkbookList = ({ items, title = '함께 보면 좋은 워크북' }) => (
-  <div style={{
-    background: '#ffffff', border: '1px solid #6E7A8F33',
-    borderRadius: 10, padding: 16, marginTop: 12, marginBottom: 12}}>
-    <p style={{
-      fontSize: 16, fontWeight: 600, color: '#0E2750',
-      margin: 0, marginBottom: 10, letterSpacing: 0.3}}>{title}</p>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {items.map((item, i) => (
-        <RelatedWorkbook key={i} id={item.id} hint={item.hint} />
-      ))}
-    </div>
-  </div>
-);
 
 export default function App() {
   const [page, setPage] = useState("welcome");
@@ -985,12 +971,6 @@ export default function App() {
         indent: { left: options.indent || 240 }
       });
       
-      const item = (label, val) => {
-        const out = [labelP(label)];
-        if (val) out.push(bodyP(val));
-        else out.push(new Paragraph({ children: [new TextRun({ text: '[해당 단계에 정보 없음]', size: 22, font: '맑은 고딕', color: '6E7A8F' })], spacing: { before: 0, after: 160 }, indent: { left: 360 } }));
-        return out;
-      };
 
       // 강조 박스 헬퍼 — 결과 페이지의 안내 박스(borderLeft + 배경색) 재현용
       const calloutTitle = (t, color) => new Paragraph({
@@ -1083,18 +1063,6 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [ans, result, qi, page]);
   
-  const clearSavedData = () => {
-    if (confirmingClear) {
-      localStorage.removeItem(STORAGE_KEY);
-      setAns({});
-      setConfirmingClear(false);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-    } else {
-      setConfirmingClear(true);
-      setTimeout(() => setConfirmingClear(false), 5000);
-    }
-  };
 
   const css = { wrap:{fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo','맑은 고딕','Malgun Gothic',sans-serif",maxWidth: 1350,margin:"0 auto",padding:"0 16px",color:COLORS.accent} };
 

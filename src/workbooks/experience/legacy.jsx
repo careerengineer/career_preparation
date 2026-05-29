@@ -117,23 +117,6 @@ const RelatedWorkbook = ({ id, hint }) => {
     </a>
   );
 };
-const RelatedWorkbookList = ({ items, title = '함께 보면 좋은 워크북' }) => (
-  <div style={{
-    background: COLORS.bg, border: `1px solid ${COLORS.border}`,
-    borderRadius: RADIUS.base, padding: 16, marginTop: 12, marginBottom: 12,
-  }}>
-    <p style={{
-      fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold,
-      color: COLORS.accent, margin: 0, marginBottom: 10,
-      letterSpacing: 0.3,
-    }}>{title}</p>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {items.map((item, i) => (
-        <RelatedWorkbook key={i} id={item.id} hint={item.hint} />
-      ))}
-    </div>
-  </div>
-);
 const BOX = {
   tip:     { background: COLORS.yellowBg, border: `1px solid ${COLORS.yellow}33`, color: COLORS.accent },
   warning: { background: COLORS.redBg,    border: `1px solid ${COLORS.red}33`,    color: COLORS.accent },
@@ -574,22 +557,6 @@ const ExperienceWorkbook = () => {
     }, 1000);
     return () => clearTimeout(timer);
   }, [basicInfo, personaAnswers, jdKeywords, experiences, companyLinks, phase]);
-  const clearSavedData = () => {
-    if (confirmingClear) {
-      localStorage.removeItem(STORAGE_KEY);
-      setBasicInfo({ industry: '', position: '', target: '' });
-      setPersonaAnswers({});
-      setExperiences([]);
-      // DiscoveryPanel의 checked는 그 컴포넌트의 로컬 상태라 여기(ExperienceWorkbook)서 접근 불가.
-      // 과거 setChecked() 호출은 스코프 밖이라 '전체 삭제' 시 ReferenceError를 일으켰음 → 제거.
-      setConfirmingClear(false);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-    } else {
-      setConfirmingClear(true);
-      setTimeout(() => setConfirmingClear(false), 5000);
-    }
-  };
   // 페르소나에 따라 정렬된 카테고리
   const orderedCategories = useMemo(
     () => orderCategoriesByPersona(personaAnswers.status),
@@ -707,17 +674,6 @@ const ExperienceWorkbook = () => {
   };
 
   // 역량 사전에서 클릭 시: 현재 편집 중인 경험의 해당 타입에 빈 슬롯 채우기(또는 추가)
-  const handleDictPick = (type, name) => {
-    if (!editingId) return;
-    const exp = experiences.find(e => e.id === editingId);
-    if (!exp) return;
-    const emptyIdx = (exp[type] || []).findIndex(c => !c.name);
-    if (emptyIdx >= 0) {
-      updateComp(exp.id, type, emptyIdx, 'name', name);
-    } else if ((exp[type] || []).length < 4) {
-      addComp(exp.id, type, name);
-    }
-  };
   const currentExp = experiences.find(e => e.id === editingId);
   // ── 완성도 계산 ──────────────────────────────────────
   const getExpStatus = (exp) => {
@@ -732,11 +688,6 @@ const ExperienceWorkbook = () => {
   const compSummary = (arr) => {
     if (!arr || arr.length === 0) return '';
     return arr.filter(c => c.name).map(c => c.score ? `${c.name} (${c.score})` : c.name).join(', ');
-  };
-  const getPersonaLabel = (qId) => {
-    const q = PERSONA_QUESTIONS.find(p => p.id === qId);
-    const v = personaAnswers[qId];
-    return q?.options.find(o => o.value === v)?.label || '';
   };
   // ── 저장 (DOCX) ────────────────────────────────────
   // docx-js 동적 로드

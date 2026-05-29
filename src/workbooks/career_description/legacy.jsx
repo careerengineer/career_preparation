@@ -132,23 +132,6 @@ const RelatedWorkbook = ({ id, hint }) => {
   );
 };
 
-const RelatedWorkbookList = ({ items, title = '함께 보면 좋은 워크북' }) => (
-  <div style={{
-    background: COLORS.white, border: `1px solid ${COLORS.border}`,
-    borderRadius: RADIUS.md, padding: 16, marginTop: 12, marginBottom: 12,
-  }}>
-    <p style={{
-      fontSize: 16, fontWeight: 600, color: COLORS.ink,
-      margin: 0, marginBottom: 10, letterSpacing: 0.3,
-    }}>{title}</p>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {items.map((item, i) => (
-        <RelatedWorkbook key={i} id={item.id} hint={item.hint} />
-      ))}
-    </div>
-  </div>
-);
-
 const BrandOverride = () => (
   <style>{`
 /* ══════════════════════════════════════════════════════════════
@@ -346,18 +329,6 @@ const CareerDescWorkbook = () => {
   }, [ans, chk, guides, companyCount, perfCounts]);
 
   // 저장된 데이터 초기화 (수동 버튼)
-  const clearSavedData = () => {
-    if (confirmingClear) {
-      localStorage.removeItem(STORAGE_KEY);
-      setAns({});
-      setConfirmingClear(false);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-    } else {
-      setConfirmingClear(true);
-      setTimeout(() => setConfirmingClear(false), 5000);
-    }
-  };
 
   const set = (k, v) => setAns(p => ({ ...p, [k]: v }));
   const tog = (k) => setGuides(p => ({ ...p, [k]: !p[k] }));

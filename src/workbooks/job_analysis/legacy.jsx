@@ -129,24 +129,6 @@ const RelatedWorkbook = ({ id, hint }) => {
   );
 };
 
-const RelatedWorkbookList = ({ items, title = '함께 보면 좋은 워크북' }) => (
-  <div style={{
-    background: COLORS.bg, border: `1px solid ${COLORS.border}`,
-    borderRadius: RADIUS.base, padding: 16, marginTop: 12, marginBottom: 12,
-  }}>
-    <p style={{
-      fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold,
-      color: COLORS.accent, margin: 0, marginBottom: 10,
-      letterSpacing: 0.3,
-    }}>{title}</p>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {items.map((item, i) => (
-        <RelatedWorkbook key={i} id={item.id} hint={item.hint} />
-      ))}
-    </div>
-  </div>
-);
-
 // 각 분석 항목별 "작성 예시" — 지원자가 막힐 때 참고용 (품질관리 엔지니어 예시 기준).
 // 채용공고의 실제 용어로 바꿔 적는 것이 핵심.
 
@@ -227,21 +209,6 @@ const JobAnalysisWorkbook = () => {
     return () => clearTimeout(timer);
   }, [basicInfo, diagnosisAnswers, persona, jobPostings, formAnswers, finalText, checklistState, phase]);
   
-  const clearSavedData = () => {
-    if (confirmingClear) {
-      localStorage.removeItem(STORAGE_KEY);
-      setBasicInfo({ industry: '', position: '', target: '' });
-      setPersona(null);
-      setFormAnswers({});
-      setFinalText('');
-      setConfirmingClear(false);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 50);
-      setTimeout(() => { localStorage.removeItem(STORAGE_KEY); }, 1500);
-    } else {
-      setConfirmingClear(true);
-      setTimeout(() => setConfirmingClear(false), 5000);
-    }
-  };
 
   const determinePersona = (answers) => {
     const { status, job_decided, target_type } = answers;
@@ -280,13 +247,6 @@ const JobAnalysisWorkbook = () => {
   };
 
   // 작성된 데이터 존재 여부 체크 (저장 버튼 활성화용)
-  const hasFormData = () => {
-    if (basicInfo.industry?.trim() || basicInfo.position?.trim() || basicInfo.target?.trim()) return true;
-    if (Object.keys(formAnswers).some(k => formAnswers[k]?.toString().trim())) return true;
-    if (jobPostings.some(p => Object.keys(p).filter(k => k !== 'id').some(k => p[k]?.toString().trim()))) return true;
-    if (Object.keys(checklistState).some(k => checklistState[k])) return true;
-    return false;
-  };
 
   const getFormStatus = (form) => {
     if (form.type === 'repeat') {
@@ -460,11 +420,6 @@ const JobAnalysisWorkbook = () => {
     lines.push('='.repeat(60));
     lines.push('© 2026 CareerEngineer. All Rights Reserved.');
     return lines.join('\n');
-  };
-
-  const savePartial = () => {
-    // 메인 다운로드와 동일한 디자인 사용 (모든 답변이 포함됨)
-    downloadFinal();
   };
 
   // docx 라이브러리 동적 로드
