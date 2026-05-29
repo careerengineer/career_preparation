@@ -38,7 +38,7 @@ const CE_LOCKUP_B64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYUAAABQCAY
 const IntroPrerequisites = ({ items }) => {
   if (!items || items.length === 0) return null;
   return (
-    <div style={{ background: '#FBFAF6', border: `1px solid ${_INTRO_GOLD}33`, color: _INTRO_INK, padding: 16, borderRadius: 10, marginBottom: 16 }}>
+    <div style={{ background: 'COLORS.bg', border: `1px solid ${_INTRO_GOLD}33`, color: _INTRO_INK, padding: 16, borderRadius: RADIUS.base, marginBottom: 16 }}>
       <p style={{ fontSize: 15, fontWeight: 700, color: _INTRO_INK, margin: 0, marginBottom: 10 }}>사전 준비물</p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {items.map((item, i) => {
@@ -298,11 +298,11 @@ const GuideToggle = ({ open, onToggle, label, children }) => (
     <button
       onClick={onToggle}
       style={{
-        background: open ? '#FBFAF6' : '#FBFAF6',
-        border: '1px solid #C9A86A66',
-        borderLeft: '3px solid #C9A86A',
+        background: open ? 'COLORS.bg' : 'COLORS.bg',
+        border: `1px solid ${COLORS.accent2}66`,
+        borderLeft: `3px solid ${COLORS.accent2}`,
         cursor: 'pointer',
-        color: '#0E2750', fontWeight: 700, fontSize: 16,
+        color: COLORS.accent, fontWeight: 700, fontSize: 16,
         padding: '12px 16px',
         borderRadius: 6,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8,
@@ -310,17 +310,17 @@ const GuideToggle = ({ open, onToggle, label, children }) => (
       }}
     >
       <span>{label}</span>
-      <span style={{ fontSize: 16, color: '#C9A86A', flexShrink: 0 }}>{open ? '숨기기 ▲' : '보기 ▼'}</span>
+      <span style={{ fontSize: 16, color: COLORS.accent2, flexShrink: 0 }}>{open ? '숨기기 ▲' : '보기 ▼'}</span>
     </button>
     {open && (
       <div style={{
         marginTop: 8,
-        background: '#F2F1EC',
+        background: COLORS.cream,
         border: `1px solid ${COLORS.border}`,
-        borderLeft: '3px solid #C9A86A',
-        borderRadius: 8, padding: 16,
+        borderLeft: `3px solid ${COLORS.accent2}`,
+        borderRadius: RADIUS.md, padding: 16,
       }}>
-        <p style={{ fontSize: 16, fontWeight: 700, letterSpacing: 1, color: '#C9A86A', margin: 0, marginBottom: 12 }}>
+        <p style={{ fontSize: 16, fontWeight: 700, letterSpacing: 1, color: COLORS.accent2, margin: 0, marginBottom: 12 }}>
           GUIDE · 작성 가이드
         </p>
         {children}
@@ -1670,7 +1670,7 @@ const ExperienceWorkbook = () => {
           style={{ background: isSavingXlsx ? COLORS.sub : COLORS.green, color: COLORS.white, border: 'none', borderRadius: RADIUS.md, padding: `${SPACING.base}px ${SPACING.xl}px`, fontSize: FONT.size.md, fontWeight: FONT.weight.semibold, cursor: isSavingXlsx ? 'wait' : 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, opacity: isSavingXlsx ? 0.7 : 1, fontFamily: 'inherit' }}>
           {isSavingXlsx ? (
             <>
-              <span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid #ffffff', borderTopColor: 'transparent', borderRadius: '50%', animation: 'ce-spin 0.7s linear infinite' }} />
+              <span style={{ display: 'inline-block', width: 14, height: 14, border: `2px solid ${COLORS.white}`, borderTopColor: 'transparent', borderRadius: '50%', animation: 'ce-spin 0.7s linear infinite' }} />
               파일 생성 중…
             </>
           ) : savedXlsx ? '✓ 저장 완료' : '저장 (.xlsx)'}
@@ -1705,7 +1705,7 @@ const ExperienceWorkbook = () => {
             </div>
             {phase !== 'intro' && (
               <div style={{ display: 'flex', gap: 6 }}>
-                <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: COLORS.red, border: `1px solid ${COLORS.red}66`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
+                <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: COLORS.red, border: `1px solid ${COLORS.red}66`, borderRadius: RADIUS.base, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.base, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
                 
                 {/* [중복 제거] sticky 헤더 저장 버튼 → 상단 WorkbookShell '경험 정리 저장' 버튼으로 통합 */}
               </div>
@@ -1740,7 +1740,7 @@ const ExperienceWorkbook = () => {
               return (
                 <button key={key} onClick={() => { setPhase(key); window.scrollTo(0, 0); }}
                   style={{
-                    fontSize: 16, padding: '4px 10px', borderRadius: 999, border: 'none', cursor: 'pointer',
+                    fontSize: 16, padding: '4px 10px', borderRadius: RADIUS.pill, border: 'none', cursor: 'pointer',
                     fontWeight: isCurrent ? FONT.weight.bold : FONT.weight.medium,
                     background: isCurrent ? COLORS.accent : isPast ? COLORS.greenBg : 'transparent',
                     color: isCurrent ? COLORS.white : isPast ? COLORS.green : COLORS.sub,
