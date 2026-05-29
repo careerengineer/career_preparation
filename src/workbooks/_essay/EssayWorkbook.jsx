@@ -1,5 +1,6 @@
 // 공통 자소서 엔진 — 6개 자소서 워크북이 공유. 워크북별 값은 config로 주입(동작은 기존 코드 보존).
 import { useState, useEffect, useRef } from 'react';
+import * as DOCX from 'docx';
 import { COLORS, FONT, SPACING, RADIUS } from '../../shared/design/tokens.js';
 import { AnswerQualityCheck, JdBridgeGuide } from '../../shared/components/AnswerQualityCheck.jsx';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
@@ -225,32 +226,7 @@ export const EssayWorkbook = ({ config }) => {
   };
 
   // docx 라이브러리 동적 로드 (CDN)
-  const loadDocxLib = () => new Promise((resolve, reject) => {
-    if (window.docx) return resolve(window.docx);
-    const sources = [
-      'https://cdn.jsdelivr.net/npm/docx@9.6.1/build/index.umd.min.js',
-      'https://unpkg.com/docx@9.6.1/dist/index.iife.js',
-      'https://cdn.jsdelivr.net/npm/docx@9.6.1/dist/index.iife.js',
-      'https://unpkg.com/docx@9.6.1/build/index.umd.min.js',
-    ];
-    let idx = 0;
-    const tryNext = () => {
-      if (idx >= sources.length) {
-        reject(new Error('docx 라이브러리 다운로드 실패'));
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = sources[idx++];
-      script.async = true;
-      script.onload = () => {
-        if (window.docx) resolve(window.docx);
-        else tryNext();
-      };
-      script.onerror = () => tryNext();
-      document.head.appendChild(script);
-    };
-    tryNext();
-  });
+  const loadDocxLib = () => Promise.resolve(DOCX);
 
   // [CE-DL] 외부 WorkbookShell 버튼에서 호출 위한 등록
 

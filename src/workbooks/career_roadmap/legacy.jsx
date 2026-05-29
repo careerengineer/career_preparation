@@ -1,5 +1,6 @@
 // [BUILD v56 20260520] R&D 관련 메시지 용어 통일 — '연구직(R&D) 트랙' '연구직(R&D)' 'R&D 트랙' '박사·R&D 직무 포함'을 모두 '연구개발 직무(R&D)'로 통일(10곳). 그리고 '논문 수가 핵심'은 부정확한 표현이므로 '연구 역량(방법론·문제 해결 경험)과 직무 적합도가 핵심'으로 교체. 'R&D 우대'는 채용공고의 실제 문구이므로 '연구개발 직무(R&D) 우대'로 다듬어 통일
 import { useState, useEffect } from "react";
+import * as DOCX from 'docx';
 import { clickable } from '../../shared/a11y.js';
 import { VARIANT } from '../../store/schema.js';
 import { VARIANT_NOTICE } from '../../store/schema.js';
@@ -956,42 +957,7 @@ export default function App() {
     if (isSavingDocx) return;  // 중복 클릭 방지
     setIsSavingDocx(true);
     try {
-      const loadDocxLib = () => new Promise((resolve, reject) => {
-        if (window.docx) return resolve(window.docx);
-        const sources = [
-          'https://cdn.jsdelivr.net/npm/docx@9.6.1/build/index.umd.min.js',
-          'https://unpkg.com/docx@9.6.1/dist/index.iife.js',
-          'https://cdn.jsdelivr.net/npm/docx@9.6.1/dist/index.iife.js',
-          'https://unpkg.com/docx@9.6.1/build/index.umd.min.js',
-        ];
-        let idx = 0;
-        const tryNext = () => {
-          if (idx >= sources.length) {
-            reject(new Error('docx 라이브러리 다운로드 실패. 네트워크 연결을 확인해주세요.'));
-            return;
-          }
-          const script = document.createElement('script');
-          script.src = sources[idx++];
-          script.async = true;
-          // 10초 타임아웃
-          const timeout = setTimeout(() => {
-            script.onload = null;
-            script.onerror = null;
-            tryNext();
-          }, 10000);
-          script.onload = () => {
-            clearTimeout(timeout);
-            if (window.docx) resolve(window.docx);
-            else tryNext();
-          };
-          script.onerror = () => {
-            clearTimeout(timeout);
-            tryNext();
-          };
-          document.head.appendChild(script);
-        };
-        tryNext();
-      });
+      const loadDocxLib = () => Promise.resolve(DOCX);
       const docxLib = await loadDocxLib();
       // 필수 export 검증
       const required = ['Document', 'Paragraph', 'TextRun', 'AlignmentType', 'BorderStyle', 'Packer'];

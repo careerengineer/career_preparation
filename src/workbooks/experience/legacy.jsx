@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import * as DOCX from 'docx';
 import { clickable } from '../../shared/a11y.js';
 import { COLORS, FONT, SPACING, RADIUS } from '../../shared/design/tokens.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
@@ -740,24 +741,7 @@ const ExperienceWorkbook = () => {
   };
   // ── 저장 (DOCX) ────────────────────────────────────
   // docx-js 동적 로드
-  const loadDocxLib = () => new Promise((resolve, reject) => {
-    if (window.docx) return resolve(window.docx);
-    const sources = [
-      'https://unpkg.com/docx@9.6.1/dist/index.iife.js',
-      'https://cdn.jsdelivr.net/npm/docx@9.6.1/dist/index.iife.js',
-    ];
-    let idx = 0;
-    const tryNext = () => {
-      if (idx >= sources.length) { reject(new Error('docx 로드 실패')); return; }
-      const script = document.createElement('script');
-      script.src = sources[idx++];
-      script.async = true;
-      script.onload = () => window.docx ? resolve(window.docx) : tryNext();
-      script.onerror = () => tryNext();
-      document.head.appendChild(script);
-    };
-    tryNext();
-  });
+  const loadDocxLib = () => Promise.resolve(DOCX);
   // ── 저장 (XLSX) ────────────────────────────────────
   // xlsx-js-style 동적 로드: 셀 스타일 적용을 위해
   const loadXlsxStyleLib = () => new Promise((resolve) => {
