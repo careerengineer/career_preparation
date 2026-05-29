@@ -500,7 +500,7 @@ const StickyFooter = () => (
 
 const CareerDescWorkbook = () => {
   const [page, setPage] = useState('intro');
-  const [step, setStep] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_career_description_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
+  const [currentPart, setCurrentPart] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_career_description_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
   const [ans, setAns] = useState({});
   const [chk, setChk] = useState({});
   const [guides, setGuides] = useState({});
@@ -517,7 +517,7 @@ const CareerDescWorkbook = () => {
   }, []);
   const goHome = () => {
     setPage('intro');
-    setStep(0);
+    setCurrentPart(0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   __ceHomeRef.current = goHome; // [CE-HOME] ref 갱신
@@ -595,13 +595,13 @@ const CareerDescWorkbook = () => {
   const isJunior = ans.type === 'junior';
   // 주니어(3년 이하)는 관리/리더십(5), 직무전환(6) 건너뜀
   // 비전환자는 직무전환(6) 건너뜀
-  const skipStep = (n) => {
+  const skipPart = (n) => {
     if (n === 5 && isJunior) return true;
     if (n === 6 && !isChange) return true;
     return false;
   };
 
-  const activeSteps = PARTS.filter((_, i) => !skipStep(i));
+  const activeParts = PARTS.filter((_, i) => !skipPart(i));
   // 진행률은 현재 단계가 아니라 실제 작성한 내용(채워진 답변 수) 기반.
   // basicInfo(회사/직무)는 자동 채움이라 제외하고, 의미있는 답변만 카운트.
   const SKIP_KEYS = new Set(['company', 'position']);
@@ -609,9 +609,9 @@ const CareerDescWorkbook = () => {
     .filter(([k, v]) => !SKIP_KEYS.has(k) && v && String(v).trim().length > 1).length;
   const progress = Math.min(100, Math.round((filledCount / 18) * 100));
 
-  const go = (n) => { setStep(n); window.scrollTo(0, 0); };
-  const next = () => { let n = step + 1; while (n < 10 && skipStep(n)) n++; go(Math.min(n, 9)); };
-  const prev = () => { let n = step - 1; while (n >= 0 && skipStep(n)) n--; go(Math.max(n, 0)); };
+  const go = (n) => { setCurrentPart(n); window.scrollTo(0, 0); };
+  const next = () => { let n = currentPart + 1; while (n < 10 && skipPart(n)) n++; go(Math.min(n, 9)); };
+  const prev = () => { let n = currentPart - 1; while (n >= 0 && skipPart(n)) n--; go(Math.max(n, 0)); };
 
   // 채용담당자 제출용 경력기술서 — 실제 양식 그대로 (BRIAR 프레임 숨김)
   const buildHtml = () => {
@@ -1062,12 +1062,12 @@ window.addEventListener('afterprint', function() {
           '본인 유형(직무 유지·직무 전환)에 따라 <strong>일부 PART는 자동 생략</strong>됩니다.',
           '마지막 PART에서 <strong>최종 다운로드</strong>하여 Word에서 자유롭게 편집하세요.',
         ]} />}
-      onStart={() => { setPage('steps'); setStep(0); }}
+      onStart={() => { setPage('steps'); setCurrentPart(0); }}
     />
   );
 
   // STEP RENDERER
-  const renderStep = () => { switch(step) {
+  const renderPart = () => { switch(currentPart) {
 
   // ===== PART 1: 직무 분석 =====
   case 0: return (<div>
@@ -1786,19 +1786,19 @@ X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수
         <div style={{ marginBottom: 20 }}>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 4, flexWrap: 'nowrap', overflowX: 'auto', paddingBottom: 4 }}>
             {PARTS.map((t,i) => {
-              if (skipStep(i)) return null;
+              if (skipPart(i)) return null;
               return (<button key={i} onClick={()=>go(i)}
-                style={{ fontSize: 13, padding: '4px 8px', borderRadius: RADIUS.pill, border: 'none', cursor: 'pointer', fontWeight: i === step ? 700 : 500, background: i === step ? COLORS.ink : i < step ? COLORS.paper : 'transparent', color: i === step ? '#fff' : i < step ? COLORS.accent2 : COLORS.sub, whiteSpace: 'nowrap', flexShrink: 0 }}>
-                {i < step ? '✓ ' : ''}PART {i + 1}. {t}
+                style={{ fontSize: 13, padding: '4px 8px', borderRadius: RADIUS.pill, border: 'none', cursor: 'pointer', fontWeight: i === currentPart ? 700 : 500, background: i === currentPart ? COLORS.ink : i < currentPart ? COLORS.paper : 'transparent', color: i === currentPart ? '#fff' : i < currentPart ? COLORS.accent2 : COLORS.sub, whiteSpace: 'nowrap', flexShrink: 0 }}>
+                {i < currentPart ? '✓ ' : ''}PART {i + 1}. {t}
               </button>);
             })}
           </div>
         </div>
         <div style={{ background: '#fff', borderRadius: RADIUS.lg, padding: 'clamp(16px, 4vw, 32px)', border: `1px solid ${COLORS.border}`, marginBottom: 20 }}>
-          {renderStep()}
+          {renderPart()}
           <div className="mt-7" style={{ display: 'flex', gap: 12 }}>
-            <button onClick={() => step === 0 ? setPage('intro') : prev()} style={{ background: 'transparent', color: COLORS.ink, border: `1px solid ${COLORS.border}`, padding: '12px 24px', borderRadius: RADIUS.md, fontSize: 16, fontWeight: 500, cursor: 'pointer' }}>이전</button>
-            {step<9 && <button onClick={next} style={{ flex: 1, background: COLORS.ink, color: COLORS.white, border: 'none', padding: '12px 24px', borderRadius: RADIUS.md, fontSize: 16, fontWeight: 600, cursor: 'pointer' }}>다음</button>}
+            <button onClick={() => currentPart === 0 ? setPage('intro') : prev()} style={{ background: 'transparent', color: COLORS.ink, border: `1px solid ${COLORS.border}`, padding: '12px 24px', borderRadius: RADIUS.md, fontSize: 16, fontWeight: 500, cursor: 'pointer' }}>이전</button>
+            {currentPart<9 && <button onClick={next} style={{ flex: 1, background: COLORS.ink, color: COLORS.white, border: 'none', padding: '12px 24px', borderRadius: RADIUS.md, fontSize: 16, fontWeight: 600, cursor: 'pointer' }}>다음</button>}
           </div>
         </div>
         <StickyFooter />
