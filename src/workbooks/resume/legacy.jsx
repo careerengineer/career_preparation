@@ -8,8 +8,8 @@ import { buildResumeDocxChildren } from '../../store/workbookDocx.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
 import { VARIANT } from '../../store/schema.js';
-import { CE_SYMBOL_B64, _INTRO_FONT, StickyFooter } from '../_shared/brandKit.jsx';
-import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CESymbol, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
+import { _INTRO_FONT, StickyFooter } from '../_shared/brandKit.jsx';
+import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
 
 const IS_EXPERIENCED_VARIANT = VARIANT === 'experienced' || VARIANT === 'documents_experienced';
 
@@ -1079,7 +1079,7 @@ const ResumeWorkbook = () => {
         );
 
       // ========== PART 6: 최종 점검 ==========
-      case 6:
+      case 6: {
         const baseCheckItems = [
           { id: 'c1', text: '회사 지정 양식/파일형식/파일명 규칙을 확인했는가?', action: '채용 공고 재확인' },
           { id: 'c2', text: '이력서에 서술형(문장) 표현이 남아있지 않은가?', action: '개조식으로 전환' },
@@ -1256,6 +1256,7 @@ const ResumeWorkbook = () => {
             )}
           </div>
         );
+      }
 
       // ========== PART 7: 완성 & 다운로드 ==========
       case 7:

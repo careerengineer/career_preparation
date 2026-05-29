@@ -9,8 +9,8 @@ import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
 
 import { JobSituationGuide } from '../../shared/components/JobSituationGuide.jsx';
 import { AnswerQualityCheck } from '../../shared/components/AnswerQualityCheck.jsx';
-import { CE_SYMBOL_B64, _INTRO_FONT, StickyFooter, FocusStyles } from '../_shared/brandKit.jsx';
-import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CESymbol, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
+import { _INTRO_FONT, StickyFooter, FocusStyles } from '../_shared/brandKit.jsx';
+import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
 
 // [Phase A-3] 세부 단계(stages) 답변을 최종 답변 작성 전에 모아 보여주는 박스
 function Part2DigestBox({ q, answers }) {

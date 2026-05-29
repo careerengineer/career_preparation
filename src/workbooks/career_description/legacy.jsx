@@ -7,8 +7,8 @@ import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightPara
 import { buildCareerDescDocxChildren } from '../../store/workbookDocx.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
-import { CE_SYMBOL_B64, _INTRO_FONT, StickyFooter } from '../_shared/brandKit.jsx';
-import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CESymbol, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
+import { _INTRO_FONT, StickyFooter } from '../_shared/brandKit.jsx';
+import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
 // ══════════════════════════════════════════════════════════════

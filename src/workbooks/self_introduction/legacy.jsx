@@ -9,8 +9,8 @@ import { ExampleToggle } from '../../shared/components/ExampleToggle.jsx';
 import { AnswerQualityCheck } from '../../shared/components/AnswerQualityCheck.jsx';
 import { VARIANT } from '../../store/schema.js';
 import { SELF_INTRO_EXAMPLES, SELF_INTRO_EXAMPLES_CAREER, PARTS, CHECKLIST } from './data.js';
-import { CE_SYMBOL_B64, _INTRO_FONT, StickyFooter, FocusStyles } from '../_shared/brandKit.jsx';
-import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CESymbol, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
+import { _INTRO_FONT, StickyFooter, FocusStyles } from '../_shared/brandKit.jsx';
+import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
 
 // 경력 변형(경력 컨설팅·경력 면접)에서는 경력 페르소나 예시를 보여준다
 const IS_EXPERIENCED_VARIANT = ['experienced', 'documents_experienced', 'interview_experienced'].includes(VARIANT);
