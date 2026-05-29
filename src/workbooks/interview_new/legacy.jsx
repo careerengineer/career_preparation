@@ -400,7 +400,6 @@ const NewInterviewWorkbook = () => {
         }
       }
     } catch (e) { console.warn(e); }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   useEffect(() => {
@@ -411,7 +410,7 @@ const NewInterviewWorkbook = () => {
           answers, basicInfo, finalText, currentIdx, isCompleted, showIntro,
           savedAt: new Date().toISOString()
         }));
-      } catch (e) {}
+      } catch { /* ignore */ }
     }, 1000);
     return () => clearTimeout(timer);
   }, [answers, basicInfo, finalText, currentIdx, isCompleted, showIntro]);

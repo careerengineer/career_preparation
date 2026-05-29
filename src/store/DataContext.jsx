@@ -107,7 +107,7 @@ export function DataProvider({ children }) {
       return next;
     });
     // 워크북 자체 localStorage 키 삭제
-    try { if (LEGACY_KEYS[workbookKey]) localStorage.removeItem(LEGACY_KEYS[workbookKey]); } catch {}
+    try { if (LEGACY_KEYS[workbookKey]) localStorage.removeItem(LEGACY_KEYS[workbookKey]); } catch { /* ignore */ }
   }, []);
 
   // 전체 데이터 리셋 (모든 워크북 + 프로필 + 경험) — 회사별 저장본(슬롯)은 보존
@@ -120,7 +120,7 @@ export function DataProvider({ children }) {
     try { localStorage.setItem(MASTER_KEY, JSON.stringify(fresh)); } catch (e) { console.warn('reset-all save failed:', e); }
     // 워크북 legacy 키는 LEGACY_KEYS 단일 소스에서 파생 (새 워크북 자동 포함)
     const ALL_LEGACY = Object.values(LEGACY_KEYS);
-    try { ALL_LEGACY.forEach((k) => localStorage.removeItem(k)); } catch {}
+    try { ALL_LEGACY.forEach((k) => localStorage.removeItem(k)); } catch { /* ignore */ }
   }, []);
 
   // 회사·직무 관련 데이터만 리셋 (experience, career_roadmap은 유지)
@@ -148,7 +148,7 @@ export function DataProvider({ children }) {
     const KEYS_TO_CLEAR = Object.values(LEGACY_KEYS).filter(
       (k) => k !== LEGACY_KEYS.experience && k !== LEGACY_KEYS.career_roadmap
     );
-    try { KEYS_TO_CLEAR.forEach((k) => localStorage.removeItem(k)); } catch {}
+    try { KEYS_TO_CLEAR.forEach((k) => localStorage.removeItem(k)); } catch { /* ignore */ }
   }, []);
 
   // ─── 회사별 슬롯 저장/복원 ────────────────────────────────

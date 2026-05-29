@@ -15,7 +15,9 @@ export default function CompanySlots() {
   const importRef = useRef(null);
 
   const refresh = () => setSlots(listCompanySlots());
-  useEffect(() => { refresh(); /* eslint-disable-next-line */ }, []);
+  // 마운트 시 1회만 슬롯 목록 로드 (refresh 의존성 의도적 제외 — 재실행 방지)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { refresh(); }, []);
 
   const showToast = (m) => { setToast(m); setTimeout(() => setToast(null), 4000); };
 

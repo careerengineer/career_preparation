@@ -531,7 +531,6 @@ const ResumeWorkbook = () => {
         }
       }
     } catch (e) { console.warn(e); }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   useEffect(() => {
@@ -542,7 +541,7 @@ const ResumeWorkbook = () => {
           answers, checks, currentPart, expCount, projCount, showIntro,
           savedAt: new Date().toISOString()
         }));
-      } catch (e) {}
+      } catch { /* ignore */ }
     }, 1000);
     return () => clearTimeout(timer);
   }, [answers, checks, currentPart, expCount, projCount, showIntro]);

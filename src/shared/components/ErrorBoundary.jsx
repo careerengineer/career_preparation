@@ -18,7 +18,7 @@ export class ErrorBoundary extends Component {
   }
 
   goHome = () => {
-    try { window.location.hash = '#/'; } catch {}
+    try { window.location.hash = '#/'; } catch { /* ignore */ }
     window.location.reload();
   };
 
