@@ -369,9 +369,15 @@ export async function buildFullDocxBlob(master, options = {}) {
   const dataPayload = excludeExperiences
     ? (() => {
         const { experiences, ...rest } = master;
-        // workbookRaw.experience도 제외 (xlsx에서 복원)
+        // 경험 카드(STAR)는 xlsx가 운반하므로 본문/임베드에서 제외하되,
+        // workbookRaw.experience의 "플래그류"(phase·completedAt 등)는 남겨
+        // .zip 왕복 후에도 완료 상태(진행률 100%)가 보존되도록 한다.
+        // (무거운 중복 카드 배열만 제거)
         const wbRaw = { ...(rest.workbookRaw || {}) };
-        delete wbRaw.experience;
+        if (wbRaw.experience) {
+          const { experiences: _expCards, ...expRest } = wbRaw.experience;
+          wbRaw.experience = expRest;
+        }
         return { ...rest, experiences: [], workbookRaw: wbRaw };
       })()
     : master;
