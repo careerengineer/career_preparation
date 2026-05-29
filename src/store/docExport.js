@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx';
 import JSZip from 'jszip';
 import { ALL_WORKBOOKS as WORKBOOKS, APP_VERSION } from './schema.js';
 import { formatComps } from './comps.js';
-import { buildCopyrightParagraphs, COPYRIGHT_TEXT } from './docxBackup.js';
+import { buildCopyrightParagraphs } from './docxBackup.js';
 import { LEGACY_KEYS } from './legacySync.js';
 import { QUESTION_LABELS } from './questionLabels.js';
 import { decodeAnswer } from './answerLabels.js';

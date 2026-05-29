@@ -1,8 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { clickable } from '../../shared/a11y.js';
-import { isWorkbookInVariant } from '../../store/schema.js';
-import * as XLSX from 'xlsx';
-import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
+import { COLORS, FONT, SPACING, RADIUS } from '../../shared/design/tokens.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 import { saveExperienceXlsx } from '../../store/experienceXlsx.js';
 // ════════════════════════════════════════════════════════════════

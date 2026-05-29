@@ -1,7 +1,6 @@
 // [BUILD v36 20260520 10:30] docx 저장에 CareerEngineer 자료 + 멘토링 안내 섹션 추가 (ExternalHyperlink + linkP)
-import React, { useState, useEffect, useRef } from 'react';
-import { isWorkbookInVariant } from '../../store/schema.js';
-import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS } from '../../shared/design/tokens.js';
+import { useState, useEffect, useRef } from 'react';
+import { COLORS, FONT, SPACING, RADIUS } from '../../shared/design/tokens.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
 import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
 import { FORMS, PERSONAS, COMPLETION_CHECKLIST } from './data.js';
