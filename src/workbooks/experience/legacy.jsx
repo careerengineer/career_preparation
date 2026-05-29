@@ -1689,7 +1689,7 @@ const ExperienceWorkbook = () => {
         )}
         {/* (D) 직무상세내용 커버율 매트릭스 — 입력한 직무상세내용 키워드가 어떤 경험으로 커버되는지 진단 */}
         {experiences.length > 0 && (jdKeywords.core || jdKeywords.tools || jdKeywords.soft) && (() => {
-          const splitKw = (str) => (str || '').split(/[,，·•、\/\n]+/).map(s => s.trim()).filter(Boolean);
+          const splitKw = (str) => (str || '').split(/[,，·•、/\n]+/).map(s => s.trim()).filter(Boolean);
           const jdGroups = [
             { label: '핵심 직무', items: splitKw(jdKeywords.core), color: COLORS.accent2, bg: COLORS.blueBg },
             { label: '도구·기술', items: splitKw(jdKeywords.tools), color: COLORS.green, bg: COLORS.greenBg },

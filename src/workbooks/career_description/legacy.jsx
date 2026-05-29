@@ -242,11 +242,11 @@ body, * {
 
 /* ── 메인 accent (blue → #0E2750 네이비) ── */
 .bg-blue-500, .bg-[#0E2750], .bg-blue-700,
-.hover\:bg-blue-700:hover, .hover\:bg-[#0E2750]:hover {
+.hover:bg-blue-700:hover, .hover:bg-[#0E2750]:hover {
   background-color: #0E2750 !important;
 }
 .text-blue-600, .text-[#0E2750], .text-[#0E2750], .text-blue-900,
-.hover\:text-[#0E2750]:hover, .hover\:text-[#0E2750]:hover {
+.hover:text-[#0E2750]:hover, .hover:text-[#0E2750]:hover {
   color: #0E2750 !important;
 }
 .border-blue-500, .border-blue-600, .border-blue-700 {
@@ -302,7 +302,7 @@ body, * {
 .bg-gray-100, .bg-gray-200 { background-color: ${COLORS.border} !important; }
 .bg-gray-300 { background-color: ${COLORS.border} !important; }
 .border-gray-200, .border-gray-300 { border-color: ${COLORS.border} !important; }
-.hover\:bg-gray-300:hover { background-color: ${COLORS.border} !important; }
+.hover:bg-gray-300:hover { background-color: ${COLORS.border} !important; }
 
 /* ── Slate → neutral ── */
 .bg-slate-50 { background-color: #F2F1EC !important; }
@@ -324,10 +324,10 @@ body, * {
 }
 
 /* ── focus ring → accent2 (#C9A86A) ── */
-.focus\:ring-blue-500:focus,
-.focus\:ring-blue-600:focus,
-.focus\:border-blue-500:focus,
-.focus\:border-blue-600:focus {
+.focus:ring-blue-500:focus,
+.focus:ring-blue-600:focus,
+.focus:border-blue-500:focus,
+.focus:border-blue-600:focus {
   --tw-ring-color: #C9A86A !important;
   border-color: #C9A86A !important;
   box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.12) !important;
@@ -347,23 +347,23 @@ input:focus, textarea:focus, select:focus {
 .text-sm { font-size: 16px !important; }
 
 /* ── 임의값(arbitrary value) 클래스 강제 적용 ── */
-.bg-\[\#0E2750\] { background-color: #0E2750 !important; }
-.bg-\[\#1B3A6B\] { background-color: #1B3A6B !important; }
-.bg-\[\#F2F1EC\] { background-color: #F2F1EC !important; }
-.bg-\[\#1B3A6B\] { background-color: #1B3A6B !important; }
-.bg-\[\#C9A86A\] { background-color: #C9A86A !important; }
-.bg-\[\#FBFAF6\] { background-color: #FBFAF6 !important; }
-.text-\[\#0E2750\] { color: #0E2750 !important; }
-.text-\[\#1B3A6B\] { color: #1B3A6B !important; }
-.text-\[\${COLORS.sub}\] { color: ${COLORS.sub} !important; }
-.text-\[\#C9A86A\] { color: #C9A86A !important; }
-.border-\[\#0E2750\] { border-color: #0E2750 !important; }
-.border-\[\#1B3A6B\] { border-color: #1B3A6B !important; }
-.border-\[\${COLORS.border}\] { border-color: ${COLORS.border} !important; }
-.hover\:bg-\[\#1B3A6B\]:hover { background-color: #1B3A6B !important; }
-.hover\:bg-\[\#0E2750\]:hover { background-color: #0E2750 !important; }
-.hover\:text-\[\#0E2750\]:hover { color: #0E2750 !important; }
-.max-w-\[900px\] { max-width: 900px !important; }
+.bg-[#0E2750] { background-color: #0E2750 !important; }
+.bg-[#1B3A6B] { background-color: #1B3A6B !important; }
+.bg-[#F2F1EC] { background-color: #F2F1EC !important; }
+.bg-[#1B3A6B] { background-color: #1B3A6B !important; }
+.bg-[#C9A86A] { background-color: #C9A86A !important; }
+.bg-[#FBFAF6] { background-color: #FBFAF6 !important; }
+.text-[#0E2750] { color: #0E2750 !important; }
+.text-[#1B3A6B] { color: #1B3A6B !important; }
+.text-[\${COLORS.sub}] { color: ${COLORS.sub} !important; }
+.text-[#C9A86A] { color: #C9A86A !important; }
+.border-[#0E2750] { border-color: #0E2750 !important; }
+.border-[#1B3A6B] { border-color: #1B3A6B !important; }
+.border-[\${COLORS.border}] { border-color: ${COLORS.border} !important; }
+.hover:bg-[#1B3A6B]:hover { background-color: #1B3A6B !important; }
+.hover:bg-[#0E2750]:hover { background-color: #0E2750 !important; }
+.hover:text-[#0E2750]:hover { color: #0E2750 !important; }
+.max-w-[900px] { max-width: 900px !important; }
 
 /* ── 인트로 시작하기 CTA 버튼 (강제 적용) ── */
 button.ce-intro-cta { background-color: #0E2750 !important; color: #ffffff !important; }
@@ -469,7 +469,7 @@ const BriarHint = ({ value, kind }) => {
   if (!v) return null;
   const msgs = [];
   if (kind === 'number') {
-    const hasNum = /\d+\s*(%|％|p\b|개|건|명|년|개월|달|주|일|회|배|원|만원|억|천|㎜|mm|℃|점|위|시간|분)/.test(v) || /\d+\s*[→~\-]\s*\d+/.test(v) || /\d+\.\d/.test(v);
+    const hasNum = /\d+\s*(%|％|p\b|개|건|명|년|개월|달|주|일|회|배|원|만원|억|천|㎜|mm|℃|점|위|시간|분)/.test(v) || /\d+\s*[→~-]\s*\d+/.test(v) || /\d+\.\d/.test(v);
     if (!hasNum) msgs.push('성과에 숫자가 없습니다 — Before→After 수치를 1개 이상 넣어보세요. 예: "불량률 3.1%→0.8%", "납기 4개월→2.5개월".');
   }
   if (kind === 'contribution') {
@@ -1495,10 +1495,10 @@ window.addEventListener('afterprint', function() {
       
       <Ex>{`전기기사 (2024 갱신) / 품질경영기사 (2023) / TOEIC 920 (2022) / 컴퓨터활용능력 1급`}</Ex>
       
-      <Warn title="피해야 할 표현">{`X \"커뮤니케이션 능력 우수\" → 누구나 적는 표현, 변별력 없음
-X \"문제 해결 능력\" → 추상적, 무엇을 해결했는지 구체화 필요
-X \"긍정적이고 책임감 있는\" → 인성에 가까운 표현, 경력기술서에 부적절
-X 도구/기술을 너무 많이 나열 (15개+) → \"이거 다 진짜 쓸 수 있어?\" 의심`}</Warn>
+      <Warn title="피해야 할 표현">{`X "커뮤니케이션 능력 우수" → 누구나 적는 표현, 변별력 없음
+X "문제 해결 능력" → 추상적, 무엇을 해결했는지 구체화 필요
+X "긍정적이고 책임감 있는" → 인성에 가까운 표현, 경력기술서에 부적절
+X 도구/기술을 너무 많이 나열 (15개+) → "이거 다 진짜 쓸 수 있어?" 의심`}</Warn>
     </GP>
 
     <In id="hard_skills" label="하드 스킬 (도구, 기술, 방법론)" placeholder="직무상세내용 키워드와 매칭되는 것 우선. PART 5에서 언급한 도구/기술 모두 포함" rows={2} ans={ans} set={set} />
