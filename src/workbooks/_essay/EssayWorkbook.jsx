@@ -375,8 +375,7 @@ export const EssayWorkbook = ({ config }) => {
 
   const canGoNext = () => { if (currentPhase === 'evaluation') return selectedSteps.length >= 1; return true; };
   // 진행률은 현재 단계가 아니라 실제 작성한 답변 기반
-  const ALL_ANS_KEYS = config.allAnsKeys;
-  const progress = Math.round(ALL_ANS_KEYS.filter((k) => (answers[k] || '').trim().length > 1).length / ALL_ANS_KEYS.length * 100);
+  const progress = config.computeProgress({ currentPhase, currentPart, round1Steps, round2Questions, round3Questions, selectedSteps, answers });
 
   // ══════════════════════════════════════════════════════════════
   //  스타일 (careerengineer-theme.js 기반)
