@@ -232,140 +232,25 @@ const RelatedWorkbookList = ({ items, title = '함께 보면 좋은 워크북' }
 const BrandOverride = () => (
   <style>{`
 /* ══════════════════════════════════════════════════════════════
-   CareerEngineer 브랜드 오버라이드
+   CareerEngineer 브랜드 오버라이드 (워크북 페이지 전역 주입)
+   ※ 과거의 Tailwind 색상 리맵 보정 시트는 인라인 토큰화 이후
+     대응 className이 사라져 전부 죽은 규칙이 됨 → 제거.
+     아래 3가지(전역 폰트·입력 포커스 링·인트로 CTA)만 실제로 동작하므로 유지.
    ══════════════════════════════════════════════════════════════ */
 
-/* ── 폰트 ── */
+/* ── 폰트: Pretendard 우선 ── */
 body, * {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', '맑은 고딕', 'Malgun Gothic', sans-serif !important;
 }
 
-/* ── 메인 accent (blue → #0E2750 네이비) ── */
-.bg-blue-500, .bg-[#0E2750], .bg-blue-700,
-.hover:bg-blue-700:hover, .hover:bg-[#0E2750]:hover {
-  background-color: #0E2750 !important;
-}
-.text-blue-600, .text-[#0E2750], .text-[#0E2750], .text-blue-900,
-.hover:text-[#0E2750]:hover, .hover:text-[#0E2750]:hover {
-  color: #0E2750 !important;
-}
-.border-blue-500, .border-blue-600, .border-blue-700 {
-  border-color: #0E2750 !important;
-}
-
-/* ── 보조 accent2 (indigo → #C9A86A) ── */
-.bg-indigo-500, .bg-indigo-600, .bg-indigo-700 { background-color: #C9A86A !important; }
-.text-indigo-500, .text-indigo-600, .text-indigo-700 { color: #C9A86A !important; }
-.text-blue-500 { color: #C9A86A !important; }
-
-/* ── 상태 배경: 정보/도움말 (PART 7-2-2 정보 페어) ── */
-.bg-blue-50, .bg-blue-100, .bg-indigo-50, .bg-indigo-100 {
-  background-color: #F2F1EC !important;
-}
-.border-blue-100, .border-blue-200, .border-indigo-200 {
-  border-color: #1B3A6B33 !important;
-}
-
-/* ── 상태 배경: 경고 (PART 7-2-2 경고 페어) ── */
-.bg-red-50, .bg-red-100 { background-color: #F2F1EC !important; }
-.border-red-200, .border-red-300 { border-color: #0E275033 !important; }
-.text-red-500, .text-[#1B3A6B], .text-[#0E2750], .text-[#0E2750], .text-red-900 { color: #0E2750 !important; }
-
-/* ── 상태 배경: 팁/주의 (PART 7-2-2 주의 페어) ── */
-.bg-amber-50, .bg-amber-100, .bg-yellow-50, .bg-yellow-100 {
-  background-color: #FBFAF6 !important;
-}
-.border-amber-200, .border-amber-300, .border-amber-400, .border-yellow-200, .border-yellow-400 {
-  border-color: #C9A86A33 !important;
-}
-.text-[#1B3A6B], .text-[#0E2750], .text-[#0E2750], .text-[#0E2750],
-.text-yellow-700, .text-yellow-800 {
-  color: #C9A86A !important;
-}
-
-/* ── 상태 배경: 완료/성공 (PART 7-2-2 완료 페어) ── */
-.bg-green-50, .bg-green-100, .bg-emerald-50, .bg-emerald-100 {
-  background-color: #FBFAF6 !important;
-}
-.border-green-200, .border-green-300, .border-emerald-200, .border-emerald-300 {
-  border-color: #C9A86A33 !important;
-}
-.text-green-600, .text-green-700, .text-green-800,
-.text-emerald-600, .text-[#0E2750], .text-[#0E2750] {
-  color: #C9A86A !important;
-}
-
-/* ── 뉴트럴/그레이 ── */
-.text-[${COLORS.sub}], .text-[${COLORS.sub}] { color: ${COLORS.sub} !important; }
-.text-[#1B3A6B], .text-[#1B3A6B], .text-[#0E2750], .text-[#0E2750] { color: #0E2750 !important; }
-.bg-gray-50 { background-color: #F2F1EC !important; }
-.bg-gray-100, .bg-gray-200 { background-color: ${COLORS.border} !important; }
-.bg-gray-300 { background-color: ${COLORS.border} !important; }
-.border-gray-200, .border-gray-300 { border-color: ${COLORS.border} !important; }
-.hover:bg-gray-300:hover { background-color: ${COLORS.border} !important; }
-
-/* ── Slate → neutral ── */
-.bg-slate-50 { background-color: #F2F1EC !important; }
-.bg-slate-100, .bg-slate-200, .bg-slate-300 { background-color: ${COLORS.border} !important; }
-.bg-slate-700, .bg-slate-800 { background-color: #0E2750 !important; }
-.text-[${COLORS.sub}], .text-[#1B3A6B] { color: ${COLORS.sub} !important; }
-.text-[#1B3A6B], .text-[#0E2750], .text-[#0E2750] { color: #0E2750 !important; }
-.border-slate-200, .border-slate-300 { border-color: ${COLORS.border} !important; }
-
-/* ── Sky → 네이비 통일 (경력기술서) ── */
-.bg-sky-50, .bg-sky-100 { background-color: #F2F1EC !important; }
-.bg-sky-500, .bg-[#0E2750], .bg-sky-700 { background-color: #0E2750 !important; }
-.text-[#1B3A6B], .text-[#0E2750], .text-[#0E2750] { color: #0E2750 !important; }
-
-/* ── 그라디언트 → 단색 bgAlt ── */
-.bg-gradient-to-b, .bg-gradient-to-br, .bg-gradient-to-r, .bg-gradient-to-l {
-  background-image: none !important;
-  background-color: #F2F1EC !important;
-}
-
-/* ── focus ring → accent2 (#C9A86A) ── */
-.focus:ring-blue-500:focus,
-.focus:ring-blue-600:focus,
-.focus:border-blue-500:focus,
-.focus:border-blue-600:focus {
-  --tw-ring-color: #C9A86A !important;
-  border-color: #C9A86A !important;
-  box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.12) !important;
-}
+/* ── 입력 포커스 링 → 브랜드 골드(#C9A86A) ── */
 input:focus, textarea:focus, select:focus {
   outline: none !important;
   border-color: #C9A86A !important;
   box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.12) !important;
 }
 
-/* ── accent-blue → accent2 (라디오/체크박스) ── */
-.accent-blue-600, .accent-blue-500 { accent-color: #C9A86A !important; }
-.accent-emerald-600, .accent-green-600 { accent-color: #C9A86A !important; }
-
-/* ── 최소 글자 크기 16px (PART 7-3-3 표준) ── */
-.text-xs { font-size: 16px !important; }
-.text-sm { font-size: 16px !important; }
-
-/* ── 임의값(arbitrary value) 클래스 강제 적용 ── */
-.bg-[#0E2750] { background-color: #0E2750 !important; }
-.bg-[#1B3A6B] { background-color: #1B3A6B !important; }
-.bg-[#F2F1EC] { background-color: #F2F1EC !important; }
-.bg-[#1B3A6B] { background-color: #1B3A6B !important; }
-.bg-[#C9A86A] { background-color: #C9A86A !important; }
-.bg-[#FBFAF6] { background-color: #FBFAF6 !important; }
-.text-[#0E2750] { color: #0E2750 !important; }
-.text-[#1B3A6B] { color: #1B3A6B !important; }
-.text-[\${COLORS.sub}] { color: ${COLORS.sub} !important; }
-.text-[#C9A86A] { color: #C9A86A !important; }
-.border-[#0E2750] { border-color: #0E2750 !important; }
-.border-[#1B3A6B] { border-color: #1B3A6B !important; }
-.border-[\${COLORS.border}] { border-color: ${COLORS.border} !important; }
-.hover:bg-[#1B3A6B]:hover { background-color: #1B3A6B !important; }
-.hover:bg-[#0E2750]:hover { background-color: #0E2750 !important; }
-.hover:text-[#0E2750]:hover { color: #0E2750 !important; }
-.max-w-[900px] { max-width: 900px !important; }
-
-/* ── 인트로 시작하기 CTA 버튼 (강제 적용) ── */
+/* ── 인트로 '시작하기' CTA 버튼 ── */
 button.ce-intro-cta { background-color: #0E2750 !important; color: #ffffff !important; }
 button.ce-intro-cta:hover { background-color: #1B3A6B !important; }
 `}
