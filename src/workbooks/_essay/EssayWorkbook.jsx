@@ -111,7 +111,8 @@ const BUTTON = {
 
 export const EssayWorkbook = ({ config }) => {
   const {
-    workbookKey, storageKey, title, focusArea,
+    workbookKey, storageKey, focusArea,
+    docxTitle, docxPayloadTitle, fileNamePrefix, completedHeader, completedEditLabel,
     round1Steps, round2Questions, round3Questions,
     intro,
   } = config;
@@ -335,14 +336,14 @@ export const EssayWorkbook = ({ config }) => {
 
       // 결과물 docx에 복원용 백업 동봉 → 이 파일 그대로 "기존 지원동기 불러오기"로 재import 가능
       try {
-        const payload = buildWorkbookPayload(workbookKey, title, storageKey);
+        const payload = buildWorkbookPayload(workbookKey, docxPayloadTitle, storageKey);
         children.push(...buildWorkbookBackupParagraphs(docxLib, payload));
       try { children.unshift(...buildCopyrightParagraphs(docxLib)); } catch (e) { console.warn('copyright skip', e); }
       } catch (e) { console.warn('[motivation] backup embed skipped:', e); }
 
       const doc = new Document({
         creator: '',
-        title: title,
+        title: docxTitle,
         sections: [{
           properties: { page: { margin: { top: 1400, right: 1133, bottom: 1400, left: 1133 } } },
           children: children
@@ -353,7 +354,7 @@ export const EssayWorkbook = ({ config }) => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${title}_${(basicInfo.company || '미입력').replace(/[^a-zA-Z0-9가-힣\s]/g, '_')}_${today}.docx`;
+      a.download = `${fileNamePrefix}_${(basicInfo.company || '미입력').replace(/[^a-zA-Z0-9가-힣\s]/g, '_')}_${today}.docx`;
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       setDownloadSuccess(true); setTimeout(() => setDownloadSuccess(false), 5000);
@@ -760,7 +761,7 @@ const IntroPage = ({
           <div style={{ textAlign: 'center', marginBottom: SPACING.xl }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 64, height: 64, background: COLORS.greenBg, borderRadius: RADIUS.pill, marginBottom: SPACING.base }}>
               </div>
-            <h2 style={{ ...S.h2, textAlign: 'center', marginBottom: 4 }}>{title} 완성</h2>
+            <h2 style={{ ...S.h2, textAlign: 'center', marginBottom: 4 }}>{completedHeader}</h2>
             <p style={S.subtitle}>아래 내용을 확인하고 자유롭게 수정하세요</p>
           </div>
 
@@ -783,7 +784,7 @@ const IntroPage = ({
           <div style={{ background: COLORS.bgAlt, border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.base, padding: SPACING.md, marginBottom: SPACING.lg }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: SPACING.base }}>
               <h3 style={{ ...S.h3, display: 'flex', alignItems: 'center', gap: 8 }}>
-                완성된 {title} (수정 가능)
+                {completedEditLabel}
               </h3>
               <button onClick={() => setShowRawAnswers(!showRawAnswers)} style={S.btnText}>
                 {showRawAnswers ? '원본 숨기기' : '원본 보기'}

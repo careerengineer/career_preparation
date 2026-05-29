@@ -6,7 +6,11 @@ import { buildMotivationDocxChildren } from '../../store/workbookDocx.js';
 const config = {
   workbookKey: 'motivation',
   storageKey: 'careerengineer_motivation_v1',
-  title: '지원동기',
+  docxTitle: '지원동기',
+  docxPayloadTitle: '지원동기',
+  fileNamePrefix: '지원동기',
+  completedHeader: '지원동기 완성',
+  completedEditLabel: '완성된 지원동기 (수정 가능)',
   focusArea: ['motivation', 'connection', 'number', 'autonomy'],
   genLetter: (answers) => {
     const p = [];
