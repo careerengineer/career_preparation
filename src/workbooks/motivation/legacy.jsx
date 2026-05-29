@@ -116,7 +116,7 @@ const BUTTON = {
 const MotivationWorkbook = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [currentPhase, setCurrentPhase] = useState('round1');
-  const [currentStep, setCurrentStep] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_motivation_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
+  const [currentPart, setCurrentPart] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_motivation_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
   const [selectedSteps, setSelectedSteps] = useState([]);
   const [showGuide, setShowGuide] = useState({});
   const [downloadSuccess, setDownloadSuccess] = useState(false);
@@ -145,7 +145,7 @@ const MotivationWorkbook = () => {
             if (data.checklistState) setChecklistState(data.checklistState);
             if (data.selectedSteps) setSelectedSteps(data.selectedSteps);
             if (data.currentPhase) setCurrentPhase(data.currentPhase);
-            if (typeof data.currentStep === 'number') setCurrentStep(data.currentStep);
+            if (typeof (data.currentPart ?? data.currentStep) === 'number') setCurrentPart(data.currentPart ?? data.currentStep);
             if (data.showIntro === false) setShowIntro(false);
           } else {
             localStorage.removeItem(STORAGE_KEY);
@@ -166,7 +166,7 @@ const MotivationWorkbook = () => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
           answers, basicInfo, finalText, checklistState, selectedSteps,
-          currentPhase, currentStep, showIntro,
+          currentPhase, currentPart, showIntro,
           savedAt: new Date().toISOString()
         }));
       } catch (e) {
@@ -175,7 +175,7 @@ const MotivationWorkbook = () => {
     }, 1000);
     
     return () => clearTimeout(timer);
-  }, [answers, basicInfo, finalText, checklistState, selectedSteps, currentPhase, currentStep, showIntro]);
+  }, [answers, basicInfo, finalText, checklistState, selectedSteps, currentPhase, currentPart, showIntro]);
 
   // 저장된 데이터 초기화
   const clearSavedData = () => {
@@ -259,19 +259,19 @@ const MotivationWorkbook = () => {
   const toggleStepSelection = (sid) => setSelectedSteps(p => p.includes(sid) ? p.filter(i => i !== sid) : [...p, sid]);
 
   const goToNextStep = () => {
-    if (currentPhase === 'round1') { if (currentStep < round1Steps.length - 1) setCurrentStep(s => s + 1); else setCurrentPhase('evaluation'); }
-    else if (currentPhase === 'evaluation') { setSelectedSteps(p => [...p].sort((a, b) => a - b)); setCurrentPhase('round2'); setCurrentStep(0); }
-    else if (currentPhase === 'round2') { if (currentStep < selectedSteps.length - 1) setCurrentStep(s => s + 1); else { setCurrentPhase('round3'); setCurrentStep(0); } }
-    else if (currentPhase === 'round3') { if (currentStep < round3Questions.length - 1) setCurrentStep(s => s + 1); else { setFinalText(prev => (prev && prev.trim()) ? prev : genLetter()); setCurrentPhase('completed'); } }
+    if (currentPhase === 'round1') { if (currentPart < round1Steps.length - 1) setCurrentPart(s => s + 1); else setCurrentPhase('evaluation'); }
+    else if (currentPhase === 'evaluation') { setSelectedSteps(p => [...p].sort((a, b) => a - b)); setCurrentPhase('round2'); setCurrentPart(0); }
+    else if (currentPhase === 'round2') { if (currentPart < selectedSteps.length - 1) setCurrentPart(s => s + 1); else { setCurrentPhase('round3'); setCurrentPart(0); } }
+    else if (currentPhase === 'round3') { if (currentPart < round3Questions.length - 1) setCurrentPart(s => s + 1); else { setFinalText(prev => (prev && prev.trim()) ? prev : genLetter()); setCurrentPhase('completed'); } }
     window.scrollTo(0, 0);
   };
   const goToPrevStep = () => {
-    if (currentPhase === 'completed') { setCurrentPhase('round3'); setCurrentStep(round3Questions.length - 1); }
-    else if (currentStep > 0) setCurrentStep(s => s - 1);
-    else if (currentPhase === 'round3') { setCurrentPhase('round2'); setCurrentStep(selectedSteps.length - 1); }
+    if (currentPhase === 'completed') { setCurrentPhase('round3'); setCurrentPart(round3Questions.length - 1); }
+    else if (currentPart > 0) setCurrentPart(s => s - 1);
+    else if (currentPhase === 'round3') { setCurrentPhase('round2'); setCurrentPart(selectedSteps.length - 1); }
     else if (currentPhase === 'round2') setCurrentPhase('evaluation');
-    else if (currentPhase === 'evaluation') { setCurrentPhase('round1'); setCurrentStep(round1Steps.length - 1); }
-    else if (currentPhase === 'round1' && currentStep === 0) setShowIntro(true);
+    else if (currentPhase === 'evaluation') { setCurrentPhase('round1'); setCurrentPart(round1Steps.length - 1); }
+    else if (currentPhase === 'round1' && currentPart === 0) setShowIntro(true);
     window.scrollTo(0, 0);
   };
 
@@ -503,7 +503,7 @@ const MotivationWorkbook = () => {
 
   const goHome = () => {
     setShowIntro(true);
-    setCurrentStep(0);
+    setCurrentPart(0);
     setCurrentPhase('round1');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -1007,10 +1007,10 @@ const IntroPage = ({
   //  메인 질문 화면 (1/2/3라운드 공통)
   // ══════════════════════════════════════════════════════════════
   const sd = currentPhase === 'round1'
-    ? round1Steps[currentStep]
+    ? round1Steps[currentPart]
     : currentPhase === 'round2'
-      ? { title: `${round1Steps[selectedSteps[currentStep]].title} - 심화`, questions: round2Questions[selectedSteps[currentStep]] }
-      : { title: '3라운드: 연결 및 완성', questions: [round3Questions[currentStep]] };
+      ? { title: `${round1Steps[selectedSteps[currentPart]].title} - 심화`, questions: round2Questions[selectedSteps[currentPart]] }
+      : { title: '3라운드: 연결 및 완성', questions: [round3Questions[currentPart]] };
 
   return (
     <div style={S.page}>
@@ -1064,7 +1064,7 @@ const IntroPage = ({
                     setCurrentPhase('evaluation');
                   } else {
                     setCurrentPhase(phase);
-                    setCurrentStep(0);
+                    setCurrentPart(0);
                   }
                   window.scrollTo(0, 0);
                 }}
@@ -1088,7 +1088,7 @@ const IntroPage = ({
           <h2 style={{ ...S.h2, marginBottom: SPACING.xs }}>{sd.title}</h2>
           {sd.subtitle && <p style={{ ...S.subtitle, marginBottom: SPACING.lg }}>{sd.subtitle}</p>}
 
-          {currentStep === 0 && currentPhase === 'round1' ? (
+          {currentPart === 0 && currentPhase === 'round1' ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md }}>
               {[['industry','지원하고자 하는 산업','예: 반도체, 자동차, 디스플레이 등'],['position','지원하고자 하는 직무','예: 공정엔지니어, 기구설계, 회로설계 등'],['company','지원하고자 하는 회사명','예: 삼성전자, LG전자 등']].map(([f,l,p]) => (
                 <div key={f}>

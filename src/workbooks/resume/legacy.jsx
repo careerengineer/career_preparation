@@ -482,7 +482,7 @@ const StickyFooter = () => (
 
 const ResumeWorkbook = () => {
   const [showIntro, setShowIntro] = useState(true);
-  const [currentStep, setCurrentStep] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_resume_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
+  const [currentPart, setCurrentPart] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_resume_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
   const [showGuide, setShowGuide] = useState({});
   const [answers, setAnswers] = useState({});
   const [checks, setChecks] = useState({});
@@ -497,7 +497,7 @@ const ResumeWorkbook = () => {
   }, []);
   const goHome = () => {
     setShowIntro(true);
-    setCurrentStep(0);
+    setCurrentPart(0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   __ceHomeRef.current = goHome; // [CE-HOME] ref 갱신
@@ -519,7 +519,7 @@ const ResumeWorkbook = () => {
           if (true /* auto-restore */) {
             setAnswers(data.answers || {});
             if (data.checks) setChecks(data.checks);
-            if (typeof data.currentStep === 'number') setCurrentStep(data.currentStep);
+            if (typeof (data.currentPart ?? data.currentStep) === 'number') setCurrentPart(data.currentPart ?? data.currentStep);
             if (typeof data.expCount === 'number') setExpCount(data.expCount);
             if (typeof data.projCount === 'number') setProjCount(data.projCount);
             if (data.showIntro === false) setShowIntro(false);
@@ -537,13 +537,13 @@ const ResumeWorkbook = () => {
     const timer = setTimeout(() => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          answers, checks, currentStep, expCount, projCount, showIntro,
+          answers, checks, currentPart, expCount, projCount, showIntro,
           savedAt: new Date().toISOString()
         }));
       } catch (e) {}
     }, 1000);
     return () => clearTimeout(timer);
-  }, [answers, checks, currentStep, expCount, projCount, showIntro]);
+  }, [answers, checks, currentPart, expCount, projCount, showIntro]);
   
   const clearSavedData = () => {
     if (confirmingClear) {
@@ -563,10 +563,10 @@ const ResumeWorkbook = () => {
   const toggleGuide = (id) => setShowGuide(p => ({ ...p, [id]: !p[id] }));
   const toggleCheck = (id) => setChecks(p => ({ ...p, [id]: !p[id] }));
 
-  const progress = Math.round((currentStep / 7) * 100);
+  const progress = Math.round((currentPart / 7) * 100);
 
-  const goNext = () => { if (currentStep < 7) setCurrentStep(currentStep + 1); window.scrollTo(0, 0); };
-  const goPrev = () => { if (currentStep > 0) setCurrentStep(currentStep - 1); window.scrollTo(0, 0); };
+  const goNext = () => { if (currentPart < 7) setCurrentPart(currentPart + 1); window.scrollTo(0, 0); };
+  const goPrev = () => { if (currentPart > 0) setCurrentPart(currentPart - 1); window.scrollTo(0, 0); };
 
   // 채용담당자 제출용 이력서 — 워크북 입력 모두 반영 (CareerEngineer 흔적 없음)
   // docx 라이브러리 동적 로드 (CDN)
@@ -788,7 +788,7 @@ const ResumeWorkbook = () => {
 
   // ==================== STEP CONTENT ====================
   const renderStep = () => {
-    switch (currentStep) {
+    switch (currentPart) {
       // ========== PART 0: 기본 정보 ==========
       case 0:
         return (
@@ -1727,9 +1727,9 @@ const ResumeWorkbook = () => {
         <div style={{ marginBottom: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 4, flexWrap: 'nowrap', overflowX: 'auto', paddingBottom: 4 }}>
             {stepTitles.map((t, i) => (
-              <button key={i} onClick={() => { setCurrentStep(i); window.scrollTo(0, 0); }}
-                style={{ fontSize: 16, padding: '4px 10px', borderRadius: RADIUS.pill, border: 'none', cursor: 'pointer', fontWeight: i === currentStep ? 700 : 500, background: i === currentStep ? COLORS.ink : i < currentStep ? COLORS.paper : 'transparent', color: i === currentStep ? '#fff' : i < currentStep ? COLORS.accent2 : COLORS.sub, whiteSpace: 'nowrap', flexShrink: 0 }}>
-                {i < currentStep ? '✓ ' : ''}PART {i + 1}. {t}
+              <button key={i} onClick={() => { setCurrentPart(i); window.scrollTo(0, 0); }}
+                style={{ fontSize: 16, padding: '4px 10px', borderRadius: RADIUS.pill, border: 'none', cursor: 'pointer', fontWeight: i === currentPart ? 700 : 500, background: i === currentPart ? COLORS.ink : i < currentPart ? COLORS.paper : 'transparent', color: i === currentPart ? '#fff' : i < currentPart ? COLORS.accent2 : COLORS.sub, whiteSpace: 'nowrap', flexShrink: 0 }}>
+                {i < currentPart ? '✓ ' : ''}PART {i + 1}. {t}
               </button>
             ))}
           </div>
@@ -1741,10 +1741,10 @@ const ResumeWorkbook = () => {
 
           {/* Navigation */}
           <div className="mt-8" style={{ display: 'flex', gap: 16 }}>
-            <button onClick={() => currentStep === 0 ? setShowIntro(true) : goPrev()} style={{ background: 'transparent', color: COLORS.ink, border: `1px solid ${COLORS.border}`, padding: '12px 24px', borderRadius: RADIUS.md, fontSize: 16, fontWeight: 500, cursor: 'pointer' }}>
+            <button onClick={() => currentPart === 0 ? setShowIntro(true) : goPrev()} style={{ background: 'transparent', color: COLORS.ink, border: `1px solid ${COLORS.border}`, padding: '12px 24px', borderRadius: RADIUS.md, fontSize: 16, fontWeight: 500, cursor: 'pointer' }}>
               이전
             </button>
-            {currentStep < 7 && (
+            {currentPart < 7 && (
               <button onClick={goNext} style={{ flex: 1, background: COLORS.ink, color: COLORS.white, border: 'none', padding: '12px 24px', borderRadius: RADIUS.md, fontSize: 16, fontWeight: 600, cursor: 'pointer' }}>
                 다음 </button>
             )}

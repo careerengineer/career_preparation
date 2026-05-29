@@ -434,7 +434,7 @@ const FocusStyles = () => (
 const SelfIntroWorkbook = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [showHelp, setShowHelp] = useState(true);
-  const [currentStep, setCurrentStep] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_self_introduction_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
+  const [currentPart, setCurrentPart] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_self_introduction_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
   const [basicInfo, setBasicInfo] = useState({ industry: '', position: '', company: '' });
   const [answers, setAnswers] = useState({});
   const [showStuckHint, setShowStuckHint] = useState({});
@@ -460,7 +460,7 @@ const SelfIntroWorkbook = () => {
   const goHome = () => {
     console.log('[goHome] clicked - moving to intro page');
     setShowIntro(true);
-    setCurrentStep(0);
+    setCurrentPart(0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -476,7 +476,7 @@ const SelfIntroWorkbook = () => {
         sessionStorage.removeItem('__si_skip_autoload__');
         const keepStep = sessionStorage.getItem('__si_keep_step__');
         if (keepStep !== null) {
-          setCurrentStep(parseInt(keepStep, 10));
+          setCurrentPart(parseInt(keepStep, 10));
           setShowIntro(false);
           sessionStorage.removeItem('__si_keep_step__');
           console.log('[v8 load] 단계 복원:', keepStep);
@@ -492,7 +492,7 @@ const SelfIntroWorkbook = () => {
             setAnswers(data.answers || {});
             if (data.basicInfo) setBasicInfo(data.basicInfo);
             if (data.checks) setChecks(data.checks);
-            if (typeof data.currentStep === 'number') setCurrentStep(data.currentStep);
+            if (typeof (data.currentPart ?? data.currentStep) === 'number') setCurrentPart(data.currentPart ?? data.currentStep);
             if (data.showIntro === false) setShowIntro(false);
           } else {
             localStorage.removeItem(STORAGE_KEY);
@@ -511,13 +511,13 @@ const SelfIntroWorkbook = () => {
     const timer = setTimeout(() => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          answers, basicInfo, checks, currentStep, showIntro,
+          answers, basicInfo, checks, currentPart, showIntro,
           savedAt: new Date().toISOString()
         }));
       } catch (e) {}
     }, 1000);
     return () => clearTimeout(timer);
-  }, [answers, basicInfo, checks, currentStep, showIntro]);
+  }, [answers, basicInfo, checks, currentPart, showIntro]);
   
   const clearSavedData = () => {
     if (confirmingClear) {
@@ -538,7 +538,7 @@ const SelfIntroWorkbook = () => {
   const setAnswer = (id, val) => setAnswers(p => ({ ...p, [id]: val }));
   const toggleCheck = (id) => setChecks(p => ({ ...p, [id]: !p[id] }));
 
-  const progress = ((currentStep + 1) / PARTS.length) * 100;
+  const progress = ((currentPart + 1) / PARTS.length) * 100;
   
   // 각 PART의 질문 범위 계산 (PART 1: Q1-Q3, PART 2: Q4-Q8 등)
   const stepQuestionRanges = (() => {
@@ -795,7 +795,7 @@ const SelfIntroWorkbook = () => {
     />
   );
   // ══════════════════ 완성 화면 (자소서 패턴: 최종 답변 중심) ══════════════════
-  if (currentStep >= PARTS.length) {
+  if (currentPart >= PARTS.length) {
     const checkedCount = Object.values(checks).filter(Boolean).length;
     const charCount = finalAnswer.length;
 
@@ -986,7 +986,7 @@ const SelfIntroWorkbook = () => {
 
 
             <div style={{ display: 'flex', gap: SPACING.sm, marginTop: SPACING.md }}>
-              <button onClick={() => { setCurrentStep(PARTS.length - 1); window.scrollTo(0,0); }} style={S.btnSecondary}>
+              <button onClick={() => { setCurrentPart(PARTS.length - 1); window.scrollTo(0,0); }} style={S.btnSecondary}>
                 이전
               </button>
               <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: COLORS.red, border: `1px solid ${COLORS.red}66`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
@@ -1007,7 +1007,7 @@ const SelfIntroWorkbook = () => {
   }
 
   // ══════════════════ 메인 STEP 화면 ══════════════════
-  const s = PARTS[currentStep];
+  const s = PARTS[currentPart];
   return (
     <div style={S.page}>
       <FocusStyles />
@@ -1043,16 +1043,16 @@ const SelfIntroWorkbook = () => {
         <div style={{ marginBottom: SPACING.md }}>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 4, flexWrap: 'nowrap', overflowX: 'auto', paddingBottom: 4 }}>
             {PARTS.map((s, i) => (
-              <button key={i} onClick={() => { setCurrentStep(i); window.scrollTo(0, 0); }}
+              <button key={i} onClick={() => { setCurrentPart(i); window.scrollTo(0, 0); }}
                 style={{
                   fontSize: 16, padding: '4px 10px', borderRadius: 999, border: 'none', cursor: 'pointer',
-                  fontWeight: i === currentStep ? FONT.weight.bold : FONT.weight.medium,
-                  background: i === currentStep ? COLORS.accent : i < currentStep ? COLORS.greenBg : 'transparent',
-                  color: i === currentStep ? COLORS.white : i < currentStep ? COLORS.green : COLORS.sub,
+                  fontWeight: i === currentPart ? FONT.weight.bold : FONT.weight.medium,
+                  background: i === currentPart ? COLORS.accent : i < currentPart ? COLORS.greenBg : 'transparent',
+                  color: i === currentPart ? COLORS.white : i < currentPart ? COLORS.green : COLORS.sub,
                   fontFamily: FONT.family, whiteSpace: 'nowrap', flexShrink: 0,
                 }}
                 title={`${s.part}. ${s.title.split('—')[0].trim()} (${stepQuestionRanges[i]})`}>
-                {i < currentStep ? '✓ ' : ''}PART {s.part}. {s.title.split('—')[0].trim()}
+                {i < currentPart ? '✓ ' : ''}PART {s.part}. {s.title.split('—')[0].trim()}
               </button>
             ))}
           </div>
@@ -1193,12 +1193,12 @@ const SelfIntroWorkbook = () => {
 
           <div style={{ display: 'flex', gap: SPACING.base, marginTop: SPACING.xl }}>
             <button onClick={() => { 
-              if (currentStep === 0) { setShowIntro(true); window.scrollTo(0,0); }
-              else { setCurrentStep(i => i-1); window.scrollTo(0,0); }
+              if (currentPart === 0) { setShowIntro(true); window.scrollTo(0,0); }
+              else { setCurrentPart(i => i-1); window.scrollTo(0,0); }
             }} style={S.btnSecondary}>
               이전
             </button>
-            <button onClick={() => { setCurrentStep(i => i+1); window.scrollTo(0,0); }} style={{ ...S.btnPrimary, flex: 1 }}>
+            <button onClick={() => { setCurrentPart(i => i+1); window.scrollTo(0,0); }} style={{ ...S.btnPrimary, flex: 1 }}>
               다음 </button>
           </div>
         </div>
