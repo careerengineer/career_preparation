@@ -691,7 +691,7 @@ const IntroPage = ({
         </div>
 
         <div style={S.cardLarge}>
-          <p style={S.brandEyebrow}>CAREERENGINEER · 2라운드 진입</p>
+          <p style={S.brandEyebrow}>{config.evaluationEyebrow}</p>
           <h2 style={{ ...S.h2, textAlign: 'center', marginBottom: SPACING.sm }}>1라운드 완료</h2>
           <p style={{ ...S.subtitle, textAlign: 'center', marginBottom: SPACING.lg }}>부족한 Q를 선택해 2라운드 심화 질문에 답변하세요</p>
 
@@ -767,7 +767,7 @@ const IntroPage = ({
           {/* 기본 정보 */}
           <div style={{ ...S.boxNeutral, textAlign: 'center', marginBottom: SPACING.lg }}>
             <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0 }}>
-              <strong>{basicInfo.industry}</strong> / <strong>{basicInfo.position}</strong> / <strong>{basicInfo.company}</strong>
+              {config.basicInfoFields.map(([f], i) => (<span key={f}>{i > 0 ? ' / ' : ''}<strong>{basicInfo[f]}</strong></span>))}
             </p>
           </div>
 
@@ -792,7 +792,7 @@ const IntroPage = ({
 
             {/* 활용 가이드 (INFO) — config.completedGuide 기반 */}
             <div style={{ ...S.boxInfo, marginBottom: SPACING.md }}>
-              <p style={{ ...labelStyle(COLORS.blue), marginBottom: SPACING.sm }}>INFO · 내 답변 활용 가이드 — Q별 재료</p>
+              <p style={{ ...labelStyle(COLORS.blue), marginBottom: SPACING.sm }}>{config.completedGuide.headerLabel}</p>
               <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, marginTop: 0, marginBottom: SPACING.md }}>{config.completedGuide.intro}</p>
               {config.completedGuide.sections.map((sec, si) => (
                 <div key={si} style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: si < config.completedGuide.sections.length - 1 ? SPACING.sm : 0 }}>
@@ -950,7 +950,7 @@ const IntroPage = ({
 
           {currentPart === 0 && currentPhase === 'round1' ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md }}>
-              {[['industry','지원하고자 하는 산업','예: 반도체, 자동차, 디스플레이 등'],['position','지원하고자 하는 직무','예: 공정엔지니어, 기구설계, 회로설계 등'],['company','지원하고자 하는 회사명','예: 삼성전자, LG전자 등']].map(([f,l,p]) => (
+              {config.basicInfoFields.map(([f, l, p]) => (
                 <div key={f}>
                   <label style={S.label}>{l}</label>
                   <input type="text" className="ce-input" value={basicInfo[f]} onChange={e => handleBasicInfoChange(f, e.target.value)} style={S.input} placeholder={p} />

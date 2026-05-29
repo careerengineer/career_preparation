@@ -24,7 +24,10 @@ const config = {
     const keys = ['q1_1','q1_2','q1_3','q2_1','q2_2','q3_1','q3_2','q3_3','q4_1','q4_2','connect_q1q2','connect_q2q3','connect_q3q4'];
     return Math.round(keys.filter((k) => (answers[k] || '').trim().length > 1).length / keys.length * 100);
   },
+  evaluationEyebrow: 'CAREERENGINEER · 2라운드 진입',
+  basicInfoFields: [['industry','지원하고자 하는 산업','예: 반도체, 자동차, 디스플레이 등'],['position','지원하고자 하는 직무','예: 공정엔지니어, 기구설계, 회로설계 등'],['company','지원하고자 하는 회사명','예: 삼성전자, LG전자 등']],
   completedGuide: {
+    headerLabel: 'INFO · 내 답변 활용 가이드 — Q별 재료',
     intro: '3라운드 연결 답변을 우선 사용. 없으면 아래 Q 답변에서 핵심만 골라 연결하세요.',
     sections: [
       { title: '도입부 — 왜 이 직무 + 왜 이 회사 (Q1·Q2)', items: [ { key: 'connect_q1q2', label: '연결 Q1→Q2 (권장)', recommended: true }, { key: 'q1_1', label: '관심 계기 (Q1-1)' } ], example: '연결 예시: "이 직무를 할 수 있는 곳은 많지만, 귀사를 선택한 이유는..."' },
