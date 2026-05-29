@@ -541,7 +541,7 @@ const IntroPage = ({
             })}
           </div>
 
-          <div style={{ display: 'flex', gap: SPACING.base, marginTop: SPACING.lg, position: 'sticky', bottom: 0, zIndex: 5, paddingTop: SPACING.base, paddingBottom: SPACING.base, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}` }}>
+          <div style={{ display: 'flex', gap: SPACING.base }}>
             <button onClick={goToPrevStep} style={S.btnSecondary}>이전</button>
             <button onClick={goToNextStep} disabled={!canGoNext()} style={{ ...S.btnPrimary, flex: 1, opacity: canGoNext() ? 1 : 0.4, cursor: canGoNext() ? 'pointer' : 'not-allowed' }}>
               2라운드 시작 ({selectedSteps.length}개 선택) </button>
@@ -671,7 +671,7 @@ const IntroPage = ({
             <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0 }}><strong>.docx 편집 가능:</strong> .docx 파일을 Word에서 열어 자유롭게 편집하세요.</p>
           </div>
 
-          <div style={{ marginTop: SPACING.md, position: 'sticky', bottom: 0, zIndex: 5, paddingTop: SPACING.base, paddingBottom: SPACING.base, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}` }}>
+          <div style={{ marginTop: SPACING.md }}>
             <button onClick={goToPrevStep} style={S.btnSecondary}>이전</button>
           </div>
         </div>
@@ -854,7 +854,7 @@ const IntroPage = ({
             </div>
           )}
 
-          <div style={{ display: 'flex', gap: SPACING.base, position: 'sticky', bottom: 0, zIndex: 5, marginTop: SPACING.lg, paddingTop: SPACING.base, paddingBottom: SPACING.base, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}` }}>
+          <div style={{ display: 'flex', gap: SPACING.base, marginTop: SPACING.xl }}>
             <button onClick={goToPrevStep} style={S.btnSecondary}>이전</button>
             <button onClick={goToNextStep} disabled={!canGoNext()} style={{ ...S.btnPrimary, flex: 1, opacity: canGoNext() ? 1 : 0.4, cursor: canGoNext() ? 'pointer' : 'not-allowed' }}>
               다음 </button>
