@@ -1517,7 +1517,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → "이거 다 진짜 쓸 수 
       <BrandOverride />
       <FirstVisitModal open={showHelp} onClose={() => setShowHelp(false)} title="경력기술서 워크북 사용 안내" steps={[
         '순서대로 <strong>PART 1부터 PART 9까지</strong> 진행하세요.',
-        '작성 중 상단의 <strong>저장 (.docx)</strong> 버튼을 눌러 수시로 다운로드하세요.',
+        '작성 중 상단의 <strong>다운로드 (.docx)</strong> 버튼을 눌러 수시로 다운로드하세요.',
         '질문 옆 <strong>가이드 보기</strong>를 펼쳐 원칙·예시를 참고하세요.',
         '마지막 PART에서 <strong>최종 다운로드</strong>하여 편집하세요.',
       ]} />

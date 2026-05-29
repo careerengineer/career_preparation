@@ -278,7 +278,7 @@ export function WorkbookShell({
                 </>
               )}
               <button onClick={handleExportThis} style={btnPrimary} disabled={busy}>
-                {resolvedTitle} 저장 ({isExperience ? '.xlsx' : '.docx'})
+                {resolvedTitle} 다운로드 ({isExperience ? '.xlsx' : '.docx'})
               </button>
             </div>
           </div>

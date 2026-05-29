@@ -551,7 +551,7 @@ const ResumeWorkbook = () => {
         ]}
       helpModal={<FirstVisitModal open={showHelp} onClose={() => setShowHelp(false)} title='이력서 워크북 사용 안내' steps={[
           '순서대로 <strong>PART 1부터 PART 7까지</strong> 진행하세요. 각 PART의 질문에 답하면서 이력서 뼈대가 만들어집니다.',
-          '작성 중 상단의 <strong>저장 (.docx)</strong> 버튼을 눌러 수시로 다운로드하세요. 새로고침 시 모든 내용이 삭제됩니다.',
+          '작성 중 상단의 <strong>다운로드 (.docx)</strong> 버튼을 눌러 수시로 다운로드하세요. 새로고침 시 모든 내용이 삭제됩니다.',
           '마지막 PART에서 <strong>최종 다운로드</strong>하여 Word에서 자유롭게 편집하세요.',
         ]} />}
       onStart={() => { setShowIntro(false); }}
@@ -1462,7 +1462,7 @@ const ResumeWorkbook = () => {
       <BrandOverride />
       <FirstVisitModal open={showHelp} onClose={() => setShowHelp(false)} title="이력서 워크북 사용 안내" steps={[
         '순서대로 <strong>PART 1부터 PART 7까지</strong> 진행하세요.',
-        '작성 중 상단의 <strong>저장 (.docx)</strong> 버튼을 눌러 수시로 다운로드하세요.',
+        '작성 중 상단의 <strong>다운로드 (.docx)</strong> 버튼을 눌러 수시로 다운로드하세요.',
         '질문 옆 <strong>가이드 보기</strong>를 펼쳐 작성 원칙·예시·도움 질문을 참고하세요.',
         '마지막 PART에서 <strong>최종 다운로드</strong>하여 Word에서 자유롭게 편집하세요.',
       ]} />

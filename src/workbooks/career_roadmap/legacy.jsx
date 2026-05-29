@@ -1337,7 +1337,7 @@ export default function App() {
                     <span style={{ display: 'inline-block', width: 12, height: 12, border: '2px solid #ffffff', borderTopColor: 'transparent', borderRadius: '50%', animation: 'ce-spin 0.7s linear infinite' }} />
                     생성 중…
                   </>
-                ) : savedDocx ? '✓ 저장 완료' : '저장 (.docx)'}
+                ) : savedDocx ? '✓ 다운로드 완료' : '다운로드 (.docx)'}
               </button>
             </div>
           </div>
@@ -1587,7 +1587,7 @@ export default function App() {
             ) : savedDocx ? (
               <>✓ 저장 완료</>
             ) : (
-              <>결과 저장 (.docx)</>
+              <>결과 다운로드 (.docx)</>
             )}
           </button>
           <button onClick={() => { setPage('quiz'); setQi(QS.length - 1); }}
