@@ -577,7 +577,7 @@ export const InterviewWorkbook = ({ config }) => {
               </div>
             ))}
 
-            <div style={{ display: 'flex', gap: SPACING.sm, marginTop: SPACING.md }}>
+            <div style={{ display: 'flex', gap: SPACING.sm, marginTop: SPACING.md, position: 'sticky', bottom: 0, zIndex: 5, paddingTop: SPACING.base, paddingBottom: SPACING.base, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}` }}>
               <button onClick={() => { setShowList(false); setShowIntro(true); window.scrollTo(0, 0); }} style={S.btnSecondary}>
                 이전
               </button>
@@ -660,7 +660,7 @@ export const InterviewWorkbook = ({ config }) => {
               </p>
             </div>
 
-            <div style={{ display: 'flex', gap: SPACING.sm, marginTop: SPACING.md }}>
+            <div style={{ display: 'flex', gap: SPACING.sm, marginTop: SPACING.md, position: 'sticky', bottom: 0, zIndex: 5, paddingTop: SPACING.base, paddingBottom: SPACING.base, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}` }}>
               <button onClick={() => { setIsCompleted(false); setShowList(true); window.scrollTo(0,0); }} style={S.btnSecondary}>
                 이전
               </button>
@@ -903,7 +903,7 @@ export const InterviewWorkbook = ({ config }) => {
           )}
 
           {/* 이전/다음 */}
-          <div style={{ display: 'flex', gap: SPACING.base, marginTop: SPACING.xl, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: SPACING.base, marginTop: SPACING.xl, flexWrap: 'wrap', position: 'sticky', bottom: 0, zIndex: 5, paddingTop: SPACING.base, paddingBottom: SPACING.base, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}` }}>
             <button onClick={() => { setShowList(true); window.scrollTo(0,0); }} style={S.btnSecondary}>
               질문 목록
             </button>
