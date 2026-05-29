@@ -4,7 +4,7 @@ import { parseImportFile, detectConflicts } from '../../store/exportImport.js';
 import { exportExperiencesXlsx, exportFullBackupZip, importExperiencesXlsx, extractBackupFromDocx, extractTextFromDocx, extractBackupFromZip, extractAllSlots } from '../../store/docExport.js';
 import { syncLegacyFromMaster } from '../../store/legacySync.js';
 import { DEFAULT_MASTER } from '../../store/schema.js';
-import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
+import { COLORS, FONT, SPACING } from '../design/tokens.js';
 import { OverwriteModal } from './OverwriteModal.jsx';
 import { SnapshotRecovery } from './SnapshotRecovery.jsx';
 

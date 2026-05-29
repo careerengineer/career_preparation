@@ -1,4 +1,4 @@
-import { DEFAULT_MASTER, APP_VERSION, mergeWithDefaults } from './schema';
+import { APP_VERSION, mergeWithDefaults } from './schema';
 
 const FORMAT_TAG = 'careerengineer-export';
 

@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { COLORS, FONT, SPACING, RADIUS } from '../design/tokens.js';
+import { COLORS, FONT, SPACING } from '../design/tokens.js';
 import { QUESTION_LABELS } from '../../store/questionLabels.js';
 import { formatComps } from '../../store/comps.js';
 import { insertIntoFocusedField } from '../utils/fieldInsert.js';

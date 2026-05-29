@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
 import { WORKBOOKS, VARIANT, VARIANT_LABEL, VARIANT_NOTICE } from '../store/schema.js';
 import { getWorkbookProgress } from '../store/selectors.js';
-import { COLORS, FONT, SPACING, RADIUS, MENTORING_URLS, RULE } from '../shared/design/tokens.js';
+import { COLORS, FONT, SPACING, RADIUS, RULE } from '../shared/design/tokens.js';
 import { ExportImportBar } from '../shared/components/ExportImportBar.jsx';
 import { CELockupA, CEMark } from '../shared/components/CELogo.jsx';
 import ProfilePanel from './ProfilePanel.jsx';

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
 import { exportFullBackupZip } from '../store/docExport.js';
-import { COLORS, FONT, SPACING, RADIUS } from '../shared/design/tokens.js';
+import { COLORS, FONT, SPACING } from '../shared/design/tokens.js';
 
 const CLEARED = [
   '산업 / 직무 / 회사 (기본정보)',

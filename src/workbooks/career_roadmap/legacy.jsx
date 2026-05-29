@@ -1,7 +1,7 @@
 // [BUILD v56 20260520] R&D 관련 메시지 용어 통일 — '연구직(R&D) 트랙' '연구직(R&D)' 'R&D 트랙' '박사·R&D 직무 포함'을 모두 '연구개발 직무(R&D)'로 통일(10곳). 그리고 '논문 수가 핵심'은 부정확한 표현이므로 '연구 역량(방법론·문제 해결 경험)과 직무 적합도가 핵심'으로 교체. 'R&D 우대'는 채용공고의 실제 문구이므로 '연구개발 직무(R&D) 우대'로 다듬어 통일
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { clickable } from '../../shared/a11y.js';
-import { isWorkbookInVariant, VARIANT } from '../../store/schema.js';
+import { VARIANT } from '../../store/schema.js';
 import { VARIANT_NOTICE } from '../../store/schema.js';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
 import { analyze } from './analyze.js';
