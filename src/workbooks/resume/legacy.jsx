@@ -482,6 +482,7 @@ const StickyFooter = () => (
 
 const ResumeWorkbook = () => {
   const [showIntro, setShowIntro] = useState(true);
+  // currentPart: 이 워크북 "내부" PART 인덱스 (대시보드 상위 STEP 0~5와 무관). 저장 키도 currentPart, 단 구버전(currentStep) 저장본 호환을 위해 로드 시 둘 다 읽음.
   const [currentPart, setCurrentPart] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_resume_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
   const [showGuide, setShowGuide] = useState({});
   const [answers, setAnswers] = useState({});
@@ -519,6 +520,7 @@ const ResumeWorkbook = () => {
           if (true /* auto-restore */) {
             setAnswers(data.answers || {});
             if (data.checks) setChecks(data.checks);
+            // 하위호환: 신규 저장본은 currentPart, 구버전 저장본·기존 다운로드 파일은 currentStep 키 → 둘 다 읽어 작성 위치 유실 0.
             if (typeof (data.currentPart ?? data.currentStep) === 'number') setCurrentPart(data.currentPart ?? data.currentStep);
             if (typeof data.expCount === 'number') setExpCount(data.expCount);
             if (typeof data.projCount === 'number') setProjCount(data.projCount);

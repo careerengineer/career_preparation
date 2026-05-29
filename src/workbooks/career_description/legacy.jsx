@@ -500,6 +500,8 @@ const StickyFooter = () => (
 
 const CareerDescWorkbook = () => {
   const [page, setPage] = useState('intro');
+  // currentPart: 이 워크북 "내부" PART 인덱스 (대시보드 상위 STEP 0~5와 무관). PARTS[currentPart]로 현재 파트 렌더.
+  // 위치 인덱스는 저장하지 않음 — 재방문 시 basicInfo 유무로 시작 위치(0 또는 1)만 결정.
   const [currentPart, setCurrentPart] = useState(() => { try { const __d = JSON.parse(localStorage.getItem('careerengineer_career_description_v1') || '{}'); return (__d.basicInfo && (__d.basicInfo.industry || __d.basicInfo.position || __d.basicInfo.company)) ? 1 : 0; } catch { return 0; } });
   const [ans, setAns] = useState({});
   const [chk, setChk] = useState({});
