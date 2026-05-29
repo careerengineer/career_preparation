@@ -8,7 +8,7 @@ import { ExampleToggle } from '../../shared/components/ExampleToggle.jsx';
 import { AnswerQualityCheck } from '../../shared/components/AnswerQualityCheck.jsx';
 import { VARIANT } from '../../store/schema.js';
 import { SELF_INTRO_EXAMPLES, SELF_INTRO_EXAMPLES_CAREER, PARTS, CHECKLIST } from './data.js';
-import { CE_SYMBOL_B64, _INTRO_FONT } from '../_shared/brandKit.jsx';
+import { CE_SYMBOL_B64, _INTRO_FONT, StickyFooter, FocusStyles } from '../_shared/brandKit.jsx';
 import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CESymbol, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
 
 // 경력 변형(경력 컨설팅·경력 면접)에서는 경력 페르소나 예시를 보여준다
@@ -163,26 +163,6 @@ const RelatedWorkbookList = ({ items, title = '함께 보면 좋은 워크북' }
 //  7 STEP × 22 Q 워크북 데이터 (자가점검은 완성 화면 체크리스트)
 
   
-const StickyFooter = () => (
-  <div style={{ position: 'sticky', bottom: 0, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}`, padding: '10px 16px', marginTop: 24, zIndex: 5 }}>
-    <div style={{ maxWidth: 1350, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-      <p style={{ fontSize: 16, color: COLORS.sub, margin: 0 }}>
-        <a href="https://open.kakao.com/me/careerengineer" target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, textDecoration: 'none' }}>CareerEngineer 카카오톡 상담</a>
-      </p>
-    </div>
-  </div>
-);
-
-const FocusStyles = () => (
-  <style>{`
-    .ce-input:focus, .ce-textarea:focus, .ce-select:focus {
-      border-color: ${COLORS.accent2} !important;
-      box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.12) !important;
-    }
-    .ce-save-btn:hover { opacity: 0.88; }
-    .ce-check-input { cursor: pointer; accent-color: ${COLORS.accent2}; }
-  `}</style>
-);
 
 const SelfIntroWorkbook = () => {
   const [showIntro, setShowIntro] = useState(true);

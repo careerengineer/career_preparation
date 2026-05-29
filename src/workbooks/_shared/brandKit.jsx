@@ -114,3 +114,25 @@ export const IntroCopyright = () => (
     </p>
   </div>
 );
+
+
+// ── 푸터 + 포커스 스타일 (essay 기준 표준: 8pt 그리드 · 골드 포커스 링) ──
+export const StickyFooter = () => (
+    <div style={{ position: 'sticky', bottom: 0, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}`, padding: `${SPACING.sm}px ${SPACING.md}px`, marginTop: SPACING.lg, marginLeft: -SPACING.md, marginRight: -SPACING.md, marginBottom: -SPACING.md, zIndex: 5 }}>
+      <div style={{ maxWidth: 1350, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: SPACING.sm, flexWrap: 'wrap' }}>
+        <p style={{ fontSize: 16, color: COLORS.sub, margin: 0 }}>
+          <a href={`https://open.kakao.com/me/careerengineer`} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, textDecoration: 'none' }}>CareerEngineer 카카오톡 상담</a>
+        </p>
+      </div>
+    </div>
+  );
+
+export const FocusStyles = () => (
+    <style>{`
+      .ce-input:focus, .ce-textarea:focus, .ce-select:focus {
+        border-color: ${COLORS.accent2} !important;
+        box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.12) !important;
+      }
+      .ce-save-btn:hover { opacity: 0.88; }
+    `}</style>
+  );

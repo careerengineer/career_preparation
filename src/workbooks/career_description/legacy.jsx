@@ -6,7 +6,7 @@ import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightPara
 import { buildCareerDescDocxChildren } from '../../store/workbookDocx.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
-import { CE_SYMBOL_B64, _INTRO_FONT } from '../_shared/brandKit.jsx';
+import { CE_SYMBOL_B64, _INTRO_FONT, StickyFooter } from '../_shared/brandKit.jsx';
 import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CESymbol, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
@@ -269,16 +269,6 @@ const BriarHint = ({ value, kind }) => {
   );
 };
 const ST = ({title, sub}) => (<div style={{ marginBottom: 20 }}><div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}><h2 style={{ fontSize: 18, fontWeight: 700, color: COLORS.ink }}>{title}</h2></div>{sub&&<p style={{ fontSize: 16, color: COLORS.sub }}>{sub}</p>}</div>);
-
-const StickyFooter = () => (
-  <div style={{ position: 'sticky', bottom: 0, background: COLORS.paper, borderTop: `1px solid ${COLORS.border}`, padding: '10px 16px', marginTop: 24, zIndex: 5 }}>
-    <div style={{ maxWidth: 1350, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-      <p style={{ fontSize: 16, color: COLORS.sub, margin: 0 }}>
-        <a href="https://open.kakao.com/me/careerengineer" target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, textDecoration: 'none' }}>CareerEngineer 카카오톡 상담</a>
-      </p>
-    </div>
-  </div>
-);
 
 const CareerDescWorkbook = () => {
   const [page, setPage] = useState('intro');

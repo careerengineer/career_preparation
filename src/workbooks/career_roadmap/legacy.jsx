@@ -7,7 +7,7 @@ import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightPara
 import { analyze } from './analyze.js';
 import { buildRoadmapDocxChildren } from '../../store/workbookDocx.js';
 import { QS } from './data.js';
-import { CE_SYMBOL_B64, _INTRO_FONT } from '../_shared/brandKit.jsx';
+import { CE_SYMBOL_B64, _INTRO_FONT, StickyFooter } from '../_shared/brandKit.jsx';
 import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CESymbol, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
@@ -20,12 +20,6 @@ export const MENTORING_URLS = {
 // ══════════ 사용 안내 팝업 (PART 7-8) ══════════
 
 // ══════════ 하단 고정 저작권 + 문의 (PART 7-8, 11) ══════════
-const StickyFooter = () => (
-  <div style={{ position: 'sticky', bottom: 0, background: '#FBFAF6', borderTop: '1px solid #6E7A8F33', padding: '10px 16px', marginTop: 24, zIndex: 5 }}>
-    <div style={{ maxWidth: 1350, margin: '0 auto', textAlign: 'center' }}>
-    </div>
-  </div>
-);
 
 // who에 따라 적용 가능한 질문 목록 반환 (whoOnly가 있는 질문은 해당 페르소나일 때만 포함)
 // who와 답변 스냅샷에 따라 적용 가능한 질문 목록 반환

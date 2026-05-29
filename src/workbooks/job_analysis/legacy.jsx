@@ -5,7 +5,7 @@ import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightPara
 import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
 import { FORMS, PERSONAS, COMPLETION_CHECKLIST } from './data.js';
 import { buildJobAnalysisDocxChildren } from '../../store/workbookDocx.js';
-import { CE_SYMBOL_B64, _INTRO_FONT } from '../_shared/brandKit.jsx';
+import { CE_SYMBOL_B64, _INTRO_FONT, StickyFooter, FocusStyles } from '../_shared/brandKit.jsx';
 import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CESymbol, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
@@ -279,26 +279,6 @@ const DIAGNOSIS = [
 ];
 
   
-const StickyFooter = () => (
-  <div style={{ position: 'sticky', bottom: 0, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}`, padding: '10px 16px', marginTop: 24, zIndex: 5 }}>
-    <div style={{ maxWidth: 1350, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-      <p style={{ fontSize: 16, color: COLORS.sub, margin: 0 }}>
-        <a href="https://open.kakao.com/me/careerengineer" target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, textDecoration: 'none' }}>CareerEngineer 카카오톡 상담</a>
-      </p>
-    </div>
-  </div>
-);
-
-const FocusStyles = () => (
-  <style>{`
-    .ce-input:focus, .ce-textarea:focus, .ce-select:focus {
-      border-color: ${COLORS.accent2} !important;
-      box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.12) !important;
-    }
-    .ce-save-btn:hover, .ce-btn:hover { opacity: 0.88; }
-    .ce-card:hover { box-shadow: 0 4px 12px rgba(14, 39, 80,0.08); }
-  `}</style>
-);
 
 const JobAnalysisWorkbook = () => {
   const [phase, setPhase] = useState('intro');

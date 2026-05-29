@@ -6,7 +6,7 @@ import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 import { ExampleToggle } from '../../shared/components/ExampleToggle.jsx';
 import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
 import { buildWorkbookBackupParagraphs, buildWorkbookPayload, buildCopyrightParagraphs } from '../../store/docxBackup.js';
-import { CE_SYMBOL_B64, _INTRO_FONT } from '../_shared/brandKit.jsx';
+import { CE_SYMBOL_B64, _INTRO_FONT, StickyFooter, FocusStyles } from '../_shared/brandKit.jsx';
 import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CESymbol, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
 
 // 멘토링·컨설팅 URL 상수 (작업 18: URL 상수화)
@@ -448,27 +448,9 @@ export const EssayWorkbook = ({ config }) => {
   __ceHomeRef.current = goHome; // [CE-HOME] ref 갱신
   
   // ══════════ 하단 고정 저작권 + 문의 블록 (PART 7-8, 11) ══════════
-  const StickyFooter = () => (
-    <div style={{ position: 'sticky', bottom: 0, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}`, padding: `${SPACING.sm}px ${SPACING.md}px`, marginTop: SPACING.lg, marginLeft: -SPACING.md, marginRight: -SPACING.md, marginBottom: -SPACING.md, zIndex: 5 }}>
-      <div style={{ maxWidth: 1350, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: SPACING.sm, flexWrap: 'wrap' }}>
-        <p style={{ fontSize: 16, color: COLORS.sub, margin: 0 }}>
-          <a href={`https://open.kakao.com/me/careerengineer`} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, textDecoration: 'none' }}>CareerEngineer 카카오톡 상담</a>
-        </p>
-      </div>
-    </div>
-  );
-
+  
   // ══════════ 글로벌 CSS (focus 상태 · input/textarea) ══════════
-  const FocusStyles = () => (
-    <style>{`
-      .ce-input:focus, .ce-textarea:focus, .ce-select:focus {
-        border-color: ${COLORS.accent2} !important;
-        box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.12) !important;
-      }
-      .ce-save-btn:hover { opacity: 0.88; }
-    `}</style>
-  );
-
+  
   // ══════════════════════════════════════════════════════════════
   //  CE 로고 (정식 PNG base64 임베딩)
   //  - 가이드 PART 1-4-1 정식 마스터 파일 사용 (스크린캡처 아님)

@@ -7,7 +7,7 @@ import { buildResumeDocxChildren } from '../../store/workbookDocx.js';
 import { ReferenceInline } from '../../shared/components/ReferenceInline.jsx';
 import { ToggleLink } from '../../shared/components/ToggleLink.jsx';
 import { VARIANT } from '../../store/schema.js';
-import { CE_SYMBOL_B64, _INTRO_FONT } from '../_shared/brandKit.jsx';
+import { CE_SYMBOL_B64, _INTRO_FONT, StickyFooter } from '../_shared/brandKit.jsx';
 import { _INTRO_INK, _INTRO_INK2, _INTRO_PAPER, _INTRO_GOLD, _INTRO_MUTE, CESymbol, CELockupA, FirstVisitModal, BrandHero, IntroCTA, IntroFlowCard, IntroCopyright } from '../_shared/brandKit.jsx';
 
 const IS_EXPERIENCED_VARIANT = VARIANT === 'experienced' || VARIANT === 'documents_experienced';
@@ -249,16 +249,6 @@ const WarningBox = ({ title, children }) => (
   <div style={{ background: COLORS.cream, border: `1px solid ${COLORS.ink}33`, color: COLORS.ink, padding: 16, borderRadius: RADIUS.md, marginBottom: 16 }}>
     <p style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, marginBottom: 4 }}>{title}</p>
     <p style={{ fontSize: 16, color: COLORS.navyMid }}>{children}</p>
-  </div>
-);
-
-const StickyFooter = () => (
-  <div style={{ position: 'sticky', bottom: 0, background: COLORS.paper, borderTop: `1px solid ${COLORS.border}`, padding: '10px 16px', marginTop: 24, zIndex: 5 }}>
-    <div style={{ maxWidth: 1350, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-      <p style={{ fontSize: 16, color: COLORS.sub, margin: 0 }}>
-        <a href="https://open.kakao.com/me/careerengineer" target="_blank" rel="noopener noreferrer" style={{ color: COLORS.accent2, textDecoration: 'none' }}>CareerEngineer 카카오톡 상담</a>
-      </p>
-    </div>
   </div>
 );
 
