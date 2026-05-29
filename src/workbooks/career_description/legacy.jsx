@@ -1073,6 +1073,8 @@ window.addEventListener('afterprint', function() {
   case 0: return (<div>
     <ST title="PART 1. 기본 정보 및 지원 직무 분석" sub="지원 회사와 직무를 분석하고, 채용담당자의 관점을 파악합니다." />
 
+    <Tip><span style={{ fontWeight: 700 }}>이력서와 함께 제출하세요.</span> 이력서엔 핵심 요약·대표 성과만 한 장으로, 프로젝트별 상세(BRIAR)는 이 경력기술서에 담습니다. 두 문서의 회사·기간·성과 수치는 반드시 일치시키세요. (이직 사유·공백 사연은 자소서·면접에서 다룹니다.)</Tip>
+
     <GP id="g_ch1" title="가이드 보기: 채용담당자는 경력기술서에서 무엇을 보는가" guides={guides} tog={tog}>
       <p style={{ fontWeight: 700, marginBottom: 8 }}>채용담당자가 경력기술서를 읽는 순서:</p>
       <Tbl headers={['#','읽는 부분','확인하는 것','불합격 신호']} rows={[
