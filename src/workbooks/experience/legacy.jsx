@@ -78,7 +78,7 @@ const IntroPage = ({
   <div style={{ minHeight: '100vh', background: _INTRO_PAPER, padding: 24, fontFamily: _INTRO_FONT, color: _INTRO_INK }}>
     {helpModal}
     <div style={{ maxWidth: 1350, width: '100%', margin: '0 auto' }}>
-      <div style={{ background: '#fff', borderRadius: 14, padding: 'clamp(16px, 4vw, 32px)', border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
+      <div style={{ background: '#fff', borderRadius: RADIUS.lg, padding: 'clamp(16px, 4vw, 32px)', border: `1px solid ${_INTRO_MUTE}33`, marginBottom: 16 }}>
         <BrandHero />
         <div style={{ borderTop: `1px solid ${_INTRO_MUTE}33`, margin: '24px 0 32px' }} />
         <h1 style={{ fontSize: 28, fontWeight: 700, color: _INTRO_INK, textAlign: 'center', margin: 0, marginBottom: 4, lineHeight: 1.35 }}>{title}</h1>
@@ -304,7 +304,7 @@ const GuideToggle = ({ open, onToggle, label, children }) => (
         cursor: 'pointer',
         color: COLORS.accent, fontWeight: 700, fontSize: 16,
         padding: '12px 16px',
-        borderRadius: 6,
+        borderRadius: RADIUS.sm,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8,
         lineHeight: 1.5, width: '100%', textAlign: 'left',
       }}
@@ -882,7 +882,7 @@ const ExperienceWorkbook = () => {
                   const descText = sepMatch ? sepMatch[2].trim() : null;
                   return (
                     <div key={o.value} {...clickable(() => setPersonaAnswers(prev => ({ ...prev, [q.id]: o.value })))}
-                      style={{ padding: '16px 18px', borderRadius: 14, marginBottom: 8, border: `1.5px solid ${active ? COLORS.accent2 : COLORS.border}`, background: active ? COLORS.blueBg : COLORS.white, cursor: 'pointer', transition: 'all 150ms' }}
+                      style={{ padding: '16px 18px', borderRadius: RADIUS.lg, marginBottom: 8, border: `1.5px solid ${active ? COLORS.accent2 : COLORS.border}`, background: active ? COLORS.blueBg : COLORS.white, cursor: 'pointer', transition: 'all 150ms' }}
                       onMouseEnter={e => { if (!active) e.currentTarget.style.borderColor = COLORS.accent2 + '60'; }}
                       onMouseLeave={e => { if (!active) e.currentTarget.style.borderColor = COLORS.border; }}>
                       <div style={{ fontSize: 16, fontWeight: 600, color: active ? COLORS.accent2 : COLORS.accent, marginBottom: descText ? 2 : 0 }}>{labelText}</div>
