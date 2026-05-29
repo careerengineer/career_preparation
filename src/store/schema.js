@@ -150,7 +150,7 @@ export const VARIANTS = {
   },
   documents_experienced: {
     label: '경력 서류 컨설팅 전용',
-    keys: ['career_roadmap', 'job_analysis', 'experience', 'resume', 'career_description'],
+    keys: ['career_roadmap', 'job_analysis', 'resume', 'career_description'],
     notice: {
       title: '서류를 마쳤다면, 다음은 경력 면접입니다',
       body: '서류 통과 후에는 면접이 기다립니다. 경력 면접 멘토링과 1:1 컨설팅, 가이드 워크북으로 실전까지 대비하세요.',
@@ -167,7 +167,7 @@ export const VARIANTS = {
   },
   interview_experienced: {
     label: '경력 면접 컨설팅 전용',
-    keys: ['experience', 'career_description', 'self_introduction', 'interview_career'],
+    keys: ['career_description', 'self_introduction', 'interview_career'],
   },
 };
 
