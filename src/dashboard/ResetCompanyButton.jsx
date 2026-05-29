@@ -33,7 +33,6 @@ export default function ResetCompanyButton() {
     const onKey = (e) => { if (e.key === 'Escape') closeAll(); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   const closeAll = () => { setOpen(false); setPendingMode(null); };

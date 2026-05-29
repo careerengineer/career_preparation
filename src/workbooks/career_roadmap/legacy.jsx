@@ -1273,7 +1273,6 @@ export default function App() {
         }
       }
     } catch (e) { console.warn(e); }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   useEffect(() => {
@@ -1284,7 +1283,7 @@ export default function App() {
           ans, result, qi, page,
           savedAt: new Date().toISOString()
         }));
-      } catch (e) {}
+      } catch { /* ignore */ }
     }, 1000);
     return () => clearTimeout(timer);
   }, [ans, result, qi, page]);

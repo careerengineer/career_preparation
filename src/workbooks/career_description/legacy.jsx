@@ -552,7 +552,6 @@ const CareerDescWorkbook = () => {
     } catch (e) {
       console.warn('자동 복구 실패:', e);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ans/chk/companyCount/perfCounts 변경 시 자동 저장 (디바운스 1초)
@@ -977,12 +976,12 @@ ${has('career_gap') ? `${sectionHeader('경력 공백 · 특이사항')}
 <script>
 window.addEventListener('load', function() {
   setTimeout(function() {
-    try { window.print(); } catch(e) {}
+    try { window.print(); } catch { /* ignore */ }
   }, 800);
 });
 window.addEventListener('afterprint', function() {
   setTimeout(function() {
-    try { window.close(); } catch(e) {}
+    try { window.close(); } catch { /* ignore */ }
   }, 500);
 });
 </script>

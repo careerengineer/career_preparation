@@ -755,7 +755,6 @@ const ExperienceWorkbook = () => {
         }
       }
     } catch (e) { console.warn(e); }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (experiences.length === 0 && Object.values(jdKeywords).every(v => !v) && !(basicInfo?.industry || basicInfo?.position || basicInfo?.target)) return;
@@ -765,7 +764,7 @@ const ExperienceWorkbook = () => {
           basicInfo, personaAnswers, jdKeywords, experiences, companyLinks, phase,
           savedAt: new Date().toISOString()
         }));
-      } catch (e) {}
+      } catch { /* ignore */ }
     }, 1000);
     return () => clearTimeout(timer);
   }, [basicInfo, personaAnswers, jdKeywords, experiences, companyLinks, phase]);

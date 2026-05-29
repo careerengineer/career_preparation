@@ -469,7 +469,6 @@ const JobAnalysisWorkbook = () => {
         }
       }
     } catch (e) { console.warn(e); }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   useEffect(() => {
@@ -481,7 +480,7 @@ const JobAnalysisWorkbook = () => {
           finalText, checklistState, phase,
           savedAt: new Date().toISOString()
         }));
-      } catch (e) {}
+      } catch { /* ignore */ }
     }, 1000);
     return () => clearTimeout(timer);
   }, [basicInfo, diagnosisAnswers, persona, jobPostings, formAnswers, finalText, checklistState, phase]);

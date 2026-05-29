@@ -157,7 +157,6 @@ const MotivationWorkbook = () => {
     } catch (e) {
       console.warn('자동 복구 실패:', e);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 데이터 변경 시 자동 저장 (디바운스 1초)

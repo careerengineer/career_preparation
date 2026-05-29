@@ -128,7 +128,7 @@ export function WorkbookShell({
         if (raw && Object.keys(raw).length > 0) localStorage.setItem(legacyKey, JSON.stringify(raw));
         else localStorage.removeItem(legacyKey);
       }
-    } catch {}
+    } catch { /* ignore */ }
   };
 
   const handleDocxImport = async (e) => {
@@ -167,12 +167,12 @@ export function WorkbookShell({
       try {
         const LK = 'careerengineer_experience_v1';
         let data = {};
-        try { data = JSON.parse(localStorage.getItem(LK) || '{}'); } catch {}
+        try { data = JSON.parse(localStorage.getItem(LK) || '{}'); } catch { /* ignore */ }
         data.experiences = experiences;
         data.phase = 'list'; // 새로고침 후 경험 인벤토리 화면에서 카드가 바로 보이도록
         data.savedAt = new Date().toISOString();
         localStorage.setItem(LK, JSON.stringify(data));
-      } catch {}
+      } catch { /* ignore */ }
       showToast(`경험 카드 ${experiences.length}개를 불러왔습니다. 페이지를 새로고침합니다…`);
       setTimeout(() => window.location.reload(), 1200);
     } catch (err) {

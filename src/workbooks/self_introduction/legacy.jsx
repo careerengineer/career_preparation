@@ -502,7 +502,6 @@ const SelfIntroWorkbook = () => {
         }
       }
     } catch (e) { console.warn(e); }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   useEffect(() => {
@@ -516,7 +515,7 @@ const SelfIntroWorkbook = () => {
           answers, basicInfo, checks, currentPart, showIntro,
           savedAt: new Date().toISOString()
         }));
-      } catch (e) {}
+      } catch { /* ignore */ }
     }, 1000);
     return () => clearTimeout(timer);
   }, [answers, basicInfo, checks, currentPart, showIntro]);
