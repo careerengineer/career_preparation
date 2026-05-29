@@ -371,11 +371,10 @@ export const EssayWorkbook = ({ config }) => {
     downloadFinalText();
   };
 
-  const getRawText = () => `원본 답변 모음\n\n[기본 정보]\n산업: ${basicInfo.industry||'-'}\n직무: ${basicInfo.position||'-'}\n회사: ${basicInfo.company||'-'}\n\n[Q1: 왜 이 직무인가]\nQ1-1 관심 계기: ${answers.q1_1||'-'}\nQ1-2 가치관 연결: ${answers.q1_2||'-'}\nQ1-3 성장 경로: ${answers.q1_3||'-'}\n\n[Q2: 왜 이 회사인가]\nQ2-1 차별점: ${answers.q2_1||'-'}\nQ2-2 가치관+회사: ${answers.q2_2||'-'}\n\n[Q3: 무엇을 왜 준비]\nQ3-1 필요 역량: ${answers.q3_1||'-'}\nQ3-2 준비 과정: ${answers.q3_2||'-'}\nQ3-3 업무 연결: ${answers.q3_3||'-'}\n\n[Q4: 어떻게 기여]\nQ4-1 동기→역량→기여: ${answers.q4_1||'-'}\nQ4-2 회사 과제 연결: ${answers.q4_2||'-'}\n\n[3라운드 연결]\nQ1→Q2: ${answers.connect_q1q2||'-'}\nQ2→Q3: ${answers.connect_q2q3||'-'}\nQ3→Q4: ${answers.connect_q3q4||'-'}`;
 
   const canGoNext = () => { if (currentPhase === 'evaluation') return selectedSteps.length >= 1; return true; };
   // 진행률은 현재 단계가 아니라 실제 작성한 답변 기반
-  const ALL_ANS_KEYS = ['q1_1','q1_2','q1_3','q2_1','q2_2','q3_1','q3_2','q3_3','q4_1','q4_2','connect_q1q2','connect_q2q3','connect_q3q4'];
+  const ALL_ANS_KEYS = config.allAnsKeys;
   const progress = Math.round(ALL_ANS_KEYS.filter((k) => (answers[k] || '').trim().length > 1).length / ALL_ANS_KEYS.length * 100);
 
   // ══════════════════════════════════════════════════════════════
@@ -791,64 +790,22 @@ const IntroPage = ({
               </button>
             </div>
 
-            {/* 활용 가이드 (INFO) */}
+            {/* 활용 가이드 (INFO) — config.completedGuide 기반 */}
             <div style={{ ...S.boxInfo, marginBottom: SPACING.md }}>
               <p style={{ ...labelStyle(COLORS.blue), marginBottom: SPACING.sm }}>INFO · 내 답변 활용 가이드 — Q별 재료</p>
-              <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, marginTop: 0, marginBottom: SPACING.md }}>3라운드 연결 답변을 우선 사용. 없으면 아래 Q 답변에서 핵심만 골라 연결하세요.</p>
-
-              {/* 도입부 */}
-              <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: SPACING.sm }}>
-                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>도입부 — 왜 이 직무 + 왜 이 회사 (Q1·Q2)</p>
-                {answers.connect_q1q2 && (
-                  <div style={{ background: COLORS.blueBg, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: 6 }}>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.blue, fontWeight: FONT.weight.semibold, margin: 0 }}>연결 Q1→Q2 (권장)</p>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_q1q2.substring(0,200)}{answers.connect_q1q2.length>200?'...':''}</p>
-                  </div>
-                )}
-                {answers.q1_1 && (
-                  <div style={{ background: COLORS.bgAlt, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: 4 }}>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, fontWeight: FONT.weight.semibold, margin: 0 }}>관심 계기 (Q1-1)</p>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.q1_1.substring(0,200)}{answers.q1_1.length>200?'...':''}</p>
-                  </div>
-                )}
-                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "이 직무를 할 수 있는 곳은 많지만, 귀사를 선택한 이유는..."</p>
-              </div>
-
-              {/* 중반부 */}
-              <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: SPACING.sm }}>
-                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>중반부 — 무엇을 왜 준비 (Q3)</p>
-                {answers.connect_q2q3 && (
-                  <div style={{ background: COLORS.blueBg, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: 6 }}>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.blue, fontWeight: FONT.weight.semibold, margin: 0 }}>연결 Q2→Q3 (권장)</p>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_q2q3.substring(0,200)}{answers.connect_q2q3.length>200?'...':''}</p>
-                  </div>
-                )}
-                {answers.q3_2 && (
-                  <div style={{ background: COLORS.bgAlt, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: 4 }}>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, fontWeight: FONT.weight.semibold, margin: 0 }}>준비 과정 (Q3-2)</p>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.q3_2.substring(0,200)}{answers.q3_2.length>200?'...':''}</p>
-                  </div>
-                )}
-                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "그 확신이 생긴 이후 본격적으로 준비를 시작했습니다..."</p>
-              </div>
-
-              {/* 마무리 */}
-              <div style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base }}>
-                <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>마무리 — 어떻게 기여 (Q4)</p>
-                {answers.connect_q3q4 && (
-                  <div style={{ background: COLORS.blueBg, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: 6 }}>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.blue, fontWeight: FONT.weight.semibold, margin: 0 }}>연결 Q3→Q4 (권장)</p>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.connect_q3q4.substring(0,200)}{answers.connect_q3q4.length>200?'...':''}</p>
-                  </div>
-                )}
-                {answers.q4_1 && (
-                  <div style={{ background: COLORS.bgAlt, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: 4 }}>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, fontWeight: FONT.weight.semibold, margin: 0 }}>동기→역량→기여 (Q4-1)</p>
-                    <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers.q4_1.substring(0,200)}{answers.q4_1.length>200?'...':''}</p>
-                  </div>
-                )}
-                <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>연결 예시: "이렇게 준비해온 역량이 귀사에서 이런 방식으로..."</p>
-              </div>
+              <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, marginTop: 0, marginBottom: SPACING.md }}>{config.completedGuide.intro}</p>
+              {config.completedGuide.sections.map((sec, si) => (
+                <div key={si} style={{ background: COLORS.bg, borderLeft: `3px solid ${COLORS.accent2}`, borderRadius: `0 ${RADIUS.sm}px ${RADIUS.sm}px 0`, padding: SPACING.base, marginBottom: si < config.completedGuide.sections.length - 1 ? SPACING.sm : 0 }}>
+                  <p style={{ fontSize: FONT.size.xs, fontWeight: FONT.weight.bold, color: COLORS.accent2, margin: 0, marginBottom: SPACING.sm }}>{sec.title}</p>
+                  {sec.items.map((it, ii) => answers[it.key] ? (
+                    <div key={ii} style={{ background: it.recommended ? COLORS.blueBg : COLORS.bgAlt, borderRadius: RADIUS.sm, padding: SPACING.sm, marginBottom: it.recommended ? 6 : 4 }}>
+                      <p style={{ fontSize: FONT.size.xs, color: it.recommended ? COLORS.blue : COLORS.sub, fontWeight: FONT.weight.semibold, margin: 0 }}>{it.label}</p>
+                      <p style={{ fontSize: FONT.size.xs, color: COLORS.accent, margin: 0, marginTop: 4, lineHeight: FONT.lineHeight.base }}>{answers[it.key].substring(0,200)}{answers[it.key].length>200?'...':''}</p>
+                    </div>
+                  ) : null)}
+                  <p style={{ fontSize: FONT.size.xs, color: COLORS.accent2, margin: 0, marginTop: SPACING.sm, fontStyle: 'italic' }}>{sec.example}</p>
+                </div>
+              ))}
             </div>
 
             {/* 수정 전 최종 확인 (SUCCESS) */}
@@ -856,12 +813,7 @@ const IntroPage = ({
               <p style={{ ...labelStyle(COLORS.green), marginBottom: SPACING.sm }}>SUCCESS · 수정 전 최종 확인</p>
               <p style={{ fontSize: FONT.size.xs, color: COLORS.sub, margin: `0 0 ${SPACING.sm}px`, lineHeight: FONT.lineHeight.base }}>각 항목을 확인하며 체크하세요. 통과하지 못한 항목이 있다면 해당 Q로 돌아가 보완합니다.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                {[
-                  { n: '①', q: 'Q1: 관심 계기가 구체적 장면+감정이고, 가치관과 연결되는가?', miss: 'Q1-1, Q1-2' },
-                  { n: '②', q: 'Q2: 회사의 직무분석 없이는 쓸 수 없는 이 회사만의 이유가 있는가?', miss: 'Q2-1 (차별점)' },
-                  { n: '③', q: 'Q3: 역량 준비의 이유("~하기 위해")가 명시되어 있는가?', miss: 'Q3-1, Q3-2' },
-                  { n: '④', q: 'Q4: "열심히 하겠다"가 아닌 동기+역량의 인과적 결론인가?', miss: 'Q4-1 인과 연결' },
-                ].map((item, i) => {
+                {config.finalChecklist.map((item, i) => {
                   const checked = !!checklistState[i];
                   return (
                     <label key={i} style={{ display: 'flex', alignItems: 'start', gap: 8, padding: SPACING.sm, background: checked ? COLORS.bg : 'transparent', borderRadius: RADIUS.sm, border: `1px solid ${COLORS.green}20`, cursor: 'pointer' }}>
@@ -887,7 +839,7 @@ const IntroPage = ({
           {showRawAnswers && (
             <div style={S.boxNeutral}>
               <h4 style={{ fontSize: FONT.size.md, fontWeight: FONT.weight.semibold, color: COLORS.accent, marginTop: 0, marginBottom: SPACING.sm }}>원본 답변 참고</h4>
-              <pre style={{ fontSize: FONT.size.sm, color: COLORS.accent, whiteSpace: 'pre-wrap', fontFamily: FONT.family, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>{getRawText()}</pre>
+              <pre style={{ fontSize: FONT.size.sm, color: COLORS.accent, whiteSpace: 'pre-wrap', fontFamily: FONT.family, margin: 0, lineHeight: FONT.lineHeight.relaxed }}>{config.getRawText(answers, basicInfo)}</pre>
             </div>
           )}
 

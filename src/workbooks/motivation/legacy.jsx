@@ -15,6 +15,22 @@ const config = {
     if (answers.connect_q3q4) p.push('\n' + answers.connect_q3q4); else { if (answers.q4_1) p.push('\n' + answers.q4_1); if (answers.q4_2) p.push(answers.q4_2); }
     return p.join('\n\n');
   },
+  getRawText: (answers, basicInfo) => `원본 답변 모음\n\n[기본 정보]\n산업: ${basicInfo.industry||'-'}\n직무: ${basicInfo.position||'-'}\n회사: ${basicInfo.company||'-'}\n\n[Q1: 왜 이 직무인가]\nQ1-1 관심 계기: ${answers.q1_1||'-'}\nQ1-2 가치관 연결: ${answers.q1_2||'-'}\nQ1-3 성장 경로: ${answers.q1_3||'-'}\n\n[Q2: 왜 이 회사인가]\nQ2-1 차별점: ${answers.q2_1||'-'}\nQ2-2 가치관+회사: ${answers.q2_2||'-'}\n\n[Q3: 무엇을 왜 준비]\nQ3-1 필요 역량: ${answers.q3_1||'-'}\nQ3-2 준비 과정: ${answers.q3_2||'-'}\nQ3-3 업무 연결: ${answers.q3_3||'-'}\n\n[Q4: 어떻게 기여]\nQ4-1 동기→역량→기여: ${answers.q4_1||'-'}\nQ4-2 회사 과제 연결: ${answers.q4_2||'-'}\n\n[3라운드 연결]\nQ1→Q2: ${answers.connect_q1q2||'-'}\nQ2→Q3: ${answers.connect_q2q3||'-'}\nQ3→Q4: ${answers.connect_q3q4||'-'}`,
+  allAnsKeys: ['q1_1','q1_2','q1_3','q2_1','q2_2','q3_1','q3_2','q3_3','q4_1','q4_2','connect_q1q2','connect_q2q3','connect_q3q4'],
+  completedGuide: {
+    intro: '3라운드 연결 답변을 우선 사용. 없으면 아래 Q 답변에서 핵심만 골라 연결하세요.',
+    sections: [
+      { title: '도입부 — 왜 이 직무 + 왜 이 회사 (Q1·Q2)', items: [ { key: 'connect_q1q2', label: '연결 Q1→Q2 (권장)', recommended: true }, { key: 'q1_1', label: '관심 계기 (Q1-1)' } ], example: '연결 예시: "이 직무를 할 수 있는 곳은 많지만, 귀사를 선택한 이유는..."' },
+      { title: '중반부 — 무엇을 왜 준비 (Q3)', items: [ { key: 'connect_q2q3', label: '연결 Q2→Q3 (권장)', recommended: true }, { key: 'q3_2', label: '준비 과정 (Q3-2)' } ], example: '연결 예시: "그 확신이 생긴 이후 본격적으로 준비를 시작했습니다..."' },
+      { title: '마무리 — 어떻게 기여 (Q4)', items: [ { key: 'connect_q3q4', label: '연결 Q3→Q4 (권장)', recommended: true }, { key: 'q4_1', label: '동기→역량→기여 (Q4-1)' } ], example: '연결 예시: "이렇게 준비해온 역량이 귀사에서 이런 방식으로..."' },
+    ],
+  },
+  finalChecklist: [
+    { n: '①', q: 'Q1: 관심 계기가 구체적 장면+감정이고, 가치관과 연결되는가?', miss: 'Q1-1, Q1-2' },
+    { n: '②', q: 'Q2: 회사의 직무분석 없이는 쓸 수 없는 이 회사만의 이유가 있는가?', miss: 'Q2-1 (차별점)' },
+    { n: '③', q: 'Q3: 역량 준비의 이유("~하기 위해")가 명시되어 있는가?', miss: 'Q3-1, Q3-2' },
+    { n: '④', q: 'Q4: "열심히 하겠다"가 아닌 동기+역량의 인과적 결론인가?', miss: 'Q4-1 인과 연결' },
+  ],
   buildDocxChildren: buildMotivationDocxChildren,
   round1Steps, round2Questions, round3Questions,
   intro: {
