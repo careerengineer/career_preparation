@@ -854,7 +854,7 @@ const IntroPage = ({
             </div>
           )}
 
-          <div style={{ display: 'flex', gap: SPACING.base, position: 'sticky', bottom: 0, zIndex: 5, marginTop: SPACING.lg, marginLeft: -SPACING.xl, marginRight: -SPACING.xl, marginBottom: -SPACING.xl, paddingLeft: SPACING.xl, paddingRight: SPACING.xl, paddingTop: SPACING.base, paddingBottom: SPACING.base, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}` }}>
+          <div style={{ display: 'flex', gap: SPACING.base, position: 'sticky', bottom: 0, zIndex: 5, marginTop: SPACING.lg, paddingTop: SPACING.base, paddingBottom: SPACING.base, background: COLORS.bg, borderTop: `1px solid ${COLORS.border}` }}>
             <button onClick={goToPrevStep} style={S.btnSecondary}>이전</button>
             <button onClick={goToNextStep} disabled={!canGoNext()} style={{ ...S.btnPrimary, flex: 1, opacity: canGoNext() ? 1 : 0.4, cursor: canGoNext() ? 'pointer' : 'not-allowed' }}>
               다음 </button>
