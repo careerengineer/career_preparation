@@ -1523,7 +1523,7 @@ X 도구/기술을 너무 많이 나열 (15개+) → "이거 다 진짜 쓸 수 
       ]} />
       <div style={{ maxWidth: 1350, margin: '0 auto' }}>
         {/* ═══ Sticky Header (PART 7-6) ═══ */}
-        <div style={{ position: 'sticky', top: 16, zIndex: 10, background: COLORS.cream, borderRadius: RADIUS.lg, padding: 16, border: `1px solid ${COLORS.border}`, marginBottom: 16, boxShadow: '0 2px 8px rgba(14, 39, 80, 0.12)' }}>
+        <div style={{ position: 'sticky', top: 16, zIndex: 10, background: COLORS.cream, borderRadius: RADIUS.md, padding: 16, border: `1px solid ${COLORS.border}`, marginBottom: 16, boxShadow: '0 2px 8px rgba(14, 39, 80, 0.12)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
             <CELockupA height={32} />
             {/* 중: 현재 단계 (클릭 시 7단계 드롭다운) */}

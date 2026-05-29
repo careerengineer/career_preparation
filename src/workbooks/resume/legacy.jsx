@@ -996,7 +996,7 @@ const ResumeWorkbook = () => {
 
             <p style={{ fontSize: 16, color: COLORS.navyMid, marginBottom: 16 }}>위에서 직접 수정한 경험이 이력서 최종 형태로 들어갑니다. 아래 예시 형태와 비교하며 마지막으로 다듬으세요.</p>
 
-            <div className="font-mono whitespace-pre-line" style={{ background: COLORS.cream, borderRadius: RADIUS.lg, padding: 16, marginBottom: 16, fontSize: 16, color: COLORS.navyMid }}>
+            <div className="font-mono whitespace-pre-line" style={{ background: COLORS.cream, borderRadius: RADIUS.md, padding: 16, marginBottom: 16, fontSize: 16, color: COLORS.navyMid }}>
               {'[이력서 형태 예시]\n\n현대모비스 인턴 | 2025.01~2025.02 | 품질관리팀\n- 양산 부품 불량 데이터 수집 및 원인 분석 (SPC 활용, 월 500건)\n- 불량 유형별 파레토 분석 보고서 작성, 팀 주간 미팅에서 발표\n- 협력사 출하 검사 기준서 개정 보조 (3건)'}
             </div>
 
