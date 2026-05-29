@@ -300,9 +300,9 @@ const RelatedWorkbookList = ({ items, title = '함께 보면 좋은 워크북' }
 // ══════════════════════════════════════════════════════════════
 //  7 STEP × 22 Q 워크북 데이터 (자가점검은 완성 화면 체크리스트)
 // ══════════════════════════════════════════════════════════════
-const STEPS = [
+const PARTS = [
   {
-    step: 1,
+    part: 1,
     title: "직무 분석 — 직무 이해도를 보여준다",
     intro: '',
     stuckNote: "Q1~Q2에 답이 안 된다면 → 채용공고를 아직 충분히 분석하지 못한 것입니다 → 채용공고 분석 가이드를 먼저 진행하세요 Q3에 답이 안 된다면 → 직무에 대한 리서치가 부족한 것입니다 → 직무분석 가이드를 먼저 진행하거나, 같은 직무 채용공고 3개 이상을 비교해보세요 혹은 Q2에서 해석한 키워드 중 가장 중요하다고 생각하는 것 1개를 골라 Q3 대신 사용해도 됩니다",
@@ -313,7 +313,7 @@ const STEPS = [
     ],
   },
   {
-    step: 2,
+    part: 2,
     title: "경험 연결 — 즉시 전력화 가능성을 보여준다",
     intro: '',
     stuckNote: "Q4에 답이 안 된다면 → 경험 정리가 안 된 것입니다 → 경험정리 가이드워크북으로 경험을 먼저 정리하세요 Q5-a~c에 답이 안 된다면 → 경험의 의미를 아직 정리하지 못한 것입니다 → Q4에 적은 경험을 다시 떠올리며 '이 경험 전과 후에 나는 어떻게 달라졌나?'를 자문해보세요 Q6에 답이 안 된다면 → 성과가 없어도 괜찮습니다. Q5-b와 Q5-c의 깨달음이 성과를 대체합니다",
@@ -326,7 +326,7 @@ const STEPS = [
     ],
   },
   {
-    step: 3,
+    part: 3,
     title: "강점 도출 — 함께 일하고 싶은 동료인가를 보여준다",
     intro: '',
     stuckNote: "Q7~Q8에 답이 안 된다면 → 성격의 장단점 정리가 안 된 것입니다 → 성격의 장단점 작성 가이드를 먼저 진행하세요 또는 가족/친구에게 '내 장점이 뭐야?'라고 직접 물어보세요. 의외의 답이 나옵니다",
@@ -336,7 +336,7 @@ const STEPS = [
     ],
   },
   {
-    step: 4,
+    part: 4,
     title: "마무리 — 오래 함께할 수 있는 사람인가를 보여준다",
     intro: '',
     stuckNote: "Q9에 답이 안 된다면 → 회사 리서치가 부족한 것입니다 → 채용공고 분석 가이드의 기업 분석 파트를 먼저 진행하세요 Q10에 답이 안 된다면 → 직무 이해가 부족한 것입니다 → PART 1으로 돌아가 Q1~Q2를 다시 확인하세요",
@@ -346,7 +346,7 @@ const STEPS = [
     ],
   },
   {
-    step: 5,
+    part: 5,
     title: "자기소개 조립 — 키워드 카드 만들기",
     intro: '',
     stuckNote: "Q11에 답이 안 된다면 → PART 1의 Q3이 부실한 것입니다. Q3 또는 Q2에서 핵심 키워드를 다시 확인하세요 Q12~Q13에 답이 안 된다면 → PART 2~4의 답변이 부실한 것입니다. 해당 PART로 돌아가 보완하세요",
@@ -357,7 +357,7 @@ const STEPS = [
     ],
   },
   {
-    step: 6,
+    part: 6,
     title: "연결 — 키워드 사이를 자연스럽게 잇기",
     intro: "키워드만 있으면 '나열'이 됩니다. 키워드 사이를 자연스럽게 잇는 연결 문장이 있어야 '이야기'가 됩니다. 아래 4개의 연결 지점을 채우세요.",
     stuckNote: '',
@@ -369,7 +369,7 @@ const STEPS = [
     ],
   },
   {
-    step: 7,
+    part: 7,
     title: "초안 작성 — 키워드를 보고 말한 후, 그대로 적기",
     intro: "문장을 '쓰고 외우는' 것이 아니라, '말하고 받아 적는' 것입니다. 입으로 먼저 말해야 자연스럽고, 적은 것을 다듬어야 완성도가 올라갑니다.",
     stuckNote: '',
@@ -538,13 +538,13 @@ const SelfIntroWorkbook = () => {
   const setAnswer = (id, val) => setAnswers(p => ({ ...p, [id]: val }));
   const toggleCheck = (id) => setChecks(p => ({ ...p, [id]: !p[id] }));
 
-  const progress = ((currentStep + 1) / STEPS.length) * 100;
+  const progress = ((currentStep + 1) / PARTS.length) * 100;
   
   // 각 PART의 질문 범위 계산 (PART 1: Q1-Q3, PART 2: Q4-Q8 등)
   const stepQuestionRanges = (() => {
     const ranges = [];
     let cumIdx = 0;
-    STEPS.forEach((s, i) => {
+    PARTS.forEach((s, i) => {
       const start = cumIdx + 1;
       const end = cumIdx + s.questions.length;
       ranges.push(`Q${start}${start === end ? '' : '-Q' + end}`);
@@ -795,7 +795,7 @@ const SelfIntroWorkbook = () => {
     />
   );
   // ══════════════════ 완성 화면 (자소서 패턴: 최종 답변 중심) ══════════════════
-  if (currentStep >= STEPS.length) {
+  if (currentStep >= PARTS.length) {
     const checkedCount = Object.values(checks).filter(Boolean).length;
     const charCount = finalAnswer.length;
 
@@ -828,7 +828,7 @@ const SelfIntroWorkbook = () => {
 
             {/* ═══ PART 1~7 작성 내용 참고 (기본 노출, 통합 완성본 위) ═══ */}
             {(() => {
-              const hasAnyAnswer = STEPS.some(s => s.questions.some(q => answers[q.label]?.trim()));
+              const hasAnyAnswer = PARTS.some(s => s.questions.some(q => answers[q.label]?.trim()));
               if (!hasAnyAnswer) return null;
               return (
                 <div style={{ background: COLORS.bgAlt, border: `1px solid ${COLORS.border}`, borderRadius: RADIUS.base, padding: SPACING.md, marginBottom: SPACING.lg }}>
@@ -840,13 +840,13 @@ const SelfIntroWorkbook = () => {
                   </div>
                   <div style={{ background: COLORS.bg, borderRadius: RADIUS.sm, padding: SPACING.md, border: `1px solid ${COLORS.border}`, maxHeight: 400, overflow: 'auto' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md }}>
-                      {STEPS.map(s => {
+                      {PARTS.map(s => {
                         const answeredQs = s.questions.filter(q => answers[q.label]?.trim());
                         if (answeredQs.length === 0) return null;
                         return (
-                          <div key={s.step} style={{ borderLeft: `3px solid ${COLORS.accent2}`, paddingLeft: SPACING.md }}>
+                          <div key={s.part} style={{ borderLeft: `3px solid ${COLORS.accent2}`, paddingLeft: SPACING.md }}>
                             <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.accent, margin: 0, marginBottom: SPACING.sm }}>
-                              PART {s.step}. {s.title}
+                              PART {s.part}. {s.title}
                             </p>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.sm }}>
                               {answeredQs.map(q => (
@@ -986,7 +986,7 @@ const SelfIntroWorkbook = () => {
 
 
             <div style={{ display: 'flex', gap: SPACING.sm, marginTop: SPACING.md }}>
-              <button onClick={() => { setCurrentStep(STEPS.length - 1); window.scrollTo(0,0); }} style={S.btnSecondary}>
+              <button onClick={() => { setCurrentStep(PARTS.length - 1); window.scrollTo(0,0); }} style={S.btnSecondary}>
                 이전
               </button>
               <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: COLORS.red, border: `1px solid ${COLORS.red}66`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
@@ -1007,7 +1007,7 @@ const SelfIntroWorkbook = () => {
   }
 
   // ══════════════════ 메인 STEP 화면 ══════════════════
-  const s = STEPS[currentStep];
+  const s = PARTS[currentStep];
   return (
     <div style={S.page}>
       <FocusStyles />
@@ -1042,7 +1042,7 @@ const SelfIntroWorkbook = () => {
         {/* ═══ PART 탭 인디케이터 (가이드 PART 7-6) ═══ */}
         <div style={{ marginBottom: SPACING.md }}>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 4, flexWrap: 'nowrap', overflowX: 'auto', paddingBottom: 4 }}>
-            {STEPS.map((s, i) => (
+            {PARTS.map((s, i) => (
               <button key={i} onClick={() => { setCurrentStep(i); window.scrollTo(0, 0); }}
                 style={{
                   fontSize: 16, padding: '4px 10px', borderRadius: 999, border: 'none', cursor: 'pointer',
@@ -1051,8 +1051,8 @@ const SelfIntroWorkbook = () => {
                   color: i === currentStep ? COLORS.white : i < currentStep ? COLORS.green : COLORS.sub,
                   fontFamily: FONT.family, whiteSpace: 'nowrap', flexShrink: 0,
                 }}
-                title={`${s.step}. ${s.title.split('—')[0].trim()} (${stepQuestionRanges[i]})`}>
-                {i < currentStep ? '✓ ' : ''}PART {s.step}. {s.title.split('—')[0].trim()}
+                title={`${s.part}. ${s.title.split('—')[0].trim()} (${stepQuestionRanges[i]})`}>
+                {i < currentStep ? '✓ ' : ''}PART {s.part}. {s.title.split('—')[0].trim()}
               </button>
             ))}
           </div>
@@ -1060,12 +1060,12 @@ const SelfIntroWorkbook = () => {
 
         <div style={S.cardLarge}>
           <div style={{ marginBottom: SPACING.lg }}>
-            <div style={{ display: 'inline-flex', padding: '4px 10px', borderRadius: 4, background: COLORS.accent, color: COLORS.white, fontSize: FONT.size.xs, fontWeight: 700, marginBottom: SPACING.sm }}>PART {s.step}</div>
+            <div style={{ display: 'inline-flex', padding: '4px 10px', borderRadius: 4, background: COLORS.accent, color: COLORS.white, fontSize: FONT.size.xs, fontWeight: 700, marginBottom: SPACING.sm }}>PART {s.part}</div>
             <h2 style={S.h2}>{s.title}</h2>
             {s.intro && (
               <p style={{ ...S.subtitle, marginTop: SPACING.sm }}>{s.intro}</p>
             )}
-            {s.step === 1 && (
+            {s.part === 1 && (
               <div style={{ background: COLORS.cream, borderLeft: `4px solid ${COLORS.accent2}`, borderRadius: RADIUS.sm, padding: SPACING.md, marginTop: SPACING.md }}>
                 <p style={{ fontSize: FONT.size.sm, fontWeight: FONT.weight.bold, color: COLORS.goldDeep, margin: 0, marginBottom: SPACING.sm }}>1분 자기소개의 핵심</p>
                 <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.relaxed, marginBottom: SPACING.sm }}>
@@ -1126,7 +1126,7 @@ const SelfIntroWorkbook = () => {
                         {otherStepRefs.map(rid => {
                           const answer = answers[rid];
                           let refQuestion = '';
-                          for (const st of STEPS) {
+                          for (const st of PARTS) {
                             const rq = st.questions.find(x => x.label === rid);
                             if (rq) { refQuestion = rq.question; break; }
                           }
@@ -1171,12 +1171,12 @@ const SelfIntroWorkbook = () => {
           {s.stuckNote && (
             <div style={{ marginTop: SPACING.lg }}>
               <button
-                onClick={() => setShowStuckHint(p => ({ ...p, [s.step]: !p[s.step] }))}
+                onClick={() => setShowStuckHint(p => ({ ...p, [s.part]: !p[s.part] }))}
                 style={{ ...S.btnText, fontSize: FONT.size.sm }}
               >
-                {showStuckHint[s.step] ? '진단 닫기' : '막혔을 때 진단 보기'}
+                {showStuckHint[s.part] ? '진단 닫기' : '막혔을 때 진단 보기'}
               </button>
-              {showStuckHint[s.step] && (
+              {showStuckHint[s.part] && (
                 <div style={{ ...S.boxWarning, marginTop: SPACING.sm }}>
                   <p style={{ ...labelStyle(COLORS.red), marginBottom: SPACING.sm }}>막혔을 때 진단</p>
                   <p style={{ fontSize: FONT.size.sm, color: COLORS.accent, margin: 0, lineHeight: FONT.lineHeight.base, whiteSpace: 'pre-line' }}>{s.stuckNote}</p>
