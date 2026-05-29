@@ -634,14 +634,14 @@ const CareerDescWorkbook = () => {
     
     // 회사 헤더 (회사명 | 기간)
     const subSectionHeader = (title, period) => `
-      <p style="font-size:12pt;font-weight:bold;color:#0E2750;margin:18pt 0 6pt 0;padding-bottom:4pt;border-bottom:1pt solid #1B3A6B;">${esc(title)}${period ? ` <span style="font-weight:normal;color:#6E7A8F;font-size:10pt;">| ${esc(period)}</span>` : ''}</p>`;
+      <p style="font-size:12pt;font-weight:bold;color:#0E2750;margin:18pt 0 6pt 0;padding-bottom:4pt;border-bottom:1pt solid #1B3A6B;">${esc(title)}${period ? ` <span style="font-weight:normal;color:#565F72;font-size:10pt;">| ${esc(period)}</span>` : ''}</p>`;
     
     // 기본 정보
     const basicInfoTable = `
       <table border="0" cellspacing="0" cellpadding="0" width="100%" style="margin-bottom:14pt;">
-        ${has('company') ? `<tr><td width="100" style="padding:8pt 0;border-bottom:1pt solid #E8E5DD;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">지원 회사</td><td style="padding:8pt 0;border-bottom:1pt solid #E8E5DD;font-size:11pt;color:#0E2750;vertical-align:top;">${esc(companyName)}</td></tr>` : ''}
-        ${has('position') ? `<tr><td style="padding:8pt 0;border-bottom:1pt solid #E8E5DD;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">지원 직무</td><td style="padding:8pt 0;border-bottom:1pt solid #E8E5DD;font-size:11pt;color:#0E2750;vertical-align:top;">${esc(positionName)}</td></tr>` : ''}
-        ${has('type') ? `<tr><td style="padding:8pt 0;border-bottom:1pt solid #E8E5DD;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">지원 유형</td><td style="padding:8pt 0;border-bottom:1pt solid #E8E5DD;font-size:11pt;color:#0E2750;vertical-align:top;">${esc(typeName)}</td></tr>` : ''}
+        ${has('company') ? `<tr><td width="100" style="padding:8pt 0;border-bottom:1pt solid #E5E1D6;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">지원 회사</td><td style="padding:8pt 0;border-bottom:1pt solid #E5E1D6;font-size:11pt;color:#0E2750;vertical-align:top;">${esc(companyName)}</td></tr>` : ''}
+        ${has('position') ? `<tr><td style="padding:8pt 0;border-bottom:1pt solid #E5E1D6;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">지원 직무</td><td style="padding:8pt 0;border-bottom:1pt solid #E5E1D6;font-size:11pt;color:#0E2750;vertical-align:top;">${esc(positionName)}</td></tr>` : ''}
+        ${has('type') ? `<tr><td style="padding:8pt 0;border-bottom:1pt solid #E5E1D6;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">지원 유형</td><td style="padding:8pt 0;border-bottom:1pt solid #E5E1D6;font-size:11pt;color:#0E2750;vertical-align:top;">${esc(typeName)}</td></tr>` : ''}
         <tr><td style="padding:8pt 0;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">작성일</td><td style="padding:8pt 0;font-size:11pt;color:#0E2750;vertical-align:top;">${today}</td></tr>
       </table>`;
     
@@ -702,7 +702,7 @@ const CareerDescWorkbook = () => {
     
     // 강점 3가지
     const strRows = [1,2,3].filter(n => has(`str${n}`)).map(n => 
-      `<tr><td width="32" style="padding:8pt 0;border-bottom:1pt solid #E8E5DD;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">${n}.</td><td style="padding:8pt 0;border-bottom:1pt solid #E8E5DD;font-size:11pt;color:#0E2750;line-height:1.7;vertical-align:top;">${br(v(`str${n}`))}</td></tr>`
+      `<tr><td width="32" style="padding:8pt 0;border-bottom:1pt solid #E5E1D6;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">${n}.</td><td style="padding:8pt 0;border-bottom:1pt solid #E5E1D6;font-size:11pt;color:#0E2750;line-height:1.7;vertical-align:top;">${br(v(`str${n}`))}</td></tr>`
     ).join('');
     
     // 관리/리더십
@@ -728,8 +728,8 @@ const CareerDescWorkbook = () => {
     
     // 핵심 역량
     const skillRows = [];
-    if (has('hard_skills')) skillRows.push(`<tr><td width="120" style="padding:8pt 0;border-bottom:1pt solid #E8E5DD;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">하드 스킬</td><td style="padding:8pt 0;border-bottom:1pt solid #E8E5DD;font-size:11pt;color:#0E2750;line-height:1.7;vertical-align:top;">${br(v('hard_skills'))}</td></tr>`);
-    if (has('soft_skills')) skillRows.push(`<tr><td style="padding:8pt 0;border-bottom:1pt solid #E8E5DD;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">소프트 스킬</td><td style="padding:8pt 0;border-bottom:1pt solid #E8E5DD;font-size:11pt;color:#0E2750;line-height:1.7;vertical-align:top;">${br(v('soft_skills'))}</td></tr>`);
+    if (has('hard_skills')) skillRows.push(`<tr><td width="120" style="padding:8pt 0;border-bottom:1pt solid #E5E1D6;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">하드 스킬</td><td style="padding:8pt 0;border-bottom:1pt solid #E5E1D6;font-size:11pt;color:#0E2750;line-height:1.7;vertical-align:top;">${br(v('hard_skills'))}</td></tr>`);
+    if (has('soft_skills')) skillRows.push(`<tr><td style="padding:8pt 0;border-bottom:1pt solid #E5E1D6;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">소프트 스킬</td><td style="padding:8pt 0;border-bottom:1pt solid #E5E1D6;font-size:11pt;color:#0E2750;line-height:1.7;vertical-align:top;">${br(v('soft_skills'))}</td></tr>`);
     if (has('certs')) skillRows.push(`<tr><td style="padding:8pt 0;color:#1B3A6B;font-weight:bold;font-size:11pt;vertical-align:top;">자격증·인증</td><td style="padding:8pt 0;font-size:11pt;color:#0E2750;line-height:1.7;vertical-align:top;">${br(v('certs'))}</td></tr>`);
     
     const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
