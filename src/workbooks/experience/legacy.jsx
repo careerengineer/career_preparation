@@ -743,28 +743,6 @@ const ExperienceWorkbook = () => {
   // docx-js 동적 로드
   const loadDocxLib = () => Promise.resolve(DOCX);
   // ── 저장 (XLSX) ────────────────────────────────────
-  // xlsx-js-style 동적 로드: 셀 스타일 적용을 위해
-  const loadXlsxStyleLib = () => new Promise((resolve) => {
-    if (window.XLSX_STYLE) return resolve(window.XLSX_STYLE);
-    const sources = [
-      'https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js',
-      'https://unpkg.com/xlsx-js-style@1.2.0/dist/xlsx.bundle.js',
-    ];
-    let idx = 0;
-    const tryNext = () => {
-      if (idx >= sources.length) { resolve(null); return; }
-      const script = document.createElement('script');
-      script.src = sources[idx++];
-      script.async = true;
-      script.onload = () => {
-        if (window.XLSX) { window.XLSX_STYLE = window.XLSX; resolve(window.XLSX); }
-        else tryNext();
-      };
-      script.onerror = () => tryNext();
-      document.head.appendChild(script);
-    };
-    tryNext();
-  });
   // [CE-DL] 외부 WorkbookShell 버튼에서 호출 위한 등록
   const __ceDlRef = useRef(null);
   useEffect(() => {
