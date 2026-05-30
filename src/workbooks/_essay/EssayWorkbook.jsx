@@ -361,6 +361,52 @@ export const EssayWorkbook = ({ config }) => {
 
   const labelStyle = (color) => ({ fontSize: FONT.size.sm, fontWeight: FONT.weight.semibold, color, margin: 0, letterSpacing: 0.5, textTransform: 'uppercase' });
 
+  // 상단 네비게이션(진행 바 + 라운드 점프 탭) — 인트로 이후 전 화면(답변·평가·완성)에서 동일하게 노출.
+  const progressBar = (
+    <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm }}>
+      <div style={{ ...S.progressTrack, flex: 1 }}>
+        <div style={{ ...S.progressBar, width: progress + '%' }} />
+      </div>
+      <span style={{ fontSize: FONT.size.xs, color: COLORS.sub, minWidth: 40, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{Math.round(progress)}%</span>
+    </div>
+  );
+  const roundTabs = (
+    <div style={{ marginBottom: SPACING.md }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 6, flexWrap: 'wrap' }}>
+        {[
+          { phase: 'round1', label: '1라운드 · 핵심 질문' },
+          { phase: 'round2', label: '2라운드 · 심화 질문' },
+          { phase: 'round3', label: '3라운드 · 연결 및 완성' },
+        ].map(({ phase, label }) => {
+          const isCurrent = currentPhase === phase;
+          const phaseOrder = { round1: 0, evaluation: 1, round2: 2, round3: 3, completed: 4 };
+          const isPast = phaseOrder[currentPhase] > phaseOrder[phase];
+          return (
+            <button key={phase} onClick={() => {
+              if (phase === 'round2') {
+                setCurrentPhase('evaluation');
+              } else {
+                setCurrentPhase(phase);
+                setCurrentPart(0);
+              }
+              window.scrollTo(0, 0);
+            }}
+              style={{
+                fontSize: FONT.size.sm, padding: '6px 14px', borderRadius: 999, cursor: 'pointer',
+                fontWeight: isCurrent ? FONT.weight.bold : FONT.weight.medium,
+                background: isCurrent ? COLORS.accent : isPast ? '#FBFAF6' : 'transparent',
+                color: isCurrent ? COLORS.white : isPast ? COLORS.accent2 : COLORS.sub,
+                fontFamily: FONT.family,
+                border: isPast && !isCurrent ? `1px solid ${COLORS.accent2}` : 'none',
+              }}>
+              {isPast ? '✓ ' : ''}{label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+
   // ══════════ 사용 안내 팝업 (PART 7-8) ══════════
   const [showHelp, setShowHelp] = useState(true);
 
@@ -503,10 +549,15 @@ const IntroPage = ({
               
             </div>
             <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: COLORS.red, border: `1px solid ${COLORS.red}66`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
-            
-            
+
+
           </div>
+          {/* 진행 바 */}
+          {progressBar}
         </div>
+
+        {/* ═══ 라운드 점프 탭 ═══ */}
+        {roundTabs}
 
         <div style={S.cardLarge}>
           <p style={S.brandEyebrow}>{config.evaluationEyebrow}</p>
@@ -568,10 +619,15 @@ const IntroPage = ({
               
             </div>
             <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: COLORS.red, border: `1px solid ${COLORS.red}66`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
-            
-            
+
+
           </div>
+          {/* 진행 바 */}
+          {progressBar}
         </div>
+
+        {/* ═══ 라운드 점프 탭 ═══ */}
+        {roundTabs}
 
         <div style={S.cardLarge}>
           {/* 완성 헤더 (SUCCESS) */}
@@ -710,12 +766,7 @@ const IntroPage = ({
             
           </div>
           {/* 진행 바 */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm }}>
-            <div style={{ ...S.progressTrack, flex: 1 }}>
-              <div style={{ ...S.progressBar, width: progress + '%' }} />
-            </div>
-            <span style={{ fontSize: FONT.size.xs, color: COLORS.sub, minWidth: 40, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{Math.round(progress)}%</span>
-          </div>
+          {progressBar}
         </div>
 
         {/* 저장 완료 토스트 (임시저장용) */}
@@ -726,40 +777,7 @@ const IntroPage = ({
         )}
 
         {/* ═══ 라운드 점프 탭 (가이드 PART 7-6) ═══ */}
-        <div style={{ marginBottom: SPACING.md }}>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 6, flexWrap: 'wrap' }}>
-            {[
-              { phase: 'round1', label: '1라운드 · 핵심 질문' },
-              { phase: 'round2', label: '2라운드 · 심화 질문' },
-              { phase: 'round3', label: '3라운드 · 연결 및 완성' },
-            ].map(({ phase, label }) => {
-              const isCurrent = currentPhase === phase;
-              const phaseOrder = { round1: 0, evaluation: 1, round2: 2, round3: 3, completed: 4 };
-              const isPast = phaseOrder[currentPhase] > phaseOrder[phase];
-              return (
-                <button key={phase} onClick={() => {
-                  if (phase === 'round2') {
-                    setCurrentPhase('evaluation');
-                  } else {
-                    setCurrentPhase(phase);
-                    setCurrentPart(0);
-                  }
-                  window.scrollTo(0, 0);
-                }}
-                  style={{
-                    fontSize: FONT.size.sm, padding: '6px 14px', borderRadius: 999, cursor: 'pointer',
-                    fontWeight: isCurrent ? FONT.weight.bold : FONT.weight.medium,
-                    background: isCurrent ? COLORS.accent : isPast ? '#FBFAF6' : 'transparent',
-                    color: isCurrent ? COLORS.white : isPast ? COLORS.accent2 : COLORS.sub,
-                    fontFamily: FONT.family,
-                    border: isPast && !isCurrent ? `1px solid ${COLORS.accent2}` : 'none',
-                  }}>
-                  {isPast ? '✓ ' : ''}{label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        {roundTabs}
 
         {/* 질문 카드 */}
         <div style={S.cardLarge}>
