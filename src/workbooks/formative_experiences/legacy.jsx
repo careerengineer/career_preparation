@@ -11,7 +11,7 @@ const config = {
   fileNamePrefix: "성장과정",
   completedHeader: "성장과정 완성",
   completedEditLabel: "완성본 (수정 가능)",
-  evaluationEyebrow: "CAREERENGINEER · 자소서 워크북 · 2라운드 진입",
+  evaluationEyebrow: "CareerEngineer · 자소서 워크북 · 2라운드 진입",
   focusArea: ['motivation','difficulty','number','autonomy'],
   basicInfoFields: [["position", "지원하고자 하는 직무", "예: 기구 설계, 기계 설계, 전자 설계 등"], ["company", "지원하고자 하는 회사명", "예: 삼성전자, 현대자동차 등"]],
   genLetter: (answers) => {

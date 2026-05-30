@@ -11,7 +11,7 @@ const config = {
   fileNamePrefix: "목표수립 및 달성",
   completedHeader: "목표 수립 및 달성 완성",
   completedEditLabel: "완성본 (수정 가능)",
-  evaluationEyebrow: "CAREERENGINEER · 자소서 워크북 · 2라운드 진입",
+  evaluationEyebrow: "CareerEngineer · 자소서 워크북 · 2라운드 진입",
   focusArea: ['difficulty','number','autonomy','motivation'],
   basicInfoFields: [["position", "지원하고자 하는 직무", "예: 공정엔지니어, 기구설계, 회로설계 등"], ["company", "지원하고자 하는 회사명", "예: 삼성전자, LG전자 등"], ["experience", "목표달성 경험 (간단히)", "예: 기구 설계 프로젝트 3개 완성"]],
   genLetter: (answers) => {

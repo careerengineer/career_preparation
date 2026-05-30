@@ -24,7 +24,7 @@ const config = {
     const keys = ['q1_1','q1_2','q1_3','q2_1','q2_2','q3_1','q3_2','q3_3','q4_1','q4_2','connect_q1q2','connect_q2q3','connect_q3q4'];
     return Math.round(keys.filter((k) => (answers[k] || '').trim().length > 1).length / keys.length * 100);
   },
-  evaluationEyebrow: 'CAREERENGINEER · 2라운드 진입',
+  evaluationEyebrow: 'CareerEngineer · 2라운드 진입',
   basicInfoFields: [['industry','지원하고자 하는 산업','예: 반도체, 자동차, 디스플레이 등'],['position','지원하고자 하는 직무','예: 공정엔지니어, 기구설계, 회로설계 등'],['company','지원하고자 하는 회사명','예: 삼성전자, LG전자 등']],
   completedGuide: {
     headerLabel: 'INFO · 내 답변 활용 가이드 — Q별 재료',

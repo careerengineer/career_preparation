@@ -51,7 +51,7 @@ const config = {
   computeProgress: ({ currentPhase, currentPart, round1Steps, round2Questions, round3Questions, selectedSteps, answers }) => currentPhase === 'round1' ? ((currentPart + 1) / round1Steps.length) * 33 : currentPhase === 'round2' ? 33 + ((currentPart + 1) / Math.max(selectedSteps.length, 1)) * 33 : 66 + ((currentPart + 1) / round3Questions.length) * 34,
   buildDocxChildren: (payload, docxLib) => buildEssayDocxChildren('jobcompetency', payload, docxLib),
   round1Steps, round2Questions, round3Questions,
-  evaluationEyebrow: 'CAREERENGINEER · 자소서 워크북 · 2라운드 진입',
+  evaluationEyebrow: 'CareerEngineer · 자소서 워크북 · 2라운드 진입',
   basicInfoFields: [["position", "지원하고자 하는 직무", "예: 기구 설계, 기계 설계, 전자 설계 등"], ["company", "지원하고자 하는 회사명", "예: 삼성전자, 현대자동차 등"], ["industry", "지원하고자 하는 산업", "예: 자동차, 전자, 기계 등"]],
   completedGuide: {
     headerLabel: 'INFO · 내 답변 활용 가이드',

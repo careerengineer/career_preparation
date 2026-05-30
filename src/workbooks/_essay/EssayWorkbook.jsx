@@ -378,9 +378,11 @@ export const EssayWorkbook = ({ config }) => {
           { phase: 'round2', label: '2라운드 · 심화 질문' },
           { phase: 'round3', label: '3라운드 · 연결 및 완성' },
         ].map(({ phase, label }) => {
-          const isCurrent = currentPhase === phase;
-          const phaseOrder = { round1: 0, evaluation: 1, round2: 2, round3: 3, completed: 4 };
-          const isPast = phaseOrder[currentPhase] > phaseOrder[phase];
+          // 'evaluation'은 2라운드 진입 화면이므로 2라운드 탭을 현재로 표시
+          const effectivePhase = currentPhase === 'evaluation' ? 'round2' : currentPhase;
+          const phaseOrder = { round1: 0, round2: 1, round3: 2, completed: 3 };
+          const isCurrent = effectivePhase === phase;
+          const isPast = phaseOrder[effectivePhase] > phaseOrder[phase];
           return (
             <button key={phase} onClick={() => {
               if (phase === 'round2') {
@@ -561,8 +563,8 @@ const IntroPage = ({
 
         <div style={S.cardLarge}>
           <p style={S.brandEyebrow}>{config.evaluationEyebrow}</p>
-          <h2 style={{ ...S.h2, textAlign: 'center', marginBottom: SPACING.sm }}>1라운드 완료</h2>
-          <p style={{ ...S.subtitle, textAlign: 'center', marginBottom: SPACING.lg }}>부족한 Q를 선택해 2라운드 심화 질문에 답변하세요</p>
+          <h2 style={{ ...S.h2, marginBottom: SPACING.xs }}>2라운드: 심화질문</h2>
+          <p style={{ ...S.subtitle, marginBottom: SPACING.lg }}>답변이 부족해 보이는 질문을 선택해 2라운드 심화 질문에 답변하세요</p>
 
           <div style={S.boxTip}>
             <p style={{ ...labelStyle(COLORS.yellow), marginBottom: SPACING.sm }}>TIP · 선택 기준</p>

@@ -11,7 +11,7 @@ const config = {
   fileNamePrefix: "입사후 포부",
   completedHeader: "입사 후 포부 완성",
   completedEditLabel: "완성본 (수정 가능)",
-  evaluationEyebrow: "CAREERENGINEER · 자소서 워크북 · 2라운드 진입",
+  evaluationEyebrow: "CareerEngineer · 자소서 워크북 · 2라운드 진입",
   focusArea: ['motivation','connection','autonomy'],
   basicInfoFields: [["position", "지원하고자 하는 직무", "예: 공정엔지니어, 기구설계, 회로설계 등"], ["company", "지원하고자 하는 회사명", "예: 삼성전자, LG전자 등"], ["industry", "지원하고자 하는 산업", "예: 반도체, 자동차, 디스플레이 등"]],
   genLetter: (answers) => {
