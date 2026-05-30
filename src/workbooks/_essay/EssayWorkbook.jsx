@@ -177,13 +177,7 @@ export const EssayWorkbook = ({ config }) => {
   const toggleStepSelection = (sid) => setSelectedSteps(p => p.includes(sid) ? p.filter(i => i !== sid) : [...p, sid]);
 
   const goToNextStep = () => {
-    if (currentPhase === 'round1') {
-      // 기본 정보(part 0) → 1라운드 인트로 → Q1(part 1) 순으로 진행
-      if (currentPart === 0) setCurrentPhase('round1Intro');
-      else if (currentPart < round1Steps.length - 1) setCurrentPart(s => s + 1);
-      else setCurrentPhase('evaluation');
-    }
-    else if (currentPhase === 'round1Intro') { setCurrentPhase('round1'); setCurrentPart(1); }
+    if (currentPhase === 'round1') { if (currentPart < round1Steps.length - 1) setCurrentPart(s => s + 1); else setCurrentPhase('evaluation'); }
     else if (currentPhase === 'evaluation') { setSelectedSteps(p => [...p].sort((a, b) => a - b)); setCurrentPhase('round2'); setCurrentPart(0); }
     else if (currentPhase === 'round2') { if (currentPart < selectedSteps.length - 1) setCurrentPart(s => s + 1); else { setCurrentPhase('round3'); setCurrentPart(0); } }
     else if (currentPhase === 'round3') { if (currentPart < round3Questions.length - 1) setCurrentPart(s => s + 1); else { setFinalText(prev => (prev && prev.trim()) ? prev : config.genLetter(answers)); setCurrentPhase('completed'); } }
@@ -191,8 +185,6 @@ export const EssayWorkbook = ({ config }) => {
   };
   const goToPrevStep = () => {
     if (currentPhase === 'completed') { setCurrentPhase('round3'); setCurrentPart(round3Questions.length - 1); }
-    else if (currentPhase === 'round1Intro') { setCurrentPhase('round1'); setCurrentPart(0); }
-    else if (currentPhase === 'round1' && currentPart === 1) { setCurrentPhase('round1Intro'); }
     else if (currentPart > 0) setCurrentPart(s => s - 1);
     else if (currentPhase === 'round3') { setCurrentPhase('round2'); setCurrentPart(selectedSteps.length - 1); }
     else if (currentPhase === 'round2') setCurrentPhase('evaluation');
@@ -386,8 +378,8 @@ export const EssayWorkbook = ({ config }) => {
           { phase: 'round2', label: '2라운드 · 심화 질문' },
           { phase: 'round3', label: '3라운드 · 연결 및 완성' },
         ].map(({ phase, label }) => {
-          // 'round1Intro' → 1라운드, 'evaluation' → 2라운드 진입 화면이므로 해당 탭을 현재로 표시
-          const effectivePhase = currentPhase === 'evaluation' ? 'round2' : currentPhase === 'round1Intro' ? 'round1' : currentPhase;
+          // 'evaluation'은 2라운드 진입 화면이므로 2라운드 탭을 현재로 표시
+          const effectivePhase = currentPhase === 'evaluation' ? 'round2' : currentPhase;
           const phaseOrder = { round1: 0, round2: 1, round3: 2, completed: 3 };
           const isCurrent = effectivePhase === phase;
           const isPast = phaseOrder[effectivePhase] > phaseOrder[phase];
@@ -542,40 +534,6 @@ const IntroPage = ({
       helpModal={<FirstVisitModal open={showHelp} onClose={() => setShowHelp(false)} title={intro.helpTitle} steps={intro.helpSteps} />}
       onStart={() => { setShowIntro(false); }}
     />
-  );
-
-  // ══════════════════════════════════════════════════════════════
-  //  1라운드 인트로 (기본 정보 → Q1 사이)
-  // ══════════════════════════════════════════════════════════════
-  if (currentPhase === 'round1Intro') return (
-    <div style={S.page}>
-      <FocusStyles />
-      <div style={S.container}>
-        <div style={S.headerSticky}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: SPACING.base, flexWrap: 'wrap' }}>
-            <CELockupA height={32} />
-            <div style={{ position: 'relative', flex: 1, display: 'flex', justifyContent: 'center' }} />
-            <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: COLORS.red, border: `1px solid ${COLORS.red}66`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button>
-            <button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
-          </div>
-          {progressBar}
-        </div>
-
-        {roundTabs}
-
-        <div style={S.cardLarge}>
-          <h2 style={{ ...S.h2, marginBottom: SPACING.xs }}>1라운드: 핵심질문</h2>
-          <p style={{ ...S.subtitle, marginBottom: SPACING.lg }}>핵심 질문 {round1Steps.length - 1}개에 답변하며 자소서의 뼈대를 만듭니다. 각 질문마다 가이드와 자가진단이 함께 제공됩니다.</p>
-
-          <div style={{ display: 'flex', gap: SPACING.base, marginTop: SPACING.lg }}>
-            <button onClick={goToPrevStep} style={S.btnSecondary}>이전</button>
-            <button onClick={goToNextStep} style={{ ...S.btnPrimary, flex: 1 }}>1라운드 시작</button>
-          </div>
-        </div>
-
-        <StickyFooter />
-      </div>
-    </div>
   );
 
   // ══════════════════════════════════════════════════════════════
@@ -824,6 +782,13 @@ const IntroPage = ({
 
         {/* 질문 카드 */}
         <div style={S.cardLarge}>
+          {/* Q1 위에 1라운드 페이즈 헤더 인라인 — '핵심 질문' 안내 후 첫 질문이 이어짐 */}
+          {currentPhase === 'round1' && currentPart === 1 && (
+            <div style={{ marginBottom: SPACING.lg, paddingBottom: SPACING.md, borderBottom: `1px solid ${COLORS.border}` }}>
+              <h2 style={{ ...S.h2, marginBottom: SPACING.xs }}>1라운드: 핵심질문</h2>
+              <p style={{ ...S.subtitle, margin: 0 }}>핵심 질문 {round1Steps.length - 1}개에 답변하며 자소서의 뼈대를 만듭니다. 각 질문마다 가이드와 자가진단이 함께 제공됩니다.</p>
+            </div>
+          )}
           <h2 style={{ ...S.h2, marginBottom: SPACING.xs }}>{sd.title}</h2>
           {sd.subtitle && <p style={{ ...S.subtitle, marginBottom: SPACING.lg }}>{sd.subtitle}</p>}
 
