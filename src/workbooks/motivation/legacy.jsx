@@ -30,9 +30,9 @@ const config = {
     headerLabel: 'INFO · 내 답변 활용 가이드 — Q별 재료',
     intro: '3라운드 연결 답변을 우선 사용. 없으면 아래 Q 답변에서 핵심만 골라 연결하세요.',
     sections: [
-      { title: '도입부 — 왜 이 직무 + 왜 이 회사 (Q1·Q2)', items: [ { key: 'connect_q1q2', label: '연결 Q1→Q2 (권장)', recommended: true }, { key: 'q1_1', label: '관심 계기 (Q1-1)' } ], example: '연결 예시: "이 직무를 할 수 있는 곳은 많지만, 귀사를 선택한 이유는..."' },
-      { title: '중반부 — 무엇을 왜 준비 (Q3)', items: [ { key: 'connect_q2q3', label: '연결 Q2→Q3 (권장)', recommended: true }, { key: 'q3_2', label: '준비 과정 (Q3-2)' } ], example: '연결 예시: "그 확신이 생긴 이후 본격적으로 준비를 시작했습니다..."' },
-      { title: '마무리 — 어떻게 기여 (Q4)', items: [ { key: 'connect_q3q4', label: '연결 Q3→Q4 (권장)', recommended: true }, { key: 'q4_1', label: '동기→역량→기여 (Q4-1)' } ], example: '연결 예시: "이렇게 준비해온 역량이 귀사에서 이런 방식으로..."' },
+      { title: '도입부 — 왜 이 직무 + 왜 이 회사 (Q1·Q2)', items: [ { key: 'connect_q1q2', label: '연결 Q1→Q2 (권장)', recommended: true }, { key: 'q1_1', label: '관심 계기 (Q1-1)' } ], example: '연결 예시: "이 직무를 할 수 있는 곳은 많지만, 귀사를 선택한 이유는 설계·금형·양산이 한 라인이라 제가 그린 형상이 양산까지 끊김 없이 이어지는 환경이기 때문입니다."' },
+      { title: '중반부 — 무엇을 왜 준비 (Q3)', items: [ { key: 'connect_q2q3', label: '연결 Q2→Q3 (권장)', recommended: true }, { key: 'q3_2', label: '준비 과정 (Q3-2)' } ], example: '연결 예시: "그 확신이 생긴 이후 본격적으로 준비를 시작했습니다. 양산성 있는 설계에는 직접 3D로 모델링하는 능력과 공차 누적 분석 역량이 필수라 판단해, SolidWorks 어셈블리 설계와 공차 분석을 의도적으로 익혔습니다."' },
+      { title: '마무리 — 어떻게 기여 (Q4)', items: [ { key: 'connect_q3q4', label: '연결 Q3→Q4 (권장)', recommended: true }, { key: 'q4_1', label: '동기→역량→기여 (Q4-1)' } ], example: '연결 예시: "이렇게 준비해온 SolidWorks 모델링과 공차 분석 역량으로, 귀사의 \'기구 부품 3D 설계 및 조립 공차 검토\' 업무에서 시제품 단계 불량을 줄이는 일에 곧바로 기여하겠습니다."' },
     ],
   },
   finalChecklist: [
