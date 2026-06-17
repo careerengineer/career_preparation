@@ -1039,12 +1039,40 @@ export default function App() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const data = JSON.parse(saved);
-        // 이전 진단(또는 불러오기한) 선택이 있으면 확인 없이 그대로 복원 → 선택이 이미 돼 있는 상태로 표시
-        if (data.ans && Object.keys(data.ans).length > 0) {
-          setAns(data.ans);
+        // 외부 zip / 옛 형식 자동 변환:
+        //  - 키: `ans` 우선, 없으면 `answers` 폴백
+        //  - 값: 문자열(`yes`/`mid`/`no`/`na`)을 옵션의 숫자 값으로 매핑
+        const rawAns = (data.ans && typeof data.ans === 'object') ? data.ans
+                     : (data.answers && typeof data.answers === 'object') ? data.answers
+                     : null;
+        const VAL_MAP = { yes: 2, mid: 1, no: 0, na: -1 };
+        let migrated = false;
+        const normalizedAns = rawAns ? Object.fromEntries(Object.entries(rawAns).map(([k, v]) => {
+          if (typeof v === 'string') {
+            const lo = v.toLowerCase();
+            if (lo in VAL_MAP) { migrated = true; return [k, VAL_MAP[lo]]; }
+          }
+          return [k, v];
+        })) : null;
+        if (normalizedAns && Object.keys(normalizedAns).length > 0) {
+          setAns(normalizedAns);
           if (data.result) setResult(data.result);
           if (typeof data.qi === 'number') setQi(data.qi);
-          if (data.page) setPage(data.page);
+          // 완료된 데이터인데 result 누락 → 정상 진단 결과 재계산
+          if ((data.page === 'result' || data.completedAt) && !data.result) {
+            try { const r = analyze(normalizedAns); if (r) setResult(r); } catch { /* 분석 실패 시 그대로 진행 */ }
+            setPage('result');
+          } else if (data.page) {
+            setPage(data.page);
+          }
+          // 변환된 형태를 다시 localStorage에 기록(이후 일관성 유지)
+          if (migrated) {
+            try {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, ans: normalizedAns, savedAt: new Date().toISOString() }));
+              // import 시 토스트에 표시되도록 마커 남기기
+              try { sessionStorage.setItem('ce_import_migrated_roadmap', '1'); } catch { /* 무시 */ }
+            } catch { /* 무시 */ }
+          }
         }
       }
     } catch (e) { console.warn(e); }

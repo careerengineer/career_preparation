@@ -59,11 +59,39 @@ export function ExportImportBar() {
     let allSlots = null;
     try { allSlots = await extractAllSlots(file); } catch { allSlots = null; }
     if (allSlots && Object.keys(allSlots).length) {
+      // 형식 이상 감지(import 전): career_roadmap.ans/answers 형식 점검 + 미지 값 표시
+      const VAL_OK = { yes: 1, mid: 1, no: 1, na: 1 };
+      const issues = [];
+      try {
+        for (const [name, slot] of Object.entries(allSlots)) {
+          const rm = slot?.master?.workbookRaw?.career_roadmap;
+          if (!rm) continue;
+          const ansObj = rm.ans || rm.answers;
+          if (!ansObj || typeof ansObj !== 'object') continue;
+          const keyMis = !rm.ans && rm.answers ? '키 이름' : null;
+          const badVals = Object.entries(ansObj).filter(([k, v]) => typeof v === 'string' && k !== 'who' && !VAL_OK[String(v).toLowerCase()]);
+          const oldVals = Object.entries(ansObj).filter(([k, v]) => typeof v === 'string' && k !== 'who' && VAL_OK[String(v).toLowerCase()]);
+          if (keyMis || badVals.length > 0 || oldVals.length > 0) {
+            issues.push({ name, keyMis, oldVals: oldVals.length, badVals: badVals.map(([k]) => k) });
+          }
+        }
+      } catch { /* 무시 */ }
+      if (issues.length > 0) {
+        const lines = issues.slice(0, 4).map((it) => `· ${it.name}: ${[
+          it.keyMis ? 'ans 키 누락(answers로 들어옴)' : null,
+          it.oldVals > 0 ? `옛 형식 값 ${it.oldVals}개(yes/mid/no/na)` : null,
+          it.badVals.length > 0 ? `알 수 없는 값 ${it.badVals.length}개(${it.badVals.slice(0, 3).join(', ')})` : null,
+        ].filter(Boolean).join(' / ')}`).join('\n');
+        const moreLine = issues.length > 4 ? `\n…외 ${issues.length - 4}개 슬롯` : '';
+        const cont = window.confirm(`⚠ 이 파일의 일부 데이터가 옛 형식이거나 키 이름이 맞지 않습니다:\n\n${lines}${moreLine}\n\n복원 시 자동 변환을 시도합니다. 진단 결과가 비어 보일 수 있어 결과 화면을 직접 확인해 주세요.\n\n계속 복원할까요?`);
+        if (!cont) return;
+      }
       const mode = window.confirm(`전체 저장본 백업입니다. 저장된 ${Object.keys(allSlots).length}개 회사 저장본을 복원합니다.\n[확인]: 기존 저장본과 병합\n[취소]: 기존 저장본 완전 교체`) ? 'merge' : 'replace';
       if (mode === 'replace' && !window.confirm('기존 회사별 저장본이 모두 삭제됩니다. 계속할까요?')) return;
       try {
         const { count, total } = importAllSlots(allSlots, mode);
-        showToast(`전체 저장본 ${count}개를 복원했습니다 (총 ${total}개). 페이지를 새로고침합니다…`);
+        const baseMsg = `전체 저장본 ${count}개를 복원했습니다 (총 ${total}개). 페이지를 새로고침합니다…`;
+        showToast(issues.length > 0 ? `${baseMsg}\n\n⚠ ${issues.length}개 슬롯의 진단 데이터가 자동 변환됐습니다. 결과 화면을 확인해 주세요.` : baseMsg);
         setTimeout(() => window.location.reload(), 1300);
       } catch (err) { showToast('오류: ' + err.message); }
       return;
