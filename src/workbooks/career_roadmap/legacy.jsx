@@ -1056,12 +1056,18 @@ export default function App() {
         })) : null;
         if (normalizedAns && Object.keys(normalizedAns).length > 0) {
           setAns(normalizedAns);
+          let restoredResult = data.result || null;
           if (data.result) setResult(data.result);
           if (typeof data.qi === 'number') setQi(data.qi);
           // 완료된 데이터인데 result 누락 → 정상 진단 결과 재계산
           if ((data.page === 'result' || data.completedAt) && !data.result) {
-            try { const r = analyze(normalizedAns); if (r) setResult(r); } catch { /* 분석 실패 시 그대로 진행 */ }
-            setPage('result');
+            try { const r = analyze(normalizedAns); if (r) { setResult(r); restoredResult = r; } } catch { /* 분석 실패 시 그대로 진행 */ }
+          }
+          // 결과 페이지로 가려면 result.weakest.step이 반드시 있어야 함 — 없으면 welcome으로 폴백
+          const canShowResult = restoredResult && restoredResult.weakest && typeof restoredResult.weakest.step === 'number';
+          if ((data.page === 'result' || data.completedAt) && !canShowResult) {
+            try { sessionStorage.setItem('ce_roadmap_import_failed', '1'); } catch { /* 무시 */ }
+            // page는 welcome으로 두되, 변환된 답변은 살려둠 → 사용자가 시작하기로 즉시 진행 가능
           } else if (data.page) {
             setPage(data.page);
           }
@@ -1174,6 +1180,14 @@ export default function App() {
       workbookKey='career_roadmap'
       title='취업 준비, 지금 뭘 해야 할까?'
       subtitle='몇 가지 질문에 답하면 지금 당장 해야 할 일을 알려드립니다'
+      extraContent={(typeof sessionStorage !== 'undefined' && sessionStorage.getItem('ce_roadmap_import_failed') === '1') ? (
+        <div style={{ background: '#FFF3CD', border: `1px solid #856404`, borderLeft: `4px solid #856404`, borderRadius: 10, padding: 16, marginBottom: 16, color: '#856404' }}>
+          <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, fontWeight: 600 }}>⚠ 불러온 데이터를 인식하지 못했어요</p>
+          <p style={{ margin: '8px 0 0', fontSize: 14, lineHeight: 1.6 }}>
+            파일 형식이 옛 버전이거나 진단 결과가 손상돼 결과 화면을 만들지 못했어요. 아래 <strong>시작하기</strong>로 새로 진단해 주세요. 이전 답변은 자동 복원됩니다.
+          </p>
+        </div>
+      ) : undefined}
       flow={[
           { label: '질문 1', desc: '어떤 상황인가요? — 신입·이직·직무전환·대학원졸' },
           { label: '질문 2', desc: '지원할 직무가 정해졌나요?' },
