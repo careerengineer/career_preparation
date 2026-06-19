@@ -186,7 +186,11 @@ const JobAnalysisWorkbook = () => {
             if (data.formAnswers) setFormAnswers(data.formAnswers);
             if (data.finalText) setFinalText(data.finalText);
             if (data.checklistState) setChecklistState(data.checklistState);
-            if (data.phase) setPhase(data.phase);
+            // phase는 지원되는 5종만 허용 — 그 외(자소서 형식 'completed' 등)는 'intro'로 안전 폴백
+            if (data.phase) {
+              const VALID_PHASES = ['intro', 'diagnosis', 'formList', 'formEdit', 'completion'];
+              setPhase(VALID_PHASES.includes(data.phase) ? data.phase : 'intro');
+            }
           } else {
             localStorage.removeItem(STORAGE_KEY);
           }
@@ -1097,7 +1101,9 @@ const JobAnalysisWorkbook = () => {
   if (phase === 'formList') return renderFormList();
   if (phase === 'formEdit') return renderFormEdit();
   if (phase === 'completion') return renderCompletion();
-  return null;
+  // 알 수 없는 phase → intro로 안전 폴백 (빈 화면 방지)
+  try { console.warn('[job_analysis] unknown phase, falling back to intro:', phase); } catch { /* 무시 */ }
+  return renderIntro();
 };
 
 export default JobAnalysisWorkbook;
