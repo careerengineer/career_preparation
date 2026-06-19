@@ -537,7 +537,18 @@ const ExperienceWorkbook = () => {
             if (data.jdKeywords) setJdKeywords(data.jdKeywords);
             if (data.experiences) setExperiences(data.experiences);
             if (data.companyLinks) setCompanyLinks(data.companyLinks);
-            if (data.phase) setPhase(data.phase);
+            // editingId 복원 + 유효성 검증 (저장 시점 경험 카드가 삭제됐을 수 있음)
+            if (data.editingId && Array.isArray(data.experiences) && data.experiences.some(e => e.id === data.editingId)) {
+              setEditingId(data.editingId);
+            }
+            // phase가 'detail'인데 편집할 경험 없으면 'list'로 폴백 (이미 renderDetail에 안전망 있지만 사전 정합)
+            if (data.phase) {
+              let nextPhase = data.phase;
+              if (nextPhase === 'detail' && !(data.editingId && Array.isArray(data.experiences) && data.experiences.some(e => e.id === data.editingId))) {
+                nextPhase = 'list';
+              }
+              setPhase(nextPhase);
+            }
           } else {
             localStorage.removeItem(STORAGE_KEY);
           }
@@ -550,13 +561,13 @@ const ExperienceWorkbook = () => {
     const timer = setTimeout(() => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          basicInfo, personaAnswers, jdKeywords, experiences, companyLinks, phase,
+          basicInfo, personaAnswers, jdKeywords, experiences, companyLinks, phase, editingId,
           savedAt: new Date().toISOString()
         }));
       } catch { /* ignore */ }
     }, 1000);
     return () => clearTimeout(timer);
-  }, [basicInfo, personaAnswers, jdKeywords, experiences, companyLinks, phase]);
+  }, [basicInfo, personaAnswers, jdKeywords, experiences, companyLinks, phase, editingId]);
   // 페르소나에 따라 정렬된 카테고리
   const orderedCategories = useMemo(
     () => orderCategoriesByPersona(personaAnswers.status),

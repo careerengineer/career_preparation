@@ -298,6 +298,9 @@ const CareerDescWorkbook = () => {
             setGuides(data.guides || {});
             if (data.companyCount) setCompanyCount(data.companyCount);
             if (data.perfCounts) setPerfCounts(data.perfCounts);
+            // page/currentPart 복원 — 작성 위치 보존
+            if (data.page === 'intro' || data.page === 'steps') setPage(data.page);
+            if (typeof data.currentPart === 'number' && data.currentPart >= 0 && data.currentPart <= 9) setCurrentPart(data.currentPart);
           } else {
             // 사용자가 거절하면 저장된 데이터 삭제
             localStorage.removeItem(STORAGE_KEY);
@@ -317,7 +320,7 @@ const CareerDescWorkbook = () => {
     const timer = setTimeout(() => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          ans, chk, guides, companyCount, perfCounts,
+          ans, chk, guides, companyCount, perfCounts, page, currentPart,
           savedAt: new Date().toISOString()
         }));
       } catch (e) {
@@ -326,7 +329,7 @@ const CareerDescWorkbook = () => {
     }, 1000);
     
     return () => clearTimeout(timer);
-  }, [ans, chk, guides, companyCount, perfCounts]);
+  }, [ans, chk, guides, companyCount, perfCounts, page, currentPart]);
 
   // 저장된 데이터 초기화 (수동 버튼)
 
