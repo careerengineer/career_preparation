@@ -186,10 +186,19 @@ const JobAnalysisWorkbook = () => {
             if (data.formAnswers) setFormAnswers(data.formAnswers);
             if (data.finalText) setFinalText(data.finalText);
             if (data.checklistState) setChecklistState(data.checklistState);
+            // editingFormId 복원 (있으면)
+            if (data.editingFormId && FORMS.find(f => f.id === data.editingFormId)) {
+              setEditingFormId(data.editingFormId);
+            }
             // phase는 지원되는 5종만 허용 — 그 외(자소서 형식 'completed' 등)는 'intro'로 안전 폴백
+            // 또한 phase=formEdit인데 editingFormId가 없거나 유효하지 않으면 'formList'로 폴백 (빈 화면 방지)
             if (data.phase) {
               const VALID_PHASES = ['intro', 'diagnosis', 'formList', 'formEdit', 'completion'];
-              setPhase(VALID_PHASES.includes(data.phase) ? data.phase : 'intro');
+              let nextPhase = VALID_PHASES.includes(data.phase) ? data.phase : 'intro';
+              if (nextPhase === 'formEdit' && (!data.editingFormId || !FORMS.find(f => f.id === data.editingFormId))) {
+                nextPhase = 'formList';
+              }
+              setPhase(nextPhase);
             }
           } else {
             localStorage.removeItem(STORAGE_KEY);
@@ -205,13 +214,13 @@ const JobAnalysisWorkbook = () => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
           basicInfo, diagnosisAnswers, persona, jobPostings, formAnswers,
-          finalText, checklistState, phase,
+          finalText, checklistState, phase, editingFormId,
           savedAt: new Date().toISOString()
         }));
       } catch { /* ignore */ }
     }, 1000);
     return () => clearTimeout(timer);
-  }, [basicInfo, diagnosisAnswers, persona, jobPostings, formAnswers, finalText, checklistState, phase]);
+  }, [basicInfo, diagnosisAnswers, persona, jobPostings, formAnswers, finalText, checklistState, phase, editingFormId]);
   
 
   const determinePersona = (answers) => {
@@ -803,7 +812,8 @@ const JobAnalysisWorkbook = () => {
   // ══════════════════ 양식 편집 ══════════════════
   const renderFormEdit = () => {
     const form = FORMS.find(f => f.id === editingFormId);
-    if (!form) return null;
+    // editingFormId 손상/누락 시 빈 화면 대신 양식 목록으로 복귀
+    if (!form) { try { setPhase('formList'); } catch { /* 무시 */ } return renderFormList(); }
     const fIdx = FORMS.findIndex(f => f.id === editingFormId);
 
     return (
