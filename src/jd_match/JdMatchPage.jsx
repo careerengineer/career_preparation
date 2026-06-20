@@ -4,7 +4,9 @@ import { useDataStore } from '../store/DataContext.jsx';
 import { buildMatchReport, SECTION_LABELS } from './matchEngine.js';
 import { exportMatchReportDocx } from './reportDocx.js';
 import { CEMark } from '../shared/components/CELogo.jsx';
-import { COLORS, FONT, SPACING, RADIUS, RULE } from '../shared/design/tokens.js';
+import { COLORS, FONT, RADIUS, RULE } from '../shared/design/tokens.js';
+
+const SP = (n) => n * 8;
 
 const PLACEHOLDER = `예시)\n[주요업무]\n- 백엔드 API 설계 및 개발\n- 데이터베이스 스키마 설계\n\n[자격요건]\n- Java/Spring 기반 개발 경험 2년 이상\n- RESTful API 설계 경험\n\n[우대사항]\n- AWS 등 클라우드 환경 운영 경험\n- 대용량 트래픽 처리 경험`;
 
@@ -13,8 +15,8 @@ function sectionStyle() {
     background: COLORS.white,
     border: RULE,
     borderRadius: RADIUS.lg,
-    padding: SPACING(3),
-    marginBottom: SPACING(3),
+    padding: SP(3),
+    marginBottom: SP(3),
   };
 }
 
@@ -31,8 +33,11 @@ export default function JdMatchPage() {
 
   const activeMaster = useMemo(() => {
     if (source === 'current') return master;
-    const slotMaster = getCompanySlotMaster(source);
-    return slotMaster || master;
+    try {
+      return getCompanySlotMaster(source);
+    } catch {
+      return master;
+    }
   }, [source, master, getCompanySlotMaster]);
 
   function handleAnalyze() {
@@ -66,13 +71,13 @@ export default function JdMatchPage() {
           zIndex: 10,
           background: COLORS.white,
           borderBottom: RULE,
-          padding: `${SPACING(2)}px ${SPACING(3)}px`,
+          padding: `${SP(2)}px ${SP(3)}px`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: SPACING(1.5) }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: SP(1.5) }}>
           <CEMark size={28} />
           <span style={{ fontFamily: FONT.family, fontWeight: 700, color: COLORS.ink }}>
             직무 매칭 리포트
@@ -91,8 +96,8 @@ export default function JdMatchPage() {
         </Link>
       </div>
 
-      <div style={{ maxWidth: 820, margin: '0 auto', padding: SPACING(3) }}>
-        <p style={{ fontFamily: FONT.family, color: COLORS.sub, fontSize: 14, marginBottom: SPACING(3) }}>
+      <div style={{ maxWidth: 820, margin: '0 auto', padding: SP(3) }}>
+        <p style={{ fontFamily: FONT.family, color: COLORS.sub, fontSize: 14, marginBottom: SP(3) }}>
           작성하신 경험과 자소서 내용을 기반으로, 입력한 직무 상세내용의 각 요건에 어필할 수 있는
           내용을 매칭하여 문서로 만들어 드립니다.
         </p>
@@ -104,7 +109,7 @@ export default function JdMatchPage() {
               fontFamily: FONT.family,
               fontWeight: 700,
               color: COLORS.ink,
-              marginBottom: SPACING(1),
+              marginBottom: SP(1),
             }}
           >
             데이터 소스
@@ -114,7 +119,7 @@ export default function JdMatchPage() {
             onChange={(e) => setSource(e.target.value)}
             style={{
               width: '100%',
-              padding: SPACING(1),
+              padding: SP(1),
               borderRadius: RADIUS.md,
               border: RULE,
               fontFamily: FONT.family,
@@ -123,8 +128,9 @@ export default function JdMatchPage() {
           >
             <option value="current">현재 작성중인 데이터</option>
             {slots.map((slot) => (
-              <option key={slot} value={slot}>
-                저장된 기업: {slot}
+              <option key={slot.name} value={slot.name}>
+                저장된 기업: {slot.name}
+                {slot.company ? ` (${slot.company})` : ''}
               </option>
             ))}
           </select>
@@ -137,7 +143,7 @@ export default function JdMatchPage() {
               fontFamily: FONT.family,
               fontWeight: 700,
               color: COLORS.ink,
-              marginBottom: SPACING(1),
+              marginBottom: SP(1),
             }}
           >
             기업/직무명 (선택)
@@ -148,12 +154,12 @@ export default function JdMatchPage() {
             placeholder="예) 카카오 백엔드 개발자"
             style={{
               width: '100%',
-              padding: SPACING(1),
+              padding: SP(1),
               borderRadius: RADIUS.md,
               border: RULE,
               fontFamily: FONT.family,
               fontSize: 14,
-              marginBottom: SPACING(2),
+              marginBottom: SP(2),
               boxSizing: 'border-box',
             }}
           />
@@ -164,7 +170,7 @@ export default function JdMatchPage() {
               fontFamily: FONT.family,
               fontWeight: 700,
               color: COLORS.ink,
-              marginBottom: SPACING(1),
+              marginBottom: SP(1),
             }}
           >
             직무 상세내용
@@ -176,7 +182,7 @@ export default function JdMatchPage() {
             rows={12}
             style={{
               width: '100%',
-              padding: SPACING(1.5),
+              padding: SP(1.5),
               borderRadius: RADIUS.md,
               border: RULE,
               fontFamily: FONT.family,
@@ -187,7 +193,7 @@ export default function JdMatchPage() {
           />
 
           {error && (
-            <p style={{ color: COLORS.red, fontFamily: FONT.family, fontSize: 13, marginTop: SPACING(1) }}>
+            <p style={{ color: COLORS.red, fontFamily: FONT.family, fontSize: 13, marginTop: SP(1) }}>
               {error}
             </p>
           )}
@@ -196,8 +202,8 @@ export default function JdMatchPage() {
             onClick={handleAnalyze}
             disabled={busy}
             style={{
-              marginTop: SPACING(2),
-              padding: `${SPACING(1.25)}px ${SPACING(3)}px`,
+              marginTop: SP(2),
+              padding: `${SP(1.25)}px ${SP(3)}px`,
               background: COLORS.ink,
               color: COLORS.white,
               border: 'none',
@@ -219,7 +225,7 @@ export default function JdMatchPage() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                marginBottom: SPACING(2),
+                marginBottom: SP(2),
               }}
             >
               <span style={{ fontFamily: FONT.family, fontWeight: 700, color: COLORS.ink }}>
@@ -228,7 +234,7 @@ export default function JdMatchPage() {
               <button
                 onClick={handleDownload}
                 style={{
-                  padding: `${SPACING(1)}px ${SPACING(2)}px`,
+                  padding: `${SP(1)}px ${SP(2)}px`,
                   background: COLORS.accent2,
                   color: COLORS.ink,
                   border: 'none',
@@ -245,14 +251,14 @@ export default function JdMatchPage() {
 
             {report.sections.map((section) =>
               section.items.length === 0 ? null : (
-                <div key={section.key} style={{ marginBottom: SPACING(3) }}>
+                <div key={section.key} style={{ marginBottom: SP(3) }}>
                   <h3
                     style={{
                       fontFamily: FONT.family,
                       color: COLORS.ink,
                       borderBottom: `2px solid ${COLORS.accent2}`,
-                      paddingBottom: SPACING(0.5),
-                      marginBottom: SPACING(1.5),
+                      paddingBottom: SP(0.5),
+                      marginBottom: SP(1.5),
                     }}
                   >
                     {SECTION_LABELS[section.key] || section.key}
@@ -261,13 +267,13 @@ export default function JdMatchPage() {
                     <div
                       key={idx}
                       style={{
-                        marginBottom: SPACING(2),
-                        paddingBottom: SPACING(2),
+                        marginBottom: SP(2),
+                        paddingBottom: SP(2),
                         borderBottom: idx < section.items.length - 1 ? RULE : 'none',
                       }}
                     >
-                      <p style={{ fontFamily: FONT.family, fontWeight: 700, color: COLORS.ink, marginBottom: SPACING(1) }}>
-                        {idx + 1}. {item.line}
+                      <p style={{ fontFamily: FONT.family, fontWeight: 700, color: COLORS.ink, marginBottom: SP(1) }}>
+                        {idx + 1}. {item.requirement}
                       </p>
                       {item.matches.length === 0 ? (
                         <p style={{ fontFamily: FONT.family, color: COLORS.sub, fontSize: 13, fontStyle: 'italic' }}>
@@ -275,7 +281,7 @@ export default function JdMatchPage() {
                         </p>
                       ) : (
                         item.matches.map((m, mi) => (
-                          <div key={mi} style={{ marginBottom: SPACING(1), paddingLeft: SPACING(1.5) }}>
+                          <div key={mi} style={{ marginBottom: SP(1), paddingLeft: SP(1.5) }}>
                             <p style={{ fontFamily: FONT.family, fontSize: 13, color: COLORS.accent2, fontWeight: 700 }}>
                               [{m.score}% 일치] {m.label}
                             </p>
