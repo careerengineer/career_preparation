@@ -58,7 +58,7 @@ const OUTPUT_TITLES = {
 
 // master.experiences / master.outputs를 매칭 후보로 변환.
 // 경험 카드 필드명이 워크북마다 조금씩 달라도 안전하게 동작하도록 객체 전체를 펼쳐서 매칭 텍스트로 사용.
-function buildCandidates(master) {
+export function buildCandidates(master) {
   const candidates = [];
 
   (master.experiences || []).forEach((exp, i) => {
