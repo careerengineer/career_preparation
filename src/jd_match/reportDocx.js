@@ -20,7 +20,7 @@ function buildItemParagraphs(item, index) {
       spacing: { before: 240, after: 80 },
       children: [
         new TextRun({ text: `${index + 1}. `, bold: true, color: NAVY }),
-        new TextRun({ text: item.line, bold: true, color: NAVY }),
+        new TextRun({ text: item.requirement, bold: true, color: NAVY }),
       ],
     }),
   ];
