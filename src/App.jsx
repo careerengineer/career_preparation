@@ -1,9 +1,12 @@
+import { lazy, Suspense } from 'react'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { DataProvider } from './store/DataContext.jsx'
 import { RESPONSIVE_CSS } from './shared/design/responsive.js'
 import { ErrorBoundary } from './shared/components/ErrorBoundary.jsx'
 import Dashboard from './dashboard/Dashboard.jsx'
 import WorkbookRouter from './workbooks/WorkbookRouter.jsx'
+
+const JdMatchPage = lazy(() => import('./jd_match/JdMatchPage.jsx'))
 
 export default function App() {
   return (
@@ -14,6 +17,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/workbook/:workbookKey" element={<WorkbookRouter />} />
+            <Route path="/jd-match" element={<Suspense fallback={null}><JdMatchPage /></Suspense>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </ErrorBoundary>
