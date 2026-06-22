@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDataStore } from '../store/DataContext.jsx';
 import { WORKBOOKS, VARIANT, VARIANT_LABEL, VARIANT_NOTICE } from '../store/schema.js';
 import { getWorkbookProgress } from '../store/selectors.js';
@@ -220,6 +221,44 @@ export default function Dashboard() {
 
         {/* 회사별 슬롯 (여러 회사 지원 관리) */}
         <CompanySlots />
+
+        {/* 직무 매칭 리포트 (작성한 경험/자소서 ↔ 직무 상세내용 매칭) */}
+        <section style={{
+          background: COLORS.white, border: RULE,
+          borderLeft: `4px solid ${COLORS.accent2}`,
+          padding: SPACING.lg, marginBottom: SPACING.lg,
+          display: 'flex', flexWrap: 'wrap', alignItems: 'center',
+          justifyContent: 'space-between', gap: SPACING.md,
+        }}>
+          <div style={{ flex: 1, minWidth: 240 }}>
+            <h3 style={{
+              margin: 0, fontSize: 22, color: COLORS.ink,
+              fontWeight: FONT.weight.bold, letterSpacing: '-0.3px',
+            }}>
+              직무 매칭 리포트
+            </h3>
+            <p style={{
+              margin: '8px 0 0', fontSize: 20, color: COLORS.sub,
+              lineHeight: 1.6,
+            }}>
+              지원하려는 직무 상세내용을 입력하면, 작성하신 경험·자소서 중 어필할 수 있는 내용을 요건별로 매칭해 문서로 정리해 드립니다.
+            </p>
+          </div>
+          <div style={{ display: 'flex', gap: SPACING.sm, flexWrap: 'wrap', flexShrink: 0 }}>
+            <Link
+              to="/jd-match"
+              style={{
+                background: COLORS.accent, color: COLORS.white,
+                border: `1px solid ${COLORS.accent}`,
+                textDecoration: 'none', whiteSpace: 'nowrap',
+                fontSize: 18, fontWeight: FONT.weight.semibold,
+                padding: '12px 20px', borderRadius: RADIUS.pill,
+              }}
+            >
+              직무 매칭 리포트 만들기
+            </Link>
+          </div>
+        </section>
 
         {/* STEP별 워크북 카드 */}
         {STEPS.map((s) => {
