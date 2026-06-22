@@ -1575,5 +1575,21 @@ export default function App() {
     );
   }
 
-  return null;
+  // 알 수 없는 상태 (page='result'인데 result null 등) → 빈 화면 대신 welcome으로 안전 폴백
+  try { console.warn('[career_roadmap] unknown state — falling back to welcome. page=', page, 'hasResult=', !!result); } catch { /* 무시 */ }
+  if (page !== 'welcome') setTimeout(() => setPage('welcome'), 0);
+  return (
+    <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 40 }}>
+      <div style={{ textAlign: 'center', maxWidth: 480 }}>
+        <p style={{ fontSize: 18, fontWeight: 700, color: COLORS.accent, margin: 0, marginBottom: 12 }}>화면을 준비 중입니다…</p>
+        <p style={{ fontSize: 14, color: COLORS.sub, margin: 0, marginBottom: 24, lineHeight: 1.6 }}>
+          진단 상태를 인식하지 못해 처음 화면으로 돌아갑니다. 자동으로 이동되지 않으면 아래 버튼을 눌러주세요.
+        </p>
+        <button onClick={() => setPage('welcome')}
+          style={{ background: COLORS.accent, color: '#fff', border: 'none', borderRadius: RADIUS.md, padding: '12px 24px', fontSize: 16, fontWeight: 600, cursor: 'pointer' }}>
+          처음으로 돌아가기
+        </button>
+      </div>
+    </div>
+  );
 }
