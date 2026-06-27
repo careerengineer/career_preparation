@@ -123,6 +123,19 @@ export function DataProvider({ children }) {
     try { ALL_LEGACY.forEach((k) => localStorage.removeItem(k)); } catch { /* ignore */ }
   }, []);
 
+  // 회사 슬롯 포함 완전 초기화 — resetAllData + 회사별 저장본까지 삭제
+  const resetAllDataAndSlots = useCallback(() => {
+    const fresh = JSON.parse(JSON.stringify(DEFAULT_MASTER));
+    fresh.createdAt = new Date().toISOString();
+    fresh.updatedAt = new Date().toISOString();
+    setMaster(fresh);
+    try { localStorage.setItem(MASTER_KEY, JSON.stringify(fresh)); } catch (e) { console.warn('reset-all save failed:', e); }
+    const ALL_LEGACY = Object.values(LEGACY_KEYS);
+    try { ALL_LEGACY.forEach((k) => localStorage.removeItem(k)); } catch { /* ignore */ }
+    // 회사 슬롯도 함께 삭제 (완전 초기화)
+    try { localStorage.removeItem('careerengineer_company_slots_v1'); } catch { /* ignore */ }
+  }, []);
+
   // 회사·직무 관련 데이터만 리셋 (experience, career_roadmap은 유지)
   const resetCompanyRelated = useCallback(() => {
     setMaster((m) => {
@@ -223,6 +236,7 @@ export function DataProvider({ children }) {
         replaceMaster,
         resetSingleWorkbook,
         resetAllData,
+        resetAllDataAndSlots,
         resetCompanyRelated,
         saveCompanySlot,
         loadCompanySlot,

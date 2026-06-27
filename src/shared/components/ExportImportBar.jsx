@@ -9,7 +9,7 @@ import { OverwriteModal } from './OverwriteModal.jsx';
 import { SnapshotRecovery } from './SnapshotRecovery.jsx';
 
 export function ExportImportBar() {
-  const { master, replaceMaster, resetAllData, importAllSlots } = useDataStore();
+  const { master, replaceMaster, resetAllData, resetAllDataAndSlots, importAllSlots } = useDataStore();
   const fileRef = useRef(null);
   const [toast, setToast] = useState(null);
   const [conflictState, setConflictState] = useState(null);
@@ -26,11 +26,17 @@ export function ExportImportBar() {
     setTimeout(() => window.location.reload(), 1300);
   };
 
-  const handleResetAll = () => {
+  const handleResetCurrent = () => {
     resetAllData();
     setResetMode(null);
-    showToast('전체 내용을 삭제했습니다. 페이지를 새로고침합니다…');
-    setTimeout(() => window.location.reload(), 800);
+    showToast('현재 작업 내용을 삭제했습니다. 회사 슬롯은 유지됩니다. 페이지를 새로고침합니다…');
+    setTimeout(() => window.location.reload(), 1000);
+  };
+  const handleResetFull = () => {
+    resetAllDataAndSlots();
+    setResetMode(null);
+    showToast('현재 작업 + 모든 회사 슬롯을 삭제했습니다. 페이지를 새로고침합니다…');
+    setTimeout(() => window.location.reload(), 1000);
   };
   const handleExportXlsx = async () => {
     try {
@@ -317,24 +323,67 @@ export function ExportImportBar() {
 
     {resetMode && (
       <div onClick={() => setResetMode(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(14,39,80,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: SPACING.md }}>
-        <div onClick={(e) => e.stopPropagation()} style={{ background: COLORS.white, maxWidth: 480, width: '100%', padding: SPACING.lg, fontFamily: FONT.family, boxShadow: '0 12px 36px rgba(0,0,0,0.18)', borderTop: `4px solid ${COLORS.red}` }}>
-          <h2 style={{ margin: 0, fontSize: 24, color: COLORS.ink, fontWeight: FONT.weight.bold }}>전체 내용을 삭제하시겠습니까?</h2>
-          <p style={{ color: COLORS.sub, fontSize: 20, marginTop: SPACING.sm, marginBottom: SPACING.md, lineHeight: 1.6 }}>
-            모든 워크북·프로필·경험정리 작성 내용이 삭제되고 처음부터 다시 시작합니다.<br />
-            <strong>회사별 저장본(슬롯)은 유지</strong>되며, 미리 받아둔 저장 파일(.zip)로 복원할 수 있습니다.
-          </p>
-          {resetMode === 'confirm' && (
-            <div style={{ background: COLORS.redBg, borderLeft: `3px solid ${COLORS.red}`, padding: SPACING.md, marginBottom: SPACING.md }}>
-              <p style={{ margin: 0, fontSize: 20, color: COLORS.red, fontWeight: FONT.weight.semibold }}>마지막 확인 — 정말 전체 삭제할까요?</p>
-              <p style={{ margin: '6px 0 0', fontSize: 20, color: COLORS.ink }}>되돌릴 수 없습니다. 백업 파일을 먼저 받아두는 것을 권합니다.</p>
-            </div>
+        <div onClick={(e) => e.stopPropagation()} style={{ background: COLORS.white, maxWidth: 560, width: '100%', padding: SPACING.lg, fontFamily: FONT.family, boxShadow: '0 12px 36px rgba(0,0,0,0.18)', borderTop: `4px solid ${COLORS.red}` }}>
+          {resetMode === 'ask' && (
+            <>
+              <h2 style={{ margin: 0, fontSize: 24, color: COLORS.ink, fontWeight: FONT.weight.bold }}>어떻게 삭제할까요?</h2>
+              <p style={{ color: COLORS.sub, fontSize: 16, marginTop: SPACING.sm, marginBottom: SPACING.md, lineHeight: 1.6 }}>
+                삭제 범위를 선택해 주세요. 둘 다 되돌릴 수 없으니 먼저 <strong>[전체내용 저장]</strong>으로 백업 파일을 받아두는 것을 권장합니다.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.sm, marginBottom: SPACING.md }}>
+                {/* 옵션 1: 현재 작업만 */}
+                <button onClick={() => setResetMode('confirm-current')}
+                  style={{ textAlign: 'left', background: COLORS.bg, border: `1px solid ${COLORS.line}`, borderRadius: 8, padding: SPACING.md, cursor: 'pointer', fontFamily: 'inherit' }}>
+                  <p style={{ margin: 0, fontSize: 17, fontWeight: FONT.weight.bold, color: COLORS.ink }}>① 현재 작성 내용만 삭제</p>
+                  <p style={{ margin: '6px 0 0', fontSize: 14, color: COLORS.sub, lineHeight: 1.6 }}>
+                    모든 워크북·프로필·경험정리가 초기화됩니다. <strong style={{ color: COLORS.accent }}>회사별 저장본(슬롯)은 안전하게 유지</strong>되며 언제든 복원 가능합니다.
+                  </p>
+                </button>
+                {/* 옵션 2: 슬롯까지 완전 초기화 */}
+                <button onClick={() => setResetMode('confirm-full')}
+                  style={{ textAlign: 'left', background: COLORS.redBg, border: `1px solid ${COLORS.red}66`, borderRadius: 8, padding: SPACING.md, cursor: 'pointer', fontFamily: 'inherit' }}>
+                  <p style={{ margin: 0, fontSize: 17, fontWeight: FONT.weight.bold, color: COLORS.red }}>② 회사 슬롯까지 모두 삭제 (완전 초기화)</p>
+                  <p style={{ margin: '6px 0 0', fontSize: 14, color: COLORS.ink, lineHeight: 1.6 }}>
+                    위 ① 항목 + <strong>저장된 모든 회사 슬롯</strong>까지 함께 삭제합니다. 다른 회사 자료도 전부 사라지므로 매우 신중하게 선택하세요.
+                  </p>
+                </button>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <button onClick={() => setResetMode(null)} style={{ ...btnStyle, color: COLORS.sub, border: `1px solid ${COLORS.line}` }}>취소</button>
+              </div>
+            </>
           )}
-          <div style={{ display: 'flex', gap: SPACING.sm, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
-            <button onClick={() => setResetMode(null)} style={{ ...btnStyle, color: COLORS.sub, border: `1px solid ${COLORS.line}` }}>취소</button>
-            {resetMode === 'ask'
-              ? <button onClick={() => setResetMode('confirm')} style={btnDangerStyle}>삭제</button>
-              : <button onClick={handleResetAll} style={{ ...btnDangerStyle, background: COLORS.red, color: COLORS.white }}>네, 전체 삭제합니다</button>}
-          </div>
+          {resetMode === 'confirm-current' && (
+            <>
+              <h2 style={{ margin: 0, fontSize: 22, color: COLORS.ink, fontWeight: FONT.weight.bold }}>현재 작성 내용만 삭제</h2>
+              <p style={{ color: COLORS.sub, fontSize: 16, marginTop: SPACING.sm, marginBottom: SPACING.md, lineHeight: 1.6 }}>
+                모든 워크북·프로필·경험정리가 처음 상태로 돌아갑니다. 회사별 저장본(슬롯)은 그대로 유지됩니다.
+              </p>
+              <div style={{ background: COLORS.redBg, borderLeft: `3px solid ${COLORS.red}`, padding: SPACING.md, marginBottom: SPACING.md }}>
+                <p style={{ margin: 0, fontSize: 16, color: COLORS.red, fontWeight: FONT.weight.semibold }}>되돌릴 수 없습니다. 진행하시겠어요?</p>
+              </div>
+              <div style={{ display: 'flex', gap: SPACING.sm, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+                <button onClick={() => setResetMode('ask')} style={{ ...btnStyle, color: COLORS.sub, border: `1px solid ${COLORS.line}` }}>뒤로</button>
+                <button onClick={handleResetCurrent} style={{ ...btnDangerStyle, background: COLORS.red, color: COLORS.white }}>네, 현재 작업만 삭제</button>
+              </div>
+            </>
+          )}
+          {resetMode === 'confirm-full' && (
+            <>
+              <h2 style={{ margin: 0, fontSize: 22, color: COLORS.red, fontWeight: FONT.weight.bold }}>⚠ 회사 슬롯까지 모두 삭제 (완전 초기화)</h2>
+              <p style={{ color: COLORS.sub, fontSize: 16, marginTop: SPACING.sm, marginBottom: SPACING.md, lineHeight: 1.6 }}>
+                현재 작성 내용 + <strong>저장된 모든 회사 슬롯</strong>이 함께 삭제됩니다. 다른 회사에서 작성한 자료까지 모두 사라집니다.
+              </p>
+              <div style={{ background: COLORS.redBg, borderLeft: `3px solid ${COLORS.red}`, padding: SPACING.md, marginBottom: SPACING.md }}>
+                <p style={{ margin: 0, fontSize: 16, color: COLORS.red, fontWeight: FONT.weight.semibold }}>되돌릴 수 없습니다. 백업 파일을 먼저 받아두셨나요?</p>
+                <p style={{ margin: '6px 0 0', fontSize: 14, color: COLORS.ink }}>이 동작 이후엔 어떤 자료도 복원할 수 없으니 매우 신중히 선택하세요.</p>
+              </div>
+              <div style={{ display: 'flex', gap: SPACING.sm, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+                <button onClick={() => setResetMode('ask')} style={{ ...btnStyle, color: COLORS.sub, border: `1px solid ${COLORS.line}` }}>뒤로</button>
+                <button onClick={handleResetFull} style={{ ...btnDangerStyle, background: COLORS.red, color: COLORS.white }}>네, 회사 슬롯까지 전부 삭제</button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     )}
