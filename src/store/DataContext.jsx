@@ -198,6 +198,11 @@ export function DataProvider({ children }) {
     writeSlots(slots);
   }, [readSlots, writeSlots]);
 
+  // 모든 회사 슬롯 일괄 삭제 — 현재 작업 내용(master)은 그대로 유지
+  const deleteAllCompanySlots = useCallback(() => {
+    try { localStorage.removeItem('careerengineer_company_slots_v1'); return true; } catch (e) { console.warn('delete-all-slots failed:', e); return false; }
+  }, []);
+
   const listCompanySlots = useCallback(() => {
     const slots = readSlots();
     return Object.entries(slots).map(([name, v]) => ({
@@ -241,6 +246,7 @@ export function DataProvider({ children }) {
         saveCompanySlot,
         loadCompanySlot,
         deleteCompanySlot,
+        deleteAllCompanySlots,
         listCompanySlots,
         getCompanySlotMaster,
         getAllSlots,

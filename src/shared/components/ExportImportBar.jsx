@@ -330,6 +330,9 @@ export function ExportImportBar() {
               <p style={{ color: COLORS.sub, fontSize: 16, marginTop: SPACING.sm, marginBottom: SPACING.md, lineHeight: 1.6 }}>
                 삭제 범위를 선택해 주세요. 둘 다 되돌릴 수 없으니 먼저 <strong>[전체내용 저장]</strong>으로 백업 파일을 받아두는 것을 권장합니다.
               </p>
+              <p style={{ color: COLORS.sub, fontSize: 13, marginTop: 0, marginBottom: SPACING.md, lineHeight: 1.6, padding: '8px 12px', background: COLORS.cream, borderLeft: `3px solid ${COLORS.accent2}` }}>
+                ※ <strong>회사 슬롯만 따로 정리</strong>하려면 아래 <strong>[회사별 저장본]</strong> 영역의 <strong>[전체 슬롯 삭제]</strong> 버튼을 사용하세요. (현재 작업은 유지됨)
+              </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.sm, marginBottom: SPACING.md }}>
                 {/* 옵션 1: 현재 작업만 */}
                 <button onClick={() => setResetMode('confirm-current')}

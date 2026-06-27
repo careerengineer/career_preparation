@@ -6,7 +6,7 @@ import { COLORS, FONT, SPACING, RULE } from '../shared/design/tokens.js';
 
 export default function CompanySlots() {
   const {
-    master, saveCompanySlot, loadCompanySlot, deleteCompanySlot, listCompanySlots,
+    master, saveCompanySlot, loadCompanySlot, deleteCompanySlot, deleteAllCompanySlots, listCompanySlots,
     getCompanySlotMaster, getAllSlots, importAllSlots,
   } = useDataStore();
   const [slots, setSlots] = useState([]);
@@ -52,6 +52,16 @@ export default function CompanySlots() {
     deleteCompanySlot(name);
     refresh();
     showToast(`'${name}' 저장본을 삭제했습니다.`);
+  };
+
+  const handleDeleteAll = () => {
+    const n = slots.length;
+    if (n === 0) { showToast('삭제할 회사 슬롯이 없습니다.'); return; }
+    if (!window.confirm(`⚠ 저장된 ${n}개의 회사 저장본을 모두 삭제합니다.\n\n현재 작업 중인 내용은 그대로 유지되며, 회사별 저장본만 사라집니다.\n이 동작은 되돌릴 수 없습니다.\n\n계속할까요?`)) return;
+    if (!window.confirm(`마지막 확인 — ${n}개 회사 저장본을 정말 모두 삭제할까요?\n백업 파일을 먼저 받아두지 않았다면 [취소] 후 [전체 저장본 백업]을 먼저 받으세요.`)) return;
+    deleteAllCompanySlots();
+    refresh();
+    showToast(`회사 저장본 ${n}개를 모두 삭제했습니다.`);
   };
 
   const handleSlotExport = async (name) => {
@@ -185,6 +195,10 @@ export default function CompanySlots() {
         </button>
         <button onClick={handleImportClick} style={btnSecondary}>
           저장본 백업 불러오기
+        </button>
+        <button onClick={handleDeleteAll} style={btnDanger} disabled={slots.length === 0}
+          title="저장된 모든 회사 슬롯을 한꺼번에 삭제합니다 (현재 작업은 유지)">
+          전체 슬롯 삭제 ({slots.length})
         </button>
         <input
           ref={importRef} type="file"
