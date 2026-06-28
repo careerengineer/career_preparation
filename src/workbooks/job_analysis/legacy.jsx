@@ -298,6 +298,16 @@ const JobAnalysisWorkbook = () => {
     </div>
   );
 
+  // 탭에 표시할 짧은 제목 (resume처럼 'PART N. 제목'으로 어떤 단계인지 바로 알 수 있게).
+  const PART_TAB_LABELS = {
+    form_01: '기본 정보',
+    form_02: '용어·업무 분석',
+    form_03: '역량 비교',
+    form_04: '기업 조사',
+    form_05: '적합성 평가',
+    form_06: '지원 직전 체크',
+    form_07: '포트폴리오 연결',
+  };
   // PART 1~7 점프 탭 (resume·career_description과 동일 패턴) — 클릭 시 해당 양식 편집으로 바로 이동.
   const PartTabs = ({ activeFormId }) => (
     <div style={{ marginBottom: SPACING.lg }}>
@@ -305,14 +315,15 @@ const JobAnalysisWorkbook = () => {
         {FORMS.map((f, i) => {
           const done = getFormStatus(f) >= 3;
           const isActive = activeFormId === f.id;
+          const shortLabel = PART_TAB_LABELS[f.id] || f.title;
           return (
             <button key={f.id} onClick={() => { setEditingFormId(f.id); setPhase('formEdit'); window.scrollTo(0, 0); }}
-              style={{ fontSize: 16, padding: '4px 10px', borderRadius: RADIUS.pill, border: 'none', cursor: 'pointer',
+              style={{ fontSize: 16, padding: '4px 12px', borderRadius: RADIUS.pill, border: 'none', cursor: 'pointer',
                 fontWeight: isActive ? 700 : 500,
                 background: isActive ? COLORS.accent : done ? COLORS.paper : 'transparent',
                 color: isActive ? '#fff' : done ? COLORS.accent2 : COLORS.sub,
                 whiteSpace: 'nowrap', flexShrink: 0, fontFamily: 'inherit' }}>
-              {done && !isActive ? '✓ ' : ''}PART {i + 1}
+              {done && !isActive ? '✓ ' : ''}PART {i + 1}. {shortLabel}
             </button>
           );
         })}
