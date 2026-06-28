@@ -285,6 +285,41 @@ const JobAnalysisWorkbook = () => {
     return null;
   };
 
+  // 진행률(채워진 양식 수 기반) — 다른 워크북과 동일한 상단 진행 바·점프 탭에 사용.
+  const jaProgress = Math.round((FORMS.filter(f => getFormStatus(f) >= 3).length / FORMS.length) * 100);
+
+  // 상단 진행 바 (로고 헤더 안에서 사용)
+  const ProgressBar = () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm }}>
+      <div style={{ flex: 1, background: COLORS.border, borderRadius: RADIUS.pill, height: 6, overflow: 'hidden' }}>
+        <div style={{ background: COLORS.accent2, height: 6, borderRadius: RADIUS.pill, width: `${jaProgress}%`, transition: 'width 500ms ease' }} />
+      </div>
+      <span style={{ fontSize: 16, color: COLORS.sub, minWidth: 36, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{jaProgress}%</span>
+    </div>
+  );
+
+  // PART 1~7 점프 탭 (resume·career_description과 동일 패턴) — 클릭 시 해당 양식 편집으로 바로 이동.
+  const PartTabs = ({ activeFormId }) => (
+    <div style={{ marginBottom: SPACING.lg }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 4, flexWrap: 'nowrap', overflowX: 'auto', paddingBottom: 4 }}>
+        {FORMS.map((f, i) => {
+          const done = getFormStatus(f) >= 3;
+          const isActive = activeFormId === f.id;
+          return (
+            <button key={f.id} onClick={() => { setEditingFormId(f.id); setPhase('formEdit'); window.scrollTo(0, 0); }}
+              style={{ fontSize: 16, padding: '4px 10px', borderRadius: RADIUS.pill, border: 'none', cursor: 'pointer',
+                fontWeight: isActive ? 700 : 500,
+                background: isActive ? COLORS.accent : done ? COLORS.paper : 'transparent',
+                color: isActive ? '#fff' : done ? COLORS.accent2 : COLORS.sub,
+                whiteSpace: 'nowrap', flexShrink: 0, fontFamily: 'inherit' }}>
+              {done && !isActive ? '✓ ' : ''}PART {i + 1}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+
   const addJobPosting = () => setJobPostings(p => [...p, { id: Date.now() }]);
   const removeJobPosting = (id) => setJobPostings(p => p.length > 1 ? p.filter(j => j.id !== id) : p);
   const updateJobPosting = (id, key, val) => setJobPostings(p => p.map(j => j.id === id ? { ...j, [key]: val } : j));
@@ -731,10 +766,13 @@ const JobAnalysisWorkbook = () => {
               
             </div>
               <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: COLORS.red, border: `1px solid ${COLORS.red}66`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
-              
-              
             </div>
+            {/* 진행 바 (다른 워크북과 일관) */}
+            <ProgressBar />
           </div>
+
+          {/* PART 1~7 점프 탭 */}
+          <PartTabs activeFormId={null} />
 
           {downloadSuccess && <div style={{ ...S.boxSuccess, marginBottom: SPACING.md, textAlign: 'center' }}><p style={{ fontSize: FONT.size.sm, color: COLORS.green, fontWeight: FONT.weight.semibold, margin: 0 }}>✓ 백업 .docx 파일을 내려받았습니다</p></div>}
 
@@ -829,10 +867,13 @@ const JobAnalysisWorkbook = () => {
               
             </div>
               <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: COLORS.red, border: `1px solid ${COLORS.red}66`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
-              
-              
             </div>
+            {/* 진행 바 (다른 워크북과 일관) */}
+            <ProgressBar />
           </div>
+
+          {/* PART 1~7 점프 탭 — 현재 양식 강조 */}
+          <PartTabs activeFormId={editingFormId} />
 
           {downloadSuccess && <div style={{ ...S.boxSuccess, marginBottom: SPACING.md, textAlign: 'center' }}><p style={{ fontSize: FONT.size.sm, color: COLORS.green, fontWeight: FONT.weight.semibold, margin: 0 }}>✓ 백업 .docx 파일을 내려받았습니다</p></div>}
           {copyMsg && <div style={{ ...S.boxSuccess, marginBottom: SPACING.md, textAlign: 'center' }}><p style={{ fontSize: FONT.size.sm, color: COLORS.green, fontWeight: FONT.weight.semibold, margin: 0 }}>{copyMsg}</p></div>}
@@ -1011,12 +1052,14 @@ const JobAnalysisWorkbook = () => {
               
             </div>
             <button onClick={() => window.__CE_RESET?.fn?.()} title="이 워크북 작성 내용을 모두 지우고 처음부터 다시 작성" style={{ background: 'transparent', color: COLORS.red, border: `1px solid ${COLORS.red}66`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center', marginRight: 6 }}>삭제하고 다시 작성</button><button onClick={goHome} title="처음 페이지로 이동 (작성 내용 유지)" style={{ background: 'transparent', color: COLORS.sub, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: '0 14px', fontSize: 16, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', height: 40, display: 'inline-flex', alignItems: 'center' }}>처음으로</button>
-            
-            
           </div>
+          {/* 진행 바 (다른 워크북과 일관) */}
+          <ProgressBar />
         </div>
 
-        
+        {/* PART 1~7 점프 탭 */}
+        <PartTabs activeFormId={null} />
+
           <div style={S.cardLarge}>
             <div style={{ textAlign: 'center', marginBottom: SPACING.xl }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 64, height: 64, background: COLORS.greenBg, borderRadius: RADIUS.pill, marginBottom: SPACING.base }}>
