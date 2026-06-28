@@ -480,6 +480,42 @@ export async function extractBackupFromZip(file) {
   return { docxPayload, experiences, experienceMeta };
 }
 
+// 백업 파일이 어떤 종류인지 판별 (어느 영역에서든 호출해 안내·라우팅에 사용)
+//   - 'allslots': 여러 회사 슬롯 묶음 백업 (회사별 저장본 영역에서 만든 것)
+//   - 'single'  : 한 회사(현재 작업) 백업 (전체내용 저장 / 한 슬롯 저장에서 만든 것)
+//   - 'unknown' : CareerEngineer 백업 데이터를 못 찾음
+export async function classifyBackupFile(file) {
+  // 1) 전체 슬롯 백업인지 먼저 확인
+  let slots = null;
+  try { slots = await extractAllSlots(file); } catch { slots = null; }
+  if (slots && Object.keys(slots).length > 0) {
+    const names = Object.keys(slots);
+    return { kind: 'allslots', slotCount: names.length, slotNames: names, slots };
+  }
+  // 2) 단일(현재 작업) 백업인지 확인
+  const lower = (file.name || '').toLowerCase();
+  if (lower.endsWith('.zip')) {
+    try {
+      const { docxPayload, experiences } = await extractBackupFromZip(file);
+      if (docxPayload || (experiences && experiences.length)) {
+        const company = docxPayload?.data?.profile?.company || '';
+        const position = docxPayload?.data?.profile?.position || '';
+        return { kind: 'single', company, position, hasExperience: !!(experiences && experiences.length), single: { docxPayload, experiences } };
+      }
+    } catch { /* 무시 */ }
+  } else if (lower.endsWith('.docx')) {
+    try {
+      const payload = await extractBackupFromDocx(file);
+      if (payload?.format === 'careerengineer-export' || payload?.data) {
+        const company = payload?.data?.profile?.company || '';
+        const position = payload?.data?.profile?.position || '';
+        return { kind: 'single', company, position, hasExperience: false, single: { docxPayload: payload, experiences: null } };
+      }
+    } catch { /* 무시 */ }
+  }
+  return { kind: 'unknown' };
+}
+
 // ─── 전체 저장본(모든 회사 슬롯) 백업: 워드 1개 + 엑셀 1개를 .zip 한 파일로 ───
 // 워드: 회사별 섹션으로 전부 정리 + 복원용 데이터 내장 / 엑셀: 전 회사 경험정리 표 + 복원용 시트
 // 셋 중 무엇(.zip/.docx/.xlsx)을 올려도 모든 회사 저장본이 복원된다.

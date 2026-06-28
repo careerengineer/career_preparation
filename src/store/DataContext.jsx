@@ -192,6 +192,22 @@ export function DataProvider({ children }) {
     setMaster({ ...mergeWithDefaults(slot.master), updatedAt: new Date().toISOString() });
   }, [readSlots]);
 
+  // 외부에서 받은 master 스냅샷을 슬롯으로 직접 추가 (단일 백업을 슬롯 영역에서 불러올 때)
+  //   현재 작업(master)은 건드리지 않음. 같은 이름이 있으면 호출 측에서 사전 확인.
+  const addCompanySlotFromMaster = useCallback((slotName, incomingMaster) => {
+    if (!slotName || !slotName.trim() || !incomingMaster) return false;
+    const slots = readSlots();
+    slots[slotName.trim()] = {
+      master: mergeWithDefaults(incomingMaster),
+      savedAt: new Date().toISOString(),
+    };
+    return writeSlots(slots);
+  }, [readSlots, writeSlots]);
+  const hasCompanySlot = useCallback((slotName) => {
+    const slots = readSlots();
+    return !!slots[slotName?.trim?.()];
+  }, [readSlots]);
+
   const deleteCompanySlot = useCallback((slotName) => {
     const slots = readSlots();
     delete slots[slotName];
@@ -247,6 +263,8 @@ export function DataProvider({ children }) {
         loadCompanySlot,
         deleteCompanySlot,
         deleteAllCompanySlots,
+        addCompanySlotFromMaster,
+        hasCompanySlot,
         listCompanySlots,
         getCompanySlotMaster,
         getAllSlots,

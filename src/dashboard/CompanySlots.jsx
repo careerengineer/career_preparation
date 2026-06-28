@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDataStore } from '../store/DataContext.jsx';
-import { exportFullBackupZip, exportAllSlotsZip, extractAllSlots } from '../store/docExport.js';
+import { exportFullBackupZip, exportAllSlotsZip, extractAllSlots, classifyBackupFile } from '../store/docExport.js';
 import { syncLegacyFromMaster } from '../store/legacySync.js';
 import { COLORS, FONT, SPACING, RULE } from '../shared/design/tokens.js';
 
@@ -8,6 +8,7 @@ export default function CompanySlots() {
   const {
     master, saveCompanySlot, loadCompanySlot, deleteCompanySlot, deleteAllCompanySlots, listCompanySlots,
     getCompanySlotMaster, getAllSlots, importAllSlots,
+    addCompanySlotFromMaster, hasCompanySlot,
   } = useDataStore();
   const [slots, setSlots] = useState([]);
   const [toast, setToast] = useState(null);
@@ -86,16 +87,56 @@ export default function CompanySlots() {
     e.target.value = '';
     if (!file) return;
     try {
-      const incomingSlots = await extractAllSlots(file);
-      if (!incomingSlots || Object.keys(incomingSlots).length === 0) {
-        showToast('이 파일에서 전체 저장본 백업을 찾지 못했습니다. (.zip/.docx/.xlsx/.json)');
+      const info = await classifyBackupFile(file);
+
+      // ── 전체 슬롯 백업 (이 영역의 본래 용도) ──
+      if (info.kind === 'allslots') {
+        const mode = window.confirm(`전체 저장본 백업입니다 (회사 ${info.slotCount}개).\n\n[확인]: 기존 저장본과 병합 (같은 이름은 새 것으로 덮어쓰기)\n[취소]: 기존 저장본 완전 교체`) ? 'merge' : 'replace';
+        if (mode === 'replace' && !window.confirm('기존 저장본이 모두 삭제됩니다. 정말 진행할까요?')) return;
+        const { count, total } = importAllSlots(info.slots, mode);
+        refresh();
+        showToast(`저장본 ${count}개를 ${mode === 'merge' ? '병합' : '교체'}했습니다 (총 ${total}개).`);
         return;
       }
-      const mode = window.confirm('전체 저장본 백업을 불러옵니다.\n[확인]: 기존 저장본과 병합 (같은 이름은 새 것으로 덮어쓰기)\n[취소]: 기존 저장본 완전 교체') ? 'merge' : 'replace';
-      if (mode === 'replace' && !window.confirm('기존 저장본이 모두 삭제됩니다. 정말 진행할까요?')) return;
-      const { count, total } = importAllSlots(incomingSlots, mode);
-      refresh();
-      showToast(`저장본 ${count}개를 ${mode === 'merge' ? '병합' : '교체'}했습니다 (총 ${total}개).`);
+
+      // ── 단일(한 회사) 백업을 슬롯 영역에 올린 경우 → 의도 안내 + 슬롯으로 추가 ──
+      if (info.kind === 'single') {
+        const who = [info.company, info.position].filter(Boolean).join(' / ') || '(회사·직무 정보 없음)';
+        const guide =
+          `이 파일은 "한 회사(현재 작업) 백업"입니다.\n대상: ${who}\n\n` +
+          `[여기는 회사별 저장본 영역입니다]\n` +
+          `이대로 진행하면 현재 작업은 그대로 두고, 이 백업을 새 회사 슬롯으로 추가합니다.\n\n` +
+          `※ 참고: 이 백업을 '지금 작성 중인 화면'으로 바로 불러오려면 상단 [기존 내용 불러오기]를 사용하세요.\n\n` +
+          `슬롯으로 추가하시겠습니까?`;
+        if (!window.confirm(guide)) return;
+
+        const suggested = [info.company, info.position].filter(Boolean).join('_') || '불러온 저장본';
+        let name = window.prompt('새 회사 슬롯 이름을 입력하세요.', suggested);
+        if (name === null) return;             // 취소
+        name = name.trim();
+        if (!name) { showToast('슬롯 이름이 비어 있어 취소했습니다.'); return; }
+        if (hasCompanySlot(name) && !window.confirm(`'${name}' 슬롯이 이미 있습니다. 덮어쓸까요?\n(기존 슬롯 내용이 이 백업으로 교체됩니다.)`)) return;
+
+        // 단일 백업 → master 형태로 조립 (ExportImportBar의 zip 복원과 동일 규칙)
+        const data = info.single?.docxPayload?.data || {};
+        const exps = info.single?.experiences;
+        const incomingMaster = {
+          ...data,
+          profile: { ...(data.profile || {}) },
+          workbookRaw: { ...(data.workbookRaw || {}) },
+          outputs: { ...(data.outputs || {}) },
+          roadmap: { ...(data.roadmap || {}) },
+          careergoal: { ...(data.careergoal || {}) },
+          jobAnalysis: { ...(data.jobAnalysis || {}) },
+          experiences: Array.isArray(exps) ? exps : (Array.isArray(data.experiences) ? data.experiences : []),
+        };
+        const ok = addCompanySlotFromMaster(name, incomingMaster);
+        refresh();
+        showToast(ok ? `'${name}' 슬롯으로 추가했습니다. (현재 작업은 그대로 유지)` : '저장 공간이 부족해 추가하지 못했습니다.');
+        return;
+      }
+
+      showToast('이 파일에서 CareerEngineer 백업 데이터를 찾지 못했습니다. (.zip/.docx/.xlsx/.json)');
     } catch (err) { showToast('오류: ' + err.message); }
   };
 

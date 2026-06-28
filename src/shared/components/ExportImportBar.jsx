@@ -92,7 +92,9 @@ export function ExportImportBar() {
         const cont = window.confirm(`⚠ 이 파일의 일부 데이터가 옛 형식이거나 키 이름이 맞지 않습니다:\n\n${lines}${moreLine}\n\n복원 시 자동 변환을 시도합니다. 진단 결과가 비어 보일 수 있어 결과 화면을 직접 확인해 주세요.\n\n계속 복원할까요?`);
         if (!cont) return;
       }
-      const mode = window.confirm(`전체 저장본 백업입니다. 저장된 ${Object.keys(allSlots).length}개 회사 저장본을 복원합니다.\n[확인]: 기존 저장본과 병합\n[취소]: 기존 저장본 완전 교체`) ? 'merge' : 'replace';
+      // 의도 안내: 여기는 '현재 작업 불러오기' 영역인데 여러 회사 묶음 백업이 올라옴
+      if (!window.confirm(`이 파일은 "여러 회사(전체 슬롯) 백업"입니다 (회사 ${Object.keys(allSlots).length}개).\n\n[여기는 기존 내용 불러오기 영역입니다]\n이대로 진행하면 현재 작업 화면이 아니라, 회사별 저장본(슬롯)이 복원됩니다.\n복원 후 원하는 회사를 슬롯에서 선택해 불러오면 됩니다.\n\n계속하시겠습니까?`)) return;
+      const mode = window.confirm(`회사 ${Object.keys(allSlots).length}개를 복원합니다.\n[확인]: 기존 저장본과 병합\n[취소]: 기존 저장본 완전 교체`) ? 'merge' : 'replace';
       if (mode === 'replace' && !window.confirm('기존 회사별 저장본이 모두 삭제됩니다. 계속할까요?')) return;
       try {
         const { count, total } = importAllSlots(allSlots, mode);
